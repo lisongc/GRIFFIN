@@ -1,53 +1,69 @@
-//#include "classes.h"
+/* oneloop.h: header file for B0.cc, C0.cc, D0.cc */
+
 #include "s2lseinline.h"
-#include "B0.h"
-#include "C0.h"
-#include "D0.h"
-#include "Cplx.h"
-#include "li.h"
 
+#define ASYMP_LIMIT_B0N1 1e5
+#define ASYMP_LIMIT_B0S 1e5
+#define ASYMP_LIMIT_DeltaB0N1 1e10
+#define CPLX_LIMIT_F 1e-8
+#define ASYMP_LIMIT_DB01 1e-9
+#define SERIES_LIMIT 1e15
 
+// one-loop scalar self-energy,
+// B0A = B0(ps,m1s,m2s) -1/delta +EulerGamma -log(4 Pi mu^2) -2
+Cplx B0A(Double ps, Double m1s, Double m2s);
+Cplx B0A(Cplx ps, Double m1s, Double m2s);
 
+// with one vanishing mass:
+Cplx B0MZ(Double ps, Double ms);
 
+// subtracted B0(ps,m1s,m2s)-B0(ps,m1s,0):
+Cplx B0N1(Double ps, Double m1s, Double m2s);
 
+// the derivative of B0 with respect to the momentum
+Cplx DB0(Double ps, Double m1s, Double m2s);
+Cplx DDB0(Double ps, Double m1s, Double m2s);
 
+// the derivative of B0 with respect to the first (squared) mass
+Cplx DM1B0(Double ps, Double m1s, Double m2s);
 
-inline double B0div(double eps) //maybe these are insufficient for NNLO? Need O(eps,eps^2)?
-{
-   return 1 / eps;
-}
+// the derivative of B0 with respect to the first (squared) mass
+// and the momentum
+Cplx DDM1B0(Double ps, Double m1s, Double m2s);
 
-inline double A0div(double ms)
-{
-   return ms;
-}
+// some representations of B0 and B0D with subtracted asymptotic for
+// large m2s:
+//
+// B0B = B0 - Delta - log(mu^2) -1 + log(m2^2) 
+Cplx B0B(Double ps, Double m1s, Double m2s);
+
+// B0C = B0 - Delta - log(u^2) -1 + log(m2^2) - (m1^2/m2^2) log(m1^2/m2^2)
+Cplx B0C(Double ps, Double m1s, Double m2s);
+
+// B0D = B0 - Delta - log(mu^2) -1 + log(m2^2) - (m1^2/m2^2) log(m1^2/m2^2)
+//        - ps/(2*m2s)
+Cplx B0D(Double ps, Double m1s, Double m2s);
+
+// the derivative of B0 with respect to the momentum,
+// with 1/(2 m2^2) subtracted
+Cplx DB0D(Double ps, Double m1s, Double m2s);
 
 inline double A0fin(double ms)
-{
-   return (ms * (1 - log(ms)));
+{ if(ms==0.) 
+    return 0.;
+  else
+    return(ms*(1-log(ms))); 
 }
 
-inline double B0Refin(Double ps, Double m1s, Double m2s) //function B0A defined in B0.cc is actually B0fin-2
-{
-   return real(B0A(ps, m1s, m2s)) + 2 ;
-}
+inline Cplx B0fin(double ps, double m1s, double m2s)
+{ return(B0A(ps,m1s,m2s) +2.); }
 
-inline double B0Im(Double ps, Double m1s, Double m2s)
-{
-   return imag(B0A(ps, m1s, m2s) );
-}
+// the one-loop scalar triangle function
+Cplx C0(Double p10, Double p20, Double p12, Double m1, Double m2, Double m3);
 
-inline double C0Re(double p10, double p12, double p20, double m0, double m1, double m2)
-{
-   return real(C0Q(p10, p12, p20, m0, m1, m2));
-}
+// the derivative of C0 with respect to the third (squared) mass
+Cplx DM3C0(Double p10, Double p20, Double p12, Double m1, Double m2, Double m3);
 
-inline double C0Im(double p10, double p12, double p20, double m0, double m1, double m2)
-{
-   return imag(C0Q(p10, p12, p20, m0, m1, m2));
-}
-
-inline double Power(double base, double exponent)
-{
-   return pow(base, exponent);
-}
+//the one-loop scalar box function
+//implementation according to A. Denner, Fortschr. Phys. 41(1993) 307
+Cplx D0(double ps10, double ps20, double ps30, double ps40, double s12, double s23, double msq0, double msq1, double msq2, double msq3);

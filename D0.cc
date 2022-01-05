@@ -1,20 +1,15 @@
-/****************************************************************
- *   D0.h, D0.cc
- *   scalar one-loop box integral in terms of dilogs
- *   Lisong Chen Ayres Freitas
- *   Last edition oct 7 2021
- *   
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * **************************************************************/
-#include "D0.h"
-#include "C0.h"
+/*-----------------------------------------------------------------------------
+D0.cc
+Lisong Chen (lic114@pitt.edu), Ayres Freitas (afreitas@pitt.edu)
+last revision: 10 Nov 2021
+-------------------------------------------------------------------------------
+scalar one-loop box integral in terms of dilogs, based on
+A. Denner, U. Nierste, R. Scharf, Nucl.Phys.B 367 (1991) 637-656
+-----------------------------------------------------------------------------*/
+
+#include "oneloop.h"
 #include "li.h"
+//#include "real.h"
 
 #define Errstream cerr
 #define ZERO_LIMIT 1e-14
@@ -26,33 +21,10 @@ static const double zms = 8100.0; // this the reference zero mass defined in
                                   // A. Denner et al. NPB 367(1991) upon wich the results will not depend.
 
 //define sign function (from C0.cc)
-
 double sign0(double var);
 
 //define sign function (from C0.cc)
 Cplx Eta(Cplx c1, Cplx c2);
-
-/*
-Cplx P(Cplx y0, Cplx y1, Cplx y2, Cplx y3)
-{
-    return (k01 * y0 * y1 + k02 * y0 * y2 + k03 * y0 * y3 +
-            k12 * y1 * y2 + k13 * y1 * y3 + k23 * y2 * y3 + y0 * y0 +
-            y1 * y1 + y2 * y2 + y3 * y3);
-}
-Cplx Q(Cplx y0, Cplx y1, Cplx y2, Cplx y3)
-{
-    return ((1 / r02 - r02) * y0 + (k12 - k01 * r02) * y1 + y2 - r02 * r02 * y2 + (k23 - k03 * r02) * y3
-
-    );
-}
-
-Cplx Qb(Cplx y0, Cplx y1, Cplx y2, Cplx y3)
-{
-
-    return ((k01 - k03 * r13) * y0 + (2 - r13 * (1 / r13 + r13)) * y1 + (k12 - k23 * r13) * y2 +
-            (1 / r13 - r13) * y3);
-}
-*/
 
 //define the etatilde function used in D0 scalar integral
 Cplx etatil(Cplx c1, Cplx c2)
@@ -71,9 +43,10 @@ Cplx etatil(Cplx c1, Cplx c2)
         if (im1 < db0 && im2 < db0)
             return (TwoPiI);
     }
-    if (re2 > 0 && im2 < ZERO_LIMIT)
+//    if (re2 > 0 && im2 < ZERO_LIMIT)
         return Cplx(0);
 }
+
 
 //the solutions of rij, and rijtilde.
 inline Cplx solr(double k)
@@ -92,7 +65,7 @@ Cplx del(Cplx a, Cplx b)
         li2(1. + a * b) + Eta(-b, a) * log(1. + a * b));
 }
 
-//D0(s1,s2,s3,s4;s12,s23;m0s,0,0,m3s)
+//D0(s1,s2,s3,s4;s12,s23;m0s,m1s,m2s,m3s)
 Cplx D0(double ps10, double ps20, double ps30, double ps40, double s12,
         double s23, double msq0, double msq1, double msq2, double msq3)
 {
@@ -114,13 +87,9 @@ Cplx D0(double ps10, double ps20, double ps30, double ps40, double s12,
         ps30 = ps40;
         ps40 = temp;
 
-        temp = msq3;
-        msq3 = msq0;
-        msq0 = temp;
-
         temp = msq2;
-        msq2 = msq3;
-        msq3 = temp;
+        msq2 = msq0;
+        msq0 = temp;
 
         k01 = (msq0 - ps10) / sqrt(zms * msq0);
         k02 = (msq0 - s12) / sqrt(zms * msq0);
@@ -199,37 +168,58 @@ Cplx D0(double ps10, double ps20, double ps30, double ps40, double s12,
 
         for (k = 1; k < 3; k++)
         {
-            res1 += pow(-1., k) * (li2(1. + s[3] * xkj[k][3]) + Eta(-xkj[k][3], s[3]) * log(1. + s[3] * xkj[k][3]) + li2(1. + xkj[k][3] / s[3]) + Eta(-xkj[k][3], 1 / s[3]) * log(1. + xkj[k][3] / s[3]) - li2(1. + (ik23) / (ik02)*x[k]) - Eta(-x[k], (ik23) / (ik02)) * log(1 + ik23 / ik02 * x[k]) - li2(1. + (ik13) / (ik01)*x[k]) - Eta(-x[k], ik13 / ik01) * log(1. + (ik13 / ik01) * x[k]) + log(-x[k]) * (log(ik01) + log(ik02) - log(ik12)));
+            res1 += powint(-1., k) * (li2(1. + s[3] * xkj[k][3]) + Eta(-xkj[k][3], s[3]) * log(1. + s[3] * xkj[k][3]) + li2(1. + xkj[k][3] / s[3]) + Eta(-xkj[k][3], 1 / s[3]) * log(1. + xkj[k][3] / s[3]) - li2(1. + (ik23) / (ik02)*x[k]) - Eta(-x[k], (ik23) / (ik02)) * log(1 + ik23 / ik02 * x[k]) - li2(1. + (ik13) / (ik01)*x[k]) - Eta(-x[k], ik13 / ik01) * log(1. + (ik13 / ik01) * x[k]) + log(-x[k]) * (log(ik01) + log(ik02) - log(ik12)));
         }
         res1 /= zms * sqrt(msq0 * msq3) * a * (x[2] - x[1]);
 
         for (k = 1; k < 3; k++)
         {
-            res0 += pow(-1., k) * (del(s[3], xkj[k][3]) + del(1 / s[3], xkj[k][3]) - del(ik23 / ik02, x[k]) - del(ik13 / ik01, x[k]) + log(-x[k]) * (log(ik01) + log(ik02) - log(ik12)));
+            res0 += powint(-1., k) * (del(s[3], xkj[k][3]) + del(1 / s[3], xkj[k][3]) - del(ik23 / ik02, x[k]) - del(ik13 / ik01, x[k]) + log(-x[k]) * (log(ik01) + log(ik02) - log(ik12)));
         }
 
         res0 /= zms * sqrt(msq0 * msq3) * a * (x[1] - x[2]);
 
         return (res0);
     }
-    else if (msq0 == 0. && msq1 != 0. && msq2 != 0. && msq3 != 0.)
+    else if ((msq0 == 0. || msq1 == 0.) && (msq2 != 0. && msq3 != 0.))
     {
-        // transpositioning arguments to Denner's case. This needs a better implementation later on.
-        temp = ps30;
-        ps30 = ps10;
-        ps10 = temp;
+        // transpositioning arguments to Denner's case. This needs a better implementation later on. 
+	if(msq1 != 0.)
+	{
+          temp = ps30;
+          ps30 = ps10;
+          ps10 = temp;
 
-        temp = ps40;
-        ps40 = ps20;
-        ps20 = temp;
+          temp = ps40;
+          ps40 = ps20;
+          ps20 = temp;
 
-        temp = msq2;
-        msq2 = msq0;
-        msq0 = temp;
+          temp = msq2;
+          msq2 = msq0;
+          msq0 = temp;
 
-        temp = msq3;
-        msq3 = msq1;
-        msq1 = temp;
+          temp = msq3;
+          msq3 = msq1;
+          msq1 = temp;
+	}
+	if(msq0 != 0.)
+	{
+          temp = ps40;
+          ps40 = ps30;
+	  ps30 = ps20;
+	  ps20 = ps10;
+          ps10 = temp;
+
+          temp = s12;
+          s12 = s23;
+          s23 = temp;
+
+          temp = msq3;
+	  msq3 = msq2;
+          msq2 = msq1;
+	  msq1 = msq0;
+          msq0 = temp;
+	}
 
         k01 = (msq0 + msq1 - ps10) / sqrt(msq0 * msq1);
         k02 = (msq0 - s12) / sqrt(zms * msq0);
@@ -305,7 +295,10 @@ Cplx D0(double ps10, double ps20, double ps30, double ps40, double s12,
 
         for (k = 1; k < 3; k++)
         {
-            res0 += pow(-1., k) * (del(s[3], xkj[k][3]) + del(1 / s[3], xkj[k][3]) - del(s[0], xkj[k][0]) - del(1 / s[0], xkj[k][0]) - del(ik23 / ik02, xkj[k][3]) + del(ik12 / ik02, xkj[k][0]) - etatil(-x[k], 1 / rt[4]) * (log(((k01 - k03 * r13) * 1. + (1 / r13 - r13) * x[k])) + log(ik02)));
+            res0 += powint(-1., k) * (del(s[3], xkj[k][3]) 
+            + del(1 / s[3], xkj[k][3]) - del(s[0], xkj[k][0]) - del(1 / s[0], xkj[k][0]) 
+            - del(ik23 / ik02, xkj[k][3]) + del(ik12 / ik02, xkj[k][0]) 
+            - etatil(-x[k], 1 / rt[4]) * (log(((k01 - k03 * r13) * 1. + (1 / r13 - r13) * x[k])) + log(ik02)));
         }
         res0 /= sqrt(zms) * sqrt(msq0) * sqrt(msq1) * sqrt(msq3) * a * (x[1] - x[2]);
 

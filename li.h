@@ -22,7 +22,6 @@ Cplx li2(Cplx x);
 Cplx li3(Double x);
 Cplx li3c(Double x);
 Cplx li3(Cplx x);
-Cplx song(double x);
 
 #endif
 

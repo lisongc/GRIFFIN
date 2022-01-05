@@ -3,6 +3,7 @@
 
 #include<complex>
 #include<iostream>
+#include<string>
 using namespace std;
 
 #define Double double  // for use with B0 and C0 functions from TVID
@@ -37,8 +38,9 @@ inline bool operator != (const Cplx& x, int y)
 inline bool operator != (int x, const Cplx& y)
 { return(Cplx(x)!=y); }
 
-inline Double SDouble(char const *s1) { return(atof(s1)); }
-inline Cplx SCplx(char const *s1,char const *s2) { return(Cplx(atof(s1),atof(s2))); }
+inline Double SDouble(const string& s1) { return(stod(s1,NULL)); }
+inline Cplx SCplx(const string& s1, const string& s2) 
+{ return(Cplx(stod(s1,NULL),stod(s2,NULL))); }
 
 #define Pi 3.141592653589793
 #define TwoPi 6.283185307179587
@@ -51,7 +53,5 @@ static const Cplx I(0.,1.);
 
 //inline Double sqr(const Double x) { return x*x; }
 inline Cplx sqr(const Cplx& x) { return x*x; }
-
-#define powint pow
 
 #endif // __Cplx__
