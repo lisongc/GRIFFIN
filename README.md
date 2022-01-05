@@ -4,4 +4,4 @@ This is a project for computing precision observables at Z/W-boson resonance at 
 gauge-invariant calculation under pole scheme.
 on shell renormalization scheme.
 only NLO Standard model prediction of Z-pole at future e+e- colliders is implemented so far.
-only effective weak-mixing angle as an EWPO is implemented so far.
+only effective weak-mixing angle and axial-vector form factor as EWPOs are implemented so far.
