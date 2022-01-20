@@ -1,5 +1,5 @@
 /* ------------------------------------------------------------- */
-/* B0.h, B0.cc                                                   */
+/* B0.cc                                                         */
 /* Stefan Bauberger (stefan@bauberger.de)                        */
 /* last revision 4.12.95                                         */
 /* ------------------------------------------------------------- */
@@ -7,9 +7,7 @@
 /* discontinuity, for use with the package s2lse                 */
 /* ------------------------------------------------------------- */
 
-#include "B0.h"
-#include "Cplx.h"
-
+#include "oneloop.h"
 
 #define Errstream cerr
 

@@ -65,6 +65,25 @@ inline Double sqr(const Double& x) { return x*x; }
 
 inline Double trip(const Double& x) { return x*x*x; }
 
+static double powint(const double x, int i)
+{
+  int j=i;
+  if (j<0) j=-j;
+  double res=1;
+  switch(j) {
+    case 0: break;
+    case 1: res=x; break;
+    case 2: res=x*x; break;
+    default: 
+      int n=j/2;
+      if (n+n != j) res=x*sqr(powint(x,n));
+      else res=sqr(powint(x,n));
+      break ; };
+  if (i>=0) return(res);
+  else return(1/res);
+} 
+
+
 /******************************************************************/
 /* the Kaellen function and its square root:                      */
 /******************************************************************/
