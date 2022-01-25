@@ -2,7 +2,7 @@
 
 #ifndef __classes__
 #define __classes__
-
+#include <vector>
 #include <math.h>
 #include <iostream>
 using namespace std;
@@ -13,7 +13,7 @@ using namespace std;
  inval: base class for input parameters
  There can be derived versions that, e.g., compute MW from Gmu.
 ******************************************************************************/
-#define SIZE1 30 // for sizealloc parameter
+#define StanMod 30 // for sizealloc parameter
 #define MW 0
 #define MZ 1
 #define MH 2
@@ -36,22 +36,15 @@ using namespace std;
 
 class inval {
 protected:
-  int size;
-  double *data;
-
-  virtual void compute(void) {};  // compute some input pars. in terms of others
+   int size;
+   std::vector<double> data;
+   virtual void compute(void){}; // compute some input pars. in terms of others
 
 public:
-  inval(void) 
-  { 
-    int i;
-    size = SIZE1;
-    data = new double[size]; 
-    for(i=0; i<=size; i++)
-      data[i] = NAN;
-  }
-  
-  ~inval() { delete[] data; }
+  inval(const int sizealloc):data(sizealloc, NAN){size = sizealloc;}
+  unsigned int getSize() const
+  {return data.size();}
+  ~inval(){};
   
   void set(const int idx, const double val)  
   {

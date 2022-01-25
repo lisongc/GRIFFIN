@@ -1,7 +1,7 @@
 /* FASW1.h: header file for FASW1.cc */
 
-#ifndef __FASW1__
-#define __FASW1__
+#ifndef __EWPOs__
+#define __EWPOs__
 
 #include "classes.h"
 

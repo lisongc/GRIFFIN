@@ -1,13 +1,13 @@
 #include <iostream>
 using namespace std;
 
-#include "FASW1.h"
+#include "EWPOs.h"
 #include "xscnnlo.h"
 #include "ff.h"
 
 int main()
 {
-  inval myinput;
+  inval myinput(StanMod);
 // Lisong's numbers:
   myinput.set(al, 0.303*0.303/(4*Pi));
   myinput.set(MZ, 91.0);
