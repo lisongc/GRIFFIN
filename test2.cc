@@ -3,24 +3,27 @@ using namespace std;
 
 #include "EWPOs.h"
 #include "xscnnlo.h"
-#include "ff.h"
+#include "SMval.h"
 
 int main()
 {
-  inval myinput;
-// Lisong's numbers:
-  myinput.set(al, 0.303*0.303/(4*Pi));
-  myinput.set(MZ, 91.0);
-  myinput.set(GamZ, 2.5);
-  myinput.set(MW, 80.0);
-  myinput.set(MH, 125.0);
-  myinput.set(MT, 173.0);
+  SMval myinput;	// properly convert masses for complex pole scheme
+  myinput.set(al, 1/137.03599976);
+  myinput.set(MZ, 91.1876);
+  myinput.set(MW, 80.4044);
+  myinput.set(GamZ, 2.4952);
+  myinput.set(GamW, 2.115);
+  myinput.set(MH, 125.1);
+  myinput.set(MT, 172.5);
   myinput.set(MB, 0);
   myinput.set(Delal, 0.059);
   
   int ini = LEP, fin = BQU, iff = VEC, off = VEC;
   string typenam[5] = {"l", "n", "u", "d", "b"};
   string formnam[2] = {"V", "A"};
+  
+  cout << endl << "Complex-pole masses: MW=" << myinput.get(MWc) << ", MZ=" 
+    << myinput.get(MZc) << endl << endl;
  
  for(fin = LEP; fin <= BQU; fin++)
  {

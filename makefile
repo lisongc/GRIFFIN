@@ -1,8 +1,10 @@
-OBJS = classes.cc ff.cc EWPOs.cc xscnnlo.cc B0.cc C0.cc D0.cc li.cc test1.cc
+MAIN = test2
+
+OBJS = classes.cc ff.cc EWPOs.cc xscnnlo.cc B0.cc C0.cc D0.cc li.cc $(MAIN).cc
 CC = g++
 CFLAGS = -I
-exe = output
-test: $(OBJS)
+exe = $(MAIN)
+$(MAIN): $(OBJS)
 	$(CC) -o $(exe) $(OBJS)
 
 

@@ -13,7 +13,7 @@ using namespace std;
  inval: base class for input parameters
  There can be derived versions that, e.g., compute MW from Gmu.
 ******************************************************************************/
-#define StanMod 30 // for sizealloc parameter
+#define SIZE1 100 // for sizealloc parameter
 #define MW 0
 #define MZ 1
 #define MH 2
@@ -36,19 +36,21 @@ using namespace std;
 
 class inval {
 protected:
-   int size;
    std::vector<double> data;
    virtual void compute(void){}; // compute some input pars. in terms of others
 
 public:
-  inval(const int sizealloc):data(sizealloc, NAN){size = sizealloc;}
+  inval(const int sizealloc):data(sizealloc, NAN) {};
+  inval(void) : inval(SIZE1) {};
+  
   unsigned int getSize() const
-  {return data.size();}
+  { return data.size(); }
+  
   ~inval(){};
   
   void set(const int idx, const double val)  
   {
-    if(idx < size)
+    if(idx < data.size())
       data[idx] = val;
     else
     {
@@ -60,7 +62,7 @@ public:
   
   double get(const int idx) const
   {
-    if(idx < size)
+    if(idx < data.size())
     {
       if(isfinite(data[idx]))
         return(data[idx]);
