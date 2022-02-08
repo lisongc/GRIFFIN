@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-#include "EWPOs.h"
+#include "EWPOZ.h"
 #include "xscnnlo.h"
 #include "ff.h"
 
