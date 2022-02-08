@@ -1,12 +1,12 @@
 /*-----------------------------------------------------------------------------
-FASW1.cc
+EWPOZ.cc
 Lisong Chen (lic114@pitt.edu), Ayres Freitas (afreitas@pitt.edu)
 last revision: 23 Dec 2021
 -------------------------------------------------------------------------------
 classes for F_A and sw_eff form factors with SM NLO corrections
 -----------------------------------------------------------------------------*/
 
-#include "EWPOs.h"
+#include "EWPOZ.h"
 #include "ff0.h"
 #include "ff.h"
 #include "oneloop.h"
