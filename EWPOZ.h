@@ -1,7 +1,7 @@
-/* FASW1.h: header file for FASW1.cc */
+/* EWPOZ.h: header file for EWPOZ.cc */
 
-#ifndef __EWPOs__
-#define __EWPOs__
+#ifndef __EWPOZ__
+#define __EWPOZ__
 
 #include "classes.h"
 
@@ -29,4 +29,4 @@ public:
   }
 };
 
-#endif // __FASW1__
+#endif // __EWPOZ__
