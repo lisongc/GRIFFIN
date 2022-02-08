@@ -1,4 +1,4 @@
-# GRIFFIN (Gauge Resonance In Four-Fermion INteraction) 
+# GRIFFIN (Gauge-invariant Resonance In Four-Fermion INteractions) 
 project with ayres freitas
 This is a project for computing precision observables at Z/W-boson resonance at the hadron(lepton) colliders.
 gauge-invariant calculation under pole scheme.
