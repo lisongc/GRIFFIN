@@ -61,7 +61,7 @@ int main()
   		 cme*cme, cost, myinput);
   cout << "Direct computation of SM matrix element squared |M_" << formnam[iff] << formnam[off] << "|^2 = " 
   	<< Msq.result() << endl;
-  cout << endl;
+  cout << endl << endl;
 
   // as above, but now with user-supplied SM form factors, 
   // as would be used, e.g., for fitting:
@@ -73,24 +73,22 @@ int main()
   cout << endl;
   
   // compute matrix element for ee->ff using user form factors:
-  R_SMNNLO R(ini, fin, iff, off, FAue, FAub, SWue, SWub, myinput, cost);
-  S_SMNLO S(ini, fin, iff, off, myinput, cost);
-  Sp_SMLO Sp(ini, fin, iff, off, myinput);
-  cout << "R_" << formnam[iff] << formnam[off] << " = " << R.result() << endl;
-  cout << "S_" << formnam[iff] << formnam[off] << " = " << S.result() << endl;
-  cout << "S'_" << formnam[iff] << formnam[off] << "= " << Sp.result() << endl;
+  R_SMNNLO Ru(ini, fin, iff, off, FAue, FAub, SWue, SWub, myinput, cost);
+  S_SMNLO Su(ini, fin, iff, off, myinput, cost);
+  Sp_SMLO Spu(ini, fin, iff, off, myinput);
+  cout << "R_" << formnam[iff] << formnam[off] << " = " << Ru.result() << endl;
+  cout << "S_" << formnam[iff] << formnam[off] << " = " << Su.result() << endl;
+  cout << "S'_" << formnam[iff] << formnam[off] << "= " << Spu.result() << endl;
   
-  double mz = myinput.get(MZ), gz = myinput.get(GamZ);
-  Cplx sminuss0 = cme*cme - Cplx(mz*mz,-mz*gz);
-  Cplx matel1 = R.result()/sminuss0 + S.result() + Sp.result()*sminuss0;
-  cout << "User parametrized matrix element M_" << formnam[iff] << formnam[off] << " = " << matel1 << endl;
+  matel1 = Ru.result()/sminuss0 + Su.result() + Spu.result()*sminuss0;
+  cout << "Matrix element with user form factors M_" << formnam[iff] << formnam[off] << " = " << matel1 << endl;
   cout << " ( \" ) squared |M_" << formnam[iff] << formnam[off] << "|^2 = " << sqr(abs(matel1)) << endl;
   
   // directly compute squared matrix element for ee->bb using SM form factors:
-  msq_SMNNLO Msq(ini, fin, iff, off, iff, off, FAe, FAb, SWe, SWb, 
-  		 cme*cme, cost, myinput);
-  cout << "Direct computation of user parametrized matrix element squared |M_" << formnam[iff] << formnam[off] << "|^2 = " 
-  	<< Msq.result() << endl;
+  msq_SMNNLO Msqu(ini, fin, iff, off, iff, off, FAue, FAub, SWue, SWub, 
+  		  cme*cme, cost, myinput);
+  cout << "Direct computation of matrix element squared |M_" << formnam[iff] << formnam[off] << "|^2 = " 
+  	<< Msqu.result() << endl;
   cout << endl;
 
   return 0;
