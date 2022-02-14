@@ -48,7 +48,7 @@ int main()
  {
   cout << formnam[iff] << formnam[off] << ":" << endl;
 
-  // compute matrix element for ee->bb using SM form factors:
+  // compute matrix element for ee->ff using SM form factors:
   R_SMNNLO R(ini, fin, iff, off, FAe, FAb, SWe, SWb, myinput, cost);
   S_SMNLO S(ini, fin, iff, off, myinput, cost);
   Sp_SMLO Sp(ini, fin, iff, off, myinput);
