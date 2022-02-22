@@ -1,0 +1,50 @@
+double zaas(int type, int form, const inval& input)
+{
+  double MZs = sqr(input.get(MZ)),
+         MWs = sqr(input.get(MW)),
+         MTs = sqr(input.get(MT)),
+         AL = input.get(al),
+         AlphaSMZ = input.get(als),          res;
+  switch(form) {
+   case VEC:
+    switch(type) {
+     case LEP:
+      res = 0;
+      break;
+     case NEU:
+      res = 0;
+      break;
+     case UQU:
+      res = (AlphaSMZ*(-116538*MZs*sqr(MWs) + 218103*MWs*sqr(MZs) + 151040*trip(MWs) - 76700*trip(MZs)))/(5.184e6*MWs*(MWs - MZs)*Pi);
+      break;
+     case DQU:
+      res = -(AlphaSMZ*(107268*MZs*sqr(MWs) + 58017*MWs*sqr(MZs) + 18880*trip(MWs) - 8260*trip(MZs)))/(5.184e6*MWs*(MWs - MZs)*Pi);
+      break;
+     case BQU:
+      res = (AlphaSMZ*powint(MTs,-3)*(13500*(2*MWs + MZs)*powint(MTs,4)*sqr(MZs)*sqr(Pi) - 291600.*powint(MWs,4)*trip(MZs) + 1.01088e6*sqr(MTs)*sqr(MWs)*trip(MZs) + 972000*MWs*log(MTs/MWs)*(-1.1*MWs*sqr(MTs) - 2.02*MTs*sqr(MWs) - 0.01*trip(MTs) - 2.21*trip(MWs))*trip(MZs) + 592920.*MTs*trip(MWs)*trip(MZs) + 972000*(0.08*MTs + 0.17*MWs)*sqr(log(MTs/MWs))*trip(MWs)*trip(MZs) - trip(MTs)*(37760*powint(MWs,4) - 8260*powint(MZs,4) + 223302*sqr(MWs)*sqr(MZs) + 233416*MZs*trip(MWs) - 444503.*MWs*trip(MZs))))/(5.184e6*MWs*(MWs - MZs)*(2*MWs + MZs)*Pi);
+      break;
+    }
+    break;
+   case AXV:
+    switch(type) {
+     case LEP:
+      res = 0;
+      break;
+     case NEU:
+      res = 0;
+      break;
+     case UQU:
+      res = (AlphaSMZ*MZs*(-26113*MWs*MZs + 37398*sqr(MWs) + 8260*sqr(MZs)))/(576000.*MWs*(MWs - MZs)*Pi);
+      break;
+     case DQU:
+      res = -(AlphaSMZ*MZs*(153*MWs*MZs + 18212*sqr(MWs) + 1180*sqr(MZs)))/(576000.*MWs*(MWs - MZs)*Pi);
+      break;
+     case BQU:
+      res = (AlphaSMZ*MZs*powint(MTs,-3)*(-32400.*powint(MWs,4)*sqr(MZs) + 112320.*sqr(MTs)*sqr(MWs)*sqr(MZs) + 1500*MZs*(2*MWs + MZs)*powint(MTs,4)*sqr(Pi) + 108000*MWs*log(MTs/MWs)*sqr(MZs)*(-1.1*MWs*sqr(MTs) - 2.02*MTs*sqr(MWs) - 0.01*trip(MTs) - 2.21*trip(MWs)) + 65880.*MTs*sqr(MZs)*trip(MWs) + 108000*(0.08*MTs + 0.17*MWs)*sqr(MZs)*sqr(log(MTs/MWs))*trip(MWs) - trip(MTs)*(18518*MZs*sqr(MWs) - 51487.*MWs*sqr(MZs) + 36424*trip(MWs) + 1180*trip(MZs))))/(576000.*MWs*(MWs - MZs)*(2*MWs + MZs)*Pi);
+      break;
+    }
+    break;
+  }
+  return(res*(8*pow(AL,1.5))/(sqrt(MWs)*sqrt(-MWs + MZs)*sqrt(Pi)));
+}
+

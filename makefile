@@ -1,14 +1,24 @@
-MAIN = test2
+MAIN = testsw
+# other options: test3, testdr, testsw, testfa, testtools
 
-OBJS = classes.cc ff.cc EWPOs.cc xscnnlo.cc B0.cc C0.cc D0.cc li.cc $(MAIN).cc
-CC = g++
-CFLAGS = -I
+makewhat: $(MAIN)
 exe = $(MAIN)
-$(MAIN): $(OBJS)
-	$(CC) -o $(exe) $(OBJS)
 
+CC = g++
+CFLAGS = 
 
-.PHONY : clean
+.cc.o:
+	$(CC) $(CFLAGS) -c $<
+
+$(MAIN):
+	$(CC) $(CFLAGS) -o $(exe) $^
+	
+PHONY : clean
 clean : 
 	rm  $(exe)
-  
+
+test3: test3.o classes.o ff.o EWPOZ.o xscnnlo.o B0.o C0.o D0.o li.o
+testdr: testdr.o deltar.o delrho.o classes.o B0.o li.o linex.o
+testsw: testsw.o EWPOZ.o EWPOZ2.o delrho.o classes.o ff.o B0.o C0.o D0.o li.o linex.o
+testfa: testfa.o EWPOZ.o EWPOZ2.o delrho.o classes.o ff.o B0.o C0.o D0.o li.o linex.o
+testtools: testtools.o EWPOZ.o EWPOZ2.o delrho.o classes.o ff.o B0.o C0.o D0.o li.o linex.o tools.o
