@@ -5,6 +5,18 @@
 
 #include "classes.h"
 
+// effective weak mixing angle predicted in the SM (at NLO)
+class SW_SMNLO : public SW_SMLO {
+public:
+  using SW_SMLO::SW_SMLO;
+  double res1f(void) const;  // 1-loop corrections with closed fermion loops
+  double res1b(void) const;  // 1-loop corrections without closed fermion loops 
+  Cplx result(void) const
+  {
+    return(SW_SMLO::result()+res1f()+res1b());
+  }
+};
+
 // axial-vector form factor predicted in the SM (at NLO)
 class FA_SMNLO : public FA_SMLO {
 public:
@@ -17,15 +29,14 @@ public:
   }
 };
 
-// effective weak mixing angle predicted in the SM (at NLO)
-class SW_SMNLO : public SW_SMLO {
+// vector form factor predicted in the SM (at NLO)
+class FV_SMNLO : public FV_SMLO {
 public:
-  using SW_SMLO::SW_SMLO;
-  double res1f(void) const;  // 1-loop corrections with closed fermion loops
-  double res1b(void) const;  // 1-loop corrections without closed fermion loops 
-  Cplx result(void) const
+  FV_SMNLO(const int type, const inval& input) : FV_SMLO(type, input)
   {
-    return(SW_SMLO::result()+res1f()+res1b());
+//    ftyp = type;
+    fa = new FA_SMNLO(type, input);
+    sw = new SW_SMNLO(type, input);
   }
 };
 

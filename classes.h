@@ -2,6 +2,7 @@
 
 #ifndef __classes__
 #define __classes__
+
 #include <vector>
 #include <math.h>
 #include <iostream>
@@ -13,7 +14,7 @@ using namespace std;
  inval: base class for input parameters
  There can be derived versions that, e.g., compute MW from Gmu.
 ******************************************************************************/
-#define SIZE1 100 // for sizealloc parameter
+#define SIZE1 100 // default for data array
 #define MW 0
 #define MZ 1
 #define MH 2
@@ -21,10 +22,10 @@ using namespace std;
 #define MM 4
 #define ML 5
 #define MD 6
-#define MU 7  
-#define MS 8
-#define MC 9
-#define MB 10
+#define MS 7  
+#define MB 8
+#define MU 9
+#define MC 10
 #define MT 11
 #define al 12
 #define als 13
@@ -36,18 +37,17 @@ using namespace std;
 
 class inval {
 protected:
-   std::vector<double> data;
-   virtual void compute(void){}; // compute some input pars. in terms of others
+  std::vector<double> data;
+  virtual void compute(void) {};  // compute some input pars. in terms of others
 
 public:
-  inval(const int sizealloc):data(sizealloc, NAN) {};
+  inval(const int sizealloc) : data(sizealloc, NAN) {};
   inval(void) : inval(SIZE1) {};
-  
-  unsigned int getSize() const
+  inval(const inval& copyfrom) : data(copyfrom.data) {};
+ 
+  unsigned int getsize() const
   { return data.size(); }
-  
-  ~inval(){};
-  
+     
   void set(const int idx, const double val)  
   {
     if(idx < data.size())
@@ -81,6 +81,7 @@ protected:
   const inval* ival;
 public:
   psobs(const inval& input) { ival = &input; }
+  virtual void setinput(const inval& input) { ival = &input; }
   virtual Cplx result(void) const = 0;
   virtual double errest(void) { return 0; }  // should this be complex ??
 };
@@ -142,7 +143,7 @@ public:
     FAi = &FAin; FAo = &FAout; SWi = &SWin; SWo = &SWout;
   }
   
-  Cplx result(void) const;  // what this actually does will be written elsewhere
+  Cplx result(void) const;  // see classes.cc for code
 };
 
 class coeffS : public psobs {
@@ -155,7 +156,7 @@ public:
     it = intype; ot = outtype; iff = inform; off = outform;
   }
   
-  Cplx result(void) const;  // what this actually does will be written elsewhere
+  Cplx result(void) const;  // see classes.cc for code
 };
 
 class coeffSp : public psobs {
@@ -168,7 +169,7 @@ public:
     it = intype; ot = outtype; iff = inform; off = outform;
   }
   
-  Cplx result(void) const;  // what this actually does will be written elsewhere
+  Cplx result(void) const;  // see classes.cc for code
 };
 
 
@@ -215,23 +216,11 @@ public:
     s = sval; cost = costheta;
   }
   
-  Cplx result(void) const;  // what this actually does will be written elsewhere
+  Cplx result(void) const;  // see classes.cc for code
 };
 
 
 // the form factors predicted in the SM (at LO)
-class FA_SMLO : public psobs {
-protected:
-  int ftyp;
-public:
-  FA_SMLO(const int type, const inval& input) : psobs(input)
-  {
-    ftyp = type;
-  }
-  
-  Cplx result(void) const;  // what this actually does will be written elsewhere
-};
-
 class SW_SMLO : public psobs {
 protected:
   int ftyp;
@@ -240,8 +229,56 @@ public:
   {
     ftyp = type;
   }
+  void setftype(const int type)
+  {
+    ftyp = type;
+  }
   
-  Cplx result(void) const;  // what this actually does will be written elsewhere
+  Cplx result(void) const;  // see classes.cc for code
+};
+
+class FA_SMLO : public psobs {
+protected:
+  int ftyp;
+public:
+  FA_SMLO(const int type, const inval& input) : psobs(input)
+  {
+    ftyp = type;
+  }
+  void setftype(const int type)
+  {
+    ftyp = type;
+  }
+    
+  Cplx result(void) const;  // see classes.cc for code
+};
+
+class FV_SMLO : public psobs {
+protected:
+  int ftyp;
+  FA_SMLO *fa;
+  SW_SMLO *sw;
+public:
+  FV_SMLO(const int type, const inval& input) : psobs(input)
+  {
+    ftyp = type;
+    fa = new FA_SMLO(type, input);
+    sw = new SW_SMLO(type, input);
+  }
+  void setinput(const inval& input)
+  {
+    psobs::setinput(input);
+    fa->setinput(input);
+    sw->setinput(input);
+  }
+  void setftype(const int type)
+  {
+    ftyp = type;
+    fa->setftype(type);
+    sw->setftype(type);
+  }
+  
+  Cplx result(void) const;  // see classes.cc for code
 };
 
 #endif // __classes__

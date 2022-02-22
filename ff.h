@@ -1,6 +1,5 @@
 /* ff.h: header file for ff.cc */
 
-#include "Cplx.h"
 #include "classes.h"
 
 // real part of fermionic one-loop Z self-energy for k^2=mz^2

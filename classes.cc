@@ -1,7 +1,7 @@
 /*-----------------------------------------------------------------------------
 classes.cc
 Lisong Chen (lic114@pitt.edu), Ayres Freitas (afreitas@pitt.edu)
-last revision: 7 Dec 2021
+last revision: 10 Feb 2022
 -------------------------------------------------------------------------------
 basic classes for form factors and matrix elements, including SM LO predictions
 -----------------------------------------------------------------------------*/
@@ -80,14 +80,20 @@ Cplx matelsq::result(void) const
 
 /*************************************************************************/
 
+Cplx SW_SMLO::result(void) const
+{
+  return((1 - vz0(ftyp,*ival)/az0(ftyp,*ival))/(4*fabs(Qf[ftyp])));
+}
+
 Cplx FA_SMLO::result(void) const
 {
   return(sqr(az0(ftyp,*ival)));
 }
 
-Cplx SW_SMLO::result(void) const
+Cplx FV_SMLO::result(void) const
 {
-  return((1 - vz0(ftyp,*ival)/az0(ftyp,*ival))/(4*fabs(Qf[ftyp])));
+  double QVf = 1-4*fabs(Qf[ftyp])*realreg(sw->result());
+  return(fa->result()*QVf*QVf);
 }
 
 /*************************************************************************/
