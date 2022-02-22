@@ -52,7 +52,7 @@ int main()
   for(j=LEP; j<=BQU; j++)
   {
     if(j==NEU) continue;
-    sw2 = SW_SMNNLO(j,myinput);
+    sw2.setftype(j);
     cout << endl << typenam[j] << ":" << endl;
     for(i=0; i<4; i++)
     {

@@ -33,7 +33,7 @@ int main()
   int i;
   for(i=LEP; i<=BQU; i++)
   {
-    fa2 = FA_SMNNLO(i,myinput);
+    fa2.setftype(i);
     cout << typenam[i] << ":  ";
     cout << "a = " << (fa2.res1f()+fa2.res1b()) << "  " <<
     	      "a2_ff = " << fa2.res2ff() << "  a2_fb = " << fa2.res2fb() << endl;
