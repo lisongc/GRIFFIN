@@ -11,7 +11,7 @@ basic classes for form factors and matrix elements, including SM LO predictions
 
 // the base classes compute results at LO:
 
-Cplx coeffR::result(void) const
+Cplx matel::coeffR(void) const
 {
   Cplx zi, zf;
   
@@ -34,7 +34,7 @@ Cplx coeffR::result(void) const
   return(zi*zf);
 }
 
-Cplx coeffS::result(void) const
+Cplx matel::coeffS(void) const
 {
   if(iff==VEC && off==VEC)
   {
@@ -46,7 +46,7 @@ Cplx coeffS::result(void) const
     return(Cplx(0));
 }
 
-Cplx coeffSp::result(void) const
+Cplx matel::coeffSp(void) const
 {
   if(iff==VEC && off==VEC)
   {
@@ -55,6 +55,14 @@ Cplx coeffSp::result(void) const
   }
   else
     return(Cplx(0));
+}
+
+Cplx matel::result(void) const
+{
+  double mz = ival->get(MZ),
+         gz = ival->get(GamZ);
+  Cplx sminuss0(s - mz*mz, mz*gz);
+  return(coeffR()/sminuss0 + coeffS() + coeffSp()*sminuss0);
 }
 
 Cplx matelsq::result(void) const
@@ -94,6 +102,13 @@ Cplx FV_SMLO::result(void) const
 {
   double QVf = 1-4*fabs(Qf[ftyp])*realreg(sw->result());
   return(fa->result()*QVf*QVf);
+}
+
+Cplx FV_SMLO::errest(void) const
+{
+  double QVf0 = vz0(ftyp,*ival)/az0(ftyp,*ival),
+         xsw0 = vz0(ftyp,*ival)*az0(ftyp,*ival)*fabs(Qf[ftyp]);
+  return(sqrt(sqr(fa->errest()*QVf0*QVf0) + sqr(-8*xsw0 * sw->errest())));
 }
 
 /*************************************************************************/

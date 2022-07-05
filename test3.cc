@@ -43,16 +43,12 @@ int main()
          cost = 0.5; // scattering angle
 
   // compute matrix element for ee->ff using SM form factors:
-  R_SMNNLO R(ini, fin, iff, off, FAe, FAb, SWe, SWb, myinput, cost);
-  S_SMNLO S(ini, fin, iff, off, myinput, cost);
-  Sp_SMLO Sp(ini, fin, iff, off, myinput);
-  cout << "R_" << formnam[iff] << formnam[off] << " = " << R.result() << endl;
-  cout << "S_" << formnam[iff] << formnam[off] << " = " << S.result() << endl;
-  cout << "S'_" << formnam[iff] << formnam[off] << "= " << Sp.result() << endl;
+  mat_SMNNLO M(ini, fin, iff, off, FAe, FAb, SWe, SWb, cme*cme, cost, myinput);
+  cout << "R_" << formnam[iff] << formnam[off] << " = " << M.coeffR() << endl;
+  cout << "S_" << formnam[iff] << formnam[off] << " = " << M.coeffS() << endl;
+  cout << "S'_" << formnam[iff] << formnam[off] << "= " << M.coeffSp() << endl;
   
-  double mz = myinput.get(MZ), gz = myinput.get(GamZ);
-  Cplx sminuss0 = cme*cme - Cplx(mz*mz,-mz*gz);
-  Cplx matel1 = R.result()/sminuss0 + S.result() + Sp.result()*sminuss0;
+  Cplx matel1 = M.result();
   cout << "SM matrix element M_" << formnam[iff] << formnam[off] << " = " << matel1 << endl;
   cout << " ( \" ) squared |M_" << formnam[iff] << formnam[off] << "|^2 = " << sqr(abs(matel1)) << endl;
   
@@ -73,14 +69,12 @@ int main()
   cout << endl;
   
   // compute matrix element for ee->ff using user form factors:
-  R_SMNNLO Ru(ini, fin, iff, off, FAue, FAub, SWue, SWub, myinput, cost);
-  S_SMNLO Su(ini, fin, iff, off, myinput, cost);
-  Sp_SMLO Spu(ini, fin, iff, off, myinput);
-  cout << "R_" << formnam[iff] << formnam[off] << " = " << Ru.result() << endl;
-  cout << "S_" << formnam[iff] << formnam[off] << " = " << Su.result() << endl;
-  cout << "S'_" << formnam[iff] << formnam[off] << "= " << Spu.result() << endl;
+  mat_SMNNLO Mu(ini, fin, iff, off, FAue, FAub, SWue, SWub, cme*cme, cost, myinput);
+  cout << "R_" << formnam[iff] << formnam[off] << " = " << Mu.coeffR() << endl;
+  cout << "S_" << formnam[iff] << formnam[off] << " = " << Mu.coeffS() << endl;
+  cout << "S'_" << formnam[iff] << formnam[off] << "= " << Mu.coeffSp() << endl;
   
-  matel1 = Ru.result()/sminuss0 + Su.result() + Spu.result()*sminuss0;
+  matel1 = Mu.result();
   cout << "Matrix element with user form factors M_" << formnam[iff] << formnam[off] << " = " << matel1 << endl;
   cout << " ( \" ) squared |M_" << formnam[iff] << formnam[off] << "|^2 = " << sqr(abs(matel1)) << endl;
   

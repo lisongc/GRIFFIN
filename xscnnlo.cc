@@ -12,7 +12,7 @@ precision near Z pole
 #include "ff.h"
 
 
-Cplx R_SMNNLO::result(void) const
+Cplx mat_SMNNLO::coeffR(void) const
 {
   double mz = ival->get(MZ),
 	 gz = ival->get(GamZ);
@@ -53,7 +53,7 @@ Cplx R_SMNNLO::result(void) const
 	 + mz*gz*zie0*zjf0*xI);
 }
 
-Cplx S_SMNLO::res1f(void) const
+Cplx mat_SMNNLO::coeffS1f(void) const
 {
   double mz = ival->get(MZ),
 	 gz = ival->get(GamZ);
@@ -70,7 +70,7 @@ Cplx S_SMNLO::res1f(void) const
 // the gz/mz term is already in coeffS = S_SMLO   ^^^^^
 }
 
-Cplx S_SMNLO::res1b(void) const
+Cplx mat_SMNNLO::coeffS1b(void) const
 {
   double mz = ival->get(MZ),
 	 gz = ival->get(GamZ);
@@ -86,6 +86,14 @@ Cplx S_SMNLO::res1b(void) const
         + (gie0*gjf1 + gie1*gjf0 + gie0*gjf0*(/*I*gz/mz*/ - sa1/(mz*mz)))/(mz*mz)
 // the gz/mz term is already in coeffS = S_SMLO   ^^^^^
 	+ B1(it,ot,iff,off,mz*mz,cost,*ival,1,1));
+}
+
+Cplx mat_SMNNLO::result(void) const
+{
+  double mz = ival->get(MZ),
+         gz = ival->get(GamZ);
+  Cplx sminuss0(s - mz*mz, mz*gz);
+  return(coeffR()/sminuss0 + coeffS() + coeffSp()*sminuss0);
 }
 
 
