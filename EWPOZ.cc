@@ -25,6 +25,15 @@ double SW_SMNLO::res1b(void) const
 	 /(4*fabs(Qf[ftyp]))); 
 }
 
+/* naive error estimate based on prefactors g^2/(4 Pi^2)*Nf and al_s/Pi*2*CF 
+   Nf = # of fermions, 2 = combinatorial fudge factor */
+Cplx SW_SMNLO::errest(void) const
+{  
+  double ewfac = ival->get(al)/(Pi*(1-sqr(ival->get(MW)/ival->get(MZ))))*(3*3+3);
+  double qcdfac = ival->get(als)/Pi*8/3.;
+  return(res1f()*sqrt(sqr(ewfac)+sqr(qcdfac)) + res1b()*ewfac); 
+}
+
 double FA_SMNLO::res1f(void) const
 {
   return(2*az0(ftyp,*ival)*rz1f(ftyp,AXV,*ival)
@@ -35,4 +44,13 @@ double FA_SMNLO::res1b(void) const
 {
   return(2*az0(ftyp,*ival)*rz1b(ftyp,AXV,*ival)
          - sqr(az0(ftyp,*ival))*rsz1bp(*ival));
+}
+
+/* naive error estimate based on prefactors g^2/(4 Pi^2)*Nf and al_s/Pi*2*CF 
+   Nf = # of fermions, 2 = combinatorial fudge factor */
+Cplx FA_SMNLO::errest(void) const
+{  
+  double ewfac = ival->get(al)/(Pi*(1-sqr(ival->get(MW)/ival->get(MZ))))*(3*3+3);
+  double qcdfac = ival->get(als)/Pi*8/3.;
+  return(res1f()*sqrt(sqr(ewfac)+sqr(qcdfac)) + res1b()*ewfac); 
 }

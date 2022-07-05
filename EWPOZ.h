@@ -15,6 +15,7 @@ public:
   {
     return(SW_SMLO::result()+res1f()+res1b());
   }
+  Cplx errest(void) const;
 };
 
 // axial-vector form factor predicted in the SM (at NLO)
@@ -27,6 +28,7 @@ public:
   {
     return(FA_SMLO::result()+res1f()+res1b());
   }
+  Cplx errest(void) const;
 };
 
 // vector form factor predicted in the SM (at NLO)

@@ -119,6 +119,18 @@ double SW_SMNNLO::res2bb(void) const
   return(r*(1-sqr(mw/mz)));
 }
 
+Cplx SW_SMNNLO::errest(void) const
+{
+  switch(ftyp) {
+   case LEP:
+   case UQU:
+   case DQU:  return(4.3e-5);
+   case BQU:  return(5.3e-5);   // from 1906.08815
+   case NEU:  return(0);
+  }
+  return(0);
+}
+
 
 double FA_SMNNLO::delrhofac(void) const
 {
@@ -256,6 +268,18 @@ double FA_SMNNLO::res2aasnf(void) const
   return(2*az0(ftyp,*ival)*zaas(ftyp,AXV,*ival));
 }
 
+Cplx FA_SMNNLO::errest(void) const
+{
+  switch(ftyp) {
+   case LEP:  return(0.4e-5);
+   case NEU:  return(0.6e-5);
+   case UQU:  return(0.5e-5);
+   case DQU:  return(0.7e-5);
+   case BQU:  return(0.3e-5);   // from 1906.08815
+  }
+  return(0);
+}
+
 
 Cplx FV_SMNNLO::result(void) const
 {
@@ -264,4 +288,16 @@ Cplx FV_SMNNLO::result(void) const
 		    /sqr(az0(ftyp,*ival));
   double QVf = 1-4*fabs(Qf[ftyp])*realreg(sw->result());
   return(fa->result()*(QVf*QVf + IVf*IVf));
+}
+
+Cplx FV_SMNNLO::errest(void) const
+{
+  switch(ftyp) {
+   case LEP:  return(0.5e-5);
+   case NEU:  return(0.6e-5);
+   case UQU:  return(0.5e-5);
+   case DQU:  return(1.1e-5);
+   case BQU:  return(1.1e-5);   // from 1906.08815
+  }
+  return(0);
 }

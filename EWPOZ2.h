@@ -33,6 +33,7 @@ public:
     return(SW_SMNLO::result() + res2ff() + res2fb() + res2bb()
     	    + res2aas() + drho3aas2() + drho3a3() + drho3a2as() + drho4aas3());
   }
+  Cplx errest(void) const;
 };
 
 // axial-vector form factor predicted in the SM (at NNLO+)
@@ -64,6 +65,7 @@ public:
     	    + res2aas() + res2aasnf() 
 	    + drho3aas2() + drho3a3() + drho3a2as() + drho4aas3());
   }
+  Cplx errest(void) const;
 };
 
 // vector form factor predicted in the SM (at NNLO+)
@@ -77,6 +79,7 @@ public:
   }
   
   Cplx result(void) const;
+  Cplx errest(void) const;
 };
 
 #endif // __EWPOZ2__

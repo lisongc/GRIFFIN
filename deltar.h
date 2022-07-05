@@ -47,6 +47,10 @@ public:
     return(dr_SMNLO::result() + res2ff() + res2fb() + res2bb()
     	    + res2aas() + res3aas2() + drho3a3() + drho3a2as() + drho4aas3());
   }
+  Cplx errest(void) const
+  {
+    return 0.00024;  // from hep-ph/0311148
+  }
 };
 
 
