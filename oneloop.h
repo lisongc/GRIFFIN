@@ -1,6 +1,6 @@
 /* oneloop.h: header file for B0.cc, C0.cc, D0.cc */
 
-#include "s2lseinline.h"
+#include "Cplx.h"
 
 #define ASYMP_LIMIT_B0N1 1e5
 #define ASYMP_LIMIT_B0S 1e5
@@ -67,3 +67,16 @@ Cplx DM3C0(Double p10, Double p20, Double p12, Double m1, Double m2, Double m3);
 //the one-loop scalar box function
 //implementation according to A. Denner, Fortschr. Phys. 41(1993) 307
 Cplx D0(double ps10, double ps20, double ps30, double ps40, double s12, double s23, double msq0, double msq1, double msq2, double msq3);
+
+
+/* Some useful helper functions: */
+
+inline void interchange(Double *x,Double *y)
+{
+  Double z=*x;
+  *x=*y;
+  *y=z;
+}
+
+inline Double la(Double x, Double y, Double z) {return(sqr(x-y-z)-4*y*z); }
+   // la = lambda - function

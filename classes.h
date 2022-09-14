@@ -8,7 +8,6 @@
 #include <iostream>
 using namespace std;
 #include "Cplx.h"
-#include "s2lseinline.h"
 
 /******************************************************************************
  inval: base class for input parameters
