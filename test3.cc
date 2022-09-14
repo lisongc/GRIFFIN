@@ -52,13 +52,6 @@ int main()
   cout << "SM matrix element M_" << formnam[iff] << formnam[off] << " = " << matel1 << endl;
   cout << " ( \" ) squared |M_" << formnam[iff] << formnam[off] << "|^2 = " << sqr(abs(matel1)) << endl;
   
-  // directly compute squared matrix element for ee->bb using SM form factors:
-  msq_SMNNLO Msq(ini, fin, iff, off, iff, off, FAe, FAb, SWe, SWb, 
-  		 cme*cme, cost, myinput);
-  cout << "Direct computation of SM matrix element squared |M_" << formnam[iff] << formnam[off] << "|^2 = " 
-  	<< Msq.result() << endl;
-  cout << endl << endl;
-
   // as above, but now with user-supplied SM form factors, 
   // as would be used, e.g., for fitting:
   double FAue = 0.0345, FAub = 0.0340, SWue = 0.231, SWub = 0.233;
@@ -78,12 +71,5 @@ int main()
   cout << "Matrix element with user form factors M_" << formnam[iff] << formnam[off] << " = " << matel1 << endl;
   cout << " ( \" ) squared |M_" << formnam[iff] << formnam[off] << "|^2 = " << sqr(abs(matel1)) << endl;
   
-  // directly compute squared matrix element for ee->bb using SM form factors:
-  msq_SMNNLO Msqu(ini, fin, iff, off, iff, off, FAue, FAub, SWue, SWub, 
-  		  cme*cme, cost, myinput);
-  cout << "Direct computation of matrix element squared |M_" << formnam[iff] << formnam[off] << "|^2 = " 
-  	<< Msqu.result() << endl;
-  cout << endl;
-
   return 0;
 }

@@ -38,11 +38,9 @@ int main()
   SW_SMNNLO SWe(ini, myinput), SWb(fin, myinput);
 
   Cplx amp[2][2];
-  double msq[2][2][2][2];
   string formlist[2] = {"VEC", "AXV"};
 
   mat_SMNNLO Mij(VEC, VEC, VEC, VEC, FAe, FAb, SWe, SWb, cme*cme, cost, myinput);
-  msq_SMNNLO msqmnkj(ini, fin, VEC, VEC, VEC, VEC, FAe, FAb, SWe, SWb, cme*cme, cost, myinput);
   
   for (int i = 1; i < 21; i++)
   {
@@ -55,24 +53,11 @@ int main()
         Mij.setkinvar(cme*cme, cost);
         Mij.setform(m, n);
         amp[m][n] = Mij.result();
-
-        for (int k = VEC; k <= AXV; k++)
-        {
-          for (int j = VEC; j <= AXV; j++)
-          {
-            msqmnkj.setkinvar(cme*cme, cost);
-            msqmnkj.setform(m, n, k, j);
-            msq[m][n][k][j] = real(msqmnkj.result());
-          }
-        }
       }
     }
    
     /* compute the differential cross-section by R, S, and S'*/ 
      cout << cme << " " << real(((Nc * cme * cme) / (32 * Pi)) * ((1 + cost * cost) * (sqr(abs(amp[0][0])) + sqr(abs(amp[1][1])) + sqr(abs(amp[0][1])) + sqr(abs(amp[1][0]))) + 4 * cost * (amp[0][0] * conj(amp[1][1]) + amp[0][1] * conj(amp[1][0])) - 2 * pe * (1 + cost * cost) * (amp[0][0] * conj(amp[1][0]) + amp[0][1] * conj(amp[1][1])) - 4 * pe * cost * (amp[0][0] * conj(amp[0][1]) + amp[1][0] * conj(amp[1][1])))) << endl;
-   
-    /* compute the differential cross-section by matrix-element square */
-  //  cout << cme << " " << ((Nc * cme * cme) / (32 * Pi)) * ((1 + cost * cost) * (msq[0][0][0][0] + msq[0][1][0][1] + msq[1][0][1][0] + msq[1][1][1][1]) + 4 * cost * (msq[0][0][1][1] + msq[0][1][1][0])) - 2 * pe * (1 + cost * cost) * (msq[0][0][1][0] + msq[0][1][1][1]) - 4 * pe * cost * (msq[0][0][0][1] + msq[1][0][1][1]) << endl;
   }
   return 0;
 }
