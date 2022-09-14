@@ -1,15 +1,13 @@
 // one-loop box diagrams for s=mz^2
-Cplx B1(int it, int ot, int if1, int of1, double s, double cost, const inval& input, int AA, int AZ)
+Cplx B1(int it, int ot, int if1, int of1, double s, double cost, const inval& input, int AA, int AZ, double gzflag)
 {
   double MZs = sqr(input.get(MZ)),
          MWs = sqr(input.get(MW)),
          MTs = sqr(input.get(MT)),
          AL = input.get(al),
          MIs, MFs;
-  Cplx s0 = MZs - I*input.get(MZ)*input.get(GamZ),
+  Cplx s0 = MZs - gzflag*I*input.get(MZ)*input.get(GamZ),
        res;
-//  if(it==ot)
-//    cerr << "The case of identical initial and final flavors has not been implemented yet" << endl;
   if(it==BQU)
     MIs = MTs;
   else
@@ -46,8 +44,7 @@ Cplx B1(int it, int ot, int if1, int of1, double s, double cost, const inval& in
 double bRaz1(int it, int ot, double cost, const inval& input)
 {
   double AL = input.get(al);
-  int AA=1, AZ=1;
-  Cplx res = -(AZ*li2((-1 + cost)/(1 + cost))) + AZ*li2((1 + cost)/(-1 + cost)) + log((1 - cost)/(1 + cost))*(-AZ/2. - (AZ*log(-4/(-1 + sqr(cost))))/2.);
+  Cplx res = -li2((-1 + cost)/(1 + cost)) + li2((1 + cost)/(-1 + cost)) + log((1 - cost)/(1 + cost))*(-0.5 - log(-4/(-1 + sqr(cost)))/2.);
   return(real(res)*(AL*Qf[it]*Qf[ot])/Pi);
 }
 

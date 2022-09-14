@@ -57,33 +57,19 @@ Cplx matel::coeffSp(void) const
     return(Cplx(0));
 }
 
+Cplx matel::resoffZ(void) const
+{
+  double mz = ival->get(MZ);
+  double gi = g0(it,iff,*ival), gf = g0(ot,off,*ival);
+  return(gi*gf*sqr(1-s/(mz*mz))/s);
+}
+
 Cplx matel::result(void) const
 {
   double mz = ival->get(MZ),
          gz = ival->get(GamZ);
   Cplx sminuss0(s - mz*mz, mz*gz);
-  return(coeffR()/sminuss0 + coeffS() + coeffSp()*sminuss0);
-}
-
-Cplx matelsq::result(void) const
-{
-  double mz = ival->get(MZ),
-         gz = ival->get(GamZ);
-  double gie0 = g0(it,if1,*ival), gke0 = g0(it,if2,*ival),
-         gjf0 = g0(ot,of1,*ival), glf0 = g0(ot,of2,*ival),
-	 zie0 = z0(it,if1,*ival), zke0 = z0(it,if2,*ival),
-         zjf0 = z0(ot,of1,*ival), zlf0 = z0(ot,of2,*ival);
-  double Yijkl = zie0*zjf0*gke0*glf0 + zke0*zlf0*gie0*gjf0,
-         Vijkl = gie0*gjf0*(gke0*glf0/2 - zke0*zlf0)
-                 + gke0*glf0*(gie0*gjf0/2 - zie0*zjf0);
-  return( (FAi->result()*FAo->result() 
-        	* ((if1==VEC) ? (1.-4*fabs(Qf[it])*realreg(SWi->result())) : 1)
-        	* ((if2==VEC) ? (1.-4*fabs(Qf[it])*realreg(SWi->result())) : 1)
-		* ((of1==VEC) ? (1.-4*fabs(Qf[ot])*realreg(SWo->result())) : 1)
-		* ((of2==VEC) ? (1.-4*fabs(Qf[ot])*realreg(SWo->result())) : 1)
-           + gz*gz/(mz*mz)*gie0*gjf0*gke0*glf0
-	   + (s/(mz*mz) -1) * Yijkl
-	   + sqr(s/(mz*mz) - 1) * Vijkl) / (sqr(s - mz*mz) + sqr(mz*gz)) );
+  return(coeffR()/sminuss0 + coeffS() + coeffSp()*sminuss0 + resoffZ());
 }
 
 /*************************************************************************/

@@ -158,73 +158,13 @@ public:
     s = sval; cost = costheta;
   }
 
-  Cplx coeffR(void) const;  // see classes.cc for code
-  Cplx coeffS(void) const;  // see classes.cc for code
-  Cplx coeffSp(void) const; // see classes.cc for code
-  Cplx result(void) const;  // see classes.cc for code
-};
-
-
-// squared matrix element directly computed
-// -> see section 4 of my notes
-class matelsq : public psobs {
-protected:
-  int it, ot, if1, of1, if2, of2;
-  double s, cost;
-  const psobs *FAi, *FAo, *SWi, *SWo;
-public:
-  // this constructor initiates the object with user-provided values for the 
-  // Zff vertex form factor -- it can be used when, e.g., trying to make a fit
-  // of these form factors to the data
-  matelsq(const int intype, const int outtype, 
-          const int inform1, const int outform1, 
-          const int inform2, const int outform2, 
-  	  const double FAin, const double FAout, const double SWin, const double SWout,
-	  const double sval, const double costheta, const inval& input) : 
-	  psobs(input)
-  {
-    it = intype; ot = outtype; 
-    if1 = inform1; of1 = outform1; if2 = inform2; of2 = outform2; 
-    FAi = new psobsfix(FAin,input);
-    FAo = new psobsfix(FAout,input);
-    SWi = new psobsfix(SWin,input);
-    SWo = new psobsfix(SWout,input);
-    s = sval; cost = costheta;
-  }
-
-  // this constructor takes objects are inputs for the Zff vertex form factors;
-  // these objects are supposed to compute predictions for the form factors
-  // within the SM or in some BSM model
-  matelsq(const int intype, const int outtype, 
-          const int inform1, const int outform1, 
-          const int inform2, const int outform2, 
-  	  const psobs& FAin, const psobs& FAout, const psobs& SWin, const psobs& SWout,
-	  const double sval, const double costheta, const inval& input) : 
-	  psobs(input)
-  {
-    it = intype; ot = outtype; 
-    if1 = inform1; of1 = outform1; if2 = inform2; of2 = outform2; 
-    FAi = &FAin; FAo = &FAout; SWi = &SWin; SWo = &SWout;
-    s = sval; cost = costheta;
-  }
-  
-  void setform(const int inform1, const int outform1,
-               const int inform2, const int outform2)
-  {
-    if1 = inform1; of1 = outform1; if2 = inform2; of2 = outform2; 
-  }
-
-  void setftype(const int intype, const int outtype)
-  {
-    it = intype; ot = outtype;
-  }
-  
-  void setkinvar(const double sval, const double costheta)
-  {
-    s = sval; cost = costheta;
-  }
-
-  Cplx result(void) const;  // see classes.cc for code
+  /* in the base version of matel, the following functions implement tree-level
+     expressions; see classes.cc for the code */
+  Cplx coeffR(void) const;  // R coefficient of complex pole expansion
+  Cplx coeffS(void) const;  // S coefficient of complex pole expansion
+  Cplx coeffSp(void) const; // S' coefficient of complex pole expansion
+  Cplx resoffZ(void) const; // off-resonance contribution, M^{noexp} - M^{exp}
+  Cplx result(void) const;  // total result (complex pole exp.+ off-res. piece)
 };
 
 

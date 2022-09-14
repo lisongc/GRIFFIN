@@ -1,0 +1,506 @@
+// real part of fermionic one-loop Z self-energy for k^2=s
+double rsz1fs(double s, const inval& input)
+{
+  double MZs = sqr(input.get(MZ)),
+         MWs = sqr(input.get(MW)),
+         MHs = sqr(input.get(MH)),
+         MTs = sqr(input.get(MT)),
+         AL = input.get(al);
+  return((AL*s*real(B0fin(MZs,0,0))*(-200*MWs*MZs + 160*sqr(MWs) + 103*sqr(MZs)))/(72.*MWs*(MWs - MZs)*Pi) - (AL*s*real(B0fin(s,0,0))*(-200*MWs*MZs + 160*sqr(MWs) + 103*sqr(MZs)))/(72.*MWs*(MWs - MZs)*Pi) + (AL*(MZs - s)*A0fin(MTs)*(MTs*(-80*MWs*MZs + 64*sqr(MWs) + 7*sqr(MZs)) + MZs*(-40*MWs*MZs + 32*sqr(MWs) + 17*sqr(MZs))))/(36.*MWs*(MWs - MZs)*MZs*(-4*MTs + MZs)*Pi) - (AL*real(B0fin(s,MTs,MTs))*(MTs*(-80*MWs*MZs + 64*sqr(MWs) + 7*sqr(MZs)) + s*(-40*MWs*MZs + 32*sqr(MWs) + 17*sqr(MZs))))/(72.*MWs*(MWs - MZs)*Pi) - (AL*(MZs - s)*(-24*sqr(MZs)*(-10*MWs*MZs + 8*sqr(MWs) + 5*sqr(MZs)) + 2*sqr(MTs)*(-80*MWs*MZs + 64*sqr(MWs) + 7*sqr(MZs)) + MTs*MZs*(-800*MWs*MZs + 640*sqr(MWs) + 439*sqr(MZs))))/(72.*MWs*(MWs - MZs)*MZs*(-4*MTs + MZs)*Pi) - (AL*real(B0fin(MZs,MTs,MTs))*(s*(40*MWs*MZs - 32*sqr(MWs) - 17*sqr(MZs))*sqr(MZs) + 2*(3*MZs - s)*sqr(MTs)*(-80*MWs*MZs + 64*sqr(MWs) + 7*sqr(MZs)) + MTs*MZs*(-80*MWs*MZs*s + 64*s*sqr(MWs) + 34*s*sqr(MZs) + 27*trip(MZs))))/(72.*MWs*(MWs - MZs)*MZs*(-4*MTs + MZs)*Pi));
+}
+
+// imag. part of fermionic one-loop Z self-energy for k^2=s
+double isz1fs(double s, const inval& input)
+{
+  double MZs = sqr(input.get(MZ)),
+         MWs = sqr(input.get(MW)),
+         MHs = sqr(input.get(MH)),
+         MTs = sqr(input.get(MT)),
+         AL = input.get(al);
+  return(-(AL*s*imag(B0fin(s,0,0))*(-200*MWs*MZs + 160*sqr(MWs) + 103*sqr(MZs)))/(72.*MWs*(MWs - MZs)*Pi) - (AL*imag(B0fin(s,MTs,MTs))*(MTs*(-80*MWs*MZs + 64*sqr(MWs) + 7*sqr(MZs)) + s*(-40*MWs*MZs + 32*sqr(MWs) + 17*sqr(MZs))))/(72.*MWs*(MWs - MZs)*Pi));
+}
+
+// real part of bosonic one-loop Z self-energy for k^2=s
+double rsz1bs(double s, const inval& input)
+{
+  double MZs = sqr(input.get(MZ)),
+         MWs = sqr(input.get(MW)),
+         MHs = sqr(input.get(MH)),
+         MTs = sqr(input.get(MT)),
+         AL = input.get(al);
+  return((AL*(MZs - s)*A0fin(MWs)*(20*MWs*MZs + 12*sqr(MWs) + sqr(MZs)))/(24.*MWs*(MWs - MZs)*MZs*Pi) - (AL*(MZs - s)*A0fin(MZs)*(MHs*MZs*(-5*MZs + 9*s) + (MZs - 2*s)*sqr(MHs) + 4*(MZs - 4*s)*sqr(MZs)))/(48.*MWs*(MHs - 4*MZs)*(MWs - MZs)*Pi*s) - (AL*real(B0fin(s,MHs,MZs))*sqr(MZs)*(10*MZs*s - 2*MHs*(MZs + s) + sqr(MHs) + sqr(MZs) + sqr(s)))/(48.*MWs*(MWs - MZs)*Pi*s) + (AL*real(B0fin(s,MWs,MWs))*(4*MWs*MZs*(-5*MZs + s) + 4*(8*MZs + 9*s)*sqr(MWs) - s*sqr(MZs) + 48*trip(MWs)))/(48.*MWs*(MWs - MZs)*Pi) + (AL*real(B0fin(MZs,MWs,MWs))*(4*MZs*(-18*MZs + s)*sqr(MWs) + 2*MWs*(9*MZs - s)*sqr(MZs) + 24*(-3*MZs + s)*trip(MWs) + s*trip(MZs)))/(48.*MWs*(MWs - MZs)*MZs*Pi) + (AL*A0fin(MHs)*(MZs*sqr(MHs)*(16*MZs*s - 5*sqr(MZs) - 11*sqr(s)) + 4*MHs*sqr(MZs)*(-7*MZs*s + sqr(MZs) + 6*sqr(s)) + (-3*MZs*s + sqr(MZs) + 2*sqr(s))*trip(MHs) + 24*(MZs - s)*s*trip(MZs)))/(48.*MHs*MWs*(MHs - 4*MZs)*(MWs - MZs)*Pi*s) + (AL*real(B0fin(MZs,MHs,MZs))*(MZs*(-21*MZs + 13*s)*sqr(MHs) + 4*MHs*(15*MZs - 8*s)*sqr(MZs) + (3*MZs - 2*s)*trip(MHs) + 12*(-7*MZs + 3*s)*trip(MZs)))/(48.*MWs*(MHs - 4*MZs)*(MWs - MZs)*Pi) + (AL*(MZs - s)*(sqr(MHs)*sqr(MZs) + MHs*(28*MZs*sqr(MWs) - 18*MWs*sqr(MZs) + 24*trip(MWs) - 5*trip(MZs)) + 8*MZs*(-14*MZs*sqr(MWs) + 9*MWs*sqr(MZs) - 12*trip(MWs) + 2*trip(MZs))))/(48.*MWs*(MWs - MZs)*MZs*(-MHs + 4*MZs)*Pi));
+}
+
+// imag. part of bosonic one-loop Z self-energy for k^2=s
+double isz1bs(double s, const inval& input)
+{
+  double MZs = sqr(input.get(MZ)),
+         MWs = sqr(input.get(MW)),
+         MHs = sqr(input.get(MH)),
+         MTs = sqr(input.get(MT)),
+         AL = input.get(al);
+  return(-(AL*imag(B0fin(s,MHs,MZs))*sqr(MZs)*(10*MZs*s - 2*MHs*(MZs + s) + sqr(MHs) + sqr(MZs) + sqr(s)))/(48.*MWs*(MWs - MZs)*Pi*s) + (AL*imag(B0fin(s,MWs,MWs))*(4*MWs*MZs*(-5*MZs + s) + 4*(8*MZs + 9*s)*sqr(MWs) - s*sqr(MZs) + 48*trip(MWs)))/(48.*MWs*(MWs - MZs)*Pi));
+}
+
+// real part of fermionic one-loop photon self-energy for k^2=s
+double rsg1fs(double s, const inval& input)
+{
+  double MZs = sqr(input.get(MZ)),
+         MWs = sqr(input.get(MW)),
+         MHs = sqr(input.get(MH)),
+         MTs = sqr(input.get(MT)),
+         AL = input.get(al);
+  double deltaAlpha = input.get(Delal);
+  return(-(deltaAlpha*s) + (8*AL*(3*MTs + s))/(27.*Pi) - (4*AL*(2*MTs + s)*A0fin(MTs))/(9.*MTs*Pi) - (20*AL*s*real(B0fin(MZs,0,0)))/(9.*Pi) + (20*AL*s*real(B0fin(s,0,0)))/(9.*Pi) + (4*AL*(2*MTs + s)*real(B0fin(s,MTs,MTs)))/(9.*Pi));
+}
+
+// imag. part of fermionic one-loop photon self-energy for k^2=s
+double isg1fs(double s, const inval& input)
+{
+  double MZs = sqr(input.get(MZ)),
+         MWs = sqr(input.get(MW)),
+         MHs = sqr(input.get(MH)),
+         MTs = sqr(input.get(MT)),
+         AL = input.get(al);
+  return((20*AL*s*imag(B0fin(s,0,0)))/(9.*Pi) + (4*AL*(2*MTs + s)*imag(B0fin(s,MTs,MTs)))/(9.*Pi));
+}
+
+// real part of bosonic one-loop photon self-energy for k^2=s
+double rsg1bs(double s, const inval& input)
+{
+  double MZs = sqr(input.get(MZ)),
+         MWs = sqr(input.get(MW)),
+         MHs = sqr(input.get(MH)),
+         MTs = sqr(input.get(MT)),
+         AL = input.get(al);
+  return(-(AL*(12*MWs + 7*s))/(12.*Pi) + (AL*(4*MWs + 3*s)*A0fin(MWs))/(4.*MWs*Pi) - (AL*(4*MWs + 3*s)*real(B0fin(s,MWs,MWs)))/(4.*Pi));
+}
+
+// imag. part of bosonic one-loop photon self-energy for k^2=s
+double isg1bs(double s, const inval& input)
+{
+  double MZs = sqr(input.get(MZ)),
+         MWs = sqr(input.get(MW)),
+         MHs = sqr(input.get(MH)),
+         MTs = sqr(input.get(MT)),
+         AL = input.get(al);
+  return(-(AL*(4*MWs + 3*s)*imag(B0fin(s,MWs,MWs)))/(4.*Pi));
+}
+
+// real part of fermionic one-loop Z vertex factor for k^2=s
+double rz1fs(int type, int form, double s, const inval& input)
+{
+  double MZs = sqr(input.get(MZ)),
+         MWs = sqr(input.get(MW)),
+         MHs = sqr(input.get(MH)),
+         MTs = sqr(input.get(MT)),
+         AL = input.get(al),
+         deltaAlpha = input.get(Delal),
+         res;
+  switch(form) {
+   case VEC:
+    switch(type) {
+     case LEP:
+      res = (deltaAlpha*(-4*MWs + 3*MZs)*Pi)/(32.*AL) + (5*(8*MWs - 5*MZs)*real(B0fin(s,0,0)))/72. + ((8*MWs - 5*MZs)*(2*MTs + s)*real(B0fin(s,MTs,MTs)))/(72.*s) + (3*(2*MWs - 3*MZs)*real(B0fin(MWs,0,0))*sqr(MZs))/(128.*sqr(MWs - MZs)) + ((-MTs + MWs)*(MTs + 2*MWs)*(2*MWs - 3*MZs)*real(B0fin(MWs,MTs,0))*sqr(MZs))/(256.*sqr(MWs)*sqr(MWs - MZs)) + (real(B0fin(MZs,0,0))*(3360*MZs*sqr(MWs) - 3012*MWs*sqr(MZs) - 1280*trip(MWs) + 995*trip(MZs)))/(2304.*sqr(MWs - MZs)) - (real(B0fin(MZs,MTs,MTs))*(MWs*sqr(MZs)*(-320*MZs*sqr(MWs) + 268*MWs*sqr(MZs) + 128*trip(MWs) - 85*trip(MZs)) + 2*sqr(MTs)*(256*powint(MWs,4) + 63*powint(MZs,4) + 1484*sqr(MWs)*sqr(MZs) - 1024*MZs*trip(MWs) - 797*MWs*trip(MZs)) + MTs*MZs*(-256*powint(MWs,4) + 81*powint(MZs,4) - 536*sqr(MWs)*sqr(MZs) + 640*MZs*trip(MWs) + 116*MWs*trip(MZs))))/(2304.*MWs*MZs*(-4*MTs + MZs)*sqr(MWs - MZs)) + (8*s*sqr(MZs)*(-632*MZs*sqr(MWs) + 474*MWs*sqr(MZs) + 320*trip(MWs) - 135*trip(MZs)) - 6*sqr(MTs)*(-128*MZs*(13*MZs + 6*s)*sqr(MWs) + 4*MWs*(160*MZs + 179*s)*sqr(MZs) + 256*(4*MZs + s)*trip(MWs) - 117*s*trip(MZs)) + MTs*MZs*(-64*MZs*(39*MZs - 262*s)*sqr(MWs) + 12*MWs*(80*MZs - 1047*s)*sqr(MZs) + 512*(3*MZs - 17*s)*trip(MWs) + 3807*s*trip(MZs)))/(6912.*MWs*(MWs - MZs)*MZs*(-4*MTs + MZs)*s) - (A0fin(MTs)*(32*(4*MWs - 3*MZs)*s*sqr(MWs)*sqr(MWs - MZs)*sqr(MZs) + 36*(2*MWs - 3*MZs)*s*trip(MTs)*trip(MZs) + 2*MTs*MWs*(MWs - MZs)*MZs*(32*MZs*(-13*MZs + 20*s)*sqr(MWs) + 4*MWs*(40*MZs - 67*s)*sqr(MZs) + 128*(2*MZs - 3*s)*trip(MWs) + 27*s*trip(MZs)) + sqr(MTs)*(256*MZs*(21*MZs + 8*s)*powint(MWs,4) - 512*(4*MZs + s)*powint(MWs,5) - 252*MWs*s*powint(MZs,4) + 27*s*powint(MZs,5) - 8*(576*MZs + 371*s)*sqr(MZs)*trip(MWs) + 2*(640*MZs + 833*s)*sqr(MWs)*trip(MZs))))/(2304.*MTs*MZs*(-4*MTs + MZs)*s*sqr(MWs)*sqr(MWs - MZs));
+      break;
+     case NEU:
+      res = (deltaAlpha*MZs*Pi)/(32.*AL) + (3*(2*MWs - MZs)*real(B0fin(MWs,0,0))*sqr(MZs))/(128.*sqr(MWs - MZs)) + ((-40*MWs + 19*MZs)*real(B0fin(MZs,0,0))*sqr(MZs))/(768.*sqr(MWs - MZs)) + ((-MTs + MWs)*(MTs + 2*MWs)*(2*MWs - MZs)*real(B0fin(MWs,MTs,0))*sqr(MZs))/(256.*sqr(MWs)*sqr(MWs - MZs)) - (6*sqr(MTs)*(-272*MWs*MZs + 320*sqr(MWs) + 39*sqr(MZs)) - 8*sqr(MZs)*(-98*MWs*MZs + 80*sqr(MWs) + 45*sqr(MZs)) + MTs*MZs*(-2368*MWs*MZs + 1792*sqr(MWs) + 1269*sqr(MZs)))/(6912.*MWs*(-4*MTs + MZs)*(-MWs + MZs)) + (real(B0fin(MZs,MTs,MTs))*(MWs*(40*MWs*MZs - 32*sqr(MWs) - 17*sqr(MZs))*sqr(MZs) + MTs*MZs*(-80*MZs*sqr(MWs) + 88*MWs*sqr(MZs) + 64*trip(MWs) - 27*trip(MZs)) + 2*sqr(MTs)*(-592*MZs*sqr(MWs) + 275*MWs*sqr(MZs) + 320*trip(MWs) - 21*trip(MZs))))/(2304.*MWs*(-4*MTs + MZs)*sqr(MWs - MZs)) + (A0fin(MTs)*(32*sqr(MWs)*sqr(MWs - MZs)*sqr(MZs) + 36*(-2*MWs + MZs)*sqr(MZs)*trip(MTs) - 2*MTs*MWs*MZs*(-88*MZs*sqr(MWs) + 65*MWs*sqr(MZs) + 32*trip(MWs) - 9*trip(MZs)) + sqr(MTs)*(-640*powint(MWs,4) - 9*powint(MZs,4) - 622*sqr(MWs)*sqr(MZs) + 1184*MZs*trip(MWs) + 96*MWs*trip(MZs))))/(2304.*MTs*(-4*MTs + MZs)*sqr(MWs)*sqr(MWs - MZs));
+      break;
+     case UQU:
+      res = (deltaAlpha*(8*MWs - 5*MZs)*Pi)/(96.*AL) - (5*(8*MWs - 5*MZs)*real(B0fin(s,0,0)))/108. - ((8*MWs - 5*MZs)*(2*MTs + s)*real(B0fin(s,MTs,MTs)))/(108.*s) + ((-2*MWs + 5*MZs)*real(B0fin(MWs,0,0))*sqr(MZs))/(128.*sqr(MWs - MZs)) + ((MTs - MWs)*(MTs + 2*MWs)*(2*MWs - 5*MZs)*real(B0fin(MWs,MTs,0))*sqr(MZs))/(768.*sqr(MWs)*sqr(MWs - MZs)) + (real(B0fin(MZs,0,0))*(-6720*MZs*sqr(MWs) + 5904*MWs*sqr(MZs) + 2560*trip(MWs) - 1933*trip(MZs)))/(6912.*sqr(MWs - MZs)) + (real(B0fin(MZs,MTs,MTs))*(MWs*sqr(MZs)*(-672*MZs*sqr(MWs) + 576*MWs*sqr(MZs) + 256*trip(MWs) - 187*trip(MZs)) + 2*sqr(MTs)*(512*powint(MWs,4) + 105*powint(MZs,4) + 2376*sqr(MWs)*sqr(MZs) - 1728*MZs*trip(MWs) - 1319*MWs*trip(MZs)) + MTs*MZs*(-512*powint(MWs,4) + 135*powint(MZs,4) - 1152*sqr(MWs)*sqr(MZs) + 1344*MZs*trip(MWs) + 320*MWs*trip(MZs))))/(6912.*MWs*MZs*(-4*MTs + MZs)*sqr(MWs - MZs)) + (8*s*sqr(MZs)*(1184*MZs*sqr(MWs) - 850*MWs*sqr(MZs) - 640*trip(MWs) + 225*trip(MZs)) + MTs*MZs*(128*MZs*(39*MZs - 248*s)*sqr(MWs) - 40*MWs*(48*MZs - 569*s)*sqr(MZs) - 1024*(3*MZs - 17*s)*trip(MWs) - 6345*s*trip(MZs)) + 6*sqr(MTs)*(-64*MZs*(52*MZs + 19*s)*sqr(MWs) + 40*MWs*(32*MZs + 29*s)*sqr(MZs) + 512*(4*MZs + s)*trip(MWs) - 195*s*trip(MZs)))/(20736.*MWs*(MWs - MZs)*MZs*(-4*MTs + MZs)*s) + (A0fin(MTs)*(32*(8*MWs - 5*MZs)*s*sqr(MWs)*sqr(MWs - MZs)*sqr(MZs) + 36*(2*MWs - 5*MZs)*s*trip(MTs)*trip(MZs) + 2*MTs*MWs*(MWs - MZs)*MZs*(-416*MZs*(2*MZs - 3*s)*sqr(MWs) + 160*MWs*(2*MZs - 3*s)*sqr(MZs) + 256*(2*MZs - 3*s)*trip(MWs) + 45*s*trip(MZs)) + sqr(MTs)*(384*MZs*(28*MZs + 9*s)*powint(MWs,4) - 1024*(4*MZs + s)*powint(MWs,5) - 408*MWs*s*powint(MZs,4) + 45*s*powint(MZs,5) - 144*(64*MZs + 33*s)*sqr(MZs)*trip(MWs) + 10*(256*MZs + 271*s)*sqr(MWs)*trip(MZs))))/(6912.*MTs*MZs*(-4*MTs + MZs)*s*sqr(MWs)*sqr(MWs - MZs));
+      break;
+     case DQU:
+      res = (deltaAlpha*(-4*MWs + MZs)*Pi)/(96.*AL) + (5*(8*MWs - 5*MZs)*real(B0fin(s,0,0)))/216. + ((8*MWs - 5*MZs)*(2*MTs + s)*real(B0fin(s,MTs,MTs)))/(216.*s) - ((2*MWs + MZs)*real(B0fin(MWs,0,0))*sqr(MZs))/(128.*sqr(MWs - MZs)) + ((MTs - MWs)*(MTs + 2*MWs)*(2*MWs + MZs)*real(B0fin(MWs,MTs,0))*sqr(MZs))/(768.*sqr(MWs)*sqr(MWs - MZs)) + (real(B0fin(MZs,0,0))*(3360*MZs*sqr(MWs) - 2772*MWs*sqr(MZs) - 1280*trip(MWs) + 881*trip(MZs)))/(6912.*sqr(MWs - MZs)) - (real(B0fin(MZs,MTs,MTs))*(MWs*sqr(MZs)*(-384*MZs*sqr(MWs) + 348*MWs*sqr(MZs) + 128*trip(MWs) - 119*trip(MZs)) + sqr(MTs)*(512*powint(MWs,4) + 42*powint(MZs,4) + 600*sqr(MWs)*sqr(MZs) - 768*MZs*trip(MWs) - 494*MWs*trip(MZs)) + MTs*MZs*(-256*powint(MWs,4) + 27*powint(MZs,4) - 696*sqr(MWs)*sqr(MZs) + 768*MZs*trip(MWs) + 292*MWs*trip(MZs))))/(6912.*MWs*MZs*(-4*MTs + MZs)*sqr(MWs - MZs)) + (8*s*sqr(MZs)*(-472*MZs*sqr(MWs) + 278*MWs*sqr(MZs) + 320*trip(MWs) - 45*trip(MZs)) - 6*sqr(MTs)*(-128*MZs*(13*MZs + s)*sqr(MWs) + 4*MWs*(160*MZs + 43*s)*sqr(MZs) + 256*(4*MZs + s)*trip(MWs) - 39*s*trip(MZs)) + MTs*MZs*(-64*MZs*(39*MZs - 206*s)*sqr(MWs) + 4*MWs*(240*MZs - 1957*s)*sqr(MZs) + 512*(3*MZs - 17*s)*trip(MWs) + 1269*s*trip(MZs)))/(20736.*MWs*(MWs - MZs)*MZs*(-4*MTs + MZs)*s) + (A0fin(MTs)*(-32*(4*MWs - MZs)*s*sqr(MWs)*sqr(MWs - MZs)*sqr(MZs) + 36*(2*MWs + MZs)*s*trip(MTs)*trip(MZs) - 2*MTs*MWs*(MWs - MZs)*MZs*(32*MZs*(-13*MZs + 18*s)*sqr(MWs) + 4*MWs*(40*MZs - 39*s)*sqr(MZs) + 128*(2*MZs - 3*s)*trip(MWs) + 9*s*trip(MZs)) + sqr(MTs)*(-768*MZs*(7*MZs + s)*powint(MWs,4) + 512*(4*MZs + s)*powint(MWs,5) + 60*MWs*s*powint(MZs,4) - 9*s*powint(MZs,5) + 24*(192*MZs + 25*s)*sqr(MZs)*trip(MWs) - 2*(640*MZs + 211*s)*sqr(MWs)*trip(MZs))))/(6912.*MTs*MZs*(-4*MTs + MZs)*s*sqr(MWs)*sqr(MWs - MZs));
+      break;
+     case BQU:
+      res = (deltaAlpha*(-4*MWs + MZs)*Pi)/(96.*AL) + (5*(8*MWs - 5*MZs)*real(B0fin(s,0,0)))/216. + ((8*MWs - 5*MZs)*(2*MTs + s)*real(B0fin(s,MTs,MTs)))/(216.*s) - ((2*MWs + MZs)*real(B0fin(MWs,0,0))*sqr(MZs))/(128.*sqr(MWs - MZs)) + ((MTs - MWs)*(MTs + 2*MWs)*(2*MWs + MZs)*real(B0fin(MWs,MTs,0))*sqr(MZs))/(768.*sqr(MWs)*sqr(MWs - MZs)) + (real(B0fin(MZs,0,0))*(3360*MZs*sqr(MWs) - 2772*MWs*sqr(MZs) - 1280*trip(MWs) + 881*trip(MZs)))/(6912.*sqr(MWs - MZs)) - (real(B0fin(MZs,MTs,MTs))*(MWs*sqr(MZs)*(-384*MZs*sqr(MWs) + 348*MWs*sqr(MZs) + 128*trip(MWs) - 119*trip(MZs)) + sqr(MTs)*(512*powint(MWs,4) + 42*powint(MZs,4) + 600*sqr(MWs)*sqr(MZs) - 768*MZs*trip(MWs) - 494*MWs*trip(MZs)) + MTs*MZs*(-256*powint(MWs,4) + 27*powint(MZs,4) - 696*sqr(MWs)*sqr(MZs) + 768*MZs*trip(MWs) + 292*MWs*trip(MZs))))/(6912.*MWs*MZs*(-4*MTs + MZs)*sqr(MWs - MZs)) + (8*s*sqr(MZs)*(-472*MZs*sqr(MWs) + 278*MWs*sqr(MZs) + 320*trip(MWs) - 45*trip(MZs)) - 6*sqr(MTs)*(-128*MZs*(13*MZs + s)*sqr(MWs) + 4*MWs*(160*MZs + 43*s)*sqr(MZs) + 256*(4*MZs + s)*trip(MWs) - 39*s*trip(MZs)) + MTs*MZs*(-64*MZs*(39*MZs - 206*s)*sqr(MWs) + 4*MWs*(240*MZs - 1957*s)*sqr(MZs) + 512*(3*MZs - 17*s)*trip(MWs) + 1269*s*trip(MZs)))/(20736.*MWs*(MWs - MZs)*MZs*(-4*MTs + MZs)*s) + (A0fin(MTs)*(-32*(4*MWs - MZs)*s*sqr(MWs)*sqr(MWs - MZs)*sqr(MZs) + 36*(2*MWs + MZs)*s*trip(MTs)*trip(MZs) - 2*MTs*MWs*(MWs - MZs)*MZs*(32*MZs*(-13*MZs + 18*s)*sqr(MWs) + 4*MWs*(40*MZs - 39*s)*sqr(MZs) + 128*(2*MZs - 3*s)*trip(MWs) + 9*s*trip(MZs)) + sqr(MTs)*(-768*MZs*(7*MZs + s)*powint(MWs,4) + 512*(4*MZs + s)*powint(MWs,5) + 60*MWs*s*powint(MZs,4) - 9*s*powint(MZs,5) + 24*(192*MZs + 25*s)*sqr(MZs)*trip(MWs) - 2*(640*MZs + 211*s)*sqr(MWs)*trip(MZs))))/(6912.*MTs*MZs*(-4*MTs + MZs)*s*sqr(MWs)*sqr(MWs - MZs));
+      break;
+    }
+    break;
+   case AXV:
+    switch(type) {
+     case LEP:
+      res = -(deltaAlpha*MZs*Pi)/(32.*AL) + (3*(-2*MWs + MZs)*real(B0fin(MWs,0,0))*sqr(MZs))/(128.*sqr(MWs - MZs)) + ((40*MWs - 19*MZs)*real(B0fin(MZs,0,0))*sqr(MZs))/(768.*sqr(MWs - MZs)) + ((MTs - MWs)*(MTs + 2*MWs)*(2*MWs - MZs)*real(B0fin(MWs,MTs,0))*sqr(MZs))/(256.*sqr(MWs)*sqr(MWs - MZs)) + (6*sqr(MTs)*(-272*MWs*MZs + 320*sqr(MWs) + 39*sqr(MZs)) - 8*sqr(MZs)*(-98*MWs*MZs + 80*sqr(MWs) + 45*sqr(MZs)) + MTs*MZs*(-2368*MWs*MZs + 1792*sqr(MWs) + 1269*sqr(MZs)))/(6912.*MWs*(-4*MTs + MZs)*(-MWs + MZs)) + (real(B0fin(MZs,MTs,MTs))*(MWs*sqr(MZs)*(-40*MWs*MZs + 32*sqr(MWs) + 17*sqr(MZs)) + MTs*MZs*(80*MZs*sqr(MWs) - 88*MWs*sqr(MZs) - 64*trip(MWs) + 27*trip(MZs)) + sqr(MTs)*(1184*MZs*sqr(MWs) - 550*MWs*sqr(MZs) - 640*trip(MWs) + 42*trip(MZs))))/(2304.*MWs*(-4*MTs + MZs)*sqr(MWs - MZs)) + (A0fin(MTs)*(-32*sqr(MWs)*sqr(MWs - MZs)*sqr(MZs) + 36*(2*MWs - MZs)*sqr(MZs)*trip(MTs) + 2*MTs*MWs*MZs*(-88*MZs*sqr(MWs) + 65*MWs*sqr(MZs) + 32*trip(MWs) - 9*trip(MZs)) + sqr(MTs)*(640*powint(MWs,4) + 9*powint(MZs,4) + 622*sqr(MWs)*sqr(MZs) - 1184*MZs*trip(MWs) - 96*MWs*trip(MZs))))/(2304.*MTs*(-4*MTs + MZs)*sqr(MWs)*sqr(MWs - MZs));
+      break;
+     case NEU:
+      res = (deltaAlpha*MZs*Pi)/(32.*AL) + (3*(2*MWs - MZs)*real(B0fin(MWs,0,0))*sqr(MZs))/(128.*sqr(MWs - MZs)) + ((-40*MWs + 19*MZs)*real(B0fin(MZs,0,0))*sqr(MZs))/(768.*sqr(MWs - MZs)) + ((-MTs + MWs)*(MTs + 2*MWs)*(2*MWs - MZs)*real(B0fin(MWs,MTs,0))*sqr(MZs))/(256.*sqr(MWs)*sqr(MWs - MZs)) - (6*sqr(MTs)*(-272*MWs*MZs + 320*sqr(MWs) + 39*sqr(MZs)) - 8*sqr(MZs)*(-98*MWs*MZs + 80*sqr(MWs) + 45*sqr(MZs)) + MTs*MZs*(-2368*MWs*MZs + 1792*sqr(MWs) + 1269*sqr(MZs)))/(6912.*MWs*(-4*MTs + MZs)*(-MWs + MZs)) + (real(B0fin(MZs,MTs,MTs))*(MWs*(40*MWs*MZs - 32*sqr(MWs) - 17*sqr(MZs))*sqr(MZs) + MTs*MZs*(-80*MZs*sqr(MWs) + 88*MWs*sqr(MZs) + 64*trip(MWs) - 27*trip(MZs)) + 2*sqr(MTs)*(-592*MZs*sqr(MWs) + 275*MWs*sqr(MZs) + 320*trip(MWs) - 21*trip(MZs))))/(2304.*MWs*(-4*MTs + MZs)*sqr(MWs - MZs)) + (A0fin(MTs)*(32*sqr(MWs)*sqr(MWs - MZs)*sqr(MZs) + 36*(-2*MWs + MZs)*sqr(MZs)*trip(MTs) - 2*MTs*MWs*MZs*(-88*MZs*sqr(MWs) + 65*MWs*sqr(MZs) + 32*trip(MWs) - 9*trip(MZs)) + sqr(MTs)*(-640*powint(MWs,4) - 9*powint(MZs,4) - 622*sqr(MWs)*sqr(MZs) + 1184*MZs*trip(MWs) + 96*MWs*trip(MZs))))/(2304.*MTs*(-4*MTs + MZs)*sqr(MWs)*sqr(MWs - MZs));
+      break;
+     case UQU:
+      res = (deltaAlpha*MZs*Pi)/(32.*AL) + (3*(2*MWs - MZs)*real(B0fin(MWs,0,0))*sqr(MZs))/(128.*sqr(MWs - MZs)) + ((-40*MWs + 19*MZs)*real(B0fin(MZs,0,0))*sqr(MZs))/(768.*sqr(MWs - MZs)) + ((-MTs + MWs)*(MTs + 2*MWs)*(2*MWs - MZs)*real(B0fin(MWs,MTs,0))*sqr(MZs))/(256.*sqr(MWs)*sqr(MWs - MZs)) - (6*sqr(MTs)*(-272*MWs*MZs + 320*sqr(MWs) + 39*sqr(MZs)) - 8*sqr(MZs)*(-98*MWs*MZs + 80*sqr(MWs) + 45*sqr(MZs)) + MTs*MZs*(-2368*MWs*MZs + 1792*sqr(MWs) + 1269*sqr(MZs)))/(6912.*MWs*(-4*MTs + MZs)*(-MWs + MZs)) + (real(B0fin(MZs,MTs,MTs))*(MWs*(40*MWs*MZs - 32*sqr(MWs) - 17*sqr(MZs))*sqr(MZs) + MTs*MZs*(-80*MZs*sqr(MWs) + 88*MWs*sqr(MZs) + 64*trip(MWs) - 27*trip(MZs)) + 2*sqr(MTs)*(-592*MZs*sqr(MWs) + 275*MWs*sqr(MZs) + 320*trip(MWs) - 21*trip(MZs))))/(2304.*MWs*(-4*MTs + MZs)*sqr(MWs - MZs)) + (A0fin(MTs)*(32*sqr(MWs)*sqr(MWs - MZs)*sqr(MZs) + 36*(-2*MWs + MZs)*sqr(MZs)*trip(MTs) - 2*MTs*MWs*MZs*(-88*MZs*sqr(MWs) + 65*MWs*sqr(MZs) + 32*trip(MWs) - 9*trip(MZs)) + sqr(MTs)*(-640*powint(MWs,4) - 9*powint(MZs,4) - 622*sqr(MWs)*sqr(MZs) + 1184*MZs*trip(MWs) + 96*MWs*trip(MZs))))/(2304.*MTs*(-4*MTs + MZs)*sqr(MWs)*sqr(MWs - MZs));
+      break;
+     case DQU:
+      res = -(deltaAlpha*MZs*Pi)/(32.*AL) + (3*(-2*MWs + MZs)*real(B0fin(MWs,0,0))*sqr(MZs))/(128.*sqr(MWs - MZs)) + ((40*MWs - 19*MZs)*real(B0fin(MZs,0,0))*sqr(MZs))/(768.*sqr(MWs - MZs)) + ((MTs - MWs)*(MTs + 2*MWs)*(2*MWs - MZs)*real(B0fin(MWs,MTs,0))*sqr(MZs))/(256.*sqr(MWs)*sqr(MWs - MZs)) + (6*sqr(MTs)*(-272*MWs*MZs + 320*sqr(MWs) + 39*sqr(MZs)) - 8*sqr(MZs)*(-98*MWs*MZs + 80*sqr(MWs) + 45*sqr(MZs)) + MTs*MZs*(-2368*MWs*MZs + 1792*sqr(MWs) + 1269*sqr(MZs)))/(6912.*MWs*(-4*MTs + MZs)*(-MWs + MZs)) + (real(B0fin(MZs,MTs,MTs))*(MWs*sqr(MZs)*(-40*MWs*MZs + 32*sqr(MWs) + 17*sqr(MZs)) + MTs*MZs*(80*MZs*sqr(MWs) - 88*MWs*sqr(MZs) - 64*trip(MWs) + 27*trip(MZs)) + sqr(MTs)*(1184*MZs*sqr(MWs) - 550*MWs*sqr(MZs) - 640*trip(MWs) + 42*trip(MZs))))/(2304.*MWs*(-4*MTs + MZs)*sqr(MWs - MZs)) + (A0fin(MTs)*(-32*sqr(MWs)*sqr(MWs - MZs)*sqr(MZs) + 36*(2*MWs - MZs)*sqr(MZs)*trip(MTs) + 2*MTs*MWs*MZs*(-88*MZs*sqr(MWs) + 65*MWs*sqr(MZs) + 32*trip(MWs) - 9*trip(MZs)) + sqr(MTs)*(640*powint(MWs,4) + 9*powint(MZs,4) + 622*sqr(MWs)*sqr(MZs) - 1184*MZs*trip(MWs) - 96*MWs*trip(MZs))))/(2304.*MTs*(-4*MTs + MZs)*sqr(MWs)*sqr(MWs - MZs));
+      break;
+     case BQU:
+      res = -(deltaAlpha*MZs*Pi)/(32.*AL) + (3*(-2*MWs + MZs)*real(B0fin(MWs,0,0))*sqr(MZs))/(128.*sqr(MWs - MZs)) + ((40*MWs - 19*MZs)*real(B0fin(MZs,0,0))*sqr(MZs))/(768.*sqr(MWs - MZs)) + ((MTs - MWs)*(MTs + 2*MWs)*(2*MWs - MZs)*real(B0fin(MWs,MTs,0))*sqr(MZs))/(256.*sqr(MWs)*sqr(MWs - MZs)) + (6*sqr(MTs)*(-272*MWs*MZs + 320*sqr(MWs) + 39*sqr(MZs)) - 8*sqr(MZs)*(-98*MWs*MZs + 80*sqr(MWs) + 45*sqr(MZs)) + MTs*MZs*(-2368*MWs*MZs + 1792*sqr(MWs) + 1269*sqr(MZs)))/(6912.*MWs*(-4*MTs + MZs)*(-MWs + MZs)) + (real(B0fin(MZs,MTs,MTs))*(MWs*sqr(MZs)*(-40*MWs*MZs + 32*sqr(MWs) + 17*sqr(MZs)) + MTs*MZs*(80*MZs*sqr(MWs) - 88*MWs*sqr(MZs) - 64*trip(MWs) + 27*trip(MZs)) + sqr(MTs)*(1184*MZs*sqr(MWs) - 550*MWs*sqr(MZs) - 640*trip(MWs) + 42*trip(MZs))))/(2304.*MWs*(-4*MTs + MZs)*sqr(MWs - MZs)) + (A0fin(MTs)*(-32*sqr(MWs)*sqr(MWs - MZs)*sqr(MZs) + 36*(2*MWs - MZs)*sqr(MZs)*trip(MTs) + 2*MTs*MWs*MZs*(-88*MZs*sqr(MWs) + 65*MWs*sqr(MZs) + 32*trip(MWs) - 9*trip(MZs)) + sqr(MTs)*(640*powint(MWs,4) + 9*powint(MZs,4) + 622*sqr(MWs)*sqr(MZs) - 1184*MZs*trip(MWs) - 96*MWs*trip(MZs))))/(2304.*MTs*(-4*MTs + MZs)*sqr(MWs)*sqr(MWs - MZs));
+      break;
+    }
+    break;
+  }
+  return(res*(8*pow(AL,1.5))/(sqrt(MWs)*sqrt(-MWs + MZs)*sqrt(Pi)));
+}
+
+// imag. part of fermionic one-loop Z vertex factor for k^2=s
+double iz1fs(int type, int form, double s, const inval& input)
+{
+  double MZs = sqr(input.get(MZ)),
+         MWs = sqr(input.get(MW)),
+         MHs = sqr(input.get(MH)),
+         MTs = sqr(input.get(MT)),
+         AL = input.get(al),
+         res;
+  switch(form) {
+   case VEC:
+    switch(type) {
+     case LEP:
+      res = (5*(8*MWs - 5*MZs)*imag(B0fin(s,0,0)))/72. + ((8*MWs - 5*MZs)*(2*MTs + s)*imag(B0fin(s,MTs,MTs)))/(72.*s);
+      break;
+     case NEU:
+      res = 0;
+      break;
+     case UQU:
+      res = (-5*(8*MWs - 5*MZs)*imag(B0fin(s,0,0)))/108. - ((8*MWs - 5*MZs)*(2*MTs + s)*imag(B0fin(s,MTs,MTs)))/(108.*s);
+      break;
+     case DQU:
+      res = (5*(8*MWs - 5*MZs)*imag(B0fin(s,0,0)))/216. + ((8*MWs - 5*MZs)*(2*MTs + s)*imag(B0fin(s,MTs,MTs)))/(216.*s);
+      break;
+     case BQU:
+      res = (5*(8*MWs - 5*MZs)*imag(B0fin(s,0,0)))/216. + ((8*MWs - 5*MZs)*(2*MTs + s)*imag(B0fin(s,MTs,MTs)))/(216.*s);
+      break;
+    }
+    break;
+   case AXV:
+    switch(type) {
+     case LEP:
+      res = 0;
+      break;
+     case NEU:
+      res = 0;
+      break;
+     case UQU:
+      res = 0;
+      break;
+     case DQU:
+      res = 0;
+      break;
+     case BQU:
+      res = 0;
+      break;
+    }
+    break;
+  }
+  return(res*(8*pow(AL,1.5))/(sqrt(MWs)*sqrt(-MWs + MZs)*sqrt(Pi)));
+}
+
+// real part of bosonic one-loop Z vertex factor for k^2=s
+double rz1bs(int type, int form, double s, const inval& input)
+{
+  double MZs = sqr(input.get(MZ)),
+         MWs = sqr(input.get(MW)),
+         MHs = sqr(input.get(MH)),
+         MTs = sqr(input.get(MT)),
+         AL = input.get(al),
+         res;
+  switch(form) {
+   case VEC:
+    switch(type) {
+     case LEP:
+      res = (MZs*(MWs + 2*s)*real(C0(0,s,0,0,MWs,MWs))*sqr(MWs))/(32.*(MWs - MZs)*s) + ((2*MWs - 3*MZs)*real(B0fin(MWs,MHs,MWs))*(-4*MHs*MWs + sqr(MHs) + 12*sqr(MWs))*sqr(MZs))/(1536.*sqr(MWs)*sqr(MWs - MZs)) - ((2*MWs - 3*MZs)*(4*MWs - MZs)*MZs*real(B0fin(MWs,MZs,MWs))*(20*MWs*MZs + 12*sqr(MWs) + sqr(MZs)))/(1536.*sqr(MWs)*sqr(MWs - MZs)) + (real(C0(s,0,0,0,0,MWs))*sqr(MZs)*sqr(MWs + s))/(64.*(MWs - MZs)*s) + (real(B0fin(s,MWs,MWs))*(MWs*MZs*(16*MZs + 31*s) + (26*MZs - 36*s)*sqr(MWs) + 2*s*sqr(MZs) - 48*trip(MWs)))/(192.*(MWs - MZs)*s) + (real(C0(s,0,0,0,0,MZs))*sqr(MZs + s)*(-36*MZs*sqr(MWs) + 30*MWs*sqr(MZs) + 16*trip(MWs) - 9*trip(MZs)))/(128.*MWs*(-MWs + MZs)*s) + (real(B0fin(MZs,MWs,MWs))*(-96*powint(MWs,4) + 59*powint(MZs,4) - 44*sqr(MWs)*sqr(MZs) + 248*MZs*trip(MWs) - 266*MWs*trip(MZs)))/(1536.*MZs*sqr(MWs - MZs)) + (A0fin(MHs)*(MZs*sqr(MHs)*(41*MWs*MZs - 44*sqr(MWs) - 12*sqr(MZs)) + 24*MHs*MWs*(4*MWs - 3*MZs)*sqr(MZs) + (-8*MWs*MZs + 8*sqr(MWs) + 3*sqr(MZs))*trip(MHs) + 24*MWs*(-4*MWs + 3*MZs)*trip(MZs)))/(1536.*MHs*(MHs - 4*MZs)*(-MWs + MZs)*sqr(MWs)) + (real(B0fin(s,0,0))*(-4*MZs*(19*MZs + 27*s)*sqr(MWs) + 12*MWs*(5*MZs + 7*s)*sqr(MZs) + 16*(2*MZs + 3*s)*trip(MWs) - 9*(2*MZs + 3*s)*trip(MZs)))/(256.*MWs*(-MWs + MZs)*s) + (A0fin(MWs)*(-8*MZs*(74*MZs - 5*s)*powint(MWs,4) + 96*(4*MZs + s)*powint(MWs,5) - 3*(MHs + MZs)*s*powint(MZs,4) + 4*(14*MZs - 99*s)*sqr(MZs)*trip(MWs) + 2*MWs*(MHs - 53*MZs)*s*trip(MZs) + 2*(76*MZs + 193*s)*sqr(MWs)*trip(MZs)))/(1536.*MZs*s*sqr(MWs)*sqr(MWs - MZs)) + (real(B0fin(MZs,MHs,MZs))*(MZs*sqr(MHs)*(107*MWs*MZs - 52*sqr(MWs) - 63*sqr(MZs)) + 4*MHs*sqr(MZs)*(-70*MWs*MZs + 32*sqr(MWs) + 45*sqr(MZs)) + (-16*MWs*MZs + 8*sqr(MWs) + 9*sqr(MZs))*trip(MHs) - 12*(-29*MWs*MZs + 12*sqr(MWs) + 21*sqr(MZs))*trip(MZs)))/(1536.*MWs*(MHs - 4*MZs)*sqr(MWs - MZs)) + ((4*MWs - 3*MZs)*s*sqr(MHs)*sqr(MZs) + 2*MHs*(48*(4*MZs + s)*powint(MWs,4) - 6*s*powint(MZs,4) - 8*(8*MZs + 41*s)*sqr(MWs)*sqr(MZs) + 4*MZs*(-32*MZs + 13*s)*trip(MWs) + 293*MWs*s*trip(MZs)) - 4*MZs*(96*(4*MZs + s)*powint(MWs,4) - 15*s*powint(MZs,4) - 16*(8*MZs + 41*s)*sqr(MWs)*sqr(MZs) - 8*MZs*(32*MZs - 13*s)*trip(MWs) + 590*MWs*s*trip(MZs)))/(1536.*MWs*(MWs - MZs)*MZs*(-MHs + 4*MZs)*s) + (A0fin(MZs)*(MWs*MZs*s*sqr(MHs)*(16*MWs*MZs - 8*sqr(MWs) - 9*sqr(MZs)) - MHs*(-312*MZs*(2*MZs + 3*s)*powint(MWs,4) + 96*(2*MZs + 3*s)*powint(MWs,5) + MWs*(108*MZs + 139*s)*powint(MZs,4) + 3*s*powint(MZs,5) + 24*(33*MZs + 50*s)*sqr(MZs)*trip(MWs) - 13*(36*MZs + 55*s)*sqr(MWs)*trip(MZs)) + 4*MZs*(-312*MZs*(2*MZs + 3*s)*powint(MWs,4) + 96*(2*MZs + 3*s)*powint(MWs,5) + 2*MWs*(54*MZs + 83*s)*powint(MZs,4) + 3*s*powint(MZs,5) + 4*(198*MZs + 305*s)*sqr(MZs)*trip(MWs) - 2*(234*MZs + 379*s)*sqr(MWs)*trip(MZs))))/(1536.*MZs*(-MHs + 4*MZs)*s*sqr(MWs)*sqr(MWs - MZs));
+      break;
+     case NEU:
+      res = (MWs*MZs*(2*MWs + s)*real(B0fin(s,MWs,MWs)))/(64.*(MWs - MZs)*s) + (MZs*(MWs + 2*s)*real(C0(0,s,0,0,MWs,MWs))*sqr(MWs))/(32.*(-MWs + MZs)*s) + ((2*MWs - MZs)*real(B0fin(MWs,MHs,MWs))*(-4*MHs*MWs + sqr(MHs) + 12*sqr(MWs))*sqr(MZs))/(1536.*sqr(MWs)*sqr(MWs - MZs)) - ((2*MWs - MZs)*(4*MWs - MZs)*MZs*real(B0fin(MWs,MZs,MWs))*(20*MWs*MZs + 12*sqr(MWs) + sqr(MZs)))/(1536.*sqr(MWs)*sqr(MWs - MZs)) + ((2*MWs - MZs)*MZs*real(C0(s,0,0,0,0,MWs))*sqr(MWs + s))/(64.*(-MWs + MZs)*s) + (MZs*real(B0fin(s,0,0))*(6*MWs*MZs*s + 4*(MZs - 3*s)*sqr(MWs) + (2*MZs + 3*s)*sqr(MZs) - 8*trip(MWs)))/(256.*MWs*(MWs - MZs)*s) + (real(C0(s,0,0,0,0,MZs))*sqr(MZs + s)*trip(MZs))/(128.*MWs*(MWs - MZs)*s) + (real(B0fin(MZs,MWs,MWs))*(68*MZs*sqr(MWs) - 106*MWs*sqr(MZs) + 120*trip(MWs) + 17*trip(MZs)))/(1536.*sqr(MWs - MZs)) + (MZs*A0fin(MHs)*((19*MWs - 4*MZs)*MZs*sqr(MHs) - 24*MHs*MWs*sqr(MZs) + (-4*MWs + MZs)*trip(MHs) + 24*MWs*trip(MZs)))/(1536.*MHs*(MHs - 4*MZs)*(-MWs + MZs)*sqr(MWs)) - (MZs*real(B0fin(MZs,MHs,MZs))*(MZs*(-29*MWs + 21*MZs)*sqr(MHs) + 4*MHs*(22*MWs - 15*MZs)*sqr(MZs) + (4*MWs - 3*MZs)*trip(MHs) + 12*(-11*MWs + 7*MZs)*trip(MZs)))/(1536.*MWs*(MHs - 4*MZs)*sqr(MWs - MZs)) - (A0fin(MWs)*(120*s*powint(MWs,4) - 2*MWs*(MHs - 5*MZs)*s*sqr(MZs) - 2*(12*MZs + 19*s)*sqr(MWs)*sqr(MZs) + 4*MZs*(6*MZs - 19*s)*trip(MWs) + (MHs + MZs)*s*trip(MZs)))/(1536.*s*sqr(MWs)*sqr(MWs - MZs)) + (sqr(MHs)*sqr(MZs) + 2*MHs*(84*MZs*sqr(MWs) - 84*MWs*sqr(MZs) + 60*trip(MWs) - trip(MZs)) + 4*MZs*(-168*MZs*sqr(MWs) + 168*MWs*sqr(MZs) - 120*trip(MWs) + trip(MZs)))/(1536.*MWs*(-MWs + MZs)*(-MHs + 4*MZs)) + (MZs*A0fin(MZs)*(MWs*(-4*MWs + 3*MZs)*s*sqr(MHs) - 4*MZs*(-2*MZs*(6*MZs + 25*s)*sqr(MWs) + 6*MWs*(2*MZs + 3*s)*sqr(MZs) + 48*s*trip(MWs) + s*trip(MZs)) + MHs*(-(MZs*(12*MZs + 37*s)*sqr(MWs)) + 3*MWs*(4*MZs + 3*s)*sqr(MZs) + 48*s*trip(MWs) + s*trip(MZs))))/(1536.*(MHs - 4*MZs)*s*sqr(MWs)*sqr(MWs - MZs));
+      break;
+     case UQU:
+      res = (MZs*(MWs + 2*s)*real(C0(0,s,0,0,MWs,MWs))*sqr(MWs))/(32.*(-MWs + MZs)*s) - ((2*MWs - 5*MZs)*real(B0fin(MWs,MHs,MWs))*(-4*MHs*MWs + sqr(MHs) + 12*sqr(MWs))*sqr(MZs))/(4608.*sqr(MWs)*sqr(MWs - MZs)) + ((2*MWs - 5*MZs)*(4*MWs - MZs)*MZs*real(B0fin(MWs,MZs,MWs))*(20*MWs*MZs + 12*sqr(MWs) + sqr(MZs)))/(4608.*sqr(MWs)*sqr(MWs - MZs)) + (MZs*(2*MWs + MZs)*real(C0(s,0,0,0,0,MWs))*sqr(MWs + s))/(192.*(-MWs + MZs)*s) + (real(B0fin(s,MWs,MWs))*(-(MWs*MZs*(32*MZs + 59*s)) + (-46*MZs + 72*s)*sqr(MWs) - 4*s*sqr(MZs) + 96*trip(MWs)))/(576.*(MWs - MZs)*s) + (real(C0(s,0,0,0,0,MZs))*sqr(MZs + s)*(-240*MZs*sqr(MWs) + 204*MWs*sqr(MZs) + 128*trip(MWs) - 65*trip(MZs)))/(3456.*MWs*(MWs - MZs)*s) + (real(B0fin(MZs,MWs,MWs))*(192*powint(MWs,4) - 101*powint(MZs,4) + 156*sqr(MWs)*sqr(MZs) - 376*MZs*trip(MWs) + 426*MWs*trip(MZs)))/(4608.*MZs*sqr(MWs - MZs)) + (A0fin(MHs)*(MZs*sqr(MHs)*(63*MWs*MZs - 88*sqr(MWs) - 20*sqr(MZs)) + 24*MHs*MWs*(8*MWs - 5*MZs)*sqr(MZs) + (-12*MWs*MZs + 16*sqr(MWs) + 5*sqr(MZs))*trip(MHs) + 24*MWs*(-8*MWs + 5*MZs)*trip(MZs)))/(4608.*MHs*(MHs - 4*MZs)*(MWs - MZs)*sqr(MWs)) + (real(B0fin(s,0,0))*(-12*MZs*(43*MZs + 69*s)*sqr(MWs) + 6*MWs*(68*MZs + 93*s)*sqr(MZs) + 8*(23*MZs + 48*s)*trip(MWs) - 65*(2*MZs + 3*s)*trip(MZs)))/(6912.*MWs*(MWs - MZs)*s) - (A0fin(MWs)*(-8*MZs*(148*MZs - 25*s)*powint(MWs,4) + 192*(4*MZs + s)*powint(MWs,5) - 5*(MHs + MZs)*s*powint(MZs,4) + 4*(34*MZs - 217*s)*sqr(MZs)*trip(MWs) + 2*MWs*(MHs - 101*MZs)*s*trip(MZs) + 2*(140*MZs + 367*s)*sqr(MWs)*trip(MZs)))/(4608.*MZs*s*sqr(MWs)*sqr(MWs - MZs)) + (real(B0fin(MZs,MHs,MZs))*(-4*MHs*sqr(MZs)*(-118*MWs*MZs + 64*sqr(MWs) + 75*sqr(MZs)) + MZs*sqr(MHs)*(-185*MWs*MZs + 104*sqr(MWs) + 105*sqr(MZs)) + (28*MWs*MZs - 16*sqr(MWs) - 15*sqr(MZs))*trip(MHs) + 12*(-47*MWs*MZs + 24*sqr(MWs) + 35*sqr(MZs))*trip(MZs)))/(4608.*MWs*(MHs - 4*MZs)*sqr(MWs - MZs)) + (3*(8*MWs - 5*MZs)*s*sqr(MHs)*sqr(MZs) + 2*MHs*(288*(4*MZs + s)*powint(MWs,4) + 5*s*powint(MZs,4) - 24*(16*MZs + 63*s)*sqr(MWs)*sqr(MZs) + (412*MZs*s - 768*sqr(MZs))*trip(MWs) + 1338*MWs*s*trip(MZs)) - 4*MZs*(576*(4*MZs + s)*powint(MWs,4) - 5*s*powint(MZs,4) - 48*(16*MZs + 63*s)*sqr(MWs)*sqr(MZs) + 8*MZs*(-192*MZs + 103*s)*trip(MWs) + 2700*MWs*s*trip(MZs)))/(13824.*MWs*MZs*(-MWs + MZs)*(-MHs + 4*MZs)*s) + (A0fin(MZs)*(3*MWs*MZs*s*sqr(MHs)*(-28*MWs*MZs + 16*sqr(MWs) + 15*sqr(MZs)) - 4*MZs*(-736*MZs*(2*MZs + 3*s)*powint(MWs,4) + 256*(2*MZs + 3*s)*powint(MWs,5) + 2*MWs*(130*MZs + 207*s)*powint(MZs,4) + 15*s*powint(MZs,5) + 24*(74*MZs + 113*s)*sqr(MZs)*trip(MWs) - 2*(538*MZs + 927*s)*sqr(MWs)*trip(MZs)) + MHs*(-736*MZs*(2*MZs + 3*s)*powint(MWs,4) + 256*(2*MZs + 3*s)*powint(MWs,5) + MWs*(260*MZs + 279*s)*powint(MZs,4) + 15*s*powint(MZs,5) + 48*(37*MZs + 54*s)*sqr(MZs)*trip(MWs) - (1076*MZs + 1635*s)*sqr(MWs)*trip(MZs))))/(13824.*MZs*(-MHs + 4*MZs)*s*sqr(MWs)*sqr(MWs - MZs));
+      break;
+     case DQU:
+      res = (MZs*(MWs + 2*s)*real(C0(0,s,0,0,MWs,MWs))*sqr(MWs))/(32.*(MWs - MZs)*s) - ((2*MWs + MZs)*real(B0fin(MWs,MHs,MWs))*(-4*MHs*MWs + sqr(MHs) + 12*sqr(MWs))*sqr(MZs))/(4608.*sqr(MWs)*sqr(MWs - MZs)) + ((4*MWs - MZs)*MZs*(2*MWs + MZs)*real(B0fin(MWs,MZs,MWs))*(20*MWs*MZs + 12*sqr(MWs) + sqr(MZs)))/(4608.*sqr(MWs)*sqr(MWs - MZs)) + ((4*MWs - MZs)*real(B0fin(s,0,0))*(4*MWs*MZs*(MZs + 15*s) + 4*(7*MZs - 3*s)*sqr(MWs) - 7*(2*MZs + 3*s)*sqr(MZs)))/(6912.*MWs*(MWs - MZs)*s) + ((4*MWs - MZs)*MZs*real(C0(s,0,0,0,0,MWs))*sqr(MWs + s))/(192.*(MWs - MZs)*s) + (real(B0fin(s,MWs,MWs))*(MWs*MZs*(16*MZs + 25*s) + 2*(7*MZs - 18*s)*sqr(MWs) + 2*s*sqr(MZs) - 48*trip(MWs)))/(576.*(MWs - MZs)*s) + (real(C0(s,0,0,0,0,MZs))*sqr(MZs + s)*(-12*MZs*sqr(MWs) + 30*MWs*sqr(MZs) + 16*trip(MWs) - 7*trip(MZs)))/(3456.*MWs*(-MWs + MZs)*s) - ((4*MWs - MZs)*real(B0fin(MZs,MWs,MWs))*(4*MZs*sqr(MWs) + 46*MWs*sqr(MZs) + 24*trip(MWs) + 25*trip(MZs)))/(4608.*MZs*sqr(MWs - MZs)) + (A0fin(MHs)*(MZs*sqr(MHs)*(3*MWs*MZs - 44*sqr(MWs) - 4*sqr(MZs)) + 24*MHs*MWs*(4*MWs - MZs)*sqr(MZs) + (8*sqr(MWs) + sqr(MZs))*trip(MHs) + 24*MWs*(-4*MWs + MZs)*trip(MZs)))/(4608.*MHs*(MHs - 4*MZs)*(-MWs + MZs)*sqr(MWs)) + (A0fin(MWs)*(-8*MZs*(74*MZs - 35*s)*powint(MWs,4) + 96*(4*MZs + s)*powint(MWs,5) - (MHs + MZs)*s*powint(MZs,4) + 4*(26*MZs - 137*s)*sqr(MZs)*trip(MWs) - 2*MWs*(MHs + 43*MZs)*s*trip(MZs) + 2*(52*MZs + 155*s)*sqr(MWs)*trip(MZs)))/(4608.*MZs*s*sqr(MWs)*sqr(MWs - MZs)) + (real(B0fin(MZs,MHs,MZs))*(MZs*sqr(MHs)*(49*MWs*MZs - 52*sqr(MWs) - 21*sqr(MZs)) + 4*MHs*sqr(MZs)*(-26*MWs*MZs + 32*sqr(MWs) + 15*sqr(MZs)) + (-8*MWs*MZs + 8*sqr(MWs) + 3*sqr(MZs))*trip(MHs) - 12*(-7*MWs*MZs + 12*sqr(MWs) + 7*sqr(MZs))*trip(MZs)))/(4608.*MWs*(MHs - 4*MZs)*sqr(MWs - MZs)) + (3*(4*MWs - MZs)*s*sqr(MHs)*sqr(MZs) + 2*MHs*(144*(4*MZs + s)*powint(MWs,4) + 4*s*powint(MZs,4) - 12*(16*MZs + 27*s)*sqr(MWs)*sqr(MZs) + 4*MZs*(-96*MZs + 113*s)*trip(MWs) + 255*MWs*s*trip(MZs)) - 4*MZs*(288*(4*MZs + s)*powint(MWs,4) + 5*s*powint(MZs,4) - 24*(16*MZs + 27*s)*sqr(MWs)*sqr(MZs) + 8*MZs*(-96*MZs + 113*s)*trip(MWs) + 522*MWs*s*trip(MZs)))/(13824.*MWs*(MWs - MZs)*MZs*(-MHs + 4*MZs)*s) - (A0fin(MZs)*(3*MWs*MZs*s*sqr(MHs)*(-8*MWs*MZs + 8*sqr(MWs) + 3*sqr(MZs)) + MHs*(4*MWs - MZs)*(8*(2*MZs + 3*s)*powint(MWs,4) - 3*s*powint(MZs,4) + 9*(4*MZs - s)*sqr(MWs)*sqr(MZs) - 12*MZs*(2*MZs + 3*s)*trip(MWs) - MWs*(28*MZs + 39*s)*trip(MZs)) - 4*MZs*(-56*MZs*(2*MZs + 3*s)*powint(MWs,4) + 32*(2*MZs + 3*s)*powint(MWs,5) + 2*MWs*(14*MZs + 27*s)*powint(MZs,4) + 3*s*powint(MZs,5) + 12*(14*MZs + 5*s)*sqr(MZs)*trip(MWs) - 2*(74*MZs + 99*s)*sqr(MWs)*trip(MZs))))/(13824.*MZs*(-MHs + 4*MZs)*s*sqr(MWs)*sqr(MWs - MZs));
+      break;
+     case BQU:
+      res = (MZs*real(B0fin(s,MTs,MTs))*(-(MWs*(4*MWs - MZs)*(2*MWs + 3*s)) + 4*(MWs - MZs)*sqr(MTs) + 2*MTs*(-(MZs*s) + MWs*(MZs + s) + 2*sqr(MWs))))/(384.*MWs*(-MWs + MZs)*s) - ((2*MWs + MZs)*real(B0fin(MWs,MHs,MWs))*(-4*MHs*MWs + sqr(MHs) + 12*sqr(MWs))*sqr(MZs))/(4608.*sqr(MWs)*sqr(MWs - MZs)) + ((4*MWs - MZs)*MZs*(2*MWs + MZs)*real(B0fin(MWs,MZs,MWs))*(20*MWs*MZs + 12*sqr(MWs) + sqr(MZs)))/(4608.*sqr(MWs)*sqr(MWs - MZs)) + (MZs*(2*MWs + MZs)*A0fin(MTs)*(-6*MTs*MWs*(MWs + s) + s*sqr(MTs) + 4*(MWs + 2*s)*sqr(MWs) + 2*trip(MTs)))/(768.*MWs*(-MWs + MZs)*s*sqr(MTs - MWs)) + (MZs*real(C0(s,0,0,MTs,MTs,MWs))*((-6*MWs*MZs - 4*MWs*s + MZs*s)*sqr(MTs) + 4*MTs*MWs*(2*MWs*s + MZs*s + 3*sqr(MWs)) - 2*MWs*(4*MWs - MZs)*sqr(MWs + s) - 4*(MWs - MZs)*trip(MTs)))/(384.*MWs*(-MWs + MZs)*s) + (real(B0fin(s,MWs,MWs))*(-192*powint(MWs,4) + 2*MWs*MZs*(4*MZs*s + 9*MTs*(MZs + s) + 18*sqr(MTs)) + 4*MZs*(9*MTs + 16*MZs + 25*s)*sqr(MWs) - 9*MTs*(2*MTs + s)*sqr(MZs) + 8*(7*MZs - 18*s)*trip(MWs)))/(2304.*MWs*(MWs - MZs)*s) + (MZs*real(C0(0,s,0,MTs,MWs,MWs))*((MZs*s - 2*MWs*(MZs + s))*sqr(MTs) + MTs*MWs*(-4*MZs*s + MWs*(MZs + 4*s) + 6*sqr(MWs)) + (-2*MWs + MZs)*trip(MTs) - 4*(MWs + 2*s)*trip(MWs)))/(128.*MWs*(-MWs + MZs)*s) + ((2*MZs + 3*s)*real(B0fin(s,0,0))*(-12*MZs*sqr(MWs) + 30*MWs*sqr(MZs) + 16*trip(MWs) - 7*trip(MZs)))/(6912.*MWs*(-MWs + MZs)*s) + (real(C0(s,0,0,0,0,MZs))*sqr(MZs + s)*(-12*MZs*sqr(MWs) + 30*MWs*sqr(MZs) + 16*trip(MWs) - 7*trip(MZs)))/(3456.*MWs*(-MWs + MZs)*s) - ((4*MWs - MZs)*real(B0fin(MZs,MWs,MWs))*(4*MZs*sqr(MWs) + 46*MWs*sqr(MZs) + 24*trip(MWs) + 25*trip(MZs)))/(4608.*MZs*sqr(MWs - MZs)) + (A0fin(MWs)*(136*powint(MWs,4) + (96*powint(MWs,5))/MZs - powint(MZs,4) + 252*MWs*MZs*sqr(MWs - MZs) + (6*MWs*MZs*(6*MTs*MWs + 4*sqr(MTs) - 4*sqr(MWs))*sqr(MWs - MZs))/sqr(MTs - MWs) + (192*(MZs - s)*sqr(MWs)*sqr(MWs - MZs))/s - 2*MHs*MWs*sqr(MZs) + (9*MWs*(MWs - MZs)*(6*MTs*MWs + 4*sqr(MTs) - 4*sqr(MWs))*sqr(MZs))/sqr(MTs - MWs) + 34*sqr(MWs)*sqr(MZs) - 248*MZs*trip(MWs) + (4*MWs*(MWs - MZs)*(3*MZs*(2*MWs + MZs)*sqr(MTs) + MTs*MWs*(-106*MWs*MZs + 96*sqr(MWs) + 19*sqr(MZs)) - 2*MWs*(MWs*MZs*(11*MZs + 12*s) - 50*MZs*sqr(MWs) + 6*s*sqr(MZs) + 48*trip(MWs))))/((MTs - MWs)*s) + 336*MWs*trip(MWs - MZs) - MHs*trip(MZs) + 34*MWs*trip(MZs)))/(4608.*sqr(MWs)*sqr(MWs - MZs)) + (A0fin(MHs)*(MZs*sqr(MHs)*(3*MWs*MZs - 44*sqr(MWs) - 4*sqr(MZs)) + 24*MHs*MWs*(4*MWs - MZs)*sqr(MZs) + (8*sqr(MWs) + sqr(MZs))*trip(MHs) + 24*MWs*(-4*MWs + MZs)*trip(MZs)))/(4608.*MHs*(MHs - 4*MZs)*(-MWs + MZs)*sqr(MWs)) + (real(B0fin(MZs,MHs,MZs))*(MZs*sqr(MHs)*(49*MWs*MZs - 52*sqr(MWs) - 21*sqr(MZs)) + 4*MHs*sqr(MZs)*(-26*MWs*MZs + 32*sqr(MWs) + 15*sqr(MZs)) + (-8*MWs*MZs + 8*sqr(MWs) + 3*sqr(MZs))*trip(MHs) - 12*(-7*MWs*MZs + 12*sqr(MWs) + 7*sqr(MZs))*trip(MZs)))/(4608.*MWs*(MHs - 4*MZs)*sqr(MWs - MZs)) - (A0fin(MZs)*(3*MWs*MZs*s*sqr(MHs)*(-8*MWs*MZs + 8*sqr(MWs) + 3*sqr(MZs)) + MHs*(4*MWs - MZs)*(8*(2*MZs + 3*s)*powint(MWs,4) - 3*s*powint(MZs,4) + 9*(4*MZs - s)*sqr(MWs)*sqr(MZs) - 12*MZs*(2*MZs + 3*s)*trip(MWs) - MWs*(28*MZs + 39*s)*trip(MZs)) - 4*MZs*(-56*MZs*(2*MZs + 3*s)*powint(MWs,4) + 32*(2*MZs + 3*s)*powint(MWs,5) + 2*MWs*(14*MZs + 27*s)*powint(MZs,4) + 3*s*powint(MZs,5) + 12*(14*MZs + 5*s)*sqr(MZs)*trip(MWs) - 2*(74*MZs + 99*s)*sqr(MWs)*trip(MZs))))/(13824.*MZs*(-MHs + 4*MZs)*s*sqr(MWs)*sqr(MWs - MZs)) + (3*(MTs - MWs)*(4*MWs - MZs)*s*sqr(MHs)*sqr(MZs) + MHs*(-27*(6*MWs - 5*MZs)*s*sqr(MTs)*sqr(MZs) - 2*MWs*(144*(4*MZs + s)*powint(MWs,4) + 4*s*powint(MZs,4) - 12*(16*MZs + 27*s)*sqr(MWs)*sqr(MZs) + 4*MZs*(-96*MZs + 113*s)*trip(MWs) + 255*MWs*s*trip(MZs)) + MTs*(288*(4*MZs + s)*powint(MWs,4) + 8*s*powint(MZs,4) - 6*(64*MZs + 63*s)*sqr(MWs)*sqr(MZs) + 8*MZs*(-96*MZs + 113*s)*trip(MWs) + 429*MWs*s*trip(MZs))) + 4*MZs*(27*(6*MWs - 5*MZs)*s*sqr(MTs)*sqr(MZs) - MTs*(288*(4*MZs + s)*powint(MWs,4) + 5*s*powint(MZs,4) - 6*(64*MZs + 63*s)*sqr(MWs)*sqr(MZs) + 8*MZs*(-96*MZs + 113*s)*trip(MWs) + 441*MWs*s*trip(MZs)) + MWs*(288*(4*MZs + s)*powint(MWs,4) + 5*s*powint(MZs,4) - 24*(16*MZs + 27*s)*sqr(MWs)*sqr(MZs) + 8*MZs*(-96*MZs + 113*s)*trip(MWs) + 522*MWs*s*trip(MZs))))/(13824.*MWs*(-MTs + MWs)*MZs*(-MWs + MZs)*(-MHs + 4*MZs)*s);
+      break;
+    }
+    break;
+   case AXV:
+    switch(type) {
+     case LEP:
+      res = (MWs*MZs*(2*MWs + s)*real(B0fin(s,MWs,MWs)))/(64.*(-MWs + MZs)*s) + (MZs*(MWs + 2*s)*real(C0(0,s,0,0,MWs,MWs))*sqr(MWs))/(32.*(MWs - MZs)*s) - ((2*MWs - MZs)*real(B0fin(MWs,MHs,MWs))*(-4*MHs*MWs + sqr(MHs) + 12*sqr(MWs))*sqr(MZs))/(1536.*sqr(MWs)*sqr(MWs - MZs)) + ((2*MWs - MZs)*(4*MWs - MZs)*MZs*real(B0fin(MWs,MZs,MWs))*(20*MWs*MZs + 12*sqr(MWs) + sqr(MZs)))/(1536.*sqr(MWs)*sqr(MWs - MZs)) + (MZs*real(B0fin(s,0,0))*(-12*MWs*MZs*(3*MZs + 5*s) + 4*(5*MZs + 9*s)*sqr(MWs) + 7*(2*MZs + 3*s)*sqr(MZs)))/(256.*MWs*(-MWs + MZs)*s) + (real(C0(s,0,0,0,0,MWs))*sqr(MZs)*sqr(MWs + s))/(64.*(MWs - MZs)*s) + (MZs*real(C0(s,0,0,0,0,MZs))*(-18*MWs*MZs + 12*sqr(MWs) + 7*sqr(MZs))*sqr(MZs + s))/(128.*MWs*(-MWs + MZs)*s) - (real(B0fin(MZs,MWs,MWs))*(68*MZs*sqr(MWs) - 106*MWs*sqr(MZs) + 120*trip(MWs) + 17*trip(MZs)))/(1536.*sqr(MWs - MZs)) + (MZs*A0fin(MHs)*((19*MWs - 4*MZs)*MZs*sqr(MHs) - 24*MHs*MWs*sqr(MZs) + (-4*MWs + MZs)*trip(MHs) + 24*MWs*trip(MZs)))/(1536.*MHs*(MHs - 4*MZs)*(MWs - MZs)*sqr(MWs)) + (MZs*real(B0fin(MZs,MHs,MZs))*(MZs*(-29*MWs + 21*MZs)*sqr(MHs) + 4*MHs*(22*MWs - 15*MZs)*sqr(MZs) + (4*MWs - 3*MZs)*trip(MHs) + 12*(-11*MWs + 7*MZs)*trip(MZs)))/(1536.*MWs*(MHs - 4*MZs)*sqr(MWs - MZs)) + (A0fin(MWs)*(24*(2*MZs + 5*s)*powint(MWs,4) + 2*MWs*(-MHs + 41*MZs)*s*sqr(MZs) + 2*(12*MZs - 91*s)*sqr(MWs)*sqr(MZs) - 4*MZs*(18*MZs + s)*trip(MWs) + (MHs + MZs)*s*trip(MZs)))/(1536.*s*sqr(MWs)*sqr(MWs - MZs)) + (sqr(MHs)*sqr(MZs) + 2*MHs*(108*MZs*sqr(MWs) - 117*MWs*sqr(MZs) + 60*trip(MWs) + 8*trip(MZs)) - 4*MZs*(216*MZs*sqr(MWs) - 234*MWs*sqr(MZs) + 120*trip(MWs) + 17*trip(MZs)))/(1536.*MWs*(MWs - MZs)*(-MHs + 4*MZs)) + (A0fin(MZs)*(MWs*(4*MWs - 3*MZs)*MZs*s*sqr(MHs) + 4*MZs*(-72*(2*MZs + 3*s)*powint(MWs,4) + s*powint(MZs,4) - 2*(150*MZs + 241*s)*sqr(MWs)*sqr(MZs) + 12*MZs*(30*MZs + 49*s)*trip(MWs) + 42*MWs*(2*MZs + 3*s)*trip(MZs)) + MHs*(72*(2*MZs + 3*s)*powint(MWs,4) - s*powint(MZs,4) + (300*MZs + 469*s)*sqr(MWs)*sqr(MZs) - 12*MZs*(30*MZs + 49*s)*trip(MWs) - 3*MWs*(28*MZs + 39*s)*trip(MZs))))/(1536.*(MHs - 4*MZs)*s*sqr(MWs)*sqr(MWs - MZs));
+      break;
+     case NEU:
+      res = (MWs*MZs*(2*MWs + s)*real(B0fin(s,MWs,MWs)))/(64.*(MWs - MZs)*s) + (MZs*(MWs + 2*s)*real(C0(0,s,0,0,MWs,MWs))*sqr(MWs))/(32.*(-MWs + MZs)*s) + ((2*MWs - MZs)*real(B0fin(MWs,MHs,MWs))*(-4*MHs*MWs + sqr(MHs) + 12*sqr(MWs))*sqr(MZs))/(1536.*sqr(MWs)*sqr(MWs - MZs)) - ((2*MWs - MZs)*(4*MWs - MZs)*MZs*real(B0fin(MWs,MZs,MWs))*(20*MWs*MZs + 12*sqr(MWs) + sqr(MZs)))/(1536.*sqr(MWs)*sqr(MWs - MZs)) + ((2*MWs - MZs)*MZs*real(C0(s,0,0,0,0,MWs))*sqr(MWs + s))/(64.*(-MWs + MZs)*s) + (MZs*real(B0fin(s,0,0))*(6*MWs*MZs*s + 4*(MZs - 3*s)*sqr(MWs) + (2*MZs + 3*s)*sqr(MZs) - 8*trip(MWs)))/(256.*MWs*(MWs - MZs)*s) + (real(C0(s,0,0,0,0,MZs))*sqr(MZs + s)*trip(MZs))/(128.*MWs*(MWs - MZs)*s) + (real(B0fin(MZs,MWs,MWs))*(68*MZs*sqr(MWs) - 106*MWs*sqr(MZs) + 120*trip(MWs) + 17*trip(MZs)))/(1536.*sqr(MWs - MZs)) + (MZs*A0fin(MHs)*((19*MWs - 4*MZs)*MZs*sqr(MHs) - 24*MHs*MWs*sqr(MZs) + (-4*MWs + MZs)*trip(MHs) + 24*MWs*trip(MZs)))/(1536.*MHs*(MHs - 4*MZs)*(-MWs + MZs)*sqr(MWs)) - (MZs*real(B0fin(MZs,MHs,MZs))*(MZs*(-29*MWs + 21*MZs)*sqr(MHs) + 4*MHs*(22*MWs - 15*MZs)*sqr(MZs) + (4*MWs - 3*MZs)*trip(MHs) + 12*(-11*MWs + 7*MZs)*trip(MZs)))/(1536.*MWs*(MHs - 4*MZs)*sqr(MWs - MZs)) - (A0fin(MWs)*(120*s*powint(MWs,4) - 2*MWs*(MHs - 5*MZs)*s*sqr(MZs) - 2*(12*MZs + 19*s)*sqr(MWs)*sqr(MZs) + 4*MZs*(6*MZs - 19*s)*trip(MWs) + (MHs + MZs)*s*trip(MZs)))/(1536.*s*sqr(MWs)*sqr(MWs - MZs)) + (sqr(MHs)*sqr(MZs) + 2*MHs*(84*MZs*sqr(MWs) - 84*MWs*sqr(MZs) + 60*trip(MWs) - trip(MZs)) + 4*MZs*(-168*MZs*sqr(MWs) + 168*MWs*sqr(MZs) - 120*trip(MWs) + trip(MZs)))/(1536.*MWs*(-MWs + MZs)*(-MHs + 4*MZs)) + (MZs*A0fin(MZs)*(MWs*(-4*MWs + 3*MZs)*s*sqr(MHs) - 4*MZs*(-2*MZs*(6*MZs + 25*s)*sqr(MWs) + 6*MWs*(2*MZs + 3*s)*sqr(MZs) + 48*s*trip(MWs) + s*trip(MZs)) + MHs*(-(MZs*(12*MZs + 37*s)*sqr(MWs)) + 3*MWs*(4*MZs + 3*s)*sqr(MZs) + 48*s*trip(MWs) + s*trip(MZs))))/(1536.*(MHs - 4*MZs)*s*sqr(MWs)*sqr(MWs - MZs));
+      break;
+     case UQU:
+      res = (MWs*MZs*(2*MWs + s)*real(B0fin(s,MWs,MWs)))/(64.*(MWs - MZs)*s) + (MZs*(MWs + 2*s)*real(C0(0,s,0,0,MWs,MWs))*sqr(MWs))/(32.*(-MWs + MZs)*s) + ((2*MWs - MZs)*real(B0fin(MWs,MHs,MWs))*(-4*MHs*MWs + sqr(MHs) + 12*sqr(MWs))*sqr(MZs))/(1536.*sqr(MWs)*sqr(MWs - MZs)) - ((2*MWs - MZs)*(4*MWs - MZs)*MZs*real(B0fin(MWs,MZs,MWs))*(20*MWs*MZs + 12*sqr(MWs) + sqr(MZs)))/(1536.*sqr(MWs)*sqr(MWs - MZs)) + (MZs*(2*MWs + MZs)*real(C0(s,0,0,0,0,MWs))*sqr(MWs + s))/(192.*(-MWs + MZs)*s) + (MZs*real(C0(s,0,0,0,0,MZs))*(-20*MWs*MZs + 16*sqr(MWs) + 7*sqr(MZs))*sqr(MZs + s))/(384.*MWs*(MWs - MZs)*s) + (MZs*real(B0fin(s,0,0))*(-2*MWs*MZs*(20*MZs + 33*s) + 4*(7*MZs + 9*s)*sqr(MWs) + 7*(2*MZs + 3*s)*sqr(MZs) - 8*trip(MWs)))/(768.*MWs*(MWs - MZs)*s) + (real(B0fin(MZs,MWs,MWs))*(68*MZs*sqr(MWs) - 106*MWs*sqr(MZs) + 120*trip(MWs) + 17*trip(MZs)))/(1536.*sqr(MWs - MZs)) + (MZs*A0fin(MHs)*((19*MWs - 4*MZs)*MZs*sqr(MHs) - 24*MHs*MWs*sqr(MZs) + (-4*MWs + MZs)*trip(MHs) + 24*MWs*trip(MZs)))/(1536.*MHs*(MHs - 4*MZs)*(-MWs + MZs)*sqr(MWs)) - (MZs*real(B0fin(MZs,MHs,MZs))*(MZs*(-29*MWs + 21*MZs)*sqr(MHs) + 4*MHs*(22*MWs - 15*MZs)*sqr(MZs) + (4*MWs - 3*MZs)*trip(MHs) + 12*(-11*MWs + 7*MZs)*trip(MZs)))/(1536.*MWs*(MHs - 4*MZs)*sqr(MWs - MZs)) + (A0fin(MWs)*(-8*(4*MZs + 15*s)*powint(MWs,4) + 2*MWs*(MHs - 29*MZs)*s*sqr(MZs) + 2*(-4*MZs + 67*s)*sqr(MWs)*sqr(MZs) + 4*MZs*(10*MZs + 7*s)*trip(MWs) - (MHs + MZs)*s*trip(MZs)))/(1536.*s*sqr(MWs)*sqr(MWs - MZs)) + (sqr(MHs)*sqr(MZs) + 2*MHs*(96*MZs*sqr(MWs) - 98*MWs*sqr(MZs) + 60*trip(MWs) + trip(MZs)) - 4*MZs*(192*MZs*sqr(MWs) - 196*MWs*sqr(MZs) + 120*trip(MWs) + 3*trip(MZs)))/(1536.*MWs*(-MWs + MZs)*(-MHs + 4*MZs)) + (A0fin(MZs)*(MWs*MZs*(-4*MWs + 3*MZs)*s*sqr(MHs) - 4*MZs*(-32*(2*MZs + 3*s)*powint(MWs,4) + s*powint(MZs,4) - 2*(54*MZs + 97*s)*sqr(MWs)*sqr(MZs) + 24*MZs*(6*MZs + 11*s)*trip(MWs) + 14*MWs*(2*MZs + 3*s)*trip(MZs)) + MHs*(-32*(2*MZs + 3*s)*powint(MWs,4) + s*powint(MZs,4) - (108*MZs + 181*s)*sqr(MWs)*sqr(MZs) + 24*MZs*(6*MZs + 11*s)*trip(MWs) + MWs*(28*MZs + 33*s)*trip(MZs))))/(1536.*(MHs - 4*MZs)*s*sqr(MWs)*sqr(MWs - MZs));
+      break;
+     case DQU:
+      res = (MWs*MZs*(2*MWs + s)*real(B0fin(s,MWs,MWs)))/(64.*(-MWs + MZs)*s) + (MZs*(MWs + 2*s)*real(C0(0,s,0,0,MWs,MWs))*sqr(MWs))/(32.*(MWs - MZs)*s) - ((2*MWs - MZs)*real(B0fin(MWs,MHs,MWs))*(-4*MHs*MWs + sqr(MHs) + 12*sqr(MWs))*sqr(MZs))/(1536.*sqr(MWs)*sqr(MWs - MZs)) + ((2*MWs - MZs)*(4*MWs - MZs)*MZs*real(B0fin(MWs,MZs,MWs))*(20*MWs*MZs + 12*sqr(MWs) + sqr(MZs)))/(1536.*sqr(MWs)*sqr(MWs - MZs)) + ((4*MWs - MZs)*MZs*real(C0(s,0,0,0,0,MWs))*sqr(MWs + s))/(192.*(MWs - MZs)*s) + (MZs*real(C0(s,0,0,0,0,MZs))*(-2*MWs*MZs + 4*sqr(MWs) + sqr(MZs))*sqr(MZs + s))/(384.*MWs*(-MWs + MZs)*s) + (MZs*real(B0fin(s,0,0))*(-12*(MZs - s)*sqr(MWs) + 4*MWs*sqr(MZs) - (2*MZs + 3*s)*sqr(MZs) + 16*trip(MWs)))/(768.*MWs*(MWs - MZs)*s) - (real(B0fin(MZs,MWs,MWs))*(68*MZs*sqr(MWs) - 106*MWs*sqr(MZs) + 120*trip(MWs) + 17*trip(MZs)))/(1536.*sqr(MWs - MZs)) + (MZs*A0fin(MHs)*((19*MWs - 4*MZs)*MZs*sqr(MHs) - 24*MHs*MWs*sqr(MZs) + (-4*MWs + MZs)*trip(MHs) + 24*MWs*trip(MZs)))/(1536.*MHs*(MHs - 4*MZs)*(MWs - MZs)*sqr(MWs)) + (MZs*real(B0fin(MZs,MHs,MZs))*(MZs*(-29*MWs + 21*MZs)*sqr(MHs) + 4*MHs*(22*MWs - 15*MZs)*sqr(MZs) + (4*MWs - 3*MZs)*trip(MHs) + 12*(-11*MWs + 7*MZs)*trip(MZs)))/(1536.*MWs*(MHs - 4*MZs)*sqr(MWs - MZs)) + (A0fin(MWs)*(8*(2*MZs + 15*s)*powint(MWs,4) + 2*MWs*(-MHs + 17*MZs)*s*sqr(MZs) - 2*(4*MZs + 43*s)*sqr(MWs)*sqr(MZs) - 4*MZs*(2*MZs + 13*s)*trip(MWs) + (MHs + MZs)*s*trip(MZs)))/(1536.*s*sqr(MWs)*sqr(MWs - MZs)) + (sqr(MHs)*sqr(MZs) + 2*MHs*(88*MZs*sqr(MWs) - 87*MWs*sqr(MZs) + 60*trip(MWs) - 2*trip(MZs)) + 4*MZs*(-176*MZs*sqr(MWs) + 174*MWs*sqr(MZs) - 120*trip(MWs) + 3*trip(MZs)))/(1536.*MWs*(MWs - MZs)*(-MHs + 4*MZs)) + (A0fin(MZs)*(MWs*(4*MWs - 3*MZs)*MZs*s*sqr(MHs) + MHs*(8*(2*MZs + 3*s)*powint(MWs,4) - s*powint(MZs,4) + (12*MZs + 37*s)*sqr(MWs)*sqr(MZs) - 12*MZs*(2*MZs + 7*s)*trip(MWs) + MWs*(-4*MZs + 3*s)*trip(MZs)) + 4*MZs*(-8*(2*MZs + 3*s)*powint(MWs,4) + s*powint(MZs,4) - 2*(6*MZs + 25*s)*sqr(MWs)*sqr(MZs) + 12*MZs*(2*MZs + 7*s)*trip(MWs) + 2*MWs*(2*MZs + 3*s)*trip(MZs))))/(1536.*(MHs - 4*MZs)*s*sqr(MWs)*sqr(MWs - MZs));
+      break;
+     case BQU:
+      res = (MZs*real(B0fin(s,MWs,MWs))*((-4*MWs + 2*MZs)*sqr(MTs) + MTs*(MZs*s - 2*MWs*(MZs + s) - 4*sqr(MWs)) + 4*(2*MWs + s)*sqr(MWs)))/(256.*MWs*(-MWs + MZs)*s) + (MZs*real(B0fin(s,MTs,MTs))*(-(MWs*(4*MWs - MZs)*(2*MWs + 3*s)) + 4*(MWs - MZs)*sqr(MTs) + 2*MTs*(-(MZs*s) + MWs*(MZs + s) + 2*sqr(MWs))))/(384.*MWs*(-MWs + MZs)*s) - ((2*MWs - MZs)*real(B0fin(MWs,MHs,MWs))*(-4*MHs*MWs + sqr(MHs) + 12*sqr(MWs))*sqr(MZs))/(1536.*sqr(MWs)*sqr(MWs - MZs)) + (MZs*(2*MZs + 3*s)*real(B0fin(s,0,0))*(-2*MWs*MZs + 4*sqr(MWs) + sqr(MZs)))/(768.*MWs*(-MWs + MZs)*s) + ((2*MWs - MZs)*(4*MWs - MZs)*MZs*real(B0fin(MWs,MZs,MWs))*(20*MWs*MZs + 12*sqr(MWs) + sqr(MZs)))/(1536.*sqr(MWs)*sqr(MWs - MZs)) + (MZs*real(C0(s,0,0,0,0,MZs))*(-2*MWs*MZs + 4*sqr(MWs) + sqr(MZs))*sqr(MZs + s))/(384.*MWs*(-MWs + MZs)*s) + (MZs*(2*MWs + MZs)*A0fin(MTs)*(-6*MTs*MWs*(MWs + s) + s*sqr(MTs) + 4*(MWs + 2*s)*sqr(MWs) + 2*trip(MTs)))/(768.*MWs*(-MWs + MZs)*s*sqr(MTs - MWs)) + (MZs*real(C0(s,0,0,MTs,MTs,MWs))*((-6*MWs*MZs - 4*MWs*s + MZs*s)*sqr(MTs) + 4*MTs*MWs*(2*MWs*s + MZs*s + 3*sqr(MWs)) - 2*MWs*(4*MWs - MZs)*sqr(MWs + s) - 4*(MWs - MZs)*trip(MTs)))/(384.*MWs*(-MWs + MZs)*s) + (MZs*real(C0(0,s,0,MTs,MWs,MWs))*((MZs*s - 2*MWs*(MZs + s))*sqr(MTs) + MTs*MWs*(-4*MZs*s + MWs*(MZs + 4*s) + 6*sqr(MWs)) + (-2*MWs + MZs)*trip(MTs) - 4*(MWs + 2*s)*trip(MWs)))/(128.*MWs*(-MWs + MZs)*s) - (real(B0fin(MZs,MWs,MWs))*(68*MZs*sqr(MWs) - 106*MWs*sqr(MZs) + 120*trip(MWs) + 17*trip(MZs)))/(1536.*sqr(MWs - MZs)) + (A0fin(MWs)*(120*powint(MWs,4) + powint(MZs,4) + (4*MWs*(MWs - MZs)*MZs*(2*MWs + MZs)*(MTs*MWs - 2*MWs*(MWs + 2*s) + sqr(MTs)))/((MTs - MWs)*s) + 84*MWs*MZs*sqr(MWs - MZs) + (4*MWs*MZs*(3*MTs*MWs + 2*sqr(MTs) - 2*sqr(MWs))*sqr(MWs - MZs))/sqr(MTs - MWs) - 2*MHs*MWs*sqr(MZs) + (6*MWs*(MWs - MZs)*(3*MTs*MWs + 2*sqr(MTs) - 2*sqr(MWs))*sqr(MZs))/sqr(MTs - MWs) + 94*sqr(MWs)*sqr(MZs) - 160*MZs*trip(MWs) + MHs*trip(MZs) - 38*MWs*trip(MZs)))/(1536.*sqr(MWs)*sqr(MWs - MZs)) + (MZs*A0fin(MHs)*((19*MWs - 4*MZs)*MZs*sqr(MHs) - 24*MHs*MWs*sqr(MZs) + (-4*MWs + MZs)*trip(MHs) + 24*MWs*trip(MZs)))/(1536.*MHs*(MHs - 4*MZs)*(MWs - MZs)*sqr(MWs)) + (MZs*real(B0fin(MZs,MHs,MZs))*(MZs*(-29*MWs + 21*MZs)*sqr(MHs) + 4*MHs*(22*MWs - 15*MZs)*sqr(MZs) + (4*MWs - 3*MZs)*trip(MHs) + 12*(-11*MWs + 7*MZs)*trip(MZs)))/(1536.*MWs*(MHs - 4*MZs)*sqr(MWs - MZs)) + (A0fin(MZs)*(MWs*(4*MWs - 3*MZs)*MZs*s*sqr(MHs) + MHs*(8*(2*MZs + 3*s)*powint(MWs,4) - s*powint(MZs,4) + (12*MZs + 37*s)*sqr(MWs)*sqr(MZs) - 12*MZs*(2*MZs + 7*s)*trip(MWs) + MWs*(-4*MZs + 3*s)*trip(MZs)) + 4*MZs*(-8*(2*MZs + 3*s)*powint(MWs,4) + s*powint(MZs,4) - 2*(6*MZs + 25*s)*sqr(MWs)*sqr(MZs) + 12*MZs*(2*MZs + 7*s)*trip(MWs) + 2*MWs*(2*MZs + 3*s)*trip(MZs))))/(1536.*(MHs - 4*MZs)*s*sqr(MWs)*sqr(MWs - MZs)) + ((MTs - MWs)*sqr(MHs)*sqr(MZs) + MHs*(-3*(6*MWs - 5*MZs)*MZs*sqr(MTs) + MTs*(206*MZs*sqr(MWs) - 183*MWs*sqr(MZs) + 120*trip(MWs) - 4*trip(MZs)) + 2*MWs*(-88*MZs*sqr(MWs) + 87*MWs*sqr(MZs) - 60*trip(MWs) + 2*trip(MZs))) + 4*MZs*(3*(6*MWs - 5*MZs)*MZs*sqr(MTs) + MWs*(176*MZs*sqr(MWs) - 174*MWs*sqr(MZs) + 120*trip(MWs) - 3*trip(MZs)) + MTs*(-206*MZs*sqr(MWs) + 183*MWs*sqr(MZs) - 120*trip(MWs) + 3*trip(MZs))))/(1536.*(MTs - MWs)*MWs*(MHs - 4*MZs)*(-MWs + MZs));
+      break;
+    }
+    break;
+  }
+  return(res*(8*pow(AL,1.5))/(sqrt(MWs)*sqrt(-MWs + MZs)*sqrt(Pi)));
+}
+
+// imag. part of bosonic one-loop Z vertex factor for k^2=s
+double iz1bs(int type, int form, double s, const inval& input)
+{
+  double MZs = sqr(input.get(MZ)),
+         MWs = sqr(input.get(MW)),
+         MHs = sqr(input.get(MH)),
+         MTs = sqr(input.get(MT)),
+         AL = input.get(al),
+         res;
+  switch(form) {
+   case VEC:
+    switch(type) {
+     case LEP:
+      res = (MZs*(MWs + 2*s)*imag(C0(0,s,0,0,MWs,MWs))*sqr(MWs))/(32.*(MWs - MZs)*s) + (imag(C0(s,0,0,0,0,MWs))*sqr(MZs)*sqr(MWs + s))/(64.*(MWs - MZs)*s) + (imag(B0fin(s,MWs,MWs))*(MWs*MZs*(16*MZs + 31*s) + (26*MZs - 36*s)*sqr(MWs) + 2*s*sqr(MZs) - 48*trip(MWs)))/(192.*(MWs - MZs)*s) + (imag(C0(s,0,0,0,0,MZs))*sqr(MZs + s)*(-36*MZs*sqr(MWs) + 30*MWs*sqr(MZs) + 16*trip(MWs) - 9*trip(MZs)))/(128.*MWs*(-MWs + MZs)*s) + (imag(B0fin(s,0,0))*(-4*MZs*(19*MZs + 27*s)*sqr(MWs) + 12*MWs*(5*MZs + 7*s)*sqr(MZs) + 16*(2*MZs + 3*s)*trip(MWs) - 9*(2*MZs + 3*s)*trip(MZs)))/(256.*MWs*(-MWs + MZs)*s);
+      break;
+     case NEU:
+      res = (MWs*MZs*(2*MWs + s)*imag(B0fin(s,MWs,MWs)))/(64.*(MWs - MZs)*s) + (MZs*(MWs + 2*s)*imag(C0(0,s,0,0,MWs,MWs))*sqr(MWs))/(32.*(-MWs + MZs)*s) + ((2*MWs - MZs)*MZs*imag(C0(s,0,0,0,0,MWs))*sqr(MWs + s))/(64.*(-MWs + MZs)*s) + (MZs*imag(B0fin(s,0,0))*(6*MWs*MZs*s + 4*(MZs - 3*s)*sqr(MWs) + (2*MZs + 3*s)*sqr(MZs) - 8*trip(MWs)))/(256.*MWs*(MWs - MZs)*s) + (imag(C0(s,0,0,0,0,MZs))*sqr(MZs + s)*trip(MZs))/(128.*MWs*(MWs - MZs)*s);
+      break;
+     case UQU:
+      res = (MZs*(MWs + 2*s)*imag(C0(0,s,0,0,MWs,MWs))*sqr(MWs))/(32.*(-MWs + MZs)*s) + (MZs*(2*MWs + MZs)*imag(C0(s,0,0,0,0,MWs))*sqr(MWs + s))/(192.*(-MWs + MZs)*s) + (imag(B0fin(s,MWs,MWs))*(-(MWs*MZs*(32*MZs + 59*s)) + (-46*MZs + 72*s)*sqr(MWs) - 4*s*sqr(MZs) + 96*trip(MWs)))/(576.*(MWs - MZs)*s) + (imag(C0(s,0,0,0,0,MZs))*sqr(MZs + s)*(-240*MZs*sqr(MWs) + 204*MWs*sqr(MZs) + 128*trip(MWs) - 65*trip(MZs)))/(3456.*MWs*(MWs - MZs)*s) + (imag(B0fin(s,0,0))*(-12*MZs*(43*MZs + 69*s)*sqr(MWs) + 6*MWs*(68*MZs + 93*s)*sqr(MZs) + 8*(23*MZs + 48*s)*trip(MWs) - 65*(2*MZs + 3*s)*trip(MZs)))/(6912.*MWs*(MWs - MZs)*s);
+      break;
+     case DQU:
+      res = (MZs*(MWs + 2*s)*imag(C0(0,s,0,0,MWs,MWs))*sqr(MWs))/(32.*(MWs - MZs)*s) + ((4*MWs - MZs)*imag(B0fin(s,0,0))*(4*MWs*MZs*(MZs + 15*s) + 4*(7*MZs - 3*s)*sqr(MWs) - 7*(2*MZs + 3*s)*sqr(MZs)))/(6912.*MWs*(MWs - MZs)*s) + ((4*MWs - MZs)*MZs*imag(C0(s,0,0,0,0,MWs))*sqr(MWs + s))/(192.*(MWs - MZs)*s) + (imag(B0fin(s,MWs,MWs))*(MWs*MZs*(16*MZs + 25*s) + 2*(7*MZs - 18*s)*sqr(MWs) + 2*s*sqr(MZs) - 48*trip(MWs)))/(576.*(MWs - MZs)*s) + (imag(C0(s,0,0,0,0,MZs))*sqr(MZs + s)*(-12*MZs*sqr(MWs) + 30*MWs*sqr(MZs) + 16*trip(MWs) - 7*trip(MZs)))/(3456.*MWs*(-MWs + MZs)*s);
+      break;
+     case BQU:
+      res = (MZs*imag(B0fin(s,MTs,MTs))*(MWs*(4*MWs - MZs)*(2*MWs + 3*s) - 4*(MWs - MZs)*sqr(MTs) - 2*MTs*(-(MZs*s) + MWs*(MZs + s) + 2*sqr(MWs))))/(384.*MWs*(MWs - MZs)*s) + (MZs*imag(C0(s,0,0,MTs,MTs,MWs))*((-6*MWs*MZs - 4*MWs*s + MZs*s)*sqr(MTs) + 4*MTs*MWs*(2*MWs*s + MZs*s + 3*sqr(MWs)) - 2*MWs*(4*MWs - MZs)*sqr(MWs + s) - 4*(MWs - MZs)*trip(MTs)))/(384.*MWs*(-MWs + MZs)*s) + (imag(B0fin(s,MWs,MWs))*(-192*powint(MWs,4) + 2*MWs*MZs*(4*MZs*s + 9*MTs*(MZs + s) + 18*sqr(MTs)) + 4*MZs*(9*MTs + 16*MZs + 25*s)*sqr(MWs) - 9*MTs*(2*MTs + s)*sqr(MZs) + 8*(7*MZs - 18*s)*trip(MWs)))/(2304.*MWs*(MWs - MZs)*s) + (MZs*imag(C0(0,s,0,MTs,MWs,MWs))*((MZs*s - 2*MWs*(MZs + s))*sqr(MTs) + MTs*MWs*(-4*MZs*s + MWs*(MZs + 4*s) + 6*sqr(MWs)) + (-2*MWs + MZs)*trip(MTs) - 4*(MWs + 2*s)*trip(MWs)))/(128.*MWs*(-MWs + MZs)*s) + ((2*MZs + 3*s)*imag(B0fin(s,0,0))*(-12*MZs*sqr(MWs) + 30*MWs*sqr(MZs) + 16*trip(MWs) - 7*trip(MZs)))/(6912.*MWs*(-MWs + MZs)*s) + (imag(C0(s,0,0,0,0,MZs))*sqr(MZs + s)*(-12*MZs*sqr(MWs) + 30*MWs*sqr(MZs) + 16*trip(MWs) - 7*trip(MZs)))/(3456.*MWs*(-MWs + MZs)*s);
+      break;
+    }
+    break;
+   case AXV:
+    switch(type) {
+     case LEP:
+      res = (MWs*MZs*(2*MWs + s)*imag(B0fin(s,MWs,MWs)))/(64.*(-MWs + MZs)*s) + (MZs*(MWs + 2*s)*imag(C0(0,s,0,0,MWs,MWs))*sqr(MWs))/(32.*(MWs - MZs)*s) + (MZs*imag(B0fin(s,0,0))*(-12*MWs*MZs*(3*MZs + 5*s) + 4*(5*MZs + 9*s)*sqr(MWs) + 7*(2*MZs + 3*s)*sqr(MZs)))/(256.*MWs*(-MWs + MZs)*s) + (imag(C0(s,0,0,0,0,MWs))*sqr(MZs)*sqr(MWs + s))/(64.*(MWs - MZs)*s) + (MZs*imag(C0(s,0,0,0,0,MZs))*(-18*MWs*MZs + 12*sqr(MWs) + 7*sqr(MZs))*sqr(MZs + s))/(128.*MWs*(-MWs + MZs)*s);
+      break;
+     case NEU:
+      res = (MWs*MZs*(2*MWs + s)*imag(B0fin(s,MWs,MWs)))/(64.*(MWs - MZs)*s) + (MZs*(MWs + 2*s)*imag(C0(0,s,0,0,MWs,MWs))*sqr(MWs))/(32.*(-MWs + MZs)*s) + ((2*MWs - MZs)*MZs*imag(C0(s,0,0,0,0,MWs))*sqr(MWs + s))/(64.*(-MWs + MZs)*s) + (MZs*imag(B0fin(s,0,0))*(6*MWs*MZs*s + 4*(MZs - 3*s)*sqr(MWs) + (2*MZs + 3*s)*sqr(MZs) - 8*trip(MWs)))/(256.*MWs*(MWs - MZs)*s) + (imag(C0(s,0,0,0,0,MZs))*sqr(MZs + s)*trip(MZs))/(128.*MWs*(MWs - MZs)*s);
+      break;
+     case UQU:
+      res = (MWs*MZs*(2*MWs + s)*imag(B0fin(s,MWs,MWs)))/(64.*(MWs - MZs)*s) + (MZs*(MWs + 2*s)*imag(C0(0,s,0,0,MWs,MWs))*sqr(MWs))/(32.*(-MWs + MZs)*s) + (MZs*(2*MWs + MZs)*imag(C0(s,0,0,0,0,MWs))*sqr(MWs + s))/(192.*(-MWs + MZs)*s) + (MZs*imag(C0(s,0,0,0,0,MZs))*(-20*MWs*MZs + 16*sqr(MWs) + 7*sqr(MZs))*sqr(MZs + s))/(384.*MWs*(MWs - MZs)*s) + (MZs*imag(B0fin(s,0,0))*(-2*MWs*MZs*(20*MZs + 33*s) + 4*(7*MZs + 9*s)*sqr(MWs) + 7*(2*MZs + 3*s)*sqr(MZs) - 8*trip(MWs)))/(768.*MWs*(MWs - MZs)*s);
+      break;
+     case DQU:
+      res = (MWs*MZs*(2*MWs + s)*imag(B0fin(s,MWs,MWs)))/(64.*(-MWs + MZs)*s) + (MZs*(MWs + 2*s)*imag(C0(0,s,0,0,MWs,MWs))*sqr(MWs))/(32.*(MWs - MZs)*s) + ((4*MWs - MZs)*MZs*imag(C0(s,0,0,0,0,MWs))*sqr(MWs + s))/(192.*(MWs - MZs)*s) + (MZs*imag(C0(s,0,0,0,0,MZs))*(-2*MWs*MZs + 4*sqr(MWs) + sqr(MZs))*sqr(MZs + s))/(384.*MWs*(-MWs + MZs)*s) + (MZs*imag(B0fin(s,0,0))*(-12*(MZs - s)*sqr(MWs) + 4*MWs*sqr(MZs) - (2*MZs + 3*s)*sqr(MZs) + 16*trip(MWs)))/(768.*MWs*(MWs - MZs)*s);
+      break;
+     case BQU:
+      res = (MZs*imag(B0fin(s,MWs,MWs))*((-4*MWs + 2*MZs)*sqr(MTs) + MTs*(MZs*s - 2*MWs*(MZs + s) - 4*sqr(MWs)) + 4*(2*MWs + s)*sqr(MWs)))/(256.*MWs*(-MWs + MZs)*s) + (MZs*imag(B0fin(s,MTs,MTs))*(MWs*(4*MWs - MZs)*(2*MWs + 3*s) - 4*(MWs - MZs)*sqr(MTs) - 2*MTs*(-(MZs*s) + MWs*(MZs + s) + 2*sqr(MWs))))/(384.*MWs*(MWs - MZs)*s) + (MZs*(2*MZs + 3*s)*imag(B0fin(s,0,0))*(-2*MWs*MZs + 4*sqr(MWs) + sqr(MZs)))/(768.*MWs*(-MWs + MZs)*s) + (MZs*imag(C0(s,0,0,0,0,MZs))*(-2*MWs*MZs + 4*sqr(MWs) + sqr(MZs))*sqr(MZs + s))/(384.*MWs*(-MWs + MZs)*s) + (MZs*imag(C0(s,0,0,MTs,MTs,MWs))*((-6*MWs*MZs - 4*MWs*s + MZs*s)*sqr(MTs) + 4*MTs*MWs*(2*MWs*s + MZs*s + 3*sqr(MWs)) - 2*MWs*(4*MWs - MZs)*sqr(MWs + s) - 4*(MWs - MZs)*trip(MTs)))/(384.*MWs*(-MWs + MZs)*s) + (MZs*imag(C0(0,s,0,MTs,MWs,MWs))*((MZs*s - 2*MWs*(MZs + s))*sqr(MTs) + MTs*MWs*(-4*MZs*s + MWs*(MZs + 4*s) + 6*sqr(MWs)) + (-2*MWs + MZs)*trip(MTs) - 4*(MWs + 2*s)*trip(MWs)))/(128.*MWs*(-MWs + MZs)*s);
+      break;
+    }
+    break;
+  }
+  return(res*(8*pow(AL,1.5))/(sqrt(MWs)*sqrt(-MWs + MZs)*sqrt(Pi)));
+}
+
+// real part of fermionic one-loop photon vertex factor for k^2=s
+double rg1fs(int type, int form, double s, const inval& input)
+{
+  double MZs = sqr(input.get(MZ)),
+         MWs = sqr(input.get(MW)),
+         MHs = sqr(input.get(MH)),
+         MTs = sqr(input.get(MT)),
+         AL = input.get(al),
+         res;
+  switch(form) {
+   case VEC:
+    switch(type) {
+     case LEP:
+      res = 0;
+      break;
+     case NEU:
+      res = 0;
+      break;
+     case UQU:
+      res = 0;
+      break;
+     case DQU:
+      res = 0;
+      break;
+     case BQU:
+      res = 0;
+      break;
+    }
+    break;
+   case AXV:
+    switch(type) {
+     case LEP:
+      res = 0;
+      break;
+     case NEU:
+      res = 0;
+      break;
+     case UQU:
+      res = 0;
+      break;
+     case DQU:
+      res = 0;
+      break;
+     case BQU:
+      res = 0;
+      break;
+    }
+    break;
+  }
+  return(res*1);
+}
+
+// imag. part of fermionic one-loop photon vertex factor for k^2=s
+double ig1fs(int type, int form, double s, const inval& input)
+{
+  double MZs = sqr(input.get(MZ)),
+         MWs = sqr(input.get(MW)),
+         MHs = sqr(input.get(MH)),
+         MTs = sqr(input.get(MT)),
+         AL = input.get(al),
+         res;
+  switch(form) {
+   case VEC:
+    switch(type) {
+     case LEP:
+      res = 0;
+      break;
+     case NEU:
+      res = 0;
+      break;
+     case UQU:
+      res = 0;
+      break;
+     case DQU:
+      res = 0;
+      break;
+     case BQU:
+      res = 0;
+      break;
+    }
+    break;
+   case AXV:
+    switch(type) {
+     case LEP:
+      res = 0;
+      break;
+     case NEU:
+      res = 0;
+      break;
+     case UQU:
+      res = 0;
+      break;
+     case DQU:
+      res = 0;
+      break;
+     case BQU:
+      res = 0;
+      break;
+    }
+    break;
+  }
+  return(res*1);
+}
+
+// real part of bosonic one-loop photon vertex factor for k^2=s
+double rg1bs(int type, int form, double s, const inval& input)
+{
+  double MZs = sqr(input.get(MZ)),
+         MWs = sqr(input.get(MW)),
+         MHs = sqr(input.get(MH)),
+         MTs = sqr(input.get(MT)),
+         AL = input.get(al),
+         res;
+  switch(form) {
+   case VEC:
+    switch(type) {
+     case LEP:
+      res = -(MZs*(2*MWs + s)*A0fin(MWs)*pow(AL,1.5))/(8.*MWs*(MWs - MZs)*s*sqrt(Pi)) + (MZs*(2*MWs + s)*pow(AL,1.5)*real(B0fin(s,MWs,MWs)))/(8.*(MWs - MZs)*s*sqrt(Pi)) + (MWs*MZs*(MWs + 2*s)*pow(AL,1.5)*real(C0(0,s,0,0,MWs,MWs)))/(4.*(-MWs + MZs)*s*sqrt(Pi)) + (pow(AL,1.5)*(-26*MWs*MZs + 8*sqr(MWs) + 5*sqr(MZs)))/(32.*MWs*(MWs - MZs)*sqrt(Pi)) - ((2*MZs + 3*s)*A0fin(MZs)*pow(AL,1.5)*(-12*MWs*MZs + 8*sqr(MWs) + 5*sqr(MZs)))/(16.*MWs*(MWs - MZs)*MZs*s*sqrt(Pi)) + ((2*MZs + 3*s)*pow(AL,1.5)*real(B0fin(s,0,0))*(-12*MWs*MZs + 8*sqr(MWs) + 5*sqr(MZs)))/(16.*MWs*(MWs - MZs)*s*sqrt(Pi)) + (pow(AL,1.5)*real(C0(s,0,0,0,0,MZs))*(-12*MWs*MZs + 8*sqr(MWs) + 5*sqr(MZs))*sqr(MZs + s))/(8.*MWs*(MWs - MZs)*s*sqrt(Pi));
+      break;
+     case NEU:
+      res = (MZs*pow(AL,1.5))/((2*MWs - 2*MZs)*sqrt(Pi)) + (MZs*A0fin(MWs)*pow(AL,1.5))/(4.*MWs*(-MWs + MZs)*sqrt(Pi)) + (MZs*(2*MWs + 3*s)*pow(AL,1.5)*real(B0fin(s,0,0)))/(8.*(MWs - MZs)*s*sqrt(Pi)) + (MZs*(2*MWs + s)*pow(AL,1.5)*real(B0fin(s,MWs,MWs)))/(8.*(-MWs + MZs)*s*sqrt(Pi)) + (MWs*MZs*(MWs + 2*s)*pow(AL,1.5)*real(C0(0,s,0,0,MWs,MWs)))/(4.*(MWs - MZs)*s*sqrt(Pi)) + (MZs*pow(AL,1.5)*real(C0(s,0,0,0,0,MWs))*sqr(MWs + s))/(4.*(MWs - MZs)*s*sqrt(Pi));
+      break;
+     case UQU:
+      res = (MZs*A0fin(MWs)*pow(AL,1.5))/((6*MWs*s - 6*MZs*s)*sqrt(Pi)) + (MZs*(2*MWs + s)*pow(AL,1.5)*real(B0fin(s,MWs,MWs)))/(8.*(-MWs + MZs)*s*sqrt(Pi)) + (MWs*MZs*(MWs + 2*s)*pow(AL,1.5)*real(C0(0,s,0,0,MWs,MWs)))/(4.*(MWs - MZs)*s*sqrt(Pi)) - (pow(AL,1.5)*(-238*MWs*MZs + 32*sqr(MWs) + 17*sqr(MZs)))/(432.*MWs*(MWs - MZs)*sqrt(Pi)) + ((2*MZs + 3*s)*A0fin(MZs)*pow(AL,1.5)*(-40*MWs*MZs + 32*sqr(MWs) + 17*sqr(MZs)))/(216.*MWs*(MWs - MZs)*MZs*s*sqrt(Pi)) + (pow(AL,1.5)*real(B0fin(s,0,0))*(-46*MWs*MZs - 96*MWs*s + 51*MZs*s + 34*sqr(MZs)))/(216.*MWs*s*sqrt(Pi)) + (MZs*pow(AL,1.5)*real(C0(s,0,0,0,0,MWs))*sqr(MWs + s))/(12.*(MWs - MZs)*s*sqrt(Pi)) - (pow(AL,1.5)*real(C0(s,0,0,0,0,MZs))*(-40*MWs*MZs + 32*sqr(MWs) + 17*sqr(MZs))*sqr(MZs + s))/(108.*MWs*(MWs - MZs)*s*sqrt(Pi));
+      break;
+     case DQU:
+      res = -(MZs*(2*MWs - 3*s)*A0fin(MWs)*pow(AL,1.5))/(24.*MWs*(MWs - MZs)*s*sqrt(Pi)) + (MZs*(2*MWs + s)*pow(AL,1.5)*real(B0fin(s,MWs,MWs)))/(8.*(MWs - MZs)*s*sqrt(Pi)) + (MWs*MZs*(MWs + 2*s)*pow(AL,1.5)*real(C0(0,s,0,0,MWs,MWs)))/(4.*(-MWs + MZs)*s*sqrt(Pi)) + (pow(AL,1.5)*(-418*MWs*MZs + 8*sqr(MWs) + 5*sqr(MZs)))/(864.*MWs*(MWs - MZs)*sqrt(Pi)) - ((2*MZs + 3*s)*A0fin(MZs)*pow(AL,1.5)*(-4*MWs*MZs + 8*sqr(MWs) + 5*sqr(MZs)))/(432.*MWs*(MWs - MZs)*MZs*s*sqrt(Pi)) - (pow(AL,1.5)*real(B0fin(s,0,0))*(8*MWs*MZs*(MZs + 15*s) + 8*(7*MZs - 3*s)*sqr(MWs) - 5*(2*MZs + 3*s)*sqr(MZs)))/(432.*MWs*(MWs - MZs)*s*sqrt(Pi)) - (MZs*pow(AL,1.5)*real(C0(s,0,0,0,0,MWs))*sqr(MWs + s))/(6.*(MWs - MZs)*s*sqrt(Pi)) + (pow(AL,1.5)*real(C0(s,0,0,0,0,MZs))*(-4*MWs*MZs + 8*sqr(MWs) + 5*sqr(MZs))*sqr(MZs + s))/(216.*MWs*(MWs - MZs)*s*sqrt(Pi));
+      break;
+     case BQU:
+      res = -(MZs*pow(AL,1.5)*real(B0fin(s,MWs,MWs))*(MTs*(2*MWs + s) - 2*MWs*(2*MWs + s) + 2*sqr(MTs)))/(16.*MWs*(MWs - MZs)*s*sqrt(Pi)) + (MZs*pow(AL,1.5)*real(B0fin(s,MTs,MTs))*(MTs*(2*MWs + s) - 2*MWs*(2*MWs + 3*s) + 2*sqr(MTs)))/(24.*MWs*(MWs - MZs)*s*sqrt(Pi)) - ((2*MZs + 3*s)*A0fin(MZs)*pow(AL,1.5)*(-4*MWs*MZs + 8*sqr(MWs) + 5*sqr(MZs)))/(432.*MWs*(MWs - MZs)*MZs*s*sqrt(Pi)) + ((2*MZs + 3*s)*pow(AL,1.5)*real(B0fin(s,0,0))*(-4*MWs*MZs + 8*sqr(MWs) + 5*sqr(MZs)))/(432.*MWs*(MWs - MZs)*s*sqrt(Pi)) + (pow(AL,1.5)*(81*MZs*sqr(MTs) + MTs*(283*MWs*MZs - 8*sqr(MWs) - 5*sqr(MZs)) + MWs*(-418*MWs*MZs + 8*sqr(MWs) + 5*sqr(MZs))))/(864.*MWs*(-MTs + MWs)*(MWs - MZs)*sqrt(Pi)) + (pow(AL,1.5)*real(C0(s,0,0,0,0,MZs))*(-4*MWs*MZs + 8*sqr(MWs) + 5*sqr(MZs))*sqr(MZs + s))/(216.*MWs*(MWs - MZs)*s*sqrt(Pi)) - (MZs*pow(AL,1.5)*real(C0(0,s,0,MTs,MWs,MWs))*(-(MTs*MWs*(3*MWs + 2*s)) + s*sqr(MTs) + 2*(MWs + 2*s)*sqr(MWs) + trip(MTs)))/(8.*MWs*(MWs - MZs)*s*sqrt(Pi)) - (MZs*pow(AL,1.5)*real(C0(s,0,0,MTs,MTs,MWs))*(-(MTs*MWs*(3*MWs + 2*s)) + s*sqr(MTs) + 2*MWs*sqr(MWs + s) + trip(MTs)))/(12.*MWs*(MWs - MZs)*s*sqrt(Pi)) - (MZs*A0fin(MWs)*pow(AL,1.5)*(MTs*MWs*(-6*MWs + 19*s) - 10*s*sqr(MTs) + 2*(2*MWs - 3*s)*sqr(MWs) + 2*trip(MTs)))/(48.*MWs*(MWs - MZs)*s*sqr(MTs - MWs)*sqrt(Pi)) + (MZs*A0fin(MTs)*pow(AL,1.5)*(-6*MTs*MWs*(MWs + s) + s*sqr(MTs) + 4*(MWs + 2*s)*sqr(MWs) + 2*trip(MTs)))/(48.*MWs*(MWs - MZs)*s*sqr(MTs - MWs)*sqrt(Pi));
+      break;
+    }
+    break;
+   case AXV:
+    switch(type) {
+     case LEP:
+      res = -(MZs*(10*MWs + 3*MZs)*pow(AL,1.5))/(32.*MWs*(MWs - MZs)*sqrt(Pi)) - (MZs*(2*MWs + s)*A0fin(MWs)*pow(AL,1.5))/(8.*MWs*(MWs - MZs)*s*sqrt(Pi)) - ((4*MWs - 3*MZs)*(2*MZs + 3*s)*A0fin(MZs)*pow(AL,1.5))/(16.*MWs*(MWs - MZs)*s*sqrt(Pi)) + ((4*MWs - 3*MZs)*MZs*(2*MZs + 3*s)*pow(AL,1.5)*real(B0fin(s,0,0)))/(16.*MWs*(MWs - MZs)*s*sqrt(Pi)) + (MZs*(2*MWs + s)*pow(AL,1.5)*real(B0fin(s,MWs,MWs)))/(8.*(MWs - MZs)*s*sqrt(Pi)) + (MWs*MZs*(MWs + 2*s)*pow(AL,1.5)*real(C0(0,s,0,0,MWs,MWs)))/(4.*(-MWs + MZs)*s*sqrt(Pi)) + ((4*MWs - 3*MZs)*MZs*pow(AL,1.5)*real(C0(s,0,0,0,0,MZs))*sqr(MZs + s))/(8.*MWs*(MWs - MZs)*s*sqrt(Pi));
+      break;
+     case NEU:
+      res = (MZs*pow(AL,1.5))/((2*MWs - 2*MZs)*sqrt(Pi)) + (MZs*A0fin(MWs)*pow(AL,1.5))/(4.*MWs*(-MWs + MZs)*sqrt(Pi)) + (MZs*(2*MWs + 3*s)*pow(AL,1.5)*real(B0fin(s,0,0)))/(8.*(MWs - MZs)*s*sqrt(Pi)) + (MZs*(2*MWs + s)*pow(AL,1.5)*real(B0fin(s,MWs,MWs)))/(8.*(-MWs + MZs)*s*sqrt(Pi)) + (MWs*MZs*(MWs + 2*s)*pow(AL,1.5)*real(C0(0,s,0,0,MWs,MWs)))/(4.*(MWs - MZs)*s*sqrt(Pi)) + (MZs*pow(AL,1.5)*real(C0(s,0,0,0,0,MWs))*sqr(MWs + s))/(4.*(MWs - MZs)*s*sqrt(Pi));
+      break;
+     case UQU:
+      res = (MZs*(58*MWs + 5*MZs)*pow(AL,1.5))/(144.*MWs*(MWs - MZs)*sqrt(Pi)) + (MZs*A0fin(MWs)*pow(AL,1.5))/((6*MWs*s - 6*MZs*s)*sqrt(Pi)) + ((8*MWs - 5*MZs)*(2*MZs + 3*s)*A0fin(MZs)*pow(AL,1.5))/(72.*MWs*(MWs - MZs)*s*sqrt(Pi)) + (MZs*(6*MWs - 5*(2*MZs + 3*s))*pow(AL,1.5)*real(B0fin(s,0,0)))/(72.*MWs*s*sqrt(Pi)) + (MZs*(2*MWs + s)*pow(AL,1.5)*real(B0fin(s,MWs,MWs)))/(8.*(-MWs + MZs)*s*sqrt(Pi)) + (MWs*MZs*(MWs + 2*s)*pow(AL,1.5)*real(C0(0,s,0,0,MWs,MWs)))/(4.*(MWs - MZs)*s*sqrt(Pi)) + (MZs*pow(AL,1.5)*real(C0(s,0,0,0,0,MWs))*sqr(MWs + s))/(12.*(MWs - MZs)*s*sqrt(Pi)) - ((8*MWs - 5*MZs)*MZs*pow(AL,1.5)*real(C0(s,0,0,0,0,MZs))*sqr(MZs + s))/(36.*MWs*(MWs - MZs)*s*sqrt(Pi));
+      break;
+     case DQU:
+      res = -(MZs*(134*MWs + MZs)*pow(AL,1.5))/(288.*MWs*(MWs - MZs)*sqrt(Pi)) - (MZs*(2*MWs - 3*s)*A0fin(MWs)*pow(AL,1.5))/(24.*MWs*(MWs - MZs)*s*sqrt(Pi)) - ((4*MWs - MZs)*(2*MZs + 3*s)*A0fin(MZs)*pow(AL,1.5))/(144.*MWs*(MWs - MZs)*s*sqrt(Pi)) + (MZs*(2*MWs + s)*pow(AL,1.5)*real(B0fin(s,MWs,MWs)))/(8.*(MWs - MZs)*s*sqrt(Pi)) + (MWs*MZs*(MWs + 2*s)*pow(AL,1.5)*real(C0(0,s,0,0,MWs,MWs)))/(4.*(-MWs + MZs)*s*sqrt(Pi)) - (MZs*pow(AL,1.5)*real(B0fin(s,0,0))*(-8*MWs*(MZs - 3*s) + MZs*(2*MZs + 3*s) + 24*sqr(MWs)))/(144.*MWs*(MWs - MZs)*s*sqrt(Pi)) - (MZs*pow(AL,1.5)*real(C0(s,0,0,0,0,MWs))*sqr(MWs + s))/(6.*(MWs - MZs)*s*sqrt(Pi)) + ((4*MWs - MZs)*MZs*pow(AL,1.5)*real(C0(s,0,0,0,0,MZs))*sqr(MZs + s))/(72.*MWs*(MWs - MZs)*s*sqrt(Pi));
+      break;
+     case BQU:
+      res = -((4*MWs - MZs)*(2*MZs + 3*s)*A0fin(MZs)*pow(AL,1.5))/(144.*MWs*(MWs - MZs)*s*sqrt(Pi)) + ((4*MWs - MZs)*MZs*(2*MZs + 3*s)*pow(AL,1.5)*real(B0fin(s,0,0)))/(144.*MWs*(MWs - MZs)*s*sqrt(Pi)) - (MZs*pow(AL,1.5)*real(B0fin(s,MWs,MWs))*(MTs*(2*MWs + s) - 2*MWs*(2*MWs + s) + 2*sqr(MTs)))/(16.*MWs*(MWs - MZs)*s*sqrt(Pi)) + (MZs*pow(AL,1.5)*real(B0fin(s,MTs,MTs))*(MTs*(2*MWs + s) - 2*MWs*(2*MWs + 3*s) + 2*sqr(MTs)))/(24.*MWs*(MWs - MZs)*s*sqrt(Pi)) + (MZs*pow(AL,1.5)*(MTs*(89*MWs + MZs) - MWs*(134*MWs + MZs) + 27*sqr(MTs)))/(288.*MWs*(-MTs + MWs)*(MWs - MZs)*sqrt(Pi)) + ((4*MWs - MZs)*MZs*pow(AL,1.5)*real(C0(s,0,0,0,0,MZs))*sqr(MZs + s))/(72.*MWs*(MWs - MZs)*s*sqrt(Pi)) - (MZs*pow(AL,1.5)*real(C0(0,s,0,MTs,MWs,MWs))*(-(MTs*MWs*(3*MWs + 2*s)) + s*sqr(MTs) + 2*(MWs + 2*s)*sqr(MWs) + trip(MTs)))/(8.*MWs*(MWs - MZs)*s*sqrt(Pi)) - (MZs*pow(AL,1.5)*real(C0(s,0,0,MTs,MTs,MWs))*(-(MTs*MWs*(3*MWs + 2*s)) + s*sqr(MTs) + 2*MWs*sqr(MWs + s) + trip(MTs)))/(12.*MWs*(MWs - MZs)*s*sqrt(Pi)) - (MZs*A0fin(MWs)*pow(AL,1.5)*(MTs*MWs*(-6*MWs + 19*s) - 10*s*sqr(MTs) + 2*(2*MWs - 3*s)*sqr(MWs) + 2*trip(MTs)))/(48.*MWs*(MWs - MZs)*s*sqr(MTs - MWs)*sqrt(Pi)) + (MZs*A0fin(MTs)*pow(AL,1.5)*(-6*MTs*MWs*(MWs + s) + s*sqr(MTs) + 4*(MWs + 2*s)*sqr(MWs) + 2*trip(MTs)))/(48.*MWs*(MWs - MZs)*s*sqr(MTs - MWs)*sqrt(Pi));
+      break;
+    }
+    break;
+  }
+  return(res*1);
+}
+
+// imag. part of bosonic one-loop photon vertex factor for k^2=s
+double ig1bs(int type, int form, double s, const inval& input)
+{
+  double MZs = sqr(input.get(MZ)),
+         MWs = sqr(input.get(MW)),
+         MHs = sqr(input.get(MH)),
+         MTs = sqr(input.get(MT)),
+         AL = input.get(al),
+         res;
+  switch(form) {
+   case VEC:
+    switch(type) {
+     case LEP:
+      res = (MZs*(2*MWs + s)*imag(B0fin(s,MWs,MWs))*pow(AL,1.5))/(8.*(MWs - MZs)*s*sqrt(Pi)) + (MWs*MZs*(MWs + 2*s)*imag(C0(0,s,0,0,MWs,MWs))*pow(AL,1.5))/(4.*(-MWs + MZs)*s*sqrt(Pi)) + ((2*MZs + 3*s)*imag(B0fin(s,0,0))*pow(AL,1.5)*(-12*MWs*MZs + 8*sqr(MWs) + 5*sqr(MZs)))/(16.*MWs*(MWs - MZs)*s*sqrt(Pi)) + (imag(C0(s,0,0,0,0,MZs))*pow(AL,1.5)*(-12*MWs*MZs + 8*sqr(MWs) + 5*sqr(MZs))*sqr(MZs + s))/(8.*MWs*(MWs - MZs)*s*sqrt(Pi));
+      break;
+     case NEU:
+      res = (MZs*(2*MWs + 3*s)*imag(B0fin(s,0,0))*pow(AL,1.5))/(8.*(MWs - MZs)*s*sqrt(Pi)) + (MZs*(2*MWs + s)*imag(B0fin(s,MWs,MWs))*pow(AL,1.5))/(8.*(-MWs + MZs)*s*sqrt(Pi)) + (MWs*MZs*(MWs + 2*s)*imag(C0(0,s,0,0,MWs,MWs))*pow(AL,1.5))/(4.*(MWs - MZs)*s*sqrt(Pi)) + (MZs*imag(C0(s,0,0,0,0,MWs))*pow(AL,1.5)*sqr(MWs + s))/(4.*(MWs - MZs)*s*sqrt(Pi));
+      break;
+     case UQU:
+      res = (MZs*(2*MWs + s)*imag(B0fin(s,MWs,MWs))*pow(AL,1.5))/(8.*(-MWs + MZs)*s*sqrt(Pi)) + (MWs*MZs*(MWs + 2*s)*imag(C0(0,s,0,0,MWs,MWs))*pow(AL,1.5))/(4.*(MWs - MZs)*s*sqrt(Pi)) + (imag(B0fin(s,0,0))*pow(AL,1.5)*(-46*MWs*MZs - 96*MWs*s + 51*MZs*s + 34*sqr(MZs)))/(216.*MWs*s*sqrt(Pi)) + (MZs*imag(C0(s,0,0,0,0,MWs))*pow(AL,1.5)*sqr(MWs + s))/(12.*(MWs - MZs)*s*sqrt(Pi)) - (imag(C0(s,0,0,0,0,MZs))*pow(AL,1.5)*(-40*MWs*MZs + 32*sqr(MWs) + 17*sqr(MZs))*sqr(MZs + s))/(108.*MWs*(MWs - MZs)*s*sqrt(Pi));
+      break;
+     case DQU:
+      res = (MZs*(2*MWs + s)*imag(B0fin(s,MWs,MWs))*pow(AL,1.5))/(8.*(MWs - MZs)*s*sqrt(Pi)) + (MWs*MZs*(MWs + 2*s)*imag(C0(0,s,0,0,MWs,MWs))*pow(AL,1.5))/(4.*(-MWs + MZs)*s*sqrt(Pi)) - (imag(B0fin(s,0,0))*pow(AL,1.5)*(8*MWs*MZs*(MZs + 15*s) + 8*(7*MZs - 3*s)*sqr(MWs) - 5*(2*MZs + 3*s)*sqr(MZs)))/(432.*MWs*(MWs - MZs)*s*sqrt(Pi)) - (MZs*imag(C0(s,0,0,0,0,MWs))*pow(AL,1.5)*sqr(MWs + s))/(6.*(MWs - MZs)*s*sqrt(Pi)) + (imag(C0(s,0,0,0,0,MZs))*pow(AL,1.5)*(-4*MWs*MZs + 8*sqr(MWs) + 5*sqr(MZs))*sqr(MZs + s))/(216.*MWs*(MWs - MZs)*s*sqrt(Pi));
+      break;
+     case BQU:
+      res = -(MZs*imag(B0fin(s,MWs,MWs))*pow(AL,1.5)*(MTs*(2*MWs + s) - 2*MWs*(2*MWs + s) + 2*sqr(MTs)))/(16.*MWs*(MWs - MZs)*s*sqrt(Pi)) + (MZs*imag(B0fin(s,MTs,MTs))*pow(AL,1.5)*(MTs*(2*MWs + s) - 2*MWs*(2*MWs + 3*s) + 2*sqr(MTs)))/(24.*MWs*(MWs - MZs)*s*sqrt(Pi)) + ((2*MZs + 3*s)*imag(B0fin(s,0,0))*pow(AL,1.5)*(-4*MWs*MZs + 8*sqr(MWs) + 5*sqr(MZs)))/(432.*MWs*(MWs - MZs)*s*sqrt(Pi)) + (imag(C0(s,0,0,0,0,MZs))*pow(AL,1.5)*(-4*MWs*MZs + 8*sqr(MWs) + 5*sqr(MZs))*sqr(MZs + s))/(216.*MWs*(MWs - MZs)*s*sqrt(Pi)) - (MZs*imag(C0(0,s,0,MTs,MWs,MWs))*pow(AL,1.5)*(-(MTs*MWs*(3*MWs + 2*s)) + s*sqr(MTs) + 2*(MWs + 2*s)*sqr(MWs) + trip(MTs)))/(8.*MWs*(MWs - MZs)*s*sqrt(Pi)) - (MZs*imag(C0(s,0,0,MTs,MTs,MWs))*pow(AL,1.5)*(-(MTs*MWs*(3*MWs + 2*s)) + s*sqr(MTs) + 2*MWs*sqr(MWs + s) + trip(MTs)))/(12.*MWs*(MWs - MZs)*s*sqrt(Pi));
+      break;
+    }
+    break;
+   case AXV:
+    switch(type) {
+     case LEP:
+      res = ((4*MWs - 3*MZs)*MZs*(2*MZs + 3*s)*imag(B0fin(s,0,0))*pow(AL,1.5))/(16.*MWs*(MWs - MZs)*s*sqrt(Pi)) + (MZs*(2*MWs + s)*imag(B0fin(s,MWs,MWs))*pow(AL,1.5))/(8.*(MWs - MZs)*s*sqrt(Pi)) + (MWs*MZs*(MWs + 2*s)*imag(C0(0,s,0,0,MWs,MWs))*pow(AL,1.5))/(4.*(-MWs + MZs)*s*sqrt(Pi)) + ((4*MWs - 3*MZs)*MZs*imag(C0(s,0,0,0,0,MZs))*pow(AL,1.5)*sqr(MZs + s))/(8.*MWs*(MWs - MZs)*s*sqrt(Pi));
+      break;
+     case NEU:
+      res = (MZs*(2*MWs + 3*s)*imag(B0fin(s,0,0))*pow(AL,1.5))/(8.*(MWs - MZs)*s*sqrt(Pi)) + (MZs*(2*MWs + s)*imag(B0fin(s,MWs,MWs))*pow(AL,1.5))/(8.*(-MWs + MZs)*s*sqrt(Pi)) + (MWs*MZs*(MWs + 2*s)*imag(C0(0,s,0,0,MWs,MWs))*pow(AL,1.5))/(4.*(MWs - MZs)*s*sqrt(Pi)) + (MZs*imag(C0(s,0,0,0,0,MWs))*pow(AL,1.5)*sqr(MWs + s))/(4.*(MWs - MZs)*s*sqrt(Pi));
+      break;
+     case UQU:
+      res = (MZs*(6*MWs - 5*(2*MZs + 3*s))*imag(B0fin(s,0,0))*pow(AL,1.5))/(72.*MWs*s*sqrt(Pi)) + (MZs*(2*MWs + s)*imag(B0fin(s,MWs,MWs))*pow(AL,1.5))/(8.*(-MWs + MZs)*s*sqrt(Pi)) + (MWs*MZs*(MWs + 2*s)*imag(C0(0,s,0,0,MWs,MWs))*pow(AL,1.5))/(4.*(MWs - MZs)*s*sqrt(Pi)) + (MZs*imag(C0(s,0,0,0,0,MWs))*pow(AL,1.5)*sqr(MWs + s))/(12.*(MWs - MZs)*s*sqrt(Pi)) - ((8*MWs - 5*MZs)*MZs*imag(C0(s,0,0,0,0,MZs))*pow(AL,1.5)*sqr(MZs + s))/(36.*MWs*(MWs - MZs)*s*sqrt(Pi));
+      break;
+     case DQU:
+      res = (MZs*(2*MWs + s)*imag(B0fin(s,MWs,MWs))*pow(AL,1.5))/(8.*(MWs - MZs)*s*sqrt(Pi)) + (MWs*MZs*(MWs + 2*s)*imag(C0(0,s,0,0,MWs,MWs))*pow(AL,1.5))/(4.*(-MWs + MZs)*s*sqrt(Pi)) - (MZs*imag(B0fin(s,0,0))*pow(AL,1.5)*(-8*MWs*(MZs - 3*s) + MZs*(2*MZs + 3*s) + 24*sqr(MWs)))/(144.*MWs*(MWs - MZs)*s*sqrt(Pi)) - (MZs*imag(C0(s,0,0,0,0,MWs))*pow(AL,1.5)*sqr(MWs + s))/(6.*(MWs - MZs)*s*sqrt(Pi)) + ((4*MWs - MZs)*MZs*imag(C0(s,0,0,0,0,MZs))*pow(AL,1.5)*sqr(MZs + s))/(72.*MWs*(MWs - MZs)*s*sqrt(Pi));
+      break;
+     case BQU:
+      res = ((4*MWs - MZs)*MZs*(2*MZs + 3*s)*imag(B0fin(s,0,0))*pow(AL,1.5))/(144.*MWs*(MWs - MZs)*s*sqrt(Pi)) - (MZs*imag(B0fin(s,MWs,MWs))*pow(AL,1.5)*(MTs*(2*MWs + s) - 2*MWs*(2*MWs + s) + 2*sqr(MTs)))/(16.*MWs*(MWs - MZs)*s*sqrt(Pi)) + (MZs*imag(B0fin(s,MTs,MTs))*pow(AL,1.5)*(MTs*(2*MWs + s) - 2*MWs*(2*MWs + 3*s) + 2*sqr(MTs)))/(24.*MWs*(MWs - MZs)*s*sqrt(Pi)) + ((4*MWs - MZs)*MZs*imag(C0(s,0,0,0,0,MZs))*pow(AL,1.5)*sqr(MZs + s))/(72.*MWs*(MWs - MZs)*s*sqrt(Pi)) - (MZs*imag(C0(0,s,0,MTs,MWs,MWs))*pow(AL,1.5)*(-(MTs*MWs*(3*MWs + 2*s)) + s*sqr(MTs) + 2*(MWs + 2*s)*sqr(MWs) + trip(MTs)))/(8.*MWs*(MWs - MZs)*s*sqrt(Pi)) - (MZs*imag(C0(s,0,0,MTs,MTs,MWs))*pow(AL,1.5)*(-(MTs*MWs*(3*MWs + 2*s)) + s*sqr(MTs) + 2*MWs*sqr(MWs + s) + trip(MTs)))/(12.*MWs*(MWs - MZs)*s*sqrt(Pi));
+      break;
+    }
+    break;
+  }
+  return(res*1);
+}
+

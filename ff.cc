@@ -11,6 +11,7 @@ one-loop self-energy, vertex and box form factors
 #include "oneloop.h"
 
 #include "ff1.in"
+#include "ffs1.in"
 
 
 //namespace loopt {
@@ -24,3 +25,4 @@ extern const double Qf[5];
 extern const double I3f[5];
 
 #include "box1.in"
+#include "boxs1.in"

@@ -36,6 +36,7 @@ protected:
   }
 public:
   using inval::inval;
+  SMval(void) : inval() {};
   SMval(const inval& copyfrom) : inval(copyfrom) {};
 };
 

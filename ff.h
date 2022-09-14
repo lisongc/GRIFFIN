@@ -64,6 +64,48 @@ double ig1b(int type, int form, const inval& input);
 
 // one-loop box diagrams for s=mz^2
 Cplx B1(int it, int ot, int if1, int of1, double s, double cost, const inval&
-input, int AA, int AZ);
+input, int AA, int AZ, double gzflag = 1);
 // contribution from gamma-Z box contributing to R
 double bRaz1(int it, int ot, double cost, const inval& input);
+
+
+// real part of fermionic one-loop Z self-energy for k^2=s
+double rsz1fs(double s, const inval& input);
+// imag. part of fermionic one-loop Z self-energy for k^2=s
+double isz1fs(double s, const inval& input);
+// real part of bosonic one-loop Z self-energy for k^2=s
+double rsz1bs(double s, const inval& input);
+// imag. part of bosonic one-loop Z self-energy for k^2=s
+double isz1bs(double s, const inval& input);
+// deriv. of real part of fermionic one-loop Z self-energy for k^2=s
+
+// real part of fermionic one-loop photon self-energy for k^2=s
+double rsg1fs(double s, const inval& input);
+// imag. part of fermionic one-loop photon self-energy for k^2=s
+double isg1fs(double s, const inval& input);
+// real part of bosonic one-loop photon self-energy for k^2=s
+double rsg1bs(double s, const inval& input);
+// imag. part of bosonic one-loop photon self-energy for k^2=s
+double isg1bs(double s, const inval& input);
+
+// real part of fermionic one-loop Z vertex factor for k^2=s
+double rz1fs(int type, int form, double s, const inval& input);
+// imag. part of fermionic one-loop Z vertex factor for k^2=s
+double iz1fs(int type, int form, double s, const inval& input);
+// real part of bosonic one-loop Z vertex factor for k^2=s
+double rz1bs(int type, int form, double s, const inval& input);
+// imag. part of bosonic one-loop Z vertex factor for k^2=s
+double iz1bs(int type, int form, double s, const inval& input);
+
+// real part of fermionic one-loop photon vertex factor for k^2=s
+double rg1fs(int type, int form, double s, const inval& input);
+// imag. part of fermionic one-loop photon vertex factor for k^2=s
+double ig1fs(int type, int form, double s, const inval& input);
+// real part of bosonic one-loop photon vertex factor for k^2=s
+double rg1bs(int type, int form, double s, const inval& input);
+// imag. part of bosonic one-loop photon vertex factor for k^2=s
+double ig1bs(int type, int form, double s, const inval& input);
+
+// one-loop box diagrams for arbitrary s
+Cplx B1s(int it, int ot, int if1, int of1, double s, double cost, const inval&
+input, int AA, int AZ);
