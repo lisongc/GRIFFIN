@@ -161,7 +161,10 @@ public:
   Cplx coeffR(void) const;  // see classes.cc for code
   Cplx coeffS(void) const;  // see classes.cc for code
   Cplx coeffSp(void) const; // see classes.cc for code
+  Cplx mateloffp1(void) const; //see classes.cc for code
+  Cplx mateloffp2(void) const;
   Cplx result(void) const;  // see classes.cc for code
+  Cplx result2(void) const;
 };
 
 

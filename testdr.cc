@@ -9,18 +9,23 @@ int main()
   static double mhlist[5] = {100, 200, 300, 600, 1000};
   int i;
   SMval myinput;	// properly convert masses for complex pole scheme
-  myinput.set(MZ, 91.1875);
-  myinput.set(MW, 80.426);
-  myinput.set(al, 1/137.03599976);
+  myinput.set(MZ, 91.1876);
+  myinput.set(MW, 80.358);
+  myinput.set(al, 1/137.035999084);
   myinput.set(als, 0.119);
   myinput.set(GamZ, 2.4952);
-  myinput.set(GamW, 2.139);
-  myinput.set(MT, 174.3);
+  myinput.set(GamW, 2.089);
+  myinput.set(MT, 173.2);
 //  myinput.set(MB, 4.7);
   myinput.set(MB, 2.87);	// MSbar mass at scale mu=MZ
-  myinput.set(Delal, 0.05907);
+  myinput.set(Delal, 0.05900);
   myinput.set(Gmu, 1.166379e-5);
   
+
+  dr_SMNNLO dr3f(myinput);
+  cout << "3lf"<< " " << dr3f.res3ff() << endl;
+
+
   dr_SMNLO dr1(myinput);
 /*  for(i=0; i<5; i++)
   {

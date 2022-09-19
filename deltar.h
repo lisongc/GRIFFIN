@@ -41,7 +41,7 @@ public:
   double res2bb(void) const;  // 2-loop ew. corr. without closed fermion loops   
   double res2aas(void) const;  // 2-loop mixed ew-QCD corrections
   double res3aas2(void) const; // 3-loop O(al*als^2) corrections
-// still to add: reducible 3-loop corrections from work with Lisong Chen
+  double res3ff(void) const;  // 3-loop ew. corr. with three closed fermion loops
   Cplx result(void) const
   {
     return(dr_SMNLO::result() + res2ff() + res2fb() + res2bb()

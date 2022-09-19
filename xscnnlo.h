@@ -11,11 +11,14 @@ public:
   Cplx coeffR(void) const;
   Cplx coeffS1f(void) const;  // 1-loop corrections to S with closed fermion loops
   Cplx coeffS1b(void) const;  // 1-loop corrections without closed fermion loops 
+  Cplx mateloffp1(void) const;
+  Cplx mateloffp2(void) const;
   Cplx coeffS(void) const
   {
     return(matel::coeffS()+coeffS1f()+coeffS1b());
   }
   Cplx result(void) const;
+  Cplx result2(void) const;
 };
 
 

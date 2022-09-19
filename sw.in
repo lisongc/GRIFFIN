@@ -5,6 +5,609 @@ double SW_SMNNLO::res2ff(void) const
          MTs = sqr(ival->get(MT)),
          AL = ival->get(al),
          deltaAlpha = ival->get(Delal);
-  return((1-MWs/MZs)*((AL*deltaAlpha*MTs)/(3*MWs*Pi - 3*MZs*Pi) + real(B0fin(MWs,0,0))*((-3*AL*deltaAlpha*MWs*MZs)/(4.*Pi*sqr(MWs - MZs)) + (MWs*(3*MTs*(4*MWs - MZs) + 4*(MWs - MZs)*MZs)*powint(MWs - MZs,-3)*sqr(AL))/(18.*sqr(Pi)) + (MWs*(20*MWs + MZs)*powint(MWs - MZs,-4)*real(B0fin(MZs,0,0))*sqr(AL)*sqr(MZs))/(16.*sqr(Pi)) + (3*powint(MWs - MZs,-4)*real(B0fin(MWs,MTs,0))*sqr(AL)*(MTs*MWs + sqr(MTs) - 2*sqr(MWs))*sqr(MZs))/(16.*sqr(Pi)) + (MWs*powint(MWs - MZs,-4)*real(B0fin(MZs,MTs,MTs))*sqr(AL)*(MTs*(-40*MWs*MZs + 32*sqr(MWs) - sqr(MZs)) + MZs*(-20*MWs*MZs + 16*sqr(MWs) + 13*sqr(MZs))))/(48.*sqr(Pi))) + real(B0fin(MZs,0,0))*((AL*deltaAlpha*MZs*(20*MWs + MZs))/(24.*Pi*sqr(MWs - MZs)) - ((20*MWs + MZs)*(3*MTs*(4*MWs - MZs) + 4*(MWs - MZs)*MZs)*powint(MWs - MZs,-3)*sqr(AL))/(324.*sqr(Pi)) - ((20*MWs + MZs)*powint(MWs - MZs,-4)*real(B0fin(MZs,MTs,MTs))*sqr(AL)*(MTs*(-40*MWs*MZs + 32*sqr(MWs) - sqr(MZs)) + MZs*(-20*MWs*MZs + 16*sqr(MWs) + 13*sqr(MZs))))/(864.*sqr(Pi))) + real(B0fin(MZs,MTs,MTs))*((AL*deltaAlpha*(8*MTs*MWs - 11*MTs*MZs + 4*MWs*MZs - sqr(MZs)))/(24.*Pi*sqr(MWs - MZs)) - (powint(MWs - MZs,-3)*sqr(AL)*(4*sqr(MZs)*(-5*MWs*MZs + 4*sqr(MWs) + sqr(MZs)) + 3*sqr(MTs)*(-116*MWs*MZs + 64*sqr(MWs) + 43*sqr(MZs)) + MTs*MZs*(-196*MWs*MZs + 128*sqr(MWs) + 95*sqr(MZs))))/(324.*MZs*sqr(Pi))) - (MTs*(3*MTs*(8*MWs - 5*MZs) + 8*(MWs - MZs)*MZs)*sqr(AL))/(81.*MZs*sqr(MWs - MZs)*sqr(Pi)) + (9*MWs*powint(MWs - MZs,-3)*sqr(AL)*sqr(MZs)*sqr(imag(B0fin(MWs,0,0))))/(16.*sqr(Pi)) - (9*powint(MWs - MZs,-4)*sqr(AL)*sqr(MWs)*sqr(MZs)*sqr(real(B0fin(MWs,0,0))))/(16.*sqr(Pi)) - (powint(MWs - MZs,-4)*sqr(AL)*sqr(MZs)*sqr(MTs*MWs + pow(MTs,2) - 2*pow(MWs,2))*sqr(real(B0fin(MWs,MTs,0))))/(64.*sqr(MWs)*sqr(Pi)) - (powint(MWs - MZs,-4)*sqr(AL)*sqr(MZs)*sqr(20*MWs + MZs)*sqr(real(B0fin(MZs,0,0))))/(576.*sqr(Pi)) + real(B0fin(MWs,MTs,0))*((AL*deltaAlpha*MZs*(MTs*MWs + sqr(MTs) - 2*sqr(MWs)))/(8.*MWs*Pi*sqr(MWs - MZs)) - ((3*MTs*(4*MWs - MZs) + 4*(MWs - MZs)*MZs)*powint(MWs - MZs,-3)*sqr(AL)*(MTs*MWs + sqr(MTs) - 2*sqr(MWs)))/(108.*MWs*sqr(Pi)) - ((20*MWs + MZs)*powint(MWs - MZs,-4)*real(B0fin(MZs,0,0))*sqr(AL)*(MTs*MWs + sqr(MTs) - 2*sqr(MWs))*sqr(MZs))/(96.*MWs*sqr(Pi)) + (powint(MWs - MZs,-4)*real(B0fin(MZs,MTs,MTs))*sqr(AL)*(2*MZs*sqr(MWs)*(-20*MWs*MZs + 16*sqr(MWs) + 13*sqr(MZs)) + (40*MWs*MZs - 32*sqr(MWs) + sqr(MZs))*trip(MTs) + sqr(MTs)*(24*MZs*sqr(MWs) + 21*MWs*sqr(MZs) - 32*trip(MWs) - 13*trip(MZs)) + MTs*MWs*(-96*MZs*sqr(MWs) + 18*MWs*sqr(MZs) + 64*trip(MWs) - 13*trip(MZs))))/(288.*MWs*sqr(Pi))) - (powint(MWs - MZs,-3)*sqr(AL)*sqr(imag(B0fin(MZs,0,0)))*(25600*powint(MWs,4) + 10609*powint(MZs,4) + 88560*sqr(MWs)*sqr(MZs) - 73600*MZs*trip(MWs) - 47200*MWs*trip(MZs)))/(5184.*MWs*sqr(Pi)) - (powint(MWs - MZs,-4)*sqr(AL)*sqr(A0fin(MTs))*(48*MWs*MZs*sqr(MTs)*(-5*MWs*MZs + 4*sqr(MWs) + sqr(MZs)) + 32*MTs*MWs*sqr(MWs - MZs)*(-10*MWs*MZs + 16*sqr(MWs) + 3*sqr(MZs)) + 256*MZs*sqr(MWs)*trip(MWs - MZs) + 27*trip(MTs)*trip(MZs)))/(1728.*MTs*MZs*sqr(MWs)*sqr(Pi)) + (powint(MWs - MZs,-4)*sqr(AL)*sqr(real(B0fin(MZs,MTs,MTs)))*(sqr(MZs)*(240*MZs*sqr(MWs) - 168*MWs*sqr(MZs) - 128*trip(MWs) + 29*trip(MZs)) + 2*MTs*MZs*(624*MZs*sqr(MWs) - 516*MWs*sqr(MZs) - 256*trip(MWs) + 175*trip(MZs)) + sqr(MTs)*(1536*MZs*sqr(MWs) - 1392*MWs*sqr(MZs) - 512*trip(MWs) + 341*trip(MZs))))/(1728.*MZs*sqr(Pi)) + A0fin(MTs)*(-(AL*deltaAlpha*(3*MTs*MZs - 8*MWs*MZs + 8*sqr(MWs)))/(24.*MWs*Pi*sqr(MWs - MZs)) - (powint(MWs - MZs,-4)*real(B0fin(MWs,0,0))*sqr(AL)*(16*MWs*MZs*sqr(MWs - MZs) + 9*sqr(MTs)*sqr(MZs) + 8*MTs*MWs*(-5*MWs*MZs + 4*sqr(MWs) + sqr(MZs))))/(48.*MTs*sqr(Pi)) + ((20*MWs + MZs)*powint(MWs - MZs,-4)*real(B0fin(MZs,0,0))*sqr(AL)*(16*MWs*MZs*sqr(MWs - MZs) + 9*sqr(MTs)*sqr(MZs) + 8*MTs*MWs*(-5*MWs*MZs + 4*sqr(MWs) + sqr(MZs))))/(864.*MTs*MWs*sqr(Pi)) + (powint(MWs - MZs,-4)*real(B0fin(MWs,MTs,0))*sqr(AL)*(MTs*MWs + sqr(MTs) - 2*sqr(MWs))*(16*MWs*MZs*sqr(MWs - MZs) + 9*sqr(MTs)*sqr(MZs) + 8*MTs*MWs*(-5*MWs*MZs + 4*sqr(MWs) + sqr(MZs))))/(288.*MTs*sqr(MWs)*sqr(Pi)) + (powint(MWs - MZs,-3)*sqr(AL)*(9*(4*MWs - MZs)*MZs*sqr(MTs) + 80*MWs*MZs*sqr(MWs - MZs) + 12*MTs*(-26*MZs*sqr(MWs) + 11*MWs*sqr(MZs) + 16*trip(MWs) - trip(MZs))))/(324.*MWs*MZs*sqr(Pi)) + (powint(MWs - MZs,-4)*real(B0fin(MZs,MTs,MTs))*sqr(AL)*(16*MWs*(4*MWs - MZs)*sqr(MWs - MZs)*sqr(MZs) - 3*MZs*(40*MWs*MZs - 32*sqr(MWs) + sqr(MZs))*trip(MTs) + 24*MTs*MWs*MZs*(-42*MZs*sqr(MWs) + 39*MWs*sqr(MZs) + 16*trip(MWs) - 13*trip(MZs)) + sqr(MTs)*(512*powint(MWs,4) + 39*powint(MZs,4) + 1320*sqr(MWs)*sqr(MZs) - 1440*MZs*trip(MWs) - 404*MWs*trip(MZs))))/(864.*MTs*MWs*MZs*sqr(Pi)))));
+  return((1-MWs/MZs)*((AL*deltaAlpha*MTs)/(3*MWs*Pi - 3*MZs*Pi) + real(B0fin(MWs,0,0))*((-3*AL*deltaAlpha*MWs*MZs)/(4.*Pi*sqr(MWs - MZs)) + (MWs*(3*MTs*(4*MWs - MZs) + 4*(MWs - MZs)*MZs)*powint(MWs - MZs,-3)*sqr(AL))/(18.*sqr(Pi)) + (MWs*(20*MWs + MZs)*powint(MWs - MZs,-4)*real(B0fin(MZs,0,0))*sqr(AL)*sqr(MZs))/(16.*sqr(Pi)) + (3*powint(MWs - MZs,-4)*real(B0fin(MWs,MTs,0))*sqr(AL)*(MTs*MWs + sqr(MTs) - 2*sqr(MWs))*sqr(MZs))/(16.*sqr(Pi)) + (MWs*powint(MWs - MZs,-4)*real(B0fin(MZs,MTs,MTs))*sqr(AL)*(MTs*(-40*MWs*MZs + 32*sqr(MWs) - sqr(MZs)) + MZs*(-20*MWs*MZs + 16*sqr(MWs) + 13*sqr(MZs))))/(48.*sqr(Pi))) + real(B0fin(MZs,0,0))*((AL*deltaAlpha*MZs*(20*MWs + MZs))/(24.*Pi*sqr(MWs - MZs)) 
+  - ((20*MWs + MZs)*(3*MTs*(4*MWs - MZs) + 4*(MWs - MZs)*MZs)*powint(MWs - MZs,-3)*sqr(AL))/(324.*sqr(Pi)) - ((20*MWs + MZs)*powint(MWs - MZs,-4)*real(B0fin(MZs,MTs,MTs))*sqr(AL)*(MTs*(-40*MWs*MZs + 32*sqr(MWs) - sqr(MZs)) + MZs*(-20*MWs*MZs + 16*sqr(MWs) + 13*sqr(MZs))))/(864.*sqr(Pi))) + real(B0fin(MZs,MTs,MTs))*((AL*deltaAlpha*(8*MTs*MWs - 11*MTs*MZs + 4*MWs*MZs - sqr(MZs)))/(24.*Pi*sqr(MWs - MZs)) - (powint(MWs - MZs,-3)*sqr(AL)*(4*sqr(MZs)*(-5*MWs*MZs + 4*sqr(MWs) + sqr(MZs)) + 3*sqr(MTs)*(-116*MWs*MZs + 64*sqr(MWs) + 43*sqr(MZs)) + MTs*MZs*(-196*MWs*MZs + 128*sqr(MWs) + 95*sqr(MZs))))/(324.*MZs*sqr(Pi))) - (MTs*(3*MTs*(8*MWs - 5*MZs) + 8*(MWs - MZs)*MZs)*sqr(AL))/(81.*MZs*sqr(MWs - MZs)*sqr(Pi)) + (9*MWs*powint(MWs - MZs,-3)*sqr(AL)*sqr(MZs)*sqr(imag(B0fin(MWs,0,0))))/(16.*sqr(Pi)) - (9*powint(MWs - MZs,-4)*sqr(AL)*sqr(MWs)*sqr(MZs)*sqr(real(B0fin(MWs,0,0))))/(16.*sqr(Pi)) - (powint(MWs - MZs,-4)*sqr(AL)*sqr(MZs)*sqr(MTs*MWs + pow(MTs,2) - 2*pow(MWs,2))*sqr(real(B0fin(MWs,MTs,0))))/(64.*sqr(MWs)*sqr(Pi)) - (powint(MWs - MZs,-4)*sqr(AL)*sqr(MZs)*sqr(20*MWs + MZs)*sqr(real(B0fin(MZs,0,0))))/(576.*sqr(Pi)) + real(B0fin(MWs,MTs,0))*((AL*deltaAlpha*MZs*(MTs*MWs + sqr(MTs) - 2*sqr(MWs)))/(8.*MWs*Pi*sqr(MWs - MZs)) - ((3*MTs*(4*MWs - MZs) + 4*(MWs - MZs)*MZs)*powint(MWs - MZs,-3)*sqr(AL)*(MTs*MWs + sqr(MTs) - 2*sqr(MWs)))/(108.*MWs*sqr(Pi)) - ((20*MWs + MZs)*powint(MWs - MZs,-4)*real(B0fin(MZs,0,0))*sqr(AL)*(MTs*MWs + sqr(MTs) - 2*sqr(MWs))*sqr(MZs))/(96.*MWs*sqr(Pi)) + (powint(MWs - MZs,-4)*real(B0fin(MZs,MTs,MTs))*sqr(AL)*(2*MZs*sqr(MWs)*(-20*MWs*MZs + 16*sqr(MWs) + 13*sqr(MZs)) + (40*MWs*MZs - 32*sqr(MWs) + sqr(MZs))*trip(MTs) + sqr(MTs)*(24*MZs*sqr(MWs) + 21*MWs*sqr(MZs) - 32*trip(MWs) - 13*trip(MZs)) + MTs*MWs*(-96*MZs*sqr(MWs) + 18*MWs*sqr(MZs) + 64*trip(MWs) - 13*trip(MZs))))/(288.*MWs*sqr(Pi))) - (powint(MWs - MZs,-3)*sqr(AL)*sqr(imag(B0fin(MZs,0,0)))*(25600*powint(MWs,4) + 10609*powint(MZs,4) + 88560*sqr(MWs)*sqr(MZs) - 73600*MZs*trip(MWs) - 47200*MWs*trip(MZs)))/(5184.*MWs*sqr(Pi)) - (powint(MWs - MZs,-4)*sqr(AL)*sqr(A0fin(MTs))*(48*MWs*MZs*sqr(MTs)*(-5*MWs*MZs + 4*sqr(MWs) 
+  + sqr(MZs)) + 32*MTs*MWs*sqr(MWs - MZs)*(-10*MWs*MZs + 16*sqr(MWs) + 3*sqr(MZs)) + 256*MZs*sqr(MWs)*trip(MWs - MZs) + 27*trip(MTs)*trip(MZs)))/(1728.*MTs*MZs*sqr(MWs)*sqr(Pi)) + (powint(MWs - MZs,-4)*sqr(AL)*sqr(real(B0fin(MZs,MTs,MTs)))*(sqr(MZs)*(240*MZs*sqr(MWs) - 168*MWs*sqr(MZs) - 128*trip(MWs) + 29*trip(MZs)) + 2*MTs*MZs*(624*MZs*sqr(MWs) - 516*MWs*sqr(MZs) - 256*trip(MWs) + 175*trip(MZs)) + sqr(MTs)*(1536*MZs*sqr(MWs) - 1392*MWs*sqr(MZs) - 512*trip(MWs) + 341*trip(MZs))))/(1728.*MZs*sqr(Pi)) + A0fin(MTs)*(-(AL*deltaAlpha*(3*MTs*MZs - 8*MWs*MZs + 8*sqr(MWs)))/(24.*MWs*Pi*sqr(MWs - MZs)) 
+  - (powint(MWs - MZs,-4)*real(B0fin(MWs,0,0))*sqr(AL)*(16*MWs*MZs*sqr(MWs - MZs) + 9*sqr(MTs)*sqr(MZs) + 8*MTs*MWs*(-5*MWs*MZs + 4*sqr(MWs) + sqr(MZs))))/(48.*MTs*sqr(Pi)) + ((20*MWs + MZs)*powint(MWs - MZs,-4)*real(B0fin(MZs,0,0))*sqr(AL)*(16*MWs*MZs*sqr(MWs - MZs) + 9*sqr(MTs)*sqr(MZs) + 8*MTs*MWs*(-5*MWs*MZs + 4*sqr(MWs) + sqr(MZs))))/(864.*MTs*MWs*sqr(Pi)) + (powint(MWs - MZs,-4)*real(B0fin(MWs,MTs,0))*sqr(AL)*(MTs*MWs + sqr(MTs) - 2*sqr(MWs))*(16*MWs*MZs*sqr(MWs - MZs) + 9*sqr(MTs)*sqr(MZs) + 8*MTs*MWs*(-5*MWs*MZs + 4*sqr(MWs) + sqr(MZs))))/(288.*MTs*sqr(MWs)*sqr(Pi)) + (powint(MWs - MZs,-3)*sqr(AL)*(9*(4*MWs - MZs)*MZs*sqr(MTs) + 80*MWs*MZs*sqr(MWs - MZs) + 12*MTs*(-26*MZs*sqr(MWs) + 11*MWs*sqr(MZs) + 16*trip(MWs) - trip(MZs))))/(324.*MWs*MZs*sqr(Pi)) 
+  + (powint(MWs - MZs,-4)*real(B0fin(MZs,MTs,MTs))*sqr(AL)*(16*MWs*(4*MWs - MZs)*sqr(MWs - MZs)*sqr(MZs) - 3*MZs*(40*MWs*MZs - 32*sqr(MWs) + sqr(MZs))*trip(MTs) + 24*MTs*MWs*MZs*(-42*MZs*sqr(MWs) + 39*MWs*sqr(MZs) + 16*trip(MWs) - 13*trip(MZs)) + sqr(MTs)*(512*powint(MWs,4) + 39*powint(MZs,4) + 1320*sqr(MWs)*sqr(MZs) - 1440*MZs*trip(MWs) - 404*MWs*trip(MZs))))/(864.*MTs*MWs*MZs*sqr(Pi)))));
 }
 
+double SW_SMNNLO ::res3ff(void) const
+{
+    double mw = ival-> get(MW),
+           mt = ival -> get(MT),
+           mz = ival -> get(MZ),
+           
+           mzs = sqr(ival->get(MZ)),
+           mws = sqr(ival->get(MW)),
+           mts = sqr(ival->get(MT)),
+           AL = ival->get(al),
+           deltaAlpha = ival->get(Delal);
+    return ((powint(mw,-4)*powint(-(mts) + mws,-1)*powint(mz,-6)*powint(mws - mzs,-3)*
+      powint(-4*(mts) + mzs,-2)*powint(Pi,-6)*
+      (2916*sqr(mws)*trip(mzs)*powint(-4*(mts) + mzs,2)*powint(imag(B0fin(mws,0,0)),2)*
+         (3456*deltaAlpha*(mts - mws)*mws*(mws - mzs)*
+            mzs*powint(Pi,2) + (8*sqr(mws)*mzs*
+               (32*mws + 49*mzs) + 
+              sqr(mts)*(-768*sqr(mws) + 192*mws*mzs + 27*powint(mz,4)) + 
+              mts*(768*trip(mws) - 448*sqr(mws)*mzs - 
+                 257*mws*powint(mz,4)))*powint(sqrt(4*AL*Pi),2))*powint(sqrt(4*AL*Pi),4) + 
+        (mts - mws)*powint(sqrt(4*AL*Pi),2)*
+         (mzs*powint(imag(B0fin(mzs,0,0)),2)*powint(sqrt(4*AL*Pi),2)*
+            (-3456*deltaAlpha*mws*mzs*
+               (25600*powint(mw,10) - 99200*powint(mw,8)*mzs + 
+                 162160*trip(mws)*powint(mz,4) - 135760*sqr(mws)*trip(mzs) + 
+                 57809*mws*powint(mz,8) - 10609*powint(mz,10))*powint(-4*(mts) + mzs,2)*
+               powint(Pi,2) + (mts*powint(mz,4)*
+                  (55705600*powint(mw,12) - 105267200*powint(mw,10)*mzs - 
+                    238023680*powint(mw,8)*powint(mz,4) + 758205440*trip(mws)*trip(mzs) - 
+                    817719808*sqr(mws)*powint(mz,8) + 416520464*mws*powint(mz,10) - 
+                    87174153*powint(mz,12)) + 
+                 12*trip(mts)*(1638400*powint(mw,12) - 24166400*powint(mw,10)*mzs + 
+                    75627520*powint(mw,8)*powint(mz,4) - 88568320*trip(mws)*trip(mzs) + 
+                    50987840*sqr(mws)*powint(mz,8) - 13938784*mws*powint(mz,10) + 
+                    1432215*powint(mz,12)) + 
+                 8*trip(mzs)*(-1024000*powint(mw,12) + 1894400*powint(mw,10)*mzs + 
+                    4106240*powint(mw,8)*powint(mz,4) - 12903680*trip(mws)*trip(mzs) + 
+                    13728232*sqr(mws)*powint(mz,8) - 6911918*mws*powint(mz,10) + 
+                    1432215*powint(mz,12)) + 
+                 2*sqr(mts)*mzs*
+                  (-55705600*powint(mw,12) + 153190400*powint(mw,10)*mzs + 
+                    52874240*powint(mw,8)*powint(mz,4) - 512391680*trip(mws)*trip(mzs) + 
+                    654255616*sqr(mws)*powint(mz,8) - 361315760*mws*powint(mz,10) + 
+                    79344711*powint(mz,12)))*powint(sqrt(4*AL*Pi),2)) + 
+           2048*mts*sqr(mws)*(mws - mzs)*powint(-4*(mts) + mzs,2)*
+            (5832*powint(deltaAlpha,2)*powint(mz,4)*powint(mws - mzs,2)*powint(Pi,4) - 
+              108*deltaAlpha*(mws - mzs)*mzs*
+               (3*mts*(8*mws - 5*mzs) + 
+                 8*(mws - mzs)*mzs)*powint(Pi,2)*powint(sqrt(4*AL*Pi),2) + 
+              (9*sqr(mts)*(32*sqr(mws) - 40*mws*mzs + 17*powint(mz,4)) + 
+                 24*mts*(8*sqr(mws)*mzs - 13*mws*powint(mz,4) + 
+                    5*trip(mzs)) + 32*powint(mz,4)*powint(mws - mzs,2))*powint(sqrt(4*AL*Pi),4))))
+      )/1.43327232e8 + (powint(mt,-4)*powint(mw,-6)*powint(mz,-6)*powint(mws - mzs,-5)*
+      (216*powint(mt,8)*mws*(8*sqr(mws) - 7*mws*mzs - powint(mz,4))*
+         trip(mzs) + 243*powint(mt,10)*powint(mz,10) + 
+        96*trip(mts)*mws*mzs*
+         (64*trip(mws) - 32*sqr(mws)*mzs + 22*mws*powint(mz,4) + 
+           9*trip(mzs))*powint(mws - mzs,2) + 
+        512*sqr(mts)*sqr(mws)*(32*trip(mws) - 40*sqr(mws)*mzs + 
+           29*mws*powint(mz,4) - 3*trip(mzs))*powint(mws - mzs,3) + 
+        4096*trip(mws)*powint(mz,4)*powint(mws - mzs,5) + 
+        512*mts*mzs*(32*sqr(mws) - 20*mws*mzs + 3*powint(mz,4))*
+         powint(mws*mw - mw*(mzs),4))*powint(Pi,-6)*powint(A0fin(mts),3)*powint(sqrt(4*AL*Pi),6))/
+    3.981312e6 + (27*trip(mws)*powint(mz,4)*powint(mws - mzs,-5)*powint(Pi,-6)*
+      powint(real(B0fin(mws,0,0)),3)*powint(sqrt(4*AL*Pi),6))/2048. - 
+   (powint(mw,-6)*powint(mts*mts + mts*(mws) - 2*(mws*mws),3)*powint(mz,4)*
+      powint(mws - mzs,-5)*powint(Pi,-6)*powint(real(B0fin(mws,0,mts)),3)*powint(sqrt(4*AL*Pi),6))/
+    16384. - (powint(mz,4)*powint(mws - mzs,-5)*powint(20*(mws) + mzs,3)*powint(Pi,-6)*
+      powint(real(B0fin(mzs,0,0)),3)*powint(sqrt(4*AL*Pi),6))/442368. + 
+   (powint(mz,-6)*(trip(mts)*(16384*powint(mw,10) - 75776*powint(mw,8)*mzs + 
+           134656*trip(mws)*powint(mz,4) - 116608*sqr(mws)*trip(mzs) + 
+           52376*mws*powint(mz,8) - 11275*powint(mz,10)) + 
+        3*sqr(mts)*mzs*(8192*powint(mw,10) - 34816*powint(mw,8)*mzs + 
+           59648*trip(mws)*powint(mz,4) - 52832*sqr(mws)*trip(mzs) + 
+           24052*mws*powint(mz,8) - 4001*powint(mz,10)) + 
+        3*mts*powint(mz,4)*(4096*powint(mw,10) - 15872*powint(mw,8)*mzs + 
+           25984*trip(mws)*powint(mz,4) - 22384*sqr(mws)*trip(mzs) + 
+           9824*mws*powint(mz,8) - 1891*powint(mz,10)) + 
+        trip(mzs)*(2048*powint(mw,10) - 7168*powint(mw,8)*mzs + 
+           11072*trip(mws)*powint(mz,4) - 8528*sqr(mws)*trip(mzs) + 
+           3244*mws*powint(mz,8) - 425*powint(mz,10)))*powint(-(mws) + mzs,-5)*
+      powint(Pi,-6)*powint(real(B0fin(mzs,mts,mts)),3)*powint(sqrt(4*AL*Pi),6))/3.981312e6 + 
+   (powint(mz,-6)*powint(mws - mzs,-4)*powint(Pi,-6)*powint(real(B0fin(mzs,mts,mts)),2)*
+      (108*deltaAlpha*(mws - mzs)*mzs*
+         (sqr(mts)*(512*trip(mws) - 1536*sqr(mws)*mzs + 
+              1392*mws*powint(mz,4) - 341*trip(mzs)) + 
+           powint(mz,4)*(128*trip(mws) - 240*sqr(mws)*mzs + 
+              168*mws*powint(mz,4) - 29*trip(mzs)) + 
+           2*mts*(256*trip(mws)*mzs - 624*sqr(mws)*powint(mz,4) + 
+              516*mws*trip(mzs) - 175*powint(mz,8)))*powint(Pi,2)*powint(sqrt(4*AL*Pi),4) - 
+        (8*trip(mzs)*(128*powint(mw,8) - 368*trip(mws)*mzs + 
+              408*sqr(mws)*powint(mz,4) - 197*mws*trip(mzs) + 29*powint(mz,8)) + 
+           9*trip(mts)*(2048*powint(mw,8) - 7168*trip(mws)*mzs + 
+              9024*sqr(mws)*powint(mz,4) - 5096*mws*trip(mzs) + 1273*powint(mz,8)) + 
+           mts*powint(mz,4)*(8704*powint(mw,8) - 26752*trip(mws)*mzs + 
+              33360*sqr(mws)*powint(mz,4) - 19120*mws*trip(mzs) + 4537*powint(mz,8)) + 
+           2*sqr(mts)*mzs*(11264*powint(mw,8) - 36992*trip(mws)*mzs + 
+              47136*sqr(mws)*powint(mz,4) - 27920*mws*trip(mzs) + 5783*powint(mz,8)))*
+         powint(sqrt(4*AL*Pi),6)))/1.492992e6 + 
+   (powint(mz,-6)*powint(-4*(mts) + mzs,-2)*powint(mws*mw - mw*(mzs),-4)*powint(Pi,-6)*
+      (-128*sqr(mws)*(-mws + mzs)*powint(-4*(mts) + mzs,2)*
+         powint(sqrt(4*AL*Pi),2)*(5832*powint(deltaAlpha,2)*powint(mz,4)*
+            (-4*mws*mzs + mts*(-8*mws + 11*mzs) + 
+              powint(mz,4))*powint(mws - mzs,2)*powint(Pi,4) + 
+           216*deltaAlpha*(mws - mzs)*mzs*
+            (3*sqr(mts)*(64*sqr(mws) - 116*mws*mzs + 43*powint(mz,4)) + 
+              mts*(128*sqr(mws)*mzs - 196*mws*powint(mz,4) + 
+                 95*trip(mzs)) + 4*(4*sqr(mws)*powint(mz,4) - 5*mws*trip(mzs) + 
+                 powint(mz,8)))*powint(Pi,2)*powint(sqrt(4*AL*Pi),2) + 
+           (-27*trip(mts)*(256*trip(mws) - 608*sqr(mws)*mzs + 
+                 472*mws*powint(mz,4) - 147*trip(mzs)) + 
+              16*mts*powint(mz,4)*
+               (-112*trip(mws) + 270*sqr(mws)*mzs - 231*mws*powint(mz,4) + 
+                 73*trip(mzs)) - 3*sqr(mts)*
+               (2176*trip(mws)*mzs - 5184*sqr(mws)*powint(mz,4) + 
+                 4452*mws*trip(mzs) - 1201*powint(mz,8)) + 
+              32*(-4*mws + mzs)*trip(mzs)*powint(mws - mzs,2))*
+            powint(sqrt(4*AL*Pi),4)) + 8748*trip(mws)*trip(mzs)*
+         (64*sqr(mws)*mzs - 80*mws*powint(mz,4) + 
+           mts*(128*sqr(mws) - 160*mws*mzs + 5*powint(mz,4)) + 
+           43*trip(mzs))*powint(-4*(mts) + mzs,2)*powint(imag(B0fin(mws,0,0)),2)*
+         powint(sqrt(4*AL*Pi),6) - 3*mzs*
+         (mws*trip(mzs)*(1638400*powint(mw,12) - 8294400*powint(mw,10)*mzs + 
+              17725440*powint(mw,8)*powint(mz,4) - 19879040*trip(mws)*trip(mzs) + 
+              12437856*sqr(mws)*powint(mz,8) - 4100880*mws*powint(mz,10) + 
+              579787*powint(mz,12)) + 2*trip(mts)*
+            (1638400*powint(mw,14) - 25804800*powint(mw,12)*mzs + 
+              101637120*powint(mw,10)*powint(mz,4) - 169264640*powint(mw,8)*trip(mzs) + 
+              141549120*trip(mws)*powint(mz,8) - 62259744*sqr(mws)*powint(mz,10) + 
+              12315607*mws*powint(mz,12) - 668367*powint(mz,14)) + 
+           6*sqr(mts)*mzs*(2457600*powint(mw,14) - 10854400*powint(mw,12)*mzs + 
+              18846720*powint(mw,10)*powint(mz,4) - 16258560*powint(mw,8)*trip(mzs) + 
+              8257952*trip(mws)*powint(mz,8) - 2865672*sqr(mws)*powint(mz,10) + 
+              1046583*mws*powint(mz,12) - 201571*powint(mz,14)) + 
+           3*mts*powint(mz,4)*(-3276800*powint(mw,14) + 16588800*powint(mw,12)*mzs - 
+              35220480*powint(mw,10)*powint(mz,4) + 39124480*powint(mw,8)*trip(mzs) - 
+              24626592*trip(mws)*powint(mz,8) + 8535120*sqr(mws)*powint(mz,10) - 
+              1541498*mws*powint(mz,12) + 95481*powint(mz,14)))*
+         powint(imag(B0fin(mzs,0,0)),2)*powint(sqrt(4*AL*Pi),6))*real(B0fin(mzs,mts,mts)))/7.1663616e7\
+    + real(B0fin(mzs,0,0))*((powint(mz,-4)*(20*mws + mzs)*
+         (2*mts*mzs*(1024*powint(mw,8) - 2560*trip(mws)*mzs + 
+              2688*sqr(mws)*powint(mz,4) - 1468*mws*trip(mzs) + 73*powint(mz,8)) + 
+           powint(mz,4)*(512*powint(mw,8) - 1280*trip(mws)*mzs + 
+              1776*sqr(mws)*powint(mz,4) - 1112*mws*trip(mzs) + 347*powint(mz,8)) + 
+           sqr(mts)*(2048*powint(mw,8) - 5120*trip(mws)*mzs + 
+              3648*sqr(mws)*powint(mz,4) - 1424*mws*trip(mzs) + 1091*powint(mz,8)))*
+         powint(-(mws) + mzs,-5)*powint(Pi,-6)*powint(real(B0fin(mzs,mts,mts)),2)*
+         powint(sqrt(4*AL*Pi),6))/3.981312e6 + 
+      (powint(mw,-2)*powint(mz,-4)*powint(mws - mzs,-4)*powint(Pi,-6)*
+         (-128*mws*(20*sqr(mws) - 19*mws*mzs - powint(mz,4))*
+            powint(sqrt(4*AL*Pi),2)*(5832*powint(deltaAlpha,2)*powint(mz,4)*powint(mws - mzs,2)*
+               powint(Pi,4) - 216*deltaAlpha*mzs*(-mws + mzs)*
+               (-4*mws*mzs + 3*mts*(-4*mws + mzs) + 
+                 4*powint(mz,4))*powint(Pi,2)*powint(sqrt(4*AL*Pi),2) + 
+              (9*sqr(mts)*(32*sqr(mws) - 16*mws*mzs + 11*powint(mz,4)) + 
+                 48*mts*(4*sqr(mws)*mzs - 5*mws*powint(mz,4) + 
+                    trip(mzs)) + 32*powint(mz,4)*powint(mws - mzs,2))*powint(sqrt(4*AL*Pi),4)) + 
+           26244*sqr(mws)*(80*mws - 17*mzs)*powint(mz,8)*
+            powint(imag(B0fin(mws,0,0)),2)*powint(sqrt(4*AL*Pi),6) + 
+           9*powint(mz,4)*(512000*powint(mw,10) - 1356800*powint(mw,8)*mzs + 
+              393600*trip(mws)*powint(mz,4) + 905440*sqr(mws)*trip(mzs) - 
+              925840*mws*powint(mz,8) + 221553*powint(mz,10))*powint(imag(B0fin(mzs,0,0)),2)*
+            powint(sqrt(4*AL*Pi),6)))/7.1663616e7 - 
+      ((20*mws + mzs)*powint(-(mws*mz) + mzs*mz,-4)*powint(Pi,-6)*
+         (-108*deltaAlpha*(mws - mzs)*mzs*
+            (16*sqr(mws)*mzs + 
+              mts*(32*sqr(mws) - 40*mws*mzs - powint(mz,4)) - 
+              20*mws*powint(mz,4) + 13*trip(mzs))*powint(Pi,2) + 
+           (3*sqr(mts)*(256*trip(mws) - 384*sqr(mws)*mzs + 
+                 144*mws*powint(mz,4) - 97*trip(mzs)) + 
+              8*powint(mz,4)*(16*trip(mws) - 36*sqr(mws)*mzs + 
+                 33*mws*powint(mz,4) - 13*trip(mzs)) + 
+              mts*(640*trip(mws)*mzs - 1152*sqr(mws)*powint(mz,4) + 
+                 852*mws*trip(mzs) - 97*powint(mz,8)))*powint(sqrt(4*AL*Pi),2))*
+         powint(sqrt(4*AL*Pi),4)*real(B0fin(mzs,mts,mts)))/746496.) + 
+   powint(real(B0fin(mws,0,0)),2)*(-(sqr(mws)*powint(mws - mzs,-4)*powint(Pi,-6)*
+          (108*deltaAlpha*mzs*(-mws + mzs)*powint(Pi,2) + 
+            (8*(mws - mzs)*mzs + 
+               3*mts*(8*mws + mzs))*powint(sqrt(4*AL*Pi),2))*
+          powint(sqrt(4*AL*Pi),4))/1536. - 
+      (27*mws*(sqr(mts) + mts*mws - 2*sqr(mws))*powint(mz,4)*
+         powint(mws - mzs,-5)*powint(Pi,-6)*powint(sqrt(4*AL*Pi),6)*real(B0fin(mws,0,mts)))/4096. - 
+      (9*sqr(mws)*(20*mws + mzs)*powint(mz,4)*powint(mws - mzs,-5)*
+         powint(Pi,-6)*powint(sqrt(4*AL*Pi),6)*real(B0fin(mzs,0,0)))/4096. + 
+      (sqr(mws)*(-32*sqr(mws)*mzs + 28*mws*powint(mz,4) + 
+           mts*(-64*sqr(mws) + 56*mws*mzs + 35*powint(mz,4)) - 
+           23*trip(mzs))*powint(mws - mzs,-5)*powint(Pi,-6)*powint(sqrt(4*AL*Pi),6)*
+         real(B0fin(mzs,mts,mts)))/4096.) + 
+   powint(real(B0fin(mws,0,mts)),2)*(-(powint(mts*mts + mts*(mws) - 2*(mws*mws),2)*
+          powint(mws*mw - mw*(mzs),-4)*powint(Pi,-6)*
+          (108*deltaAlpha*mzs*(-mws + mzs)*powint(Pi,2) + 
+            (8*(mws - mzs)*mzs + 
+               3*mts*(8*mws + mzs))*powint(sqrt(4*AL*Pi),2))*
+          powint(sqrt(4*AL*Pi),4))/55296. - 
+      (powint(mw,-4)*powint(mts*mts + mts*(mws) - 2*(mws*mws),2)*
+         (20*mws + mzs)*powint(mz,4)*powint(mws - mzs,-5)*powint(Pi,-6)*
+         powint(sqrt(4*AL*Pi),6)*real(B0fin(mzs,0,0)))/16384. - 
+      (powint(mw,-4)*powint(mts*mts + mts*(mws) - 2*(mws*mws),2)*
+         (32*sqr(mws)*mzs + mts*
+            (64*sqr(mws) - 56*mws*mzs - 35*powint(mz,4)) - 
+           28*mws*powint(mz,4) + 23*trip(mzs))*powint(mws - mzs,-5)*powint(Pi,-6)*
+         powint(sqrt(4*AL*Pi),6)*real(B0fin(mzs,mts,mts)))/147456.) + 
+   powint(real(B0fin(mzs,0,0)),2)*(-(powint(mws - mzs,-4)*powint(20*(mws) + mzs,2)*powint(Pi,-6)*
+          (108*deltaAlpha*mzs*(-mws + mzs)*powint(Pi,2) + 
+            (8*(mws - mzs)*mzs + 
+               3*mts*(8*mws + mzs))*powint(sqrt(4*AL*Pi),2))*
+          powint(sqrt(4*AL*Pi),4))/497664. - 
+      ((32*sqr(mws)*mzs + mts*
+            (64*sqr(mws) - 56*mws*mzs - 35*powint(mz,4)) - 
+           28*mws*powint(mz,4) + 23*trip(mzs))*powint(mws - mzs,-5)*
+         powint(20*(mws) + mzs,2)*powint(Pi,-6)*powint(sqrt(4*AL*Pi),6)*real(B0fin(mzs,mts,mts)))/
+       1.327104e6) + powint(A0fin(mts),2)*((powint(mt,-2)*powint(mz,-6)*powint(mws*mw - mw*(mzs),-4)*
+         powint(Pi,-6)*(108*deltaAlpha*(mws - mzs)*mzs*
+            (48*sqr(mts)*mws*mzs*
+               (4*sqr(mws) - 5*mws*mzs + powint(mz,4)) + 
+              27*trip(mts)*trip(mzs) + 256*sqr(mws)*mzs*powint(mws - mzs,3) + 
+              32*mts*(16*sqr(mws) - 10*mws*mzs + 3*powint(mz,4))*
+               powint(mws*mw - mw*(mzs),2))*powint(Pi,2)*powint(sqrt(4*AL*Pi),4) - 
+           (81*powint(mt,8)*(8*mws*trip(mzs) + powint(mz,8)) - 
+              72*trip(mts)*mzs*
+               (-64*powint(mw,8) + 96*trip(mws)*mzs - 54*sqr(mws)*powint(mz,4) + 
+                 19*mws*trip(mzs) + 3*powint(mz,8)) + 
+              256*mts*mws*mzs*
+               (64*sqr(mws) - 40*mws*mzs + 3*powint(mz,4))*powint(mws - mzs,3)\
+               + 3584*sqr(mws)*powint(mz,4)*powint(mws - mzs,4) + 
+              192*sqr(mts)*(96*trip(mws) - 120*sqr(mws)*mzs + 
+                 71*mws*powint(mz,4) - 5*trip(mzs))*powint(mws*mw - mw*(mzs),2))*
+            powint(sqrt(4*AL*Pi),6)))/1.492992e6 + 
+      (powint(mt,-4)*powint(mw,-2)*powint(mz,-4)*powint(mws - mzs,-5)*
+         (243*powint(mt,8)*powint(mz,8) + 144*trip(mts)*
+            (8*trip(mws)*powint(mz,4) - 7*sqr(mws)*trip(mzs) - mws*powint(mz,8)) + 
+           512*mts*sqr(mws)*(4*mws - mzs)*mzs*
+            powint(mws - mzs,3) + 512*sqr(mws)*powint(mz,4)*powint(mws - mzs,4) + 
+           64*sqr(mts)*(32*trip(mws) - 16*sqr(mws)*mzs + 
+              11*mws*powint(mz,4) + 9*trip(mzs))*powint(mws*mw - mw*(mzs),2))*
+         powint(Pi,-6)*powint(sqrt(4*AL*Pi),6)*real(B0fin(mws,0,0)))/221184. - 
+      (powint(mt,-4)*powint(mw,-6)*powint(mz,-4)*powint(mws - mzs,-5)*
+         (243*powint(mt,12)*powint(mz,8) + 
+           9*powint(mt,10)*(128*trip(mws)*powint(mz,4) - 112*sqr(mws)*trip(mzs) + 
+              11*mws*powint(mz,8)) + 
+           32*trip(mts)*sqr(mws)*(64*powint(mw,10) - 96*powint(mw,8)*mzs - 
+              130*trip(mws)*powint(mz,4) + 245*sqr(mws)*trip(mzs) - 
+              117*mws*powint(mz,8) + 34*powint(mz,10)) + 
+           2*powint(mt,8)*mws*(1024*powint(mw,10) - 2560*powint(mw,8)*mzs + 
+              2976*trip(mws)*powint(mz,4) - 1432*sqr(mws)*trip(mzs) - 
+              539*mws*powint(mz,8) + 288*powint(mz,10)) - 
+           128*sqr(mts)*sqr(mws)*(32*powint(mw,8) - 32*trip(mws)*mzs + 
+              27*sqr(mws)*powint(mz,4) + 13*mws*trip(mzs) - 4*powint(mz,8))*
+            powint(mws - mzs,2) - 512*mts*trip(mws)*mzs*
+            (8*sqr(mws) - 3*mws*mzs + powint(mz,4))*powint(mws - mzs,3) - 
+           1024*powint(mw,8)*powint(mz,4)*powint(mws - mzs,4))*powint(Pi,-6)*powint(sqrt(4*AL*Pi),6)*
+         real(B0fin(mws,0,mts)))/1.327104e6 - 
+      (powint(mt,-4)*powint(mw,-4)*powint(mz,-4)*(20*mws + mzs)*
+         powint(mws - mzs,-5)*(243*powint(mt,8)*powint(mz,8) + 
+           144*trip(mts)*(8*trip(mws)*powint(mz,4) - 7*sqr(mws)*trip(mzs) - 
+              mws*powint(mz,8)) + 
+           512*mts*sqr(mws)*(4*mws - mzs)*mzs*
+            powint(mws - mzs,3) + 512*sqr(mws)*powint(mz,4)*powint(mws - mzs,4) + 
+           64*sqr(mts)*(32*trip(mws) - 16*sqr(mws)*mzs + 
+              11*mws*powint(mz,4) + 9*trip(mzs))*powint(mws*mw - mw*(mzs),2))*
+         powint(Pi,-6)*powint(sqrt(4*AL*Pi),6)*real(B0fin(mzs,0,0)))/3.981312e6 - 
+      (powint(mt,-4)*powint(mw,-4)*powint(mz,-6)*powint(mws - mzs,-5)*
+         (-27*powint(mt,10)*(-64*sqr(mws) + 56*mws*mzs + 35*powint(mz,4))*
+            trip(mzs) + 3*powint(mt,8)*mzs*
+            (4096*powint(mw,10) - 10240*powint(mw,8)*mzs + 8448*trip(mws)*powint(mz,4) - 
+              3568*sqr(mws)*trip(mzs) + 1300*mws*powint(mz,8) + 207*powint(mz,10)) + 
+           48*trip(mts)*mws*(1024*powint(mw,12) - 4480*powint(mw,10)*mzs + 
+              8032*powint(mw,8)*powint(mz,4) - 7532*trip(mws)*trip(mzs) + 
+              3880*sqr(mws)*powint(mz,8) - 955*mws*powint(mz,10) + 31*powint(mz,12)) + 
+           64*sqr(mts)*mws*mzs*
+            (896*powint(mw,8) - 2208*trip(mws)*mzs + 1956*sqr(mws)*powint(mz,4) - 
+              575*mws*trip(mzs) + 39*powint(mz,8))*powint(mws - mzs,2) + 
+           512*mts*sqr(mws)*powint(mz,4)*
+            (40*sqr(mws) - 59*mws*mzs + 28*powint(mz,4))*powint(mws - mzs,3) - 
+           512*(-4*mws + mzs)*trip(mzs)*powint(mws*mw - mw*(mzs),4))*
+         powint(Pi,-6)*powint(sqrt(4*AL*Pi),6)*real(B0fin(mzs,mts,mts)))/3.981312e6) + 
+   real(B0fin(mws,0,0))*((9*powint(mw,-2)*powint(mts*mts + mts*(mws) - 2*(mws*mws),2)*
+         powint(mz,4)*powint(mws - mzs,-5)*powint(Pi,-6)*powint(real(B0fin(mws,0,mts)),2)*
+         powint(sqrt(4*AL*Pi),6))/8192. + (mws*powint(mz,4)*powint(mws - mzs,-5)*
+         powint(20*(mws) + mzs,2)*powint(Pi,-6)*powint(real(B0fin(mzs,0,0)),2)*
+         powint(sqrt(4*AL*Pi),6))/8192. - (mws*powint(mz,-4)*
+         (2*mts*mzs*(1024*powint(mw,8) - 2560*trip(mws)*mzs + 
+              2688*sqr(mws)*powint(mz,4) - 1468*mws*trip(mzs) + 73*powint(mz,8)) + 
+           powint(mz,4)*(512*powint(mw,8) - 1280*trip(mws)*mzs + 
+              1776*sqr(mws)*powint(mz,4) - 1112*mws*trip(mzs) + 347*powint(mz,8)) + 
+           sqr(mts)*(2048*powint(mw,8) - 5120*trip(mws)*mzs + 
+              3648*sqr(mws)*powint(mz,4) - 1424*mws*trip(mzs) + 1091*powint(mz,8)))*
+         powint(-(mws) + mzs,-5)*powint(Pi,-6)*powint(real(B0fin(mzs,mts,mts)),2)*
+         powint(sqrt(4*AL*Pi),6))/221184. + 
+      (powint(mw,-2)*powint(mz,-4)*powint(mws - mzs,-4)*powint(Pi,-6)*
+         (128*sqr(mws)*(mws - mzs)*powint(sqrt(4*AL*Pi),2)*
+            (5832*powint(deltaAlpha,2)*powint(mz,4)*powint(mws - mzs,2)*powint(Pi,4) - 
+              216*deltaAlpha*mzs*(-mws + mzs)*
+               (-4*mws*mzs + 3*mts*(-4*mws + mzs) + 
+                 4*powint(mz,4))*powint(Pi,2)*powint(sqrt(4*AL*Pi),2) + 
+              (9*sqr(mts)*(32*sqr(mws) - 16*mws*mzs + 11*powint(mz,4)) + 
+                 48*mts*(4*sqr(mws)*mzs - 5*mws*powint(mz,4) + 
+                    trip(mzs)) + 32*powint(mz,4)*powint(mws - mzs,2))*powint(sqrt(4*AL*Pi),4)) - 
+           26244*sqr(mws)*(4*mws - mzs)*powint(mz,8)*
+            powint(imag(B0fin(mws,0,0)),2)*powint(sqrt(4*AL*Pi),6) - 
+           9*powint(mz,4)*(25600*powint(mw,10) - 70400*powint(mw,8)*mzs + 
+              27680*trip(mws)*powint(mz,4) + 37040*sqr(mws)*trip(mzs) - 
+              42436*mws*powint(mz,8) + 10609*powint(mz,10))*powint(imag(B0fin(mzs,0,0)),2)*
+            powint(sqrt(4*AL*Pi),6)))/3.981312e6 + 
+      (mws*powint(-(mws*mz) + mzs*mz,-4)*powint(Pi,-6)*
+         (-108*deltaAlpha*(mws - mzs)*mzs*
+            (16*sqr(mws)*mzs + 
+              mts*(32*sqr(mws) - 40*mws*mzs - powint(mz,4)) - 
+              20*mws*powint(mz,4) + 13*trip(mzs))*powint(Pi,2) + 
+           (3*sqr(mts)*(256*trip(mws) - 384*sqr(mws)*mzs + 
+                 144*mws*powint(mz,4) - 97*trip(mzs)) + 
+              8*powint(mz,4)*(16*trip(mws) - 36*sqr(mws)*mzs + 
+                 33*mws*powint(mz,4) - 13*trip(mzs)) + 
+              mts*(640*trip(mws)*mzs - 1152*sqr(mws)*powint(mz,4) + 
+                 852*mws*trip(mzs) - 97*powint(mz,8)))*powint(sqrt(4*AL*Pi),2))*
+         powint(sqrt(4*AL*Pi),4)*real(B0fin(mzs,mts,mts)))/41472. + 
+      real(B0fin(mws,0,mts))*(((sqr(mts) + mts*mws - 2*sqr(mws))*
+            powint(mws - mzs,-4)*powint(Pi,-6)*
+            (108*deltaAlpha*mzs*(-mws + mzs)*powint(Pi,2) + 
+              (8*(mws - mzs)*mzs + 
+                 3*mts*(8*mws + mzs))*powint(sqrt(4*AL*Pi),2))*
+            powint(sqrt(4*AL*Pi),4))/4608. + 
+         (3*(sqr(mts) + mts*mws - 2*sqr(mws))*(20*mws + mzs)*
+            powint(mz,4)*powint(mws - mzs,-5)*powint(Pi,-6)*powint(sqrt(4*AL*Pi),6)*
+            real(B0fin(mzs,0,0)))/4096. + ((sqr(mts) + mts*mws - 2*sqr(mws))*
+            (32*sqr(mws)*mzs + 
+              mts*(64*sqr(mws) - 56*mws*mzs - 35*powint(mz,4)) - 
+              28*mws*powint(mz,4) + 23*trip(mzs))*powint(mws - mzs,-5)*powint(Pi,-6)*
+            powint(sqrt(4*AL*Pi),6)*real(B0fin(mzs,mts,mts)))/12288.) + 
+      real(B0fin(mzs,0,0))*((mws*(20*mws + mzs)*powint(mws - mzs,-4)*
+            powint(Pi,-6)*(108*deltaAlpha*mzs*(-mws + mzs)*powint(Pi,2) + 
+              (8*(mws - mzs)*mzs + 
+                 3*mts*(8*mws + mzs))*powint(sqrt(4*AL*Pi),2))*
+            powint(sqrt(4*AL*Pi),4))/13824. + 
+         (mws*(20*mws + mzs)*
+            (32*sqr(mws)*mzs + 
+              mts*(64*sqr(mws) - 56*mws*mzs - 35*powint(mz,4)) - 
+              28*mws*powint(mz,4) + 23*trip(mzs))*powint(mws - mzs,-5)*powint(Pi,-6)*
+            powint(sqrt(4*AL*Pi),6)*real(B0fin(mzs,mts,mts)))/36864.)) + 
+   real(B0fin(mws,0,mts))*(-(powint(mw,-2)*(sqr(mts) + mts*mws - 2*sqr(mws))*
+          powint(mz,4)*powint(mws - mzs,-5)*powint(20*(mws) + mzs,2)*powint(Pi,-6)*
+          powint(real(B0fin(mzs,0,0)),2)*powint(sqrt(4*AL*Pi),6))/49152. + 
+      (powint(mw,-2)*powint(mz,-4)*(powint(mt,8)*
+            (-2048*powint(mw,8) + 5120*trip(mws)*mzs - 3648*sqr(mws)*powint(mz,4) + 
+              1424*mws*trip(mzs) - 1091*powint(mz,8)) + 
+           2*sqr(mws)*powint(mz,4)*(512*powint(mw,8) - 1280*trip(mws)*mzs + 
+              1776*sqr(mws)*powint(mz,4) - 1112*mws*trip(mzs) + 347*powint(mz,8)) + 
+           mts*mws*mzs*
+            (4096*powint(mw,10) - 10752*powint(mw,8)*mzs + 12032*trip(mws)*powint(mz,4) - 
+              7648*sqr(mws)*trip(mzs) + 1404*mws*powint(mz,8) - 347*powint(mz,10)) + 
+           trip(mts)*(-2048*powint(mw,10) + 3072*powint(mw,8)*mzs + 
+              1472*trip(mws)*powint(mz,4) - 3952*sqr(mws)*trip(mzs) + 
+              1845*mws*powint(mz,8) - 146*powint(mz,10)) + 
+           sqr(mts)*(4096*powint(mw,12) - 12288*powint(mw,10)*mzs + 
+              11904*powint(mw,8)*powint(mz,4) - 6944*trip(mws)*trip(mzs) + 
+              3342*sqr(mws)*powint(mz,8) + 966*mws*powint(mz,10) - 347*powint(mz,12)))*
+         powint(mws - mzs,-5)*powint(Pi,-6)*powint(real(B0fin(mzs,mts,mts)),2)*
+         powint(sqrt(4*AL*Pi),6))/1.327104e6 + 
+      (powint(mw,-6)*powint(-(mts) + mws,-1)*powint(mz,-4)*powint(mws - mzs,-4)*powint(Pi,-6)*
+         ((mts + 2*mws)*powint(mts - mws,2)*powint(sqrt(4*AL*Pi),2)*
+            (-9*powint(mz,4)*(25600*powint(mw,10) - 70400*powint(mw,8)*mzs + 
+                 27680*trip(mws)*powint(mz,4) + 37040*sqr(mws)*trip(mzs) - 
+                 42436*mws*powint(mz,8) + 10609*powint(mz,10))*powint(imag(B0fin(mzs,0,0)),2)*
+               powint(sqrt(4*AL*Pi),4) + 128*sqr(mws)*(mws - mzs)*
+               (5832*powint(deltaAlpha,2)*powint(mz,4)*powint(mws - mzs,2)*powint(Pi,4) - 
+                 216*deltaAlpha*mzs*(-mws + mzs)*
+                  (-4*mws*mzs + 3*mts*(-4*mws + mzs) + 
+                    4*powint(mz,4))*powint(Pi,2)*powint(sqrt(4*AL*Pi),2) + 
+                 (9*sqr(mts)*(32*sqr(mws) - 16*mws*mzs + 11*powint(mz,4)) + 
+                    48*mts*(4*sqr(mws)*mzs - 5*mws*powint(mz,4) + 
+                       trip(mzs)) + 32*powint(mz,4)*powint(mws - mzs,2))*powint(sqrt(4*AL*Pi),4)))
+             - 26244*sqr(mws)*(-9*mts*trip(mws) + 8*powint(mw,8) + 
+              trip(mts)*(4*mws - mzs) - 2*trip(mws)*mzs)*powint(mz,8)*
+            powint(imag(B0fin(mws,0,0)),2)*powint(sqrt(4*AL*Pi),6)))/2.3887872e7 - 
+      (powint(mw,-2)*(sqr(mts) + mts*mws - 2*sqr(mws))*powint(mz,-4)*
+         powint(mws - mzs,-4)*powint(Pi,-6)*
+         (-108*deltaAlpha*(mws - mzs)*mzs*
+            (16*sqr(mws)*mzs + 
+              mts*(32*sqr(mws) - 40*mws*mzs - powint(mz,4)) - 
+              20*mws*powint(mz,4) + 13*trip(mzs))*powint(Pi,2) + 
+           (3*sqr(mts)*(256*trip(mws) - 384*sqr(mws)*mzs + 
+                 144*mws*powint(mz,4) - 97*trip(mzs)) + 
+              8*powint(mz,4)*(16*trip(mws) - 36*sqr(mws)*mzs + 
+                 33*mws*powint(mz,4) - 13*trip(mzs)) + 
+              mts*(640*trip(mws)*mzs - 1152*sqr(mws)*powint(mz,4) + 
+                 852*mws*trip(mzs) - 97*powint(mz,8)))*powint(sqrt(4*AL*Pi),2))*
+         powint(sqrt(4*AL*Pi),4)*real(B0fin(mzs,mts,mts)))/248832. + 
+      real(B0fin(mzs,0,0))*(-(powint(mw,-2)*(sqr(mts) + mts*mws - 2*sqr(mws))*
+             (20*mws + mzs)*powint(mws - mzs,-4)*powint(Pi,-6)*
+             (108*deltaAlpha*mzs*(-mws + mzs)*powint(Pi,2) + 
+               (8*(mws - mzs)*mzs + 
+                  3*mts*(8*mws + mzs))*powint(sqrt(4*AL*Pi),2))*
+             powint(sqrt(4*AL*Pi),4))/82944. - 
+         (powint(mw,-2)*(sqr(mts) + mts*mws - 2*sqr(mws))*
+            (20*mws + mzs)*
+            (32*sqr(mws)*mzs + 
+              mts*(64*sqr(mws) - 56*mws*mzs - 35*powint(mz,4)) - 
+              28*mws*powint(mz,4) + 23*trip(mzs))*powint(mws - mzs,-5)*powint(Pi,-6)*
+            powint(sqrt(4*AL*Pi),6)*real(B0fin(mzs,mts,mts)))/221184.)) + 
+   A0fin(mts)*((powint(mt,-2)*mws*powint(mws - mzs,-5)*
+         (27*sqr(mts)*powint(mz,4) + 8*mts*
+            (8*trip(mws) - 7*sqr(mws)*mzs - mws*powint(mz,4)) + 
+           32*mws*mzs*powint(mws - mzs,2))*powint(Pi,-6)*
+         powint(real(B0fin(mws,0,0)),2)*powint(sqrt(4*AL*Pi),6))/4096. + 
+      (powint(mt,-2)*powint(mw,-6)*powint(mts*mts + mts*(mws) - 2*(mws*mws),2)*
+         powint(mws - mzs,-5)*(27*sqr(mts)*powint(mz,4) + 
+           8*mts*(8*trip(mws) - 7*sqr(mws)*mzs - mws*powint(mz,4)) + 
+           32*mws*mzs*powint(mws - mzs,2))*powint(Pi,-6)*
+         powint(real(B0fin(mws,0,mts)),2)*powint(sqrt(4*AL*Pi),6))/147456. + 
+      (powint(mt,-2)*powint(mw,-2)*powint(mws - mzs,-5)*
+         (27*sqr(mts)*powint(mz,4) + 8*mts*
+            (8*trip(mws) - 7*sqr(mws)*mzs - mws*powint(mz,4)) + 
+           32*mws*mzs*powint(mws - mzs,2))*powint(20*(mws) + mzs,2)*
+         powint(Pi,-6)*powint(real(B0fin(mzs,0,0)),2)*powint(sqrt(4*AL*Pi),6))/1.327104e6 + 
+      (powint(mt,-2)*powint(mw,-2)*powint(mz,-6)*powint(mws - mzs,-5)*
+         (3*powint(mt,8)*mzs*(2048*powint(mw,8) - 5120*trip(mws)*mzs + 
+              3648*sqr(mws)*powint(mz,4) - 1424*mws*trip(mzs) + 1091*powint(mz,8)) + 
+           8*mts*mws*powint(mz,4)*
+            (3584*powint(mw,10) - 14848*powint(mw,8)*mzs + 25424*trip(mws)*powint(mz,4) - 
+              22376*sqr(mws)*trip(mzs) + 10195*mws*powint(mz,8) - 1979*powint(mz,10)) + 
+           6*trip(mts)*(8192*powint(mw,12) - 36864*powint(mw,10)*mzs + 
+              65792*powint(mw,8)*powint(mz,4) - 59040*trip(mws)*trip(mzs) + 
+              28164*sqr(mws)*powint(mz,8) - 6560*mws*powint(mz,10) + 73*powint(mz,12)) + 
+           sqr(mts)*mzs*(65536*powint(mw,12) - 284672*powint(mw,10)*mzs + 
+              503296*powint(mw,8)*powint(mz,4) - 453856*trip(mws)*trip(mzs) + 
+              207200*sqr(mws)*powint(mz,8) - 37816*mws*powint(mz,10) + 1041*powint(mz,12))\
+            + 32*(128*trip(mws) - 240*sqr(mws)*mzs + 168*mws*powint(mz,4) - 
+              29*trip(mzs))*trip(mzs)*powint(mws*mw - mw*(mzs),2))*powint(Pi,-6)*
+         powint(real(B0fin(mzs,mts,mts)),2)*powint(sqrt(4*AL*Pi),6))/3.981312e6 + 
+      (powint(mw,-6)*powint(mts - mws,-1)*powint(mz,-6)*powint(mws - mzs,-4)*
+         powint(-4*(mts*mt) + mt*(mzs),-2)*powint(Pi,-6)*
+         ((mts - mws)*powint(sqrt(4*AL*Pi),2)*
+            (-3*mzs*(144*powint(mt,8)*powint(mz,4)*
+                  (25600*powint(mw,10) - 70400*powint(mw,8)*mzs + 
+                    27680*trip(mws)*powint(mz,4) + 37040*sqr(mws)*trip(mzs) - 
+                    42436*mws*powint(mz,8) + 10609*powint(mz,10)) + 
+                 6*mts*mws*powint(mz,4)*
+                  (1638400*powint(mw,14) - 7884800*powint(mw,12)*mzs + 
+                    16317440*powint(mw,10)*powint(mz,4) - 18584960*powint(mw,8)*trip(mzs) + 
+                    12288896*trip(mws)*powint(mz,8) - 4582496*sqr(mws)*powint(mz,10) + 
+                    839347*mws*powint(mz,12) - 31827*powint(mz,14)) + 
+                 3*sqr(mts)*mzs*
+                  (-4915200*powint(mw,16) + 20070400*powint(mw,14)*mzs - 
+                    32983040*powint(mw,12)*powint(mz,4) + 29952000*powint(mw,10)*trip(mzs) - 
+                    17127744*powint(mw,8)*powint(mz,8) + 6407408*trip(mws)*powint(mz,10) - 
+                    1492590*sqr(mws)*powint(mz,12) + 21218*mws*powint(mz,14) + 
+                    31827*powint(mz,16)) - 
+                 2*trip(mts)*(1638400*powint(mw,16) - 25804800*powint(mw,14)*mzs + 
+                    99793920*powint(mw,12)*powint(mz,4) - 163274240*powint(mw,10)*trip(mzs) + 
+                    137021760*powint(mw,8)*powint(mz,8) - 63930144*trip(mws)*powint(mz,10) + 
+                    16704439*sqr(mws)*powint(mz,12) - 2959911*mws*powint(mz,14) + 
+                    381924*powint(mz,16)) - 
+                 64*sqr(mws)*trip(mzs)*
+                  (25600*powint(mw,8) - 73600*trip(mws)*mzs + 
+                    88560*sqr(mws)*powint(mz,4) - 47200*mws*trip(mzs) + 
+                    10609*powint(mz,8))*powint(mws - mzs,2))*powint(imag(B0fin(mzs,0,0)),2)*
+               powint(sqrt(4*AL*Pi),4) + 128*mts*sqr(mws)*(mws - mzs)*
+               powint(-4*(mts) + mzs,2)*
+               (5832*powint(deltaAlpha,2)*(8*sqr(mws) + 3*mts*mzs - 
+                    8*mws*mzs)*powint(mz,4)*powint(mws - mzs,2)*powint(Pi,4) + 
+                 216*deltaAlpha*mzs*(-mws + mzs)*
+                  (9*sqr(mts)*(4*mws*mzs - powint(mz,4)) + 
+                    12*mts*(16*trip(mws) - 26*sqr(mws)*mzs + 
+                       11*mws*powint(mz,4) - trip(mzs)) + 
+                    80*mws*mzs*powint(mws - mzs,2))*powint(Pi,2)*
+                  powint(sqrt(4*AL*Pi),2) + 
+                 (27*trip(mts)*(32*sqr(mws)*mzs - 16*mws*powint(mz,4) + 
+                       11*trip(mzs)) + 72*sqr(mts)*
+                     (96*powint(mw,8) - 216*trip(mws)*mzs + 179*sqr(mws)*powint(mz,4) - 
+                       61*mws*trip(mzs) + 2*powint(mz,8)) + 
+                    1024*mws*powint(mz,4)*powint(mws - mzs,3) + 
+                    96*mts*(56*sqr(mws) - 35*mws*mzs + powint(mz,4))*
+                     powint(-(mws*mz) + mzs*mz,2))*powint(sqrt(4*AL*Pi),4))) - 
+           8748*sqr(mws)*trip(mzs)*(sqr(mts)*
+               (128*powint(mw,8) - 160*trip(mws)*mzs + 5*sqr(mws)*powint(mz,4)) - 
+              2*mts*sqr(mws)*(64*trip(mws) - 112*sqr(mws)*mzs + 
+                 71*mws*powint(mz,4) - 23*trip(mzs)) + 
+              9*trip(mts)*(4*mws*powint(mz,4) - trip(mzs)) - 
+              64*trip(mws)*mzs*powint(mws - mzs,2))*powint(-4*(mts) + mzs,2)*
+            powint(imag(B0fin(mws,0,0)),2)*powint(sqrt(4*AL*Pi),6)))/7.1663616e7 + 
+      (powint(mt,-2)*powint(mw,-2)*powint(mz,-6)*powint(mws - mzs,-4)*powint(Pi,-6)*
+         (-108*deltaAlpha*(mws - mzs)*mzs*
+            (3*trip(mts)*(32*sqr(mws)*mzs - 40*mws*powint(mz,4) - 
+                 trip(mzs)) + sqr(mts)*
+               (512*powint(mw,8) - 1440*trip(mws)*mzs + 1320*sqr(mws)*powint(mz,4) - 
+                 404*mws*trip(mzs) + 39*powint(mz,8)) + 
+              24*mts*(16*powint(mw,8)*mzs - 42*trip(mws)*powint(mz,4) + 
+                 39*sqr(mws)*trip(mzs) - 13*mws*powint(mz,8)) - 
+              16*(-4*mws + mzs)*powint(mz,4)*powint(mws*mw - mw*(mzs),2))*
+            powint(Pi,2)*powint(sqrt(4*AL*Pi),4) + 
+           (9*powint(mt,8)*(256*trip(mws)*mzs - 384*sqr(mws)*powint(mz,4) + 
+                 144*mws*trip(mzs) - 97*powint(mz,8)) + 
+              3*trip(mts)*(6144*powint(mw,10) - 20736*powint(mw,8)*mzs + 
+                 26560*trip(mws)*powint(mz,4) - 16008*sqr(mws)*trip(mzs) + 
+                 4380*mws*powint(mz,8) - 97*powint(mz,10)) + 
+              8*sqr(mts)*mzs*(2432*powint(mw,10) - 8336*powint(mw,8)*mzs + 
+                 11040*trip(mws)*powint(mz,4) - 6569*sqr(mws)*trip(mzs) + 
+                 1472*mws*powint(mz,8) - 39*powint(mz,10)) + 
+              128*mws*(4*mws - mzs)*trip(mzs)*powint(mws - mzs,3) + 
+              96*mts*powint(mz,4)*
+               (64*sqr(mws) - 92*mws*mzs + 43*powint(mz,4))*
+               powint(mws*mw - mw*(mzs),2))*powint(sqrt(4*AL*Pi),6))*real(B0fin(mzs,mts,mts)))/
+       746496. + real(B0fin(mws,0,mts))*((powint(mt,-2)*powint(mw,-4)*
+            (sqr(mts) + mts*mws - 2*sqr(mws))*powint(mz,-4)*
+            powint(mws - mzs,-4)*powint(Pi,-6)*
+            (-108*deltaAlpha*(mws - mzs)*mzs*
+               (9*sqr(mts)*powint(mz,4) + 
+                 8*mts*mws*
+                  (4*sqr(mws) - 5*mws*mzs + powint(mz,4)) + 
+                 16*mws*mzs*powint(mws - mzs,2))*powint(Pi,2) + 
+              (27*trip(mts)*(8*mws*powint(mz,4) + trip(mzs)) + 
+                 24*sqr(mts)*(32*powint(mw,8) - 48*trip(mws)*mzs + 
+                    27*sqr(mws)*powint(mz,4) - 8*mws*trip(mzs) - 3*powint(mz,8)) + 
+                 160*mts*mws*(4*mws - mzs)*mzs*
+                  powint(mws - mzs,2) + 128*mws*powint(mz,4)*powint(mws - mzs,3))*
+               powint(sqrt(4*AL*Pi),2))*powint(sqrt(4*AL*Pi),4))/248832. + 
+         (powint(mt,-2)*powint(mw,-4)*(sqr(mts) + mts*mws - 2*sqr(mws))*
+            (20*mws + mzs)*powint(mws - mzs,-5)*
+            (27*sqr(mts)*powint(mz,4) + 
+              8*mts*(8*trip(mws) - 7*sqr(mws)*mzs - 
+                 mws*powint(mz,4)) + 32*mws*mzs*powint(mws - mzs,2))*
+            powint(Pi,-6)*powint(sqrt(4*AL*Pi),6)*real(B0fin(mzs,0,0)))/221184. + 
+         (powint(mt,-2)*powint(mw,-4)*powint(mz,-4)*powint(mws - mzs,-5)*
+            (9*powint(mt,10)*(64*sqr(mws)*powint(mz,4) - 56*mws*trip(mzs) - 
+                 35*powint(mz,8)) - 16*mts*sqr(mws)*mzs*
+               (256*powint(mw,10) - 768*powint(mw,8)*mzs + 920*trip(mws)*powint(mz,4) - 
+                 505*sqr(mws)*trip(mzs) + 123*mws*powint(mz,8) - 26*powint(mz,10)) + 
+              powint(mt,8)*(2048*powint(mw,10) - 5120*powint(mw,8)*mzs + 
+                 4800*trip(mws)*powint(mz,4) - 2144*sqr(mws)*trip(mzs) + 
+                 209*mws*powint(mz,8) + 207*powint(mz,10)) + 
+              trip(mts)*mws*(2048*powint(mw,10) - 3072*powint(mw,8)*mzs - 
+                 2816*trip(mws)*powint(mz,4) + 5896*sqr(mws)*trip(mzs) - 
+                 1782*mws*powint(mz,8) + 455*powint(mz,10)) - 
+              2*sqr(mts)*mws*(2048*powint(mw,12) - 6144*powint(mw,10)*mzs + 
+                 6912*powint(mw,8)*powint(mz,4) - 4072*trip(mws)*trip(mzs) + 
+                 888*sqr(mws)*powint(mz,8) + 819*mws*powint(mz,10) - 208*powint(mz,12)) - 
+              64*trip(mws)*powint(mz,4)*
+               (16*sqr(mws) - 20*mws*mzs + 13*powint(mz,4))*powint(mws - mzs,2)
+              )*powint(Pi,-6)*powint(sqrt(4*AL*Pi),6)*real(B0fin(mzs,mts,mts)))/663552.) + 
+      real(B0fin(mzs,0,0))*((powint(mt,-2)*powint(mw,-2)*powint(mz,-4)*(20*mws + mzs)*
+            powint(mws - mzs,-4)*powint(Pi,-6)*
+            (-108*deltaAlpha*(mws - mzs)*mzs*
+               (9*sqr(mts)*powint(mz,4) + 
+                 8*mts*mws*
+                  (4*sqr(mws) - 5*mws*mzs + powint(mz,4)) + 
+                 16*mws*mzs*powint(mws - mzs,2))*powint(Pi,2) + 
+              (27*trip(mts)*(8*mws*powint(mz,4) + trip(mzs)) + 
+                 24*sqr(mts)*(32*powint(mw,8) - 48*trip(mws)*mzs + 
+                    27*sqr(mws)*powint(mz,4) - 8*mws*trip(mzs) - 3*powint(mz,8)) + 
+                 160*mts*mws*(4*mws - mzs)*mzs*
+                  powint(mws - mzs,2) + 128*mws*powint(mz,4)*powint(mws - mzs,3))*
+               powint(sqrt(4*AL*Pi),2))*powint(sqrt(4*AL*Pi),4))/746496. + 
+         (powint(mt,-2)*powint(mw,-2)*powint(mz,-4)*(20*mws + mzs)*
+            powint(mws - mzs,-5)*(9*trip(mts)*
+               (64*sqr(mws)*powint(mz,4) - 56*mws*trip(mzs) - 35*powint(mz,8)) + 
+              8*mts*mws*mzs*
+               (256*powint(mw,8) - 736*trip(mws)*mzs + 816*sqr(mws)*powint(mz,4) - 
+                 367*mws*trip(mzs) + 31*powint(mz,8)) + 
+              sqr(mts)*(2048*powint(mw,10) - 5120*powint(mw,8)*mzs + 
+                 4224*trip(mws)*powint(mz,4) - 1640*sqr(mws)*trip(mzs) + 
+                 524*mws*powint(mz,8) + 207*powint(mz,10)) + 
+              32*powint(mz,4)*(16*sqr(mws) - 20*mws*mzs + 13*powint(mz,4))*
+               powint(mws*mw - mw*(mzs),2))*powint(Pi,-6)*powint(sqrt(4*AL*Pi),6)*
+            real(B0fin(mzs,mts,mts)))/1.990656e6) + 
+      real(B0fin(mws,0,0))*((powint(mt,-2)*powint(-(mws*mz) + mzs*mz,-4)*powint(Pi,-6)*
+            (108*deltaAlpha*(mws - mzs)*mzs*
+               (9*sqr(mts)*powint(mz,4) + 
+                 8*mts*mws*
+                  (4*sqr(mws) - 5*mws*mzs + powint(mz,4)) + 
+                 16*mws*mzs*powint(mws - mzs,2))*powint(Pi,2)*
+               powint(sqrt(4*AL*Pi),4) + (-27*trip(mts)*
+                  (8*mws*powint(mz,4) + trip(mzs)) - 
+                 24*sqr(mts)*(32*powint(mw,8) - 48*trip(mws)*mzs + 
+                    27*sqr(mws)*powint(mz,4) - 8*mws*trip(mzs) - 3*powint(mz,8)) - 
+                 160*mts*mws*(4*mws - mzs)*mzs*
+                  powint(mws - mzs,2) - 128*mws*powint(mz,4)*powint(mws - mzs,3))*
+               powint(sqrt(4*AL*Pi),6)))/41472. - 
+         (powint(mt,-2)*powint(mw,-2)*(sqr(mts) + mts*mws - 2*sqr(mws))*
+            powint(mws - mzs,-5)*(27*sqr(mts)*powint(mz,4) + 
+              8*mts*(8*trip(mws) - 7*sqr(mws)*mzs - 
+                 mws*powint(mz,4)) + 32*mws*mzs*powint(mws - mzs,2))*
+            powint(Pi,-6)*powint(sqrt(4*AL*Pi),6)*real(B0fin(mws,0,mts)))/12288. - 
+         (powint(mt,-2)*(20*mws + mzs)*powint(mws - mzs,-5)*
+            (27*sqr(mts)*powint(mz,4) + 
+              8*mts*(8*trip(mws) - 7*sqr(mws)*mzs - 
+                 mws*powint(mz,4)) + 32*mws*mzs*powint(mws - mzs,2))*
+            powint(Pi,-6)*powint(sqrt(4*AL*Pi),6)*real(B0fin(mzs,0,0)))/36864. + 
+         (powint(mt,-2)*powint(mz,-4)*powint(-(mws) + mzs,-5)*
+            (9*trip(mts)*(64*sqr(mws)*powint(mz,4) - 56*mws*trip(mzs) - 
+                 35*powint(mz,8)) + 8*mts*mws*mzs*
+               (256*powint(mw,8) - 736*trip(mws)*mzs + 816*sqr(mws)*powint(mz,4) - 
+                 367*mws*trip(mzs) + 31*powint(mz,8)) + 
+              sqr(mts)*(2048*powint(mw,10) - 5120*powint(mw,8)*mzs + 
+                 4224*trip(mws)*powint(mz,4) - 1640*sqr(mws)*trip(mzs) + 
+                 524*mws*powint(mz,8) + 207*powint(mz,10)) + 
+              32*powint(mz,4)*(16*sqr(mws) - 20*mws*mzs + 13*powint(mz,4))*
+               powint(mws*mw - mw*(mzs),2))*powint(Pi,-6)*powint(sqrt(4*AL*Pi),6)*
+            real(B0fin(mzs,mts,mts)))/110592.)));
+}

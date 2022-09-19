@@ -8,18 +8,19 @@ int main()
 {
   SMval myinput;	// properly convert masses for complex pole scheme
   myinput.set(MZ, 91.1876);
-  myinput.set(MW, 80.385);
-  myinput.set(al, 1/137.03599976);
+  myinput.set(MW, 80.358);
+  myinput.set(al, 1/137.035999084);
   myinput.set(als, 0.1184);
   myinput.set(GamZ, 2.4952);
-  myinput.set(GamW, 2.085);
-  myinput.set(MT, 173.2);
+  myinput.set(GamW, 2.089);
+  myinput.set(MT, 173.0);
   myinput.set(MH, 125.1);
   myinput.set(MB, 2.87); // MSbar mass at scale mu=MZ for mb(mb)=4.20
   myinput.set(Delal, 0.059);
   myinput.set(Gmu, 1.16638e-5);
   
   cout << myinput.get(MWc) << endl;
+  cout << myinput.get(MZc) << endl;
   
   FA_SMNNLO fa2(LEP,myinput);
   cout << "aas = " << fa2.drho2aas() << " " << fa2.res2aas() << endl;
@@ -36,7 +37,8 @@ int main()
     fa2.setftype(i);
     cout << typenam[i] << ":  ";
     cout << "a = " << (fa2.res1f()+fa2.res1b()) << "  " <<
-    	      "a2_ff = " << fa2.res2ff() << "  a2_fb = " << fa2.res2fb() << endl;
+    	      "a2_ff = " << fa2.res2ff() << "  a2_fb = " << fa2.res2fb() << " "<<
+            " a3_fff = " << fa2.res3ff() << endl;
     cout << "       a2_bb = " << fa2.res2bb() << "  aas_nf = " << fa2.res2aasnf() << "   " <<
 	      "F_A = " << real(fa2.result()) << endl;
     cout << endl;
