@@ -24,7 +24,7 @@ int main()
   myinput.set(Delal, 0.059);
 
   // process ee -> ll
-  int ini = LEP, fin = LEP;
+  int ini = ELE, fin = MUE;
 
 
   double cme = 86.1876, // center-of-mass energy
@@ -40,7 +40,7 @@ int main()
   Cplx amp[2][2];
   string formlist[2] = {"VEC", "AXV"};
 
-  mat_SMNNLO Mij(VEC, VEC, VEC, VEC, FAe, FAb, SWe, SWb, cme*cme, cost, myinput);
+  mat_SMNNLO Mij(ini, fin, VEC, VEC, FAe, FAb, SWe, SWb, cme*cme, cost, myinput);
   
   for (int i = 1; i < 21; i++)
   {

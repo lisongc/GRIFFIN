@@ -30,14 +30,15 @@ int main()
   myinput.set(Delal, 0.05900);
   myinput.set(Gmu, 1.16638e-5);
   
-  FV_SMNNLO fv2(LEP,myinput);
-  FA_SMNNLO fa2(LEP,myinput);
+  FV_SMNNLO fv2(ELE,myinput);
+  FA_SMNNLO fa2(ELE,myinput);  // need to change these with flavor !!! 
   
   string typenam[5] = {"l", "n", "u", "d", "b"};
+  int typenum[5] = {MUE, NUM, CQU, SQU, BQU};
   
-  for(i = LEP; i <= BQU; i++)
+  for(i = 0; i < 5; i++)
     cout << "Gamma[Z->" << typenam[i] << typenam[i] << "] = "
-         << partzwidth(fa2, fv2, i, 2, myinput, RUNWIDTHSCHEME) << endl;
+         << partzwidth(fa2, fv2, typenum[i], myinput, RUNWIDTHSCHEME) << endl;
   cout << "Gamma[Z] = " << zwidth(fa2, fv2, myinput, RUNWIDTHSCHEME) << endl;
   cout << endl;
   

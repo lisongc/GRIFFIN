@@ -8,7 +8,7 @@
 // Compute partial width for Z->ff using form factors provided
 // Note: partzwidth will modify the FA and FV objects passed to it,
 //        by setting the fermion type and input
-double partzwidth(FA_SMLO& fa, FV_SMLO& fv, const int type, const int gen,
+double partzwidth(FA_SMLO& fa, FV_SMLO& fv, const int type, 
                   const inval& input, int scheme = COMPPOLESCHEME);
 
 // Compute partial width for Z->ff using form factors provided

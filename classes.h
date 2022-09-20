@@ -17,7 +17,7 @@ using namespace std;
 #define MW 0
 #define MZ 1
 #define MH 2
-#define ME 3 // 3-10 are currently not used but included for completeness
+#define ME 3
 #define MM 4
 #define ML 5
 #define MD 6
@@ -98,11 +98,17 @@ public:
 };
 
 // possible values for intype/outtype below
-#define LEP 0
-#define NEU 1
+#define ELE 11
+#define MUE 13
+#define TAU 15
+#define NUE 12
+#define NUM 14
+#define NUT 16
+#define DQU 1
 #define UQU 2
-#define DQU 3
-#define BQU 4
+#define SQU 3
+#define CQU 4
+#define BQU 5
 
 // possible values for inform/outform below
 #define VEC 0

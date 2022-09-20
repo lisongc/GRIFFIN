@@ -11,7 +11,7 @@ some useful functions for computing decay widths and cross-sections
 
 // Note: partzwidth will modify the FA and FV objects passed to it,
 // by setting the fermion type and input
-double partzwidth(FA_SMLO& fa, FV_SMLO& fv, const int type, const int gen,
+double partzwidth(FA_SMLO& fa, FV_SMLO& fv, const int type, 
                   const inval& input, int scheme)
 {
   double alp = input.get(al)/Pi * (1+ input.get(Delal)), 
@@ -20,11 +20,18 @@ double partzwidth(FA_SMLO& fa, FV_SMLO& fv, const int type, const int gen,
   double mf, fac, y, RV, RA;
   switch(type)
   {
-    case LEP: mf = input.get(ME + (gen-1));  alsp = 0;  fac = 1;  break;
-    case NEU: mf = 0;  alsp = 0;  fac = 1;  break;
-    case UQU: mf = input.get(MU + (gen-1));  fac = 3;  break;
-    case DQU: mf = input.get(MD + (gen-1));  fac = 3;  break;
+    case ELE: mf = input.get(ME);  alsp = 0;  fac = 1;  break;
+    case MUE: mf = input.get(MM);  alsp = 0;  fac = 1;  break;
+    case TAU: mf = input.get(ML);  alsp = 0;  fac = 1;  break;
+    case NUE:
+    case NUM:
+    case NUT: mf = 0;  alsp = 0;  fac = 1;  break;
+    case UQU: mf = input.get(MU);  fac = 3;  break;
+    case CQU: mf = input.get(MC);  fac = 3;  break;
+    case DQU: mf = input.get(MD);  fac = 3;  break;
+    case SQU: mf = input.get(MS);  fac = 3;  break;
     case BQU: mf = input.get(MB);  fac = 3;  break;
+    default: return(0);
   }
   y = sqr(mf/input.get(MZ));
   RV = 1+ 0.75*sqr(Qf[type])*alp + alsp
@@ -57,12 +64,10 @@ double zwidth(FA_SMLO& fa, FV_SMLO& fv, const inval& input, int scheme)
 {
   int gen;
   double res=0;
-  for(gen=1; gen<=3; gen++)
-    res += partzwidth(fa, fv, LEP, gen, input, scheme) 
-          + partzwidth(fa, fv, NEU, gen, input, scheme);
-  for(gen=1; gen<=2; gen++)
-    res += partzwidth(fa, fv, UQU, gen, input, scheme) 
-          + partzwidth(fa, fv, DQU, gen, input, scheme);
-  res += partzwidth(fa, fv, BQU, gen, input, scheme);
+  for(gen=0; gen<=2; gen++)
+    res += partzwidth(fa, fv, ELE+2*gen, input, scheme) 
+          + partzwidth(fa, fv, NUE+2*gen, input, scheme)
+	  + partzwidth(fa, fv, UQU+2*gen, input, scheme) 
+          + partzwidth(fa, fv, DQU+2*gen, input, scheme);
   return(res);
 }

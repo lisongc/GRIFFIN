@@ -23,8 +23,9 @@ int main()
  
   // compute matrix element for ee->bb with axial-vector coupling in initial
   // state and vector coupling in final state
-  int ini = LEP, fin = DQU, iff = VEC, off = VEC;
-  string typenam[5] = {"l", "n", "u", "d", "b"};
+  int ini = ELE, fin = DQU, iff = VEC, off = VEC;
+  string typenam[20] = {"", "d", "u", "s", "c", "b", "", "", "", "", "",
+                        "e", "ne", "mu", "nmu", "tau", "ntau", "", "", ""};
   string formnam[2] = {"V", "A"};
   
   cout << "i = " << typenam[ini] << ", f = " << typenam[fin] <<

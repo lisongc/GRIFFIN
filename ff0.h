@@ -3,8 +3,8 @@
 #include "Cplx.h"
 #include "classes.h"
 
-extern const double Qf[5];
-extern const double I3f[5];
+extern const double Qf[20];
+extern const double I3f[20];
 
 // tree-level axial-vector Z vertex factors
 double az0(int type, const inval& input);

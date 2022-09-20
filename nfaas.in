@@ -8,16 +8,22 @@ double zaas(int type, int form, const inval& input)
   switch(form) {
    case VEC:
     switch(type) {
-     case LEP:
+     case ELE:
+     case MUE:
+     case TAU:
       res = 0;
       break;
-     case NEU:
+     case NUE:
+     case NUM:
+     case NUT:
       res = 0;
       break;
      case UQU:
+     case CQU:
       res = (AlphaSMZ*(-116538*MZs*sqr(MWs) + 218103*MWs*sqr(MZs) + 151040*trip(MWs) - 76700*trip(MZs)))/(5.184e6*MWs*(MWs - MZs)*Pi);
       break;
      case DQU:
+     case SQU:
       res = -(AlphaSMZ*(107268*MZs*sqr(MWs) + 58017*MWs*sqr(MZs) + 18880*trip(MWs) - 8260*trip(MZs)))/(5.184e6*MWs*(MWs - MZs)*Pi);
       break;
      case BQU:
@@ -27,16 +33,22 @@ double zaas(int type, int form, const inval& input)
     break;
    case AXV:
     switch(type) {
-     case LEP:
+     case ELE:
+     case MUE:
+     case TAU:
       res = 0;
       break;
-     case NEU:
+     case NUE:
+     case NUM:
+     case NUT:
       res = 0;
       break;
      case UQU:
+     case CQU:
       res = (AlphaSMZ*MZs*(-26113*MWs*MZs + 37398*sqr(MWs) + 8260*sqr(MZs)))/(576000.*MWs*(MWs - MZs)*Pi);
       break;
      case DQU:
+     case SQU:
       res = -(AlphaSMZ*MZs*(153*MWs*MZs + 18212*sqr(MWs) + 1180*sqr(MZs)))/(576000.*MWs*(MWs - MZs)*Pi);
       break;
      case BQU:

@@ -205,16 +205,22 @@ double rz1f(int type, int form, const inval& input)
   switch(form) {
    case VEC:
     switch(type) {
-     case LEP:
+     case ELE:
+     case MUE:
+     case TAU:
       res = (deltaAlpha*(-4*MWs + 3*MZs)*Pi)/(32.*AL) + (3*(2*MWs - 3*MZs)*real(B0fin(MWs,0,0))*sqr(MZs))/(128.*sqr(MWs - MZs)) - (3*(2*MWs - 3*MZs)*real(B0fin(MZs,0,0))*sqr(MZs))/(128.*sqr(MWs - MZs)) - ((2*MWs - 3*MZs)*real(B0fin(MWs,MTs,MBs))*(MTs*MWs + MBs*(-2*MTs + MWs) + sqr(MBs) + sqr(MTs) - 2*sqr(MWs))*sqr(MZs))/(256.*sqr(MWs)*sqr(MWs - MZs)) - (real(B0fin(MZs,MTs,MTs))*(MWs*sqr(MZs)*(352*MZs*sqr(MWs) - 308*MWs*sqr(MZs) - 128*trip(MWs) + 75*trip(MZs)) + 2*sqr(MTs)*(1280*powint(MWs,4) + 63*powint(MZs,4) + 3788*sqr(MWs)*sqr(MZs) - 3712*MZs*trip(MWs) - 1437*MWs*trip(MZs)) + MTs*MZs*(256*powint(MWs,4) + 81*powint(MZs,4) + 616*sqr(MWs)*sqr(MZs) - 704*MZs*trip(MWs) - 204*MWs*trip(MZs))))/(2304.*MWs*MZs*(-4*MTs + MZs)*sqr(MWs - MZs)) - (real(B0fin(MZs,MBs,MBs))*(MWs*(8*MWs - 11*MZs)*powint(MZs,4) + MBs*(4*MWs*MZs - 16*sqr(MWs) + 27*sqr(MZs))*trip(MZs) + 2*sqr(MBs)*(64*powint(MWs,4) - 51*powint(MZs,4) + 76*sqr(MWs)*sqr(MZs) - 144*MZs*trip(MWs) + 49*MWs*trip(MZs))))/(768.*MWs*MZs*(-4*MBs + MZs)*sqr(MWs - MZs)) + (A0fin(MBs)*(12*(-2*MWs + 3*MZs)*sqr(MBs)*trip(MZs) + (-6*MWs*(MTs - 3*MZs)*MZs - 34*MZs*sqr(MWs) + 9*MTs*sqr(MZs) + 16*trip(MWs))*trip(MZs) + MBs*(-288*MZs*powint(MWs,4) + 128*powint(MWs,5) - 9*(4*MTs + MZs)*powint(MZs,4) + 152*sqr(MZs)*trip(MWs) + 12*MWs*(2*MTs - 5*MZs)*trip(MZs) + 74*sqr(MWs)*trip(MZs))))/(768.*MZs*(-4*MBs + MZs)*sqr(MWs)*sqr(MWs - MZs)) - (A0fin(MTs)*(32*(4*MWs - 3*MZs)*sqr(MWs)*sqr(MWs - MZs)*sqr(MZs) + 36*(2*MWs - 3*MZs)*trip(MTs)*trip(MZs) + MTs*MZs*(704*MZs*powint(MWs,4) - 256*powint(MWs,5) - 27*MBs*powint(MZs,4) - 664*sqr(MZs)*trip(MWs) + 18*MWs*(MBs - 3*MZs)*trip(MZs) + 270*sqr(MWs)*trip(MZs)) + sqr(MTs)*(7424*MZs*powint(MWs,4) - 2560*powint(MWs,5) + 27*(4*MBs + MZs)*powint(MZs,4) - 7576*sqr(MZs)*trip(MWs) - 36*MWs*(2*MBs + 7*MZs)*trip(MZs) + 2946*sqr(MWs)*trip(MZs))))/(2304.*MTs*MZs*(-4*MTs + MZs)*sqr(MWs)*sqr(MWs - MZs)) + (18*(4*MTs - MZs)*sqr(MBs)*(-80*MZs*sqr(MWs) - 4*MWs*sqr(MZs) + 64*trip(MWs) + 33*trip(MZs)) + MZs*(8*sqr(MZs)*(-632*MZs*sqr(MWs) + 474*MWs*sqr(MZs) + 320*trip(MWs) - 135*trip(MZs)) + sqr(MTs)*(14592*MZs*sqr(MWs) - 8136*MWs*sqr(MZs) - 7680*trip(MWs) + 702*trip(MZs)) + MTs*MZs*(14272*MZs*sqr(MWs) - 11604*MWs*sqr(MZs) - 7168*trip(MWs) + 3807*trip(MZs))) + MBs*(8*MTs*MZs*(-6776*MZs*sqr(MWs) + 5748*MWs*sqr(MZs) + 3296*trip(MWs) - 1971*trip(MZs)) + 24*sqr(MTs)*(-2432*MZs*sqr(MWs) + 1356*MWs*sqr(MZs) + 1280*trip(MWs) - 117*trip(MZs)) + sqr(MZs)*(19504*MZs*sqr(MWs) - 15060*MWs*sqr(MZs) - 9664*trip(MWs) + 4455*trip(MZs))))/(6912.*MWs*(MWs - MZs)*MZs*(-4*MBs + MZs)*(-4*MTs + MZs));
       break;
-     case NEU:
+     case NUE:
+     case NUM:
+     case NUT:
       res = (deltaAlpha*MZs*Pi)/(32.*AL) + (3*(2*MWs - MZs)*real(B0fin(MWs,0,0))*sqr(MZs))/(128.*sqr(MWs - MZs)) + (3*(-2*MWs + MZs)*real(B0fin(MZs,0,0))*sqr(MZs))/(128.*sqr(MWs - MZs)) - ((2*MWs - MZs)*real(B0fin(MWs,MTs,MBs))*(MTs*MWs + MBs*(-2*MTs + MWs) + sqr(MBs) + sqr(MTs) - 2*sqr(MWs))*sqr(MZs))/(256.*sqr(MWs)*sqr(MWs - MZs)) - (18*(4*MTs - MZs)*sqr(MBs)*(8*MWs*MZs + 16*sqr(MWs) - 11*sqr(MZs)) + MZs*(MTs*MZs*(2368*MWs*MZs - 1792*sqr(MWs) - 1269*sqr(MZs)) - 6*sqr(MTs)*(-272*MWs*MZs + 320*sqr(MWs) + 39*sqr(MZs)) + 8*sqr(MZs)*(-98*MWs*MZs + 80*sqr(MWs) + 45*sqr(MZs))) + MBs*((3136*MWs*MZs - 2416*sqr(MWs) - 1485*sqr(MZs))*sqr(MZs) + 24*sqr(MTs)*(-272*MWs*MZs + 320*sqr(MWs) + 39*sqr(MZs)) + 8*MTs*MZs*(-1184*MWs*MZs + 824*sqr(MWs) + 657*sqr(MZs))))/(6912.*MWs*(MWs - MZs)*(-4*MBs + MZs)*(-4*MTs + MZs)) + (real(B0fin(MZs,MTs,MTs))*(MWs*(40*MWs*MZs - 32*sqr(MWs) - 17*sqr(MZs))*sqr(MZs) + MTs*MZs*(-80*MZs*sqr(MWs) + 88*MWs*sqr(MZs) + 64*trip(MWs) - 27*trip(MZs)) + 2*sqr(MTs)*(-592*MZs*sqr(MWs) + 275*MWs*sqr(MZs) + 320*trip(MWs) - 21*trip(MZs))))/(2304.*MWs*(-4*MTs + MZs)*sqr(MWs - MZs)) + (real(B0fin(MZs,MBs,MBs))*(MBs*(16*MWs*MZs + 8*sqr(MWs) - 9*sqr(MZs))*sqr(MZs) + MWs*(-4*MWs + MZs)*trip(MZs) + 2*sqr(MBs)*(-8*MZs*sqr(MWs) - 31*MWs*sqr(MZs) + 16*trip(MWs) + 17*trip(MZs))))/(768.*MWs*(-4*MBs + MZs)*sqr(MWs - MZs)) + (A0fin(MTs)*(32*sqr(MWs)*sqr(MWs - MZs)*sqr(MZs) + 36*(-2*MWs + MZs)*sqr(MZs)*trip(MTs) + MTs*MZs*(-64*powint(MWs,4) - 18*MWs*(MBs - MZs)*sqr(MZs) - 130*sqr(MWs)*sqr(MZs) + 176*MZs*trip(MWs) + 9*MBs*trip(MZs)) + sqr(MTs)*(-640*powint(MWs,4) + 24*MWs*(3*MBs + 4*MZs)*sqr(MZs) - 622*sqr(MWs)*sqr(MZs) + 1184*MZs*trip(MWs) - 9*(4*MBs + MZs)*trip(MZs))))/(2304.*MTs*(-4*MTs + MZs)*sqr(MWs)*sqr(MWs - MZs)) + (A0fin(MBs)*(12*(-2*MWs + MZs)*sqr(MBs)*sqr(MZs) + sqr(MZs)*(6*MWs*MZs*(-MTs + MZs) - 14*MZs*sqr(MWs) + 3*MTs*sqr(MZs) + 8*trip(MWs)) + MBs*(-32*powint(MWs,4) + 8*MWs*(3*MTs - 2*MZs)*sqr(MZs) + 38*sqr(MWs)*sqr(MZs) + 16*MZs*trip(MWs) - 3*(4*MTs + MZs)*trip(MZs))))/(768.*(-4*MBs + MZs)*sqr(MWs)*sqr(MWs - MZs));
       break;
      case UQU:
+     case CQU:
       res = (deltaAlpha*(8*MWs - 5*MZs)*Pi)/(96.*AL) + ((-2*MWs + 5*MZs)*real(B0fin(MWs,0,0))*sqr(MZs))/(128.*sqr(MWs - MZs)) + ((2*MWs - 5*MZs)*real(B0fin(MZs,0,0))*sqr(MZs))/(128.*sqr(MWs - MZs)) + ((2*MWs - 5*MZs)*real(B0fin(MWs,MTs,MBs))*(MTs*MWs + MBs*(-2*MTs + MWs) + sqr(MBs) + sqr(MTs) - 2*sqr(MWs))*sqr(MZs))/(768.*sqr(MWs)*sqr(MWs - MZs)) + (real(B0fin(MZs,MTs,MTs))*(MWs*sqr(MZs)*(672*MZs*sqr(MWs) - 576*MWs*sqr(MZs) - 256*trip(MWs) + 133*trip(MZs)) + 2*sqr(MTs)*(2560*powint(MWs,4) + 105*powint(MZs,4) + 6984*sqr(MWs)*sqr(MZs) - 7104*MZs*trip(MWs) - 2599*MWs*trip(MZs)) + MTs*MZs*(512*powint(MWs,4) + 135*powint(MZs,4) + 1152*sqr(MWs)*sqr(MZs) - 1344*MZs*trip(MWs) - 320*MWs*trip(MZs))))/(6912.*MWs*MZs*(-4*MTs + MZs)*sqr(MWs - MZs)) + (real(B0fin(MZs,MBs,MBs))*(3*MWs*(4*MWs - 7*MZs)*powint(MZs,4) + 3*MBs*(8*MWs*MZs - 8*sqr(MWs) + 15*sqr(MZs))*trip(MZs) + 2*sqr(MBs)*(128*powint(MWs,4) - 85*powint(MZs,4) + 144*sqr(MWs)*sqr(MZs) - 272*MZs*trip(MWs) + 67*MWs*trip(MZs))))/(2304.*MWs*MZs*(-4*MBs + MZs)*sqr(MWs - MZs)) + (A0fin(MBs)*(12*(2*MWs - 5*MZs)*sqr(MBs)*trip(MZs) - 3*(-2*MWs*(MTs - 5*MZs)*MZs - 18*MZs*sqr(MWs) + 5*MTs*sqr(MZs) + 8*trip(MWs))*trip(MZs) + MBs*(544*MZs*powint(MWs,4) - 256*powint(MWs,5) + 15*(4*MTs + MZs)*powint(MZs,4) - 288*sqr(MZs)*trip(MWs) - 8*MWs*(3*MTs - 13*MZs)*trip(MZs) - 110*sqr(MWs)*trip(MZs))))/(2304.*MZs*(-4*MBs + MZs)*sqr(MWs)*sqr(MWs - MZs)) + (A0fin(MTs)*(32*(8*MWs - 5*MZs)*sqr(MWs)*sqr(MWs - MZs)*sqr(MZs) + 36*(2*MWs - 5*MZs)*trip(MTs)*trip(MZs) + MTs*MZs*(1344*MZs*powint(MWs,4) - 512*powint(MWs,5) - 45*MBs*powint(MZs,4) - 1152*sqr(MZs)*trip(MWs) + 18*MWs*(MBs - 5*MZs)*trip(MZs) + 410*sqr(MWs)*trip(MZs)) + sqr(MTs)*(14208*MZs*powint(MWs,4) - 5120*powint(MWs,5) + 45*(4*MBs + MZs)*powint(MZs,4) - 13968*sqr(MZs)*trip(MWs) - 24*MWs*(3*MBs + 17*MZs)*trip(MZs) + 5270*sqr(MWs)*trip(MZs))))/(6912.*MTs*MZs*(-4*MTs + MZs)*sqr(MWs)*sqr(MWs - MZs)) + (-18*(4*MTs - MZs)*sqr(MBs)*(-144*MZs*sqr(MWs) + 128*trip(MWs) + 55*trip(MZs)) + MZs*(MTs*MZs*(-26752*MZs*sqr(MWs) + 20840*MWs*sqr(MZs) + 14336*trip(MWs) - 6345*trip(MZs)) + 6*sqr(MTs)*(-4544*MZs*sqr(MWs) + 2440*MWs*sqr(MZs) + 2560*trip(MWs) - 195*trip(MZs)) + 8*sqr(MZs)*(1184*MZs*sqr(MWs) - 850*MWs*sqr(MZs) - 640*trip(MWs) + 225*trip(MZs))) + MBs*(sqr(MZs)*(-36592*MZs*sqr(MWs) + 26984*MWs*sqr(MZs) + 19328*trip(MWs) - 7425*trip(MZs)) - 24*sqr(MTs)*(-4544*MZs*sqr(MWs) + 2440*MWs*sqr(MZs) + 2560*trip(MWs) - 195*trip(MZs)) + 8*MTs*MZs*(12728*MZs*sqr(MWs) - 10312*MWs*sqr(MZs) - 6592*trip(MWs) + 3285*trip(MZs))))/(20736.*MWs*(MWs - MZs)*MZs*(-4*MBs + MZs)*(-4*MTs + MZs));
       break;
      case DQU:
+     case SQU:
       res = (deltaAlpha*(-4*MWs + MZs)*Pi)/(96.*AL) - ((2*MWs + MZs)*real(B0fin(MWs,0,0))*sqr(MZs))/(128.*sqr(MWs - MZs)) + ((2*MWs + MZs)*real(B0fin(MZs,0,0))*sqr(MZs))/(128.*sqr(MWs - MZs)) + ((2*MWs + MZs)*real(B0fin(MWs,MTs,MBs))*(MTs*MWs + MBs*(-2*MTs + MWs) + sqr(MBs) + sqr(MTs) - 2*sqr(MWs))*sqr(MZs))/(768.*sqr(MWs)*sqr(MWs - MZs)) - (real(B0fin(MZs,MTs,MTs))*(MWs*sqr(MZs)*(288*MZs*sqr(MWs) - 228*MWs*sqr(MZs) - 128*trip(MWs) + 41*trip(MZs)) + 2*sqr(MTs)*(1280*powint(MWs,4) + 21*powint(MZs,4) + 2604*sqr(MWs)*sqr(MZs) - 3072*MZs*trip(MWs) - 887*MWs*trip(MZs)) + MTs*MZs*(256*powint(MWs,4) + 27*powint(MZs,4) + 456*sqr(MWs)*sqr(MZs) - 576*MZs*trip(MWs) - 28*MWs*trip(MZs))))/(6912.*MWs*MZs*(-4*MTs + MZs)*sqr(MWs - MZs)) + (real(B0fin(MZs,MBs,MBs))*(-9*MBs*(4*MWs + MZs)*powint(MZs,4) + 9*MWs*powint(MZs,5) + sqr(MBs)*(-128*powint(MWs,4) + 34*powint(MZs,4) - 120*sqr(MWs)*sqr(MZs) + 224*MZs*trip(MWs) + 26*MWs*trip(MZs))))/(2304.*MWs*MZs*(-4*MBs + MZs)*sqr(MWs - MZs)) + (A0fin(MTs)*(-32*(4*MWs - MZs)*sqr(MWs)*sqr(MWs - MZs)*sqr(MZs) + 36*(2*MWs + MZs)*trip(MTs)*trip(MZs) + sqr(MTs)*(-6144*MZs*powint(MWs,4) + 2560*powint(MWs,5) - 9*(4*MBs + MZs)*powint(MZs,4) + 5208*sqr(MZs)*trip(MWs) + 12*MWs*(-6*MBs + 5*MZs)*trip(MZs) - 1702*sqr(MWs)*trip(MZs)) + MTs*MZs*(-576*MZs*powint(MWs,4) + 256*powint(MWs,5) + 9*MBs*powint(MZs,4) + 312*sqr(MZs)*trip(MWs) + 18*MWs*(MBs + MZs)*trip(MZs) - 10*sqr(MWs)*trip(MZs))))/(6912.*MTs*MZs*(-4*MTs + MZs)*sqr(MWs)*sqr(MWs - MZs)) + (A0fin(MBs)*(3*(2*MWs*(-MWs + MZs) + MTs*(2*MWs + MZs))*powint(MZs,4) + 12*(2*MWs + MZs)*sqr(MBs)*trip(MZs) + MBs*(-224*MZs*powint(MWs,4) + 128*powint(MWs,5) - 3*(4*MTs + MZs)*powint(MZs,4) + 120*sqr(MZs)*trip(MWs) - 4*MWs*(6*MTs + 7*MZs)*trip(MZs) - 2*sqr(MWs)*trip(MZs))))/(2304.*MZs*(-4*MBs + MZs)*sqr(MWs)*sqr(MWs - MZs)) + (18*(4*MTs - MZs)*sqr(MBs)*(-48*MZs*sqr(MWs) + 12*MWs*sqr(MZs) + 64*trip(MWs) + 11*trip(MZs)) + MZs*(8*sqr(MZs)*(-472*MZs*sqr(MWs) + 278*MWs*sqr(MZs) + 320*trip(MWs) - 45*trip(MZs)) - 6*sqr(MTs)*(-1792*MZs*sqr(MWs) + 812*MWs*sqr(MZs) + 1280*trip(MWs) - 39*trip(MZs)) + MTs*MZs*(10688*MZs*sqr(MWs) - 6868*MWs*sqr(MZs) - 7168*trip(MWs) + 1269*trip(MZs))) + MBs*(8*MTs*MZs*(-5128*MZs*sqr(MWs) + 3380*MWs*sqr(MZs) + 3296*trip(MWs) - 657*trip(MZs)) + 24*sqr(MTs)*(-1792*MZs*sqr(MWs) + 812*MWs*sqr(MZs) + 1280*trip(MWs) - 39*trip(MZs)) + sqr(MZs)*(14672*MZs*sqr(MWs) - 8788*MWs*sqr(MZs) - 9664*trip(MWs) + 1485*trip(MZs))))/(20736.*MWs*(MWs - MZs)*MZs*(-4*MBs + MZs)*(-4*MTs + MZs));
       break;
      case BQU:
@@ -224,16 +230,22 @@ double rz1f(int type, int form, const inval& input)
     break;
    case AXV:
     switch(type) {
-     case LEP:
+     case ELE:
+     case MUE:
+     case TAU:
       res = -(deltaAlpha*MZs*Pi)/(32.*AL) + (3*(-2*MWs + MZs)*real(B0fin(MWs,0,0))*sqr(MZs))/(128.*sqr(MWs - MZs)) + (3*(2*MWs - MZs)*real(B0fin(MZs,0,0))*sqr(MZs))/(128.*sqr(MWs - MZs)) + ((2*MWs - MZs)*real(B0fin(MWs,MTs,MBs))*(MTs*MWs + MBs*(-2*MTs + MWs) + sqr(MBs) + sqr(MTs) - 2*sqr(MWs))*sqr(MZs))/(256.*sqr(MWs)*sqr(MWs - MZs)) - (18*(4*MTs - MZs)*sqr(MBs)*(8*MWs*MZs + 16*sqr(MWs) - 11*sqr(MZs)) + MZs*(MTs*MZs*(2368*MWs*MZs - 1792*sqr(MWs) - 1269*sqr(MZs)) - 6*sqr(MTs)*(-272*MWs*MZs + 320*sqr(MWs) + 39*sqr(MZs)) + 8*sqr(MZs)*(-98*MWs*MZs + 80*sqr(MWs) + 45*sqr(MZs))) + MBs*((3136*MWs*MZs - 2416*sqr(MWs) - 1485*sqr(MZs))*sqr(MZs) + 24*sqr(MTs)*(-272*MWs*MZs + 320*sqr(MWs) + 39*sqr(MZs)) + 8*MTs*MZs*(-1184*MWs*MZs + 824*sqr(MWs) + 657*sqr(MZs))))/(6912.*MWs*(-4*MBs + MZs)*(-4*MTs + MZs)*(-MWs + MZs)) - (real(B0fin(MZs,MBs,MBs))*(MBs*(16*MWs*MZs + 8*sqr(MWs) - 9*sqr(MZs))*sqr(MZs) + MWs*(-4*MWs + MZs)*trip(MZs) + 2*sqr(MBs)*(-8*MZs*sqr(MWs) - 31*MWs*sqr(MZs) + 16*trip(MWs) + 17*trip(MZs))))/(768.*MWs*(-4*MBs + MZs)*sqr(MWs - MZs)) + (real(B0fin(MZs,MTs,MTs))*(MWs*sqr(MZs)*(-40*MWs*MZs + 32*sqr(MWs) + 17*sqr(MZs)) + MTs*MZs*(80*MZs*sqr(MWs) - 88*MWs*sqr(MZs) - 64*trip(MWs) + 27*trip(MZs)) + sqr(MTs)*(1184*MZs*sqr(MWs) - 550*MWs*sqr(MZs) - 640*trip(MWs) + 42*trip(MZs))))/(2304.*MWs*(-4*MTs + MZs)*sqr(MWs - MZs)) + (A0fin(MTs)*(-32*sqr(MWs)*sqr(MWs - MZs)*sqr(MZs) + 36*(2*MWs - MZs)*sqr(MZs)*trip(MTs) + MTs*MZs*(64*powint(MWs,4) + 18*MWs*(MBs - MZs)*sqr(MZs) + 130*sqr(MWs)*sqr(MZs) - 176*MZs*trip(MWs) - 9*MBs*trip(MZs)) + sqr(MTs)*(640*powint(MWs,4) - 24*MWs*(3*MBs + 4*MZs)*sqr(MZs) + 622*sqr(MWs)*sqr(MZs) - 1184*MZs*trip(MWs) + 9*(4*MBs + MZs)*trip(MZs))))/(2304.*MTs*(-4*MTs + MZs)*sqr(MWs)*sqr(MWs - MZs)) + (A0fin(MBs)*(12*(-2*MWs + MZs)*sqr(MBs)*sqr(MZs) + sqr(MZs)*(6*MWs*MZs*(-MTs + MZs) - 14*MZs*sqr(MWs) + 3*MTs*sqr(MZs) + 8*trip(MWs)) + MBs*(-32*powint(MWs,4) + 8*MWs*(3*MTs - 2*MZs)*sqr(MZs) + 38*sqr(MWs)*sqr(MZs) + 16*MZs*trip(MWs) - 3*(4*MTs + MZs)*trip(MZs))))/(768.*(4*MBs - MZs)*sqr(MWs)*sqr(MWs - MZs));
       break;
-     case NEU:
+     case NUE:
+     case NUM:
+     case NUT:
       res = (deltaAlpha*MZs*Pi)/(32.*AL) + (3*(2*MWs - MZs)*real(B0fin(MWs,0,0))*sqr(MZs))/(128.*sqr(MWs - MZs)) + (3*(-2*MWs + MZs)*real(B0fin(MZs,0,0))*sqr(MZs))/(128.*sqr(MWs - MZs)) - ((2*MWs - MZs)*real(B0fin(MWs,MTs,MBs))*(MTs*MWs + MBs*(-2*MTs + MWs) + sqr(MBs) + sqr(MTs) - 2*sqr(MWs))*sqr(MZs))/(256.*sqr(MWs)*sqr(MWs - MZs)) - (18*(4*MTs - MZs)*sqr(MBs)*(8*MWs*MZs + 16*sqr(MWs) - 11*sqr(MZs)) + MZs*(MTs*MZs*(2368*MWs*MZs - 1792*sqr(MWs) - 1269*sqr(MZs)) - 6*sqr(MTs)*(-272*MWs*MZs + 320*sqr(MWs) + 39*sqr(MZs)) + 8*sqr(MZs)*(-98*MWs*MZs + 80*sqr(MWs) + 45*sqr(MZs))) + MBs*((3136*MWs*MZs - 2416*sqr(MWs) - 1485*sqr(MZs))*sqr(MZs) + 24*sqr(MTs)*(-272*MWs*MZs + 320*sqr(MWs) + 39*sqr(MZs)) + 8*MTs*MZs*(-1184*MWs*MZs + 824*sqr(MWs) + 657*sqr(MZs))))/(6912.*MWs*(MWs - MZs)*(-4*MBs + MZs)*(-4*MTs + MZs)) + (real(B0fin(MZs,MTs,MTs))*(MWs*(40*MWs*MZs - 32*sqr(MWs) - 17*sqr(MZs))*sqr(MZs) + MTs*MZs*(-80*MZs*sqr(MWs) + 88*MWs*sqr(MZs) + 64*trip(MWs) - 27*trip(MZs)) + 2*sqr(MTs)*(-592*MZs*sqr(MWs) + 275*MWs*sqr(MZs) + 320*trip(MWs) - 21*trip(MZs))))/(2304.*MWs*(-4*MTs + MZs)*sqr(MWs - MZs)) + (real(B0fin(MZs,MBs,MBs))*(MBs*(16*MWs*MZs + 8*sqr(MWs) - 9*sqr(MZs))*sqr(MZs) + MWs*(-4*MWs + MZs)*trip(MZs) + 2*sqr(MBs)*(-8*MZs*sqr(MWs) - 31*MWs*sqr(MZs) + 16*trip(MWs) + 17*trip(MZs))))/(768.*MWs*(-4*MBs + MZs)*sqr(MWs - MZs)) + (A0fin(MTs)*(32*sqr(MWs)*sqr(MWs - MZs)*sqr(MZs) + 36*(-2*MWs + MZs)*sqr(MZs)*trip(MTs) + MTs*MZs*(-64*powint(MWs,4) - 18*MWs*(MBs - MZs)*sqr(MZs) - 130*sqr(MWs)*sqr(MZs) + 176*MZs*trip(MWs) + 9*MBs*trip(MZs)) + sqr(MTs)*(-640*powint(MWs,4) + 24*MWs*(3*MBs + 4*MZs)*sqr(MZs) - 622*sqr(MWs)*sqr(MZs) + 1184*MZs*trip(MWs) - 9*(4*MBs + MZs)*trip(MZs))))/(2304.*MTs*(-4*MTs + MZs)*sqr(MWs)*sqr(MWs - MZs)) + (A0fin(MBs)*(12*(-2*MWs + MZs)*sqr(MBs)*sqr(MZs) + sqr(MZs)*(6*MWs*MZs*(-MTs + MZs) - 14*MZs*sqr(MWs) + 3*MTs*sqr(MZs) + 8*trip(MWs)) + MBs*(-32*powint(MWs,4) + 8*MWs*(3*MTs - 2*MZs)*sqr(MZs) + 38*sqr(MWs)*sqr(MZs) + 16*MZs*trip(MWs) - 3*(4*MTs + MZs)*trip(MZs))))/(768.*(-4*MBs + MZs)*sqr(MWs)*sqr(MWs - MZs));
       break;
      case UQU:
+     case CQU:
       res = (deltaAlpha*MZs*Pi)/(32.*AL) + (3*(2*MWs - MZs)*real(B0fin(MWs,0,0))*sqr(MZs))/(128.*sqr(MWs - MZs)) + (3*(-2*MWs + MZs)*real(B0fin(MZs,0,0))*sqr(MZs))/(128.*sqr(MWs - MZs)) - ((2*MWs - MZs)*real(B0fin(MWs,MTs,MBs))*(MTs*MWs + MBs*(-2*MTs + MWs) + sqr(MBs) + sqr(MTs) - 2*sqr(MWs))*sqr(MZs))/(256.*sqr(MWs)*sqr(MWs - MZs)) - (18*(4*MTs - MZs)*sqr(MBs)*(8*MWs*MZs + 16*sqr(MWs) - 11*sqr(MZs)) + MZs*(MTs*MZs*(2368*MWs*MZs - 1792*sqr(MWs) - 1269*sqr(MZs)) - 6*sqr(MTs)*(-272*MWs*MZs + 320*sqr(MWs) + 39*sqr(MZs)) + 8*sqr(MZs)*(-98*MWs*MZs + 80*sqr(MWs) + 45*sqr(MZs))) + MBs*((3136*MWs*MZs - 2416*sqr(MWs) - 1485*sqr(MZs))*sqr(MZs) + 24*sqr(MTs)*(-272*MWs*MZs + 320*sqr(MWs) + 39*sqr(MZs)) + 8*MTs*MZs*(-1184*MWs*MZs + 824*sqr(MWs) + 657*sqr(MZs))))/(6912.*MWs*(MWs - MZs)*(-4*MBs + MZs)*(-4*MTs + MZs)) + (real(B0fin(MZs,MTs,MTs))*(MWs*(40*MWs*MZs - 32*sqr(MWs) - 17*sqr(MZs))*sqr(MZs) + MTs*MZs*(-80*MZs*sqr(MWs) + 88*MWs*sqr(MZs) + 64*trip(MWs) - 27*trip(MZs)) + 2*sqr(MTs)*(-592*MZs*sqr(MWs) + 275*MWs*sqr(MZs) + 320*trip(MWs) - 21*trip(MZs))))/(2304.*MWs*(-4*MTs + MZs)*sqr(MWs - MZs)) + (real(B0fin(MZs,MBs,MBs))*(MBs*(16*MWs*MZs + 8*sqr(MWs) - 9*sqr(MZs))*sqr(MZs) + MWs*(-4*MWs + MZs)*trip(MZs) + 2*sqr(MBs)*(-8*MZs*sqr(MWs) - 31*MWs*sqr(MZs) + 16*trip(MWs) + 17*trip(MZs))))/(768.*MWs*(-4*MBs + MZs)*sqr(MWs - MZs)) + (A0fin(MTs)*(32*sqr(MWs)*sqr(MWs - MZs)*sqr(MZs) + 36*(-2*MWs + MZs)*sqr(MZs)*trip(MTs) + MTs*MZs*(-64*powint(MWs,4) - 18*MWs*(MBs - MZs)*sqr(MZs) - 130*sqr(MWs)*sqr(MZs) + 176*MZs*trip(MWs) + 9*MBs*trip(MZs)) + sqr(MTs)*(-640*powint(MWs,4) + 24*MWs*(3*MBs + 4*MZs)*sqr(MZs) - 622*sqr(MWs)*sqr(MZs) + 1184*MZs*trip(MWs) - 9*(4*MBs + MZs)*trip(MZs))))/(2304.*MTs*(-4*MTs + MZs)*sqr(MWs)*sqr(MWs - MZs)) + (A0fin(MBs)*(12*(-2*MWs + MZs)*sqr(MBs)*sqr(MZs) + sqr(MZs)*(6*MWs*MZs*(-MTs + MZs) - 14*MZs*sqr(MWs) + 3*MTs*sqr(MZs) + 8*trip(MWs)) + MBs*(-32*powint(MWs,4) + 8*MWs*(3*MTs - 2*MZs)*sqr(MZs) + 38*sqr(MWs)*sqr(MZs) + 16*MZs*trip(MWs) - 3*(4*MTs + MZs)*trip(MZs))))/(768.*(-4*MBs + MZs)*sqr(MWs)*sqr(MWs - MZs));
       break;
      case DQU:
+     case SQU:
       res = -(deltaAlpha*MZs*Pi)/(32.*AL) + (3*(-2*MWs + MZs)*real(B0fin(MWs,0,0))*sqr(MZs))/(128.*sqr(MWs - MZs)) + (3*(2*MWs - MZs)*real(B0fin(MZs,0,0))*sqr(MZs))/(128.*sqr(MWs - MZs)) + ((2*MWs - MZs)*real(B0fin(MWs,MTs,MBs))*(MTs*MWs + MBs*(-2*MTs + MWs) + sqr(MBs) + sqr(MTs) - 2*sqr(MWs))*sqr(MZs))/(256.*sqr(MWs)*sqr(MWs - MZs)) - (18*(4*MTs - MZs)*sqr(MBs)*(8*MWs*MZs + 16*sqr(MWs) - 11*sqr(MZs)) + MZs*(MTs*MZs*(2368*MWs*MZs - 1792*sqr(MWs) - 1269*sqr(MZs)) - 6*sqr(MTs)*(-272*MWs*MZs + 320*sqr(MWs) + 39*sqr(MZs)) + 8*sqr(MZs)*(-98*MWs*MZs + 80*sqr(MWs) + 45*sqr(MZs))) + MBs*((3136*MWs*MZs - 2416*sqr(MWs) - 1485*sqr(MZs))*sqr(MZs) + 24*sqr(MTs)*(-272*MWs*MZs + 320*sqr(MWs) + 39*sqr(MZs)) + 8*MTs*MZs*(-1184*MWs*MZs + 824*sqr(MWs) + 657*sqr(MZs))))/(6912.*MWs*(-4*MBs + MZs)*(-4*MTs + MZs)*(-MWs + MZs)) - (real(B0fin(MZs,MBs,MBs))*(MBs*(16*MWs*MZs + 8*sqr(MWs) - 9*sqr(MZs))*sqr(MZs) + MWs*(-4*MWs + MZs)*trip(MZs) + 2*sqr(MBs)*(-8*MZs*sqr(MWs) - 31*MWs*sqr(MZs) + 16*trip(MWs) + 17*trip(MZs))))/(768.*MWs*(-4*MBs + MZs)*sqr(MWs - MZs)) + (real(B0fin(MZs,MTs,MTs))*(MWs*sqr(MZs)*(-40*MWs*MZs + 32*sqr(MWs) + 17*sqr(MZs)) + MTs*MZs*(80*MZs*sqr(MWs) - 88*MWs*sqr(MZs) - 64*trip(MWs) + 27*trip(MZs)) + sqr(MTs)*(1184*MZs*sqr(MWs) - 550*MWs*sqr(MZs) - 640*trip(MWs) + 42*trip(MZs))))/(2304.*MWs*(-4*MTs + MZs)*sqr(MWs - MZs)) + (A0fin(MTs)*(-32*sqr(MWs)*sqr(MWs - MZs)*sqr(MZs) + 36*(2*MWs - MZs)*sqr(MZs)*trip(MTs) + MTs*MZs*(64*powint(MWs,4) + 18*MWs*(MBs - MZs)*sqr(MZs) + 130*sqr(MWs)*sqr(MZs) - 176*MZs*trip(MWs) - 9*MBs*trip(MZs)) + sqr(MTs)*(640*powint(MWs,4) - 24*MWs*(3*MBs + 4*MZs)*sqr(MZs) + 622*sqr(MWs)*sqr(MZs) - 1184*MZs*trip(MWs) + 9*(4*MBs + MZs)*trip(MZs))))/(2304.*MTs*(-4*MTs + MZs)*sqr(MWs)*sqr(MWs - MZs)) + (A0fin(MBs)*(12*(-2*MWs + MZs)*sqr(MBs)*sqr(MZs) + sqr(MZs)*(6*MWs*MZs*(-MTs + MZs) - 14*MZs*sqr(MWs) + 3*MTs*sqr(MZs) + 8*trip(MWs)) + MBs*(-32*powint(MWs,4) + 8*MWs*(3*MTs - 2*MZs)*sqr(MZs) + 38*sqr(MWs)*sqr(MZs) + 16*MZs*trip(MWs) - 3*(4*MTs + MZs)*trip(MZs))))/(768.*(4*MBs - MZs)*sqr(MWs)*sqr(MWs - MZs));
       break;
      case BQU:
@@ -258,16 +270,22 @@ double iz1f(int type, int form, const inval& input)
   switch(form) {
    case VEC:
     switch(type) {
-     case LEP:
+     case ELE:
+     case MUE:
+     case TAU:
       res = ((76*MWs - 49*MZs)*imag(B0fin(MZs,0,0)))/144. + ((4*MWs - MZs)*(2*MBs + MZs)*imag(B0fin(MZs,MBs,MBs)))/(144.*MZs);
       break;
-     case NEU:
+     case NUE:
+     case NUM:
+     case NUT:
       res = 0;
       break;
      case UQU:
+     case CQU:
       res = ((-76*MWs + 49*MZs)*imag(B0fin(MZs,0,0)))/216. - ((4*MWs - MZs)*(2*MBs + MZs)*imag(B0fin(MZs,MBs,MBs)))/(216.*MZs);
       break;
      case DQU:
+     case SQU:
       res = ((76*MWs - 49*MZs)*imag(B0fin(MZs,0,0)))/432. + ((4*MWs - MZs)*(2*MBs + MZs)*imag(B0fin(MZs,MBs,MBs)))/(432.*MZs);
       break;
      case BQU:
@@ -277,16 +295,22 @@ double iz1f(int type, int form, const inval& input)
     break;
    case AXV:
     switch(type) {
-     case LEP:
+     case ELE:
+     case MUE:
+     case TAU:
       res = 0;
       break;
-     case NEU:
+     case NUE:
+     case NUM:
+     case NUT:
       res = 0;
       break;
      case UQU:
+     case CQU:
       res = 0;
       break;
      case DQU:
+     case SQU:
       res = 0;
       break;
      case BQU:
@@ -311,16 +335,22 @@ double rz1b(int type, int form, const inval& input)
   switch(form) {
    case VEC:
     switch(type) {
-     case LEP:
+     case ELE:
+     case MUE:
+     case TAU:
       res = ((MWs + 2*MZs)*real(C0(0,MZs,0,0,MWs,MWs))*sqr(MWs))/(32.*(MWs - MZs)) + ((2*MWs - 3*MZs)*real(B0fin(MWs,MHs,MWs))*(-4*MHs*MWs + sqr(MHs) + 12*sqr(MWs))*sqr(MZs))/(1536.*sqr(MWs)*sqr(MWs - MZs)) - ((2*MWs - 3*MZs)*(4*MWs - MZs)*MZs*real(B0fin(MWs,MZs,MWs))*(20*MWs*MZs + 12*sqr(MWs) + sqr(MZs)))/(1536.*sqr(MWs)*sqr(MWs - MZs)) + (MZs*real(C0(MZs,0,0,0,0,MWs))*sqr(MWs + MZs))/(64.*(MWs - MZs)) + (MZs*real(C0(MZs,0,0,0,0,MZs))*(-36*MZs*sqr(MWs) + 30*MWs*sqr(MZs) + 16*trip(MWs) - 9*trip(MZs)))/(32.*MWs*(-MWs + MZs)) + (real(B0fin(MZs,0,0))*(184*MZs*sqr(MWs) - 144*MWs*sqr(MZs) - 80*trip(MWs) + 45*trip(MZs)))/(256.*MWs*(MWs - MZs)) + (real(B0fin(MZs,MWs,MWs))*(-480*powint(MWs,4) + 43*powint(MZs,4) + 412*sqr(MWs)*sqr(MZs) + 552*MZs*trip(MWs) - 626*MWs*trip(MZs)))/(1536.*MZs*sqr(MWs - MZs)) + (A0fin(MHs)*(MZs*sqr(MHs)*(41*MWs*MZs - 44*sqr(MWs) - 12*sqr(MZs)) + 24*MHs*MWs*(4*MWs - 3*MZs)*sqr(MZs) + (-8*MWs*MZs + 8*sqr(MWs) + 3*sqr(MZs))*trip(MHs) + 24*MWs*(-4*MWs + 3*MZs)*trip(MZs)))/(1536.*MHs*(MHs - 4*MZs)*(-MWs + MZs)*sqr(MWs)) + (A0fin(MWs)*(-552*MZs*powint(MWs,4) + 480*powint(MWs,5) - 3*(MHs + MZs)*powint(MZs,4) - 340*sqr(MZs)*trip(MWs) + 2*MWs*(MHs - 53*MZs)*trip(MZs) + 538*sqr(MWs)*trip(MZs)))/(1536.*MZs*sqr(MWs)*sqr(MWs - MZs)) + (real(B0fin(MZs,MHs,MZs))*(MZs*sqr(MHs)*(107*MWs*MZs - 52*sqr(MWs) - 63*sqr(MZs)) + 4*MHs*sqr(MZs)*(-70*MWs*MZs + 32*sqr(MWs) + 45*sqr(MZs)) + (-16*MWs*MZs + 8*sqr(MWs) + 9*sqr(MZs))*trip(MHs) - 12*(-29*MWs*MZs + 12*sqr(MWs) + 21*sqr(MZs))*trip(MZs)))/(1536.*MWs*(MHs - 4*MZs)*sqr(MWs - MZs)) + ((4*MWs - 3*MZs)*sqr(MHs)*sqr(MZs) + 4*MZs*(-480*powint(MWs,4) + 15*powint(MZs,4) + 784*sqr(MWs)*sqr(MZs) + 152*MZs*trip(MWs) - 590*MWs*trip(MZs)) + 2*MHs*(240*powint(MWs,4) - 6*powint(MZs,4) - 392*sqr(MWs)*sqr(MZs) - 76*MZs*trip(MWs) + 293*MWs*trip(MZs)))/(1536.*MWs*(MWs - MZs)*MZs*(-MHs + 4*MZs)) + (A0fin(MZs)*(MWs*MZs*sqr(MHs)*(16*MWs*MZs - 8*sqr(MWs) - 9*sqr(MZs)) + 4*MZs*(-1560*MZs*powint(MWs,4) + 480*powint(MWs,5) + 274*MWs*powint(MZs,4) + 3*powint(MZs,5) + 2012*sqr(MZs)*trip(MWs) - 1226*sqr(MWs)*trip(MZs)) - MHs*(-1560*MZs*powint(MWs,4) + 480*powint(MWs,5) + 247*MWs*powint(MZs,4) + 3*powint(MZs,5) + 1992*sqr(MZs)*trip(MWs) - 1183*sqr(MWs)*trip(MZs))))/(1536.*MZs*(-MHs + 4*MZs)*sqr(MWs)*sqr(MWs - MZs));
       break;
-     case NEU:
+     case NUE:
+     case NUM:
+     case NUT:
       res = ((MWs + 2*MZs)*real(C0(0,MZs,0,0,MWs,MWs))*sqr(MWs))/(32.*(-MWs + MZs)) + (powint(MZs,4)*real(C0(MZs,0,0,0,0,MZs)))/(-32*MWs*MZs + 32*sqr(MWs)) + ((2*MWs - MZs)*real(B0fin(MWs,MHs,MWs))*(-4*MHs*MWs + sqr(MHs) + 12*sqr(MWs))*sqr(MZs))/(1536.*sqr(MWs)*sqr(MWs - MZs)) - ((2*MWs - MZs)*(4*MWs - MZs)*MZs*real(B0fin(MWs,MZs,MWs))*(20*MWs*MZs + 12*sqr(MWs) + sqr(MZs)))/(1536.*sqr(MWs)*sqr(MWs - MZs)) + ((2*MWs - MZs)*real(C0(MZs,0,0,0,0,MWs))*sqr(MWs + MZs))/(64.*(-MWs + MZs)) + (real(B0fin(MZs,0,0))*(-8*MZs*sqr(MWs) + 6*MWs*sqr(MZs) - 8*trip(MWs) + 5*trip(MZs)))/(256.*MWs*(MWs - MZs)) + (real(B0fin(MZs,MWs,MWs))*(44*MZs*sqr(MWs) - 130*MWs*sqr(MZs) + 168*trip(MWs) + 17*trip(MZs)))/(1536.*sqr(MWs - MZs)) + (MZs*A0fin(MHs)*((19*MWs - 4*MZs)*MZs*sqr(MHs) - 24*MHs*MWs*sqr(MZs) + (-4*MWs + MZs)*trip(MHs) + 24*MWs*trip(MZs)))/(1536.*MHs*(MHs - 4*MZs)*(-MWs + MZs)*sqr(MWs)) + (A0fin(MWs)*(-120*powint(MWs,4) + 2*MWs*(MHs - 5*MZs)*sqr(MZs) + 62*sqr(MWs)*sqr(MZs) + 52*MZs*trip(MWs) - (MHs + MZs)*trip(MZs)))/(1536.*sqr(MWs)*sqr(MWs - MZs)) - (MZs*real(B0fin(MZs,MHs,MZs))*(MZs*(-29*MWs + 21*MZs)*sqr(MHs) + 4*MHs*(22*MWs - 15*MZs)*sqr(MZs) + (4*MWs - 3*MZs)*trip(MHs) + 12*(-11*MWs + 7*MZs)*trip(MZs)))/(1536.*MWs*(MHs - 4*MZs)*sqr(MWs - MZs)) + (sqr(MHs)*sqr(MZs) + 2*MHs*(84*MZs*sqr(MWs) - 84*MWs*sqr(MZs) + 60*trip(MWs) - trip(MZs)) + 4*MZs*(-168*MZs*sqr(MWs) + 168*MWs*sqr(MZs) - 120*trip(MWs) + trip(MZs)))/(1536.*MWs*(-MWs + MZs)*(-MHs + 4*MZs)) + (MZs*A0fin(MZs)*(MWs*(4*MWs - 3*MZs)*sqr(MHs) - MHs*(-49*MZs*sqr(MWs) + 21*MWs*sqr(MZs) + 48*trip(MWs) + trip(MZs)) + 4*MZs*(-62*MZs*sqr(MWs) + 30*MWs*sqr(MZs) + 48*trip(MWs) + trip(MZs))))/(1536.*(-MHs + 4*MZs)*sqr(MWs)*sqr(MWs - MZs));
       break;
      case UQU:
+     case CQU:
       res = ((MWs + 2*MZs)*real(C0(0,MZs,0,0,MWs,MWs))*sqr(MWs))/(32.*(-MWs + MZs)) - ((2*MWs - 5*MZs)*real(B0fin(MWs,MHs,MWs))*(-4*MHs*MWs + sqr(MHs) + 12*sqr(MWs))*sqr(MZs))/(4608.*sqr(MWs)*sqr(MWs - MZs)) + ((2*MWs - 5*MZs)*(4*MWs - MZs)*MZs*real(B0fin(MWs,MZs,MWs))*(20*MWs*MZs + 12*sqr(MWs) + sqr(MZs)))/(4608.*sqr(MWs)*sqr(MWs - MZs)) + ((2*MWs + MZs)*real(C0(MZs,0,0,0,0,MWs))*sqr(MWs + MZs))/(192.*(-MWs + MZs)) + (real(B0fin(MZs,0,0))*(-1344*MZs*sqr(MWs) + 966*MWs*sqr(MZs) + 568*trip(MWs) - 325*trip(MZs)))/(6912.*MWs*(MWs - MZs)) + (MZs*real(C0(MZs,0,0,0,0,MZs))*(-240*MZs*sqr(MWs) + 204*MWs*sqr(MZs) + 128*trip(MWs) - 65*trip(MZs)))/(864.*MWs*(MWs - MZs)) + (real(B0fin(MZs,MWs,MWs))*(320*powint(MWs,4) - 23*powint(MZs,4) - 260*sqr(MWs)*sqr(MZs) - 312*MZs*trip(MWs) + 374*MWs*trip(MZs)))/(1536.*MZs*sqr(MWs - MZs)) + (A0fin(MHs)*(MZs*sqr(MHs)*(63*MWs*MZs - 88*sqr(MWs) - 20*sqr(MZs)) + 24*MHs*MWs*(8*MWs - 5*MZs)*sqr(MZs) + (-12*MWs*MZs + 16*sqr(MWs) + 5*sqr(MZs))*trip(MHs) + 24*MWs*(-8*MWs + 5*MZs)*trip(MZs)))/(4608.*MHs*(MHs - 4*MZs)*(MWs - MZs)*sqr(MWs)) + (A0fin(MWs)*(984*MZs*powint(MWs,4) - 960*powint(MWs,5) + 5*(MHs + MZs)*powint(MZs,4) + 732*sqr(MZs)*trip(MWs) - 2*MWs*(MHs - 101*MZs)*trip(MZs) - 1014*sqr(MWs)*trip(MZs)))/(4608.*MZs*sqr(MWs)*sqr(MWs - MZs)) + (real(B0fin(MZs,MHs,MZs))*(-4*MHs*sqr(MZs)*(-118*MWs*MZs + 64*sqr(MWs) + 75*sqr(MZs)) + MZs*sqr(MHs)*(-185*MWs*MZs + 104*sqr(MWs) + 105*sqr(MZs)) + (28*MWs*MZs - 16*sqr(MWs) - 15*sqr(MZs))*trip(MHs) + 12*(-47*MWs*MZs + 24*sqr(MWs) + 35*sqr(MZs))*trip(MZs)))/(4608.*MWs*(MHs - 4*MZs)*sqr(MWs - MZs)) + (3*(8*MWs - 5*MZs)*sqr(MHs)*sqr(MZs) + 4*MZs*(-2880*powint(MWs,4) + 5*powint(MZs,4) + 3792*sqr(MWs)*sqr(MZs) + 712*MZs*trip(MWs) - 2700*MWs*trip(MZs)) + 2*MHs*(1440*powint(MWs,4) + 5*powint(MZs,4) - 1896*sqr(MWs)*sqr(MZs) - 356*MZs*trip(MWs) + 1338*MWs*trip(MZs)))/(13824.*MWs*MZs*(-MWs + MZs)*(-MHs + 4*MZs)) + (A0fin(MZs)*(3*MWs*MZs*sqr(MHs)*(-28*MWs*MZs + 16*sqr(MWs) + 15*sqr(MZs)) - 4*MZs*(-3680*MZs*powint(MWs,4) + 1280*powint(MWs,5) + 674*MWs*powint(MZs,4) + 15*powint(MZs,5) + 4488*sqr(MZs)*trip(MWs) - 2930*sqr(MWs)*trip(MZs)) + MHs*(-3680*MZs*powint(MWs,4) + 1280*powint(MWs,5) + 539*MWs*powint(MZs,4) + 15*powint(MZs,5) + 4368*sqr(MZs)*trip(MWs) - 2711*sqr(MWs)*trip(MZs))))/(13824.*MZs*(-MHs + 4*MZs)*sqr(MWs)*sqr(MWs - MZs));
       break;
      case DQU:
+     case SQU:
       res = ((MWs + 2*MZs)*real(C0(0,MZs,0,0,MWs,MWs))*sqr(MWs))/(32.*(MWs - MZs)) + ((4*MWs - MZs)*real(B0fin(MZs,0,0))*(64*MWs*MZs + 16*sqr(MWs) - 35*sqr(MZs)))/(6912.*MWs*(MWs - MZs)) - ((2*MWs + MZs)*real(B0fin(MWs,MHs,MWs))*(-4*MHs*MWs + sqr(MHs) + 12*sqr(MWs))*sqr(MZs))/(4608.*sqr(MWs)*sqr(MWs - MZs)) + ((4*MWs - MZs)*MZs*(2*MWs + MZs)*real(B0fin(MWs,MZs,MWs))*(20*MWs*MZs + 12*sqr(MWs) + sqr(MZs)))/(4608.*sqr(MWs)*sqr(MWs - MZs)) + ((4*MWs - MZs)*real(C0(MZs,0,0,0,0,MWs))*sqr(MWs + MZs))/(192.*(MWs - MZs)) + (MZs*real(C0(MZs,0,0,0,0,MZs))*(-12*MZs*sqr(MWs) + 30*MWs*sqr(MZs) + 16*trip(MWs) - 7*trip(MZs)))/(864.*MWs*(-MWs + MZs)) + (real(B0fin(MZs,MWs,MWs))*(-160*powint(MWs,4) + 3*powint(MZs,4) + 108*sqr(MWs)*sqr(MZs) + 72*MZs*trip(MWs) - 122*MWs*trip(MZs)))/(1536.*MZs*sqr(MWs - MZs)) + (A0fin(MHs)*(MZs*sqr(MHs)*(3*MWs*MZs - 44*sqr(MWs) - 4*sqr(MZs)) + 24*MHs*MWs*(4*MWs - MZs)*sqr(MZs) + (8*sqr(MWs) + sqr(MZs))*trip(MHs) + 24*MWs*(-4*MWs + MZs)*trip(MZs)))/(4608.*MHs*(MHs - 4*MZs)*(-MWs + MZs)*sqr(MWs)) - (A0fin(MWs)*(312*MZs*powint(MWs,4) - 480*powint(MWs,5) + (MHs + MZs)*powint(MZs,4) + 444*sqr(MZs)*trip(MWs) + 2*MWs*(MHs + 43*MZs)*trip(MZs) - 414*sqr(MWs)*trip(MZs)))/(4608.*MZs*sqr(MWs)*sqr(MWs - MZs)) + (real(B0fin(MZs,MHs,MZs))*(MZs*sqr(MHs)*(49*MWs*MZs - 52*sqr(MWs) - 21*sqr(MZs)) + 4*MHs*sqr(MZs)*(-26*MWs*MZs + 32*sqr(MWs) + 15*sqr(MZs)) + (-8*MWs*MZs + 8*sqr(MWs) + 3*sqr(MZs))*trip(MHs) - 12*(-7*MWs*MZs + 12*sqr(MWs) + 7*sqr(MZs))*trip(MZs)))/(4608.*MWs*(MHs - 4*MZs)*sqr(MWs - MZs)) + (3*(4*MWs - MZs)*sqr(MHs)*sqr(MZs) + 2*MHs*(720*powint(MWs,4) + 4*powint(MZs,4) - 516*sqr(MWs)*sqr(MZs) + 68*MZs*trip(MWs) + 255*MWs*trip(MZs)) - 4*MZs*(1440*powint(MWs,4) + 5*powint(MZs,4) - 1032*sqr(MWs)*sqr(MZs) + 136*MZs*trip(MWs) + 522*MWs*trip(MZs)))/(13824.*MWs*(MWs - MZs)*MZs*(-MHs + 4*MZs)) - (A0fin(MZs)*(3*MWs*MZs*sqr(MHs)*(-8*MWs*MZs + 8*sqr(MWs) + 3*sqr(MZs)) - 4*MZs*(-280*MZs*powint(MWs,4) + 160*powint(MWs,5) + 82*MWs*powint(MZs,4) + 3*powint(MZs,5) + 228*sqr(MZs)*trip(MWs) - 346*sqr(MWs)*trip(MZs)) + MHs*(-280*MZs*powint(MWs,4) + 160*powint(MWs,5) + 55*MWs*powint(MZs,4) + 3*powint(MZs,5) + 168*sqr(MZs)*trip(MWs) - 295*sqr(MWs)*trip(MZs))))/(13824.*MZs*(-MHs + 4*MZs)*sqr(MWs)*sqr(MWs - MZs));
       break;
      case BQU:
@@ -330,16 +360,22 @@ double rz1b(int type, int form, const inval& input)
     break;
    case AXV:
     switch(type) {
-     case LEP:
+     case ELE:
+     case MUE:
+     case TAU:
       res = ((MWs + 2*MZs)*real(C0(0,MZs,0,0,MWs,MWs))*sqr(MWs))/(32.*(MWs - MZs)) - ((2*MWs - MZs)*real(B0fin(MWs,MHs,MWs))*(-4*MHs*MWs + sqr(MHs) + 12*sqr(MWs))*sqr(MZs))/(1536.*sqr(MWs)*sqr(MWs - MZs)) + ((2*MWs - MZs)*(4*MWs - MZs)*MZs*real(B0fin(MWs,MZs,MWs))*(20*MWs*MZs + 12*sqr(MWs) + sqr(MZs)))/(1536.*sqr(MWs)*sqr(MWs - MZs)) + (real(C0(MZs,0,0,0,0,MZs))*sqr(MZs)*(-18*MWs*MZs + 12*sqr(MWs) + 7*sqr(MZs)))/(32.*MWs*(-MWs + MZs)) + (MZs*real(B0fin(MZs,0,0))*(-96*MWs*MZs + 56*sqr(MWs) + 35*sqr(MZs)))/(256.*MWs*(-MWs + MZs)) + (MZs*real(C0(MZs,0,0,0,0,MWs))*sqr(MWs + MZs))/(64.*(MWs - MZs)) - (real(B0fin(MZs,MWs,MWs))*(44*MZs*sqr(MWs) - 130*MWs*sqr(MZs) + 168*trip(MWs) + 17*trip(MZs)))/(1536.*sqr(MWs - MZs)) + (MZs*A0fin(MHs)*((19*MWs - 4*MZs)*MZs*sqr(MHs) - 24*MHs*MWs*sqr(MZs) + (-4*MWs + MZs)*trip(MHs) + 24*MWs*trip(MZs)))/(1536.*MHs*(MHs - 4*MZs)*(MWs - MZs)*sqr(MWs)) + (A0fin(MWs)*(168*powint(MWs,4) - 2*MWs*(MHs - 41*MZs)*sqr(MZs) - 158*sqr(MWs)*sqr(MZs) - 76*MZs*trip(MWs) + (MHs + MZs)*trip(MZs)))/(1536.*sqr(MWs)*sqr(MWs - MZs)) + (MZs*real(B0fin(MZs,MHs,MZs))*(MZs*(-29*MWs + 21*MZs)*sqr(MHs) + 4*MHs*(22*MWs - 15*MZs)*sqr(MZs) + (4*MWs - 3*MZs)*trip(MHs) + 12*(-11*MWs + 7*MZs)*trip(MZs)))/(1536.*MWs*(MHs - 4*MZs)*sqr(MWs - MZs)) + (sqr(MHs)*sqr(MZs) + 2*MHs*(108*MZs*sqr(MWs) - 117*MWs*sqr(MZs) + 60*trip(MWs) + 8*trip(MZs)) - 4*MZs*(216*MZs*sqr(MWs) - 234*MWs*sqr(MZs) + 120*trip(MWs) + 17*trip(MZs)))/(1536.*MWs*(MWs - MZs)*(-MHs + 4*MZs)) + (A0fin(MZs)*(MWs*MZs*(-4*MWs + 3*MZs)*sqr(MHs) + MHs*(-360*powint(MWs,4) + powint(MZs,4) - 769*sqr(MWs)*sqr(MZs) + 948*MZs*trip(MWs) + 201*MWs*trip(MZs)) - 4*MZs*(-360*powint(MWs,4) + powint(MZs,4) - 782*sqr(MWs)*sqr(MZs) + 948*MZs*trip(MWs) + 210*MWs*trip(MZs))))/(1536.*(-MHs + 4*MZs)*sqr(MWs)*sqr(MWs - MZs));
       break;
-     case NEU:
+     case NUE:
+     case NUM:
+     case NUT:
       res = ((MWs + 2*MZs)*real(C0(0,MZs,0,0,MWs,MWs))*sqr(MWs))/(32.*(-MWs + MZs)) + (powint(MZs,4)*real(C0(MZs,0,0,0,0,MZs)))/(-32*MWs*MZs + 32*sqr(MWs)) + ((2*MWs - MZs)*real(B0fin(MWs,MHs,MWs))*(-4*MHs*MWs + sqr(MHs) + 12*sqr(MWs))*sqr(MZs))/(1536.*sqr(MWs)*sqr(MWs - MZs)) - ((2*MWs - MZs)*(4*MWs - MZs)*MZs*real(B0fin(MWs,MZs,MWs))*(20*MWs*MZs + 12*sqr(MWs) + sqr(MZs)))/(1536.*sqr(MWs)*sqr(MWs - MZs)) + ((2*MWs - MZs)*real(C0(MZs,0,0,0,0,MWs))*sqr(MWs + MZs))/(64.*(-MWs + MZs)) + (real(B0fin(MZs,0,0))*(-8*MZs*sqr(MWs) + 6*MWs*sqr(MZs) - 8*trip(MWs) + 5*trip(MZs)))/(256.*MWs*(MWs - MZs)) + (real(B0fin(MZs,MWs,MWs))*(44*MZs*sqr(MWs) - 130*MWs*sqr(MZs) + 168*trip(MWs) + 17*trip(MZs)))/(1536.*sqr(MWs - MZs)) + (MZs*A0fin(MHs)*((19*MWs - 4*MZs)*MZs*sqr(MHs) - 24*MHs*MWs*sqr(MZs) + (-4*MWs + MZs)*trip(MHs) + 24*MWs*trip(MZs)))/(1536.*MHs*(MHs - 4*MZs)*(-MWs + MZs)*sqr(MWs)) + (A0fin(MWs)*(-120*powint(MWs,4) + 2*MWs*(MHs - 5*MZs)*sqr(MZs) + 62*sqr(MWs)*sqr(MZs) + 52*MZs*trip(MWs) - (MHs + MZs)*trip(MZs)))/(1536.*sqr(MWs)*sqr(MWs - MZs)) - (MZs*real(B0fin(MZs,MHs,MZs))*(MZs*(-29*MWs + 21*MZs)*sqr(MHs) + 4*MHs*(22*MWs - 15*MZs)*sqr(MZs) + (4*MWs - 3*MZs)*trip(MHs) + 12*(-11*MWs + 7*MZs)*trip(MZs)))/(1536.*MWs*(MHs - 4*MZs)*sqr(MWs - MZs)) + (sqr(MHs)*sqr(MZs) + 2*MHs*(84*MZs*sqr(MWs) - 84*MWs*sqr(MZs) + 60*trip(MWs) - trip(MZs)) + 4*MZs*(-168*MZs*sqr(MWs) + 168*MWs*sqr(MZs) - 120*trip(MWs) + trip(MZs)))/(1536.*MWs*(-MWs + MZs)*(-MHs + 4*MZs)) + (MZs*A0fin(MZs)*(MWs*(4*MWs - 3*MZs)*sqr(MHs) - MHs*(-49*MZs*sqr(MWs) + 21*MWs*sqr(MZs) + 48*trip(MWs) + trip(MZs)) + 4*MZs*(-62*MZs*sqr(MWs) + 30*MWs*sqr(MZs) + 48*trip(MWs) + trip(MZs))))/(1536.*(-MHs + 4*MZs)*sqr(MWs)*sqr(MWs - MZs));
       break;
      case UQU:
+     case CQU:
       res = ((MWs + 2*MZs)*real(C0(0,MZs,0,0,MWs,MWs))*sqr(MWs))/(32.*(-MWs + MZs)) + ((2*MWs - MZs)*real(B0fin(MWs,MHs,MWs))*(-4*MHs*MWs + sqr(MHs) + 12*sqr(MWs))*sqr(MZs))/(1536.*sqr(MWs)*sqr(MWs - MZs)) - ((2*MWs - MZs)*(4*MWs - MZs)*MZs*real(B0fin(MWs,MZs,MWs))*(20*MWs*MZs + 12*sqr(MWs) + sqr(MZs)))/(1536.*sqr(MWs)*sqr(MWs - MZs)) + (real(C0(MZs,0,0,0,0,MZs))*sqr(MZs)*(-20*MWs*MZs + 16*sqr(MWs) + 7*sqr(MZs)))/(96.*MWs*(MWs - MZs)) + ((2*MWs + MZs)*real(C0(MZs,0,0,0,0,MWs))*sqr(MWs + MZs))/(192.*(-MWs + MZs)) + (real(B0fin(MZs,MWs,MWs))*(44*MZs*sqr(MWs) - 130*MWs*sqr(MZs) + 168*trip(MWs) + 17*trip(MZs)))/(1536.*sqr(MWs - MZs)) + (real(B0fin(MZs,0,0))*(64*MZs*sqr(MWs) - 106*MWs*sqr(MZs) - 8*trip(MWs) + 35*trip(MZs)))/(768.*MWs*(MWs - MZs)) + (MZs*A0fin(MHs)*((19*MWs - 4*MZs)*MZs*sqr(MHs) - 24*MHs*MWs*sqr(MZs) + (-4*MWs + MZs)*trip(MHs) + 24*MWs*trip(MZs)))/(1536.*MHs*(MHs - 4*MZs)*(-MWs + MZs)*sqr(MWs)) + (A0fin(MWs)*(-152*powint(MWs,4) + 2*MWs*(MHs - 29*MZs)*sqr(MZs) + 126*sqr(MWs)*sqr(MZs) + 68*MZs*trip(MWs) - (MHs + MZs)*trip(MZs)))/(1536.*sqr(MWs)*sqr(MWs - MZs)) - (MZs*real(B0fin(MZs,MHs,MZs))*(MZs*(-29*MWs + 21*MZs)*sqr(MHs) + 4*MHs*(22*MWs - 15*MZs)*sqr(MZs) + (4*MWs - 3*MZs)*trip(MHs) + 12*(-11*MWs + 7*MZs)*trip(MZs)))/(1536.*MWs*(MHs - 4*MZs)*sqr(MWs - MZs)) + (sqr(MHs)*sqr(MZs) + 2*MHs*(96*MZs*sqr(MWs) - 98*MWs*sqr(MZs) + 60*trip(MWs) + trip(MZs)) - 4*MZs*(192*MZs*sqr(MWs) - 196*MWs*sqr(MZs) + 120*trip(MWs) + 3*trip(MZs)))/(1536.*MWs*(-MWs + MZs)*(-MHs + 4*MZs)) + (A0fin(MZs)*(MWs*(4*MWs - 3*MZs)*MZs*sqr(MHs) + MHs*(160*powint(MWs,4) - powint(MZs,4) + 289*sqr(MWs)*sqr(MZs) - 408*MZs*trip(MWs) - 61*MWs*trip(MZs)) + 4*MZs*(-160*powint(MWs,4) + powint(MZs,4) - 302*sqr(MWs)*sqr(MZs) + 408*MZs*trip(MWs) + 70*MWs*trip(MZs))))/(1536.*(-MHs + 4*MZs)*sqr(MWs)*sqr(MWs - MZs));
       break;
      case DQU:
+     case SQU:
       res = ((MWs + 2*MZs)*real(C0(0,MZs,0,0,MWs,MWs))*sqr(MWs))/(32.*(MWs - MZs)) - ((2*MWs - MZs)*real(B0fin(MWs,MHs,MWs))*(-4*MHs*MWs + sqr(MHs) + 12*sqr(MWs))*sqr(MZs))/(1536.*sqr(MWs)*sqr(MWs - MZs)) + (real(C0(MZs,0,0,0,0,MZs))*sqr(MZs)*(-2*MWs*MZs + 4*sqr(MWs) + sqr(MZs)))/(96.*MWs*(-MWs + MZs)) + ((2*MWs - MZs)*(4*MWs - MZs)*MZs*real(B0fin(MWs,MZs,MWs))*(20*MWs*MZs + 12*sqr(MWs) + sqr(MZs)))/(1536.*sqr(MWs)*sqr(MWs - MZs)) + ((4*MWs - MZs)*real(C0(MZs,0,0,0,0,MWs))*sqr(MWs + MZs))/(192.*(MWs - MZs)) + (real(B0fin(MZs,0,0))*(4*MWs*sqr(MZs) + 16*trip(MWs) - 5*trip(MZs)))/(-768*MWs*MZs + 768*sqr(MWs)) - (real(B0fin(MZs,MWs,MWs))*(44*MZs*sqr(MWs) - 130*MWs*sqr(MZs) + 168*trip(MWs) + 17*trip(MZs)))/(1536.*sqr(MWs - MZs)) + (MZs*A0fin(MHs)*((19*MWs - 4*MZs)*MZs*sqr(MHs) - 24*MHs*MWs*sqr(MZs) + (-4*MWs + MZs)*trip(MHs) + 24*MWs*trip(MZs)))/(1536.*MHs*(MHs - 4*MZs)*(MWs - MZs)*sqr(MWs)) + (A0fin(MWs)*(136*powint(MWs,4) - 2*MWs*(MHs - 17*MZs)*sqr(MZs) - 94*sqr(MWs)*sqr(MZs) - 60*MZs*trip(MWs) + (MHs + MZs)*trip(MZs)))/(1536.*sqr(MWs)*sqr(MWs - MZs)) + (MZs*real(B0fin(MZs,MHs,MZs))*(MZs*(-29*MWs + 21*MZs)*sqr(MHs) + 4*MHs*(22*MWs - 15*MZs)*sqr(MZs) + (4*MWs - 3*MZs)*trip(MHs) + 12*(-11*MWs + 7*MZs)*trip(MZs)))/(1536.*MWs*(MHs - 4*MZs)*sqr(MWs - MZs)) + (sqr(MHs)*sqr(MZs) + 2*MHs*(88*MZs*sqr(MWs) - 87*MWs*sqr(MZs) + 60*trip(MWs) - 2*trip(MZs)) + 4*MZs*(-176*MZs*sqr(MWs) + 174*MWs*sqr(MZs) - 120*trip(MWs) + 3*trip(MZs)))/(1536.*MWs*(MWs - MZs)*(-MHs + 4*MZs)) + (A0fin(MZs)*(MWs*MZs*(-4*MWs + 3*MZs)*sqr(MHs) + MHs*(-40*powint(MWs,4) + powint(MZs,4) - 49*sqr(MWs)*sqr(MZs) + 108*MZs*trip(MWs) + MWs*trip(MZs)) - 4*MZs*(-40*powint(MWs,4) + powint(MZs,4) - 62*sqr(MWs)*sqr(MZs) + 108*MZs*trip(MWs) + 10*MWs*trip(MZs))))/(1536.*(-MHs + 4*MZs)*sqr(MWs)*sqr(MWs - MZs));
       break;
      case BQU:
@@ -364,16 +400,22 @@ double iz1b(int type, int form, const inval& input)
   switch(form) {
    case VEC:
     switch(type) {
-     case LEP:
+     case ELE:
+     case MUE:
+     case TAU:
       res = (MZs*imag(C0(MZs,0,0,0,0,MWs))*sqr(MWs + MZs))/(64.*(MWs - MZs)) + (MZs*imag(C0(MZs,0,0,0,0,MZs))*(36*MZs*sqr(MWs) - 30*MWs*sqr(MZs) - 16*trip(MWs) + 9*trip(MZs)))/(32.*MWs*(MWs - MZs)) + (imag(B0fin(MZs,0,0))*(184*MZs*sqr(MWs) - 144*MWs*sqr(MZs) - 80*trip(MWs) + 45*trip(MZs)))/(256.*MWs*(MWs - MZs));
       break;
-     case NEU:
+     case NUE:
+     case NUM:
+     case NUT:
       res = (imag(C0(MZs,0,0,0,0,MZs))*powint(MZs,4))/(-32*MWs*MZs + 32*sqr(MWs)) + ((2*MWs - MZs)*imag(C0(MZs,0,0,0,0,MWs))*sqr(MWs + MZs))/(64.*(-MWs + MZs)) + (imag(B0fin(MZs,0,0))*(-8*MZs*sqr(MWs) + 6*MWs*sqr(MZs) - 8*trip(MWs) + 5*trip(MZs)))/(256.*MWs*(MWs - MZs));
       break;
      case UQU:
+     case CQU:
       res = ((2*MWs + MZs)*imag(C0(MZs,0,0,0,0,MWs))*sqr(MWs + MZs))/(192.*(-MWs + MZs)) + (imag(B0fin(MZs,0,0))*(-1344*MZs*sqr(MWs) + 966*MWs*sqr(MZs) + 568*trip(MWs) - 325*trip(MZs)))/(6912.*MWs*(MWs - MZs)) + (MZs*imag(C0(MZs,0,0,0,0,MZs))*(-240*MZs*sqr(MWs) + 204*MWs*sqr(MZs) + 128*trip(MWs) - 65*trip(MZs)))/(864.*MWs*(MWs - MZs));
       break;
      case DQU:
+     case SQU:
       res = ((4*MWs - MZs)*imag(B0fin(MZs,0,0))*(64*MWs*MZs + 16*sqr(MWs) - 35*sqr(MZs)))/(6912.*MWs*(MWs - MZs)) + ((4*MWs - MZs)*imag(C0(MZs,0,0,0,0,MWs))*sqr(MWs + MZs))/(192.*(MWs - MZs)) + (MZs*imag(C0(MZs,0,0,0,0,MZs))*(12*MZs*sqr(MWs) - 30*MWs*sqr(MZs) - 16*trip(MWs) + 7*trip(MZs)))/(864.*MWs*(MWs - MZs));
       break;
      case BQU:
@@ -383,16 +425,22 @@ double iz1b(int type, int form, const inval& input)
     break;
    case AXV:
     switch(type) {
-     case LEP:
+     case ELE:
+     case MUE:
+     case TAU:
       res = (imag(C0(MZs,0,0,0,0,MZs))*sqr(MZs)*(-18*MWs*MZs + 12*sqr(MWs) + 7*sqr(MZs)))/(32.*MWs*(-MWs + MZs)) + (MZs*imag(B0fin(MZs,0,0))*(-96*MWs*MZs + 56*sqr(MWs) + 35*sqr(MZs)))/(256.*MWs*(-MWs + MZs)) + (MZs*imag(C0(MZs,0,0,0,0,MWs))*sqr(MWs + MZs))/(64.*(MWs - MZs));
       break;
-     case NEU:
+     case NUE:
+     case NUM:
+     case NUT:
       res = (imag(C0(MZs,0,0,0,0,MZs))*powint(MZs,4))/(-32*MWs*MZs + 32*sqr(MWs)) + ((2*MWs - MZs)*imag(C0(MZs,0,0,0,0,MWs))*sqr(MWs + MZs))/(64.*(-MWs + MZs)) + (imag(B0fin(MZs,0,0))*(-8*MZs*sqr(MWs) + 6*MWs*sqr(MZs) - 8*trip(MWs) + 5*trip(MZs)))/(256.*MWs*(MWs - MZs));
       break;
      case UQU:
+     case CQU:
       res = (imag(C0(MZs,0,0,0,0,MZs))*sqr(MZs)*(-20*MWs*MZs + 16*sqr(MWs) + 7*sqr(MZs)))/(96.*MWs*(MWs - MZs)) + ((2*MWs + MZs)*imag(C0(MZs,0,0,0,0,MWs))*sqr(MWs + MZs))/(192.*(-MWs + MZs)) + (imag(B0fin(MZs,0,0))*(64*MZs*sqr(MWs) - 106*MWs*sqr(MZs) - 8*trip(MWs) + 35*trip(MZs)))/(768.*MWs*(MWs - MZs));
       break;
      case DQU:
+     case SQU:
       res = (imag(C0(MZs,0,0,0,0,MZs))*sqr(MZs)*(-2*MWs*MZs + 4*sqr(MWs) + sqr(MZs)))/(96.*MWs*(-MWs + MZs)) + ((4*MWs - MZs)*imag(C0(MZs,0,0,0,0,MWs))*sqr(MWs + MZs))/(192.*(MWs - MZs)) + (imag(B0fin(MZs,0,0))*(4*MWs*sqr(MZs) + 16*trip(MWs) - 5*trip(MZs)))/(-768*MWs*MZs + 768*sqr(MWs));
       break;
      case BQU:
@@ -417,16 +465,22 @@ double rz1fp(int type, int form, const inval& input)
   switch(form) {
    case VEC:
     switch(type) {
-     case LEP:
+     case ELE:
+     case MUE:
+     case TAU:
       res = -(MBs*(4*MWs - MZs)*A0fin(MBs))/(12.*(-4*MBs + MZs)*sqr(MZs)) - (MTs*(8*MWs - 5*MZs)*A0fin(MTs))/(6.*(-4*MTs + MZs)*sqr(MZs)) + ((4*MWs - MZs)*real(B0fin(MZs,MBs,MBs))*sqr(MBs))/(12.*(-4*MBs + MZs)*sqr(MZs)) + ((8*MWs - 5*MZs)*real(B0fin(MZs,MTs,MTs))*sqr(MTs))/(6.*(-4*MTs + MZs)*sqr(MZs)) - (-2*(4*MTs - MZs)*(-4*MWs + MZs)*sqr(MBs) + 2*(8*MWs - 5*MZs)*MZs*(-3*MTs*MZs - 2*sqr(MTs) + sqr(MZs)) + MBs*(4*MTs*(44*MWs - 29*MZs)*MZs + 16*(8*MWs - 5*MZs)*sqr(MTs) - 60*MWs*sqr(MZs) + 39*trip(MZs)))/(24.*(-4*MBs + MZs)*(-4*MTs + MZs)*sqr(MZs));
       break;
-     case NEU:
+     case NUE:
+     case NUM:
+     case NUT:
       res = 0;
       break;
      case UQU:
+     case CQU:
       res = (MBs*(4*MWs - MZs)*A0fin(MBs))/(18.*(-4*MBs + MZs)*sqr(MZs)) + (MTs*(8*MWs - 5*MZs)*A0fin(MTs))/(9.*(-4*MTs + MZs)*sqr(MZs)) - ((4*MWs - MZs)*real(B0fin(MZs,MBs,MBs))*sqr(MBs))/(18.*(-4*MBs + MZs)*sqr(MZs)) - ((8*MWs - 5*MZs)*real(B0fin(MZs,MTs,MTs))*sqr(MTs))/(9.*(-4*MTs + MZs)*sqr(MZs)) + (-2*(4*MTs - MZs)*(-4*MWs + MZs)*sqr(MBs) + 2*(8*MWs - 5*MZs)*MZs*(-3*MTs*MZs - 2*sqr(MTs) + sqr(MZs)) + MBs*(4*MTs*(44*MWs - 29*MZs)*MZs + 16*(8*MWs - 5*MZs)*sqr(MTs) - 60*MWs*sqr(MZs) + 39*trip(MZs)))/(36.*(-4*MBs + MZs)*(-4*MTs + MZs)*sqr(MZs));
       break;
      case DQU:
+     case SQU:
       res = -(MBs*(4*MWs - MZs)*A0fin(MBs))/(36.*(-4*MBs + MZs)*sqr(MZs)) - (MTs*(8*MWs - 5*MZs)*A0fin(MTs))/(18.*(-4*MTs + MZs)*sqr(MZs)) + ((4*MWs - MZs)*real(B0fin(MZs,MBs,MBs))*sqr(MBs))/(36.*(-4*MBs + MZs)*sqr(MZs)) + ((8*MWs - 5*MZs)*real(B0fin(MZs,MTs,MTs))*sqr(MTs))/(18.*(-4*MTs + MZs)*sqr(MZs)) - (-2*(4*MTs - MZs)*(-4*MWs + MZs)*sqr(MBs) + 2*(8*MWs - 5*MZs)*MZs*(-3*MTs*MZs - 2*sqr(MTs) + sqr(MZs)) + MBs*(4*MTs*(44*MWs - 29*MZs)*MZs + 16*(8*MWs - 5*MZs)*sqr(MTs) - 60*MWs*sqr(MZs) + 39*trip(MZs)))/(72.*(-4*MBs + MZs)*(-4*MTs + MZs)*sqr(MZs));
       break;
      case BQU:
@@ -436,16 +490,22 @@ double rz1fp(int type, int form, const inval& input)
     break;
    case AXV:
     switch(type) {
-     case LEP:
+     case ELE:
+     case MUE:
+     case TAU:
       res = 0;
       break;
-     case NEU:
+     case NUE:
+     case NUM:
+     case NUT:
       res = 0;
       break;
      case UQU:
+     case CQU:
       res = 0;
       break;
      case DQU:
+     case SQU:
       res = 0;
       break;
      case BQU:
@@ -470,16 +530,22 @@ double iz1fp(int type, int form, const inval& input)
   switch(form) {
    case VEC:
     switch(type) {
-     case LEP:
+     case ELE:
+     case MUE:
+     case TAU:
       res = ((4*MWs - MZs)*imag(B0fin(MZs,MBs,MBs))*sqr(MBs))/(12.*(-4*MBs + MZs)*sqr(MZs));
       break;
-     case NEU:
+     case NUE:
+     case NUM:
+     case NUT:
       res = 0;
       break;
      case UQU:
+     case CQU:
       res = -((4*MWs - MZs)*imag(B0fin(MZs,MBs,MBs))*sqr(MBs))/(18.*(-4*MBs + MZs)*sqr(MZs));
       break;
      case DQU:
+     case SQU:
       res = ((4*MWs - MZs)*imag(B0fin(MZs,MBs,MBs))*sqr(MBs))/(36.*(-4*MBs + MZs)*sqr(MZs));
       break;
      case BQU:
@@ -489,16 +555,22 @@ double iz1fp(int type, int form, const inval& input)
     break;
    case AXV:
     switch(type) {
-     case LEP:
+     case ELE:
+     case MUE:
+     case TAU:
       res = 0;
       break;
-     case NEU:
+     case NUE:
+     case NUM:
+     case NUT:
       res = 0;
       break;
      case UQU:
+     case CQU:
       res = 0;
       break;
      case DQU:
+     case SQU:
       res = 0;
       break;
      case BQU:
@@ -523,16 +595,22 @@ double rz1bp(int type, int form, const inval& input)
   switch(form) {
    case VEC:
     switch(type) {
-     case LEP:
+     case ELE:
+     case MUE:
+     case TAU:
       res = (MWs*(MWs + MZs)*real(C0(MZs,0,0,0,0,MWs)))/(32.*(-MWs + MZs)) + ((MWs + MZs)*real(C0(0,MZs,0,0,MWs,MWs))*sqr(MWs))/(16.*MZs*(-MWs + MZs)) + (real(B0fin(MZs,0,0))*(-112*MZs*sqr(MWs) + 88*MWs*sqr(MZs) + 48*trip(MWs) - 27*trip(MZs)))/(128*MZs*sqr(MWs) - 128*MWs*sqr(MZs)) + (real(C0(MZs,0,0,0,0,MZs))*(-36*MZs*sqr(MWs) + 30*MWs*sqr(MZs) + 16*trip(MWs) - 9*trip(MZs)))/(-32*MWs*MZs + 32*sqr(MWs)) + (3*A0fin(MZs)*(-36*MZs*sqr(MWs) + 30*MWs*sqr(MZs) + 16*trip(MWs) - 9*trip(MZs)))/(128.*MWs*(-MWs + MZs)*sqr(MZs)) + (MWs*real(B0fin(MZs,MWs,MWs))*(-10*MZs*sqr(MWs) - 9*MWs*sqr(MZs) + 24*trip(MWs) + trip(MZs)))/(16.*sqr(MZs)*(-5*MWs*MZs + 4*sqr(MWs) + sqr(MZs))) + (A0fin(MWs)*(96*powint(MWs,4) + powint(MZs,4) - 44*sqr(MWs)*sqr(MZs) - 40*MZs*trip(MWs) + 2*MWs*trip(MZs)))/(64.*MWs*(4*MWs - MZs)*(-MWs + MZs)*sqr(MZs)) + (-672*MZs*powint(MWs,4) + 1152*powint(MWs,5) - 184*MWs*powint(MZs,4) + 27*powint(MZs,5) - 1120*sqr(MZs)*trip(MWs) + 680*sqr(MWs)*trip(MZs))/(768.*MWs*(MWs - MZs)*(4*MWs - MZs)*sqr(MZs));
       break;
-     case NEU:
+     case NUE:
+     case NUM:
+     case NUT:
       res = (3*MZs*A0fin(MZs))/(128.*MWs*(MWs - MZs)) + (MWs*(2*MWs - MZs)*(MWs + MZs)*real(C0(MZs,0,0,0,0,MWs)))/(32.*(MWs - MZs)*MZs) + ((2*MWs + MZs)*real(B0fin(MZs,MWs,MWs))*sqr(MWs))/(8.*(4*MWs - MZs)*MZs*(-MWs + MZs)) + ((MWs + MZs)*real(C0(0,MZs,0,0,MWs,MWs))*sqr(MWs))/(16.*(MWs - MZs)*MZs) + (A0fin(MWs)*(4*MWs*MZs + 12*sqr(MWs) - sqr(MZs)))/(64.*MWs*(-5*MWs*MZs + 4*sqr(MWs) + sqr(MZs))) + (real(B0fin(MZs,0,0))*(-2*MWs*sqr(MZs) + 8*trip(MWs) - 3*trip(MZs)))/(128*MZs*sqr(MWs) - 128*MWs*sqr(MZs)) + (real(C0(MZs,0,0,0,0,MZs))*trip(MZs))/(32.*MWs*(-MWs + MZs)) + (-8*MZs*sqr(MWs) - 2*MWs*sqr(MZs) + 48*trip(MWs) + trip(MZs))/(256.*MWs*(MWs - MZs)*(4*MWs - MZs));
       break;
      case UQU:
+     case CQU:
       res = (MWs*(MWs + MZs)*(2*MWs + MZs)*real(C0(MZs,0,0,0,0,MWs)))/(96.*(MWs - MZs)*MZs) + ((MWs + MZs)*real(C0(0,MZs,0,0,MWs,MWs))*sqr(MWs))/(16.*(MWs - MZs)*MZs) + (A0fin(MZs)*(-240*MZs*sqr(MWs) + 204*MWs*sqr(MZs) + 128*trip(MWs) - 65*trip(MZs)))/(1152.*MWs*(MWs - MZs)*sqr(MZs)) + (MWs*real(B0fin(MZs,MWs,MWs))*(-8*MZs*sqr(MWs) - 8*MWs*sqr(MZs) + 24*trip(MWs) + trip(MZs)))/(24.*(4*MWs - MZs)*(-MWs + MZs)*sqr(MZs)) + (real(C0(MZs,0,0,0,0,MZs))*(240*MZs*sqr(MWs) - 204*MWs*sqr(MZs) - 128*trip(MWs) + 65*trip(MZs)))/(864.*MWs*(MWs - MZs)) + (real(B0fin(MZs,0,0))*(264*MZs*sqr(MWs) - 198*MWs*sqr(MZs) - 104*trip(MWs) + 65*trip(MZs)))/(1152.*MWs*(MWs - MZs)*MZs) + (A0fin(MWs)*(192*powint(MWs,4) + powint(MZs,4) - 76*sqr(MWs)*sqr(MZs) - 80*MZs*trip(MWs) + 8*MWs*trip(MZs)))/(192.*MWs*sqr(MZs)*(-5*MWs*MZs + 4*sqr(MWs) + sqr(MZs))) + (4672*MZs*powint(MWs,4) - 6912*powint(MWs,5) + 398*MWs*powint(MZs,4) - 65*powint(MZs,5) + 5360*sqr(MZs)*trip(MWs) - 2400*sqr(MWs)*trip(MZs))/(6912.*MWs*(MWs - MZs)*(4*MWs - MZs)*sqr(MZs));
       break;
      case DQU:
+     case SQU:
       res = (MWs*(4*MWs - MZs)*(MWs + MZs)*real(C0(MZs,0,0,0,0,MWs)))/(96.*MZs*(-MWs + MZs)) + ((MWs + MZs)*real(C0(0,MZs,0,0,MWs,MWs))*sqr(MWs))/(16.*MZs*(-MWs + MZs)) + ((4*MWs - MZs)*real(B0fin(MZs,0,0))*(8*MWs*MZs + 8*sqr(MWs) - 7*sqr(MZs)))/(1152.*MWs*MZs*(-MWs + MZs)) + (MWs*real(B0fin(MZs,MWs,MWs))*(MWs*MZs + 6*sqr(MWs) - sqr(MZs)))/(48.*(MWs - MZs)*sqr(MZs)) + (real(C0(MZs,0,0,0,0,MZs))*(-12*MZs*sqr(MWs) + 30*MWs*sqr(MZs) + 16*trip(MWs) - 7*trip(MZs)))/(-864*MWs*MZs + 864*sqr(MWs)) + (A0fin(MWs)*(-4*MZs*sqr(MWs) - 6*MWs*sqr(MZs) + 24*trip(MWs) + trip(MZs)))/(192.*MWs*(-MWs + MZs)*sqr(MZs)) + (A0fin(MZs)*(12*MZs*sqr(MWs) - 30*MWs*sqr(MZs) - 16*trip(MWs) + 7*trip(MZs)))/(1152.*MWs*(MWs - MZs)*sqr(MZs)) + (864*powint(MWs,4) - 7*powint(MZs,4) - 816*sqr(MWs)*sqr(MZs) - 416*MZs*trip(MWs) + 24*MWs*trip(MZs))/(6912.*MWs*(MWs - MZs)*sqr(MZs));
       break;
      case BQU:
@@ -542,16 +620,22 @@ double rz1bp(int type, int form, const inval& input)
     break;
    case AXV:
     switch(type) {
-     case LEP:
+     case ELE:
+     case MUE:
+     case TAU:
       res = (MWs*(MWs + MZs)*real(C0(MZs,0,0,0,0,MWs)))/(32.*(-MWs + MZs)) + ((MWs + MZs)*real(C0(0,MZs,0,0,MWs,MWs))*sqr(MWs))/(16.*MZs*(-MWs + MZs)) + ((2*MWs + MZs)*real(B0fin(MZs,MWs,MWs))*sqr(MWs))/(8.*MZs*(-5*MWs*MZs + 4*sqr(MWs) + sqr(MZs))) + (3*A0fin(MZs)*(-18*MWs*MZs + 12*sqr(MWs) + 7*sqr(MZs)))/(128.*MWs*MZs*(-MWs + MZs)) + (MZs*real(C0(MZs,0,0,0,0,MZs))*(-18*MWs*MZs + 12*sqr(MWs) + 7*sqr(MZs)))/(32.*MWs*(MWs - MZs)) + (real(B0fin(MZs,0,0))*(-56*MWs*MZs + 32*sqr(MWs) + 21*sqr(MZs)))/(-128*MWs*MZs + 128*sqr(MWs)) + (-96*MZs*sqr(MWs) + 48*MWs*sqr(MZs) + 16*trip(MWs) - 7*trip(MZs))/(256.*MWs*(MWs - MZs)*(4*MWs - MZs)) - (A0fin(MWs)*(-2*MWs*sqr(MZs) + 16*trip(MWs) + trip(MZs)))/(64.*MWs*MZs*(-5*MWs*MZs + 4*sqr(MWs) + sqr(MZs)));
       break;
-     case NEU:
+     case NUE:
+     case NUM:
+     case NUT:
       res = (3*MZs*A0fin(MZs))/(128.*MWs*(MWs - MZs)) + (MWs*(2*MWs - MZs)*(MWs + MZs)*real(C0(MZs,0,0,0,0,MWs)))/(32.*(MWs - MZs)*MZs) + ((2*MWs + MZs)*real(B0fin(MZs,MWs,MWs))*sqr(MWs))/(8.*(4*MWs - MZs)*MZs*(-MWs + MZs)) + ((MWs + MZs)*real(C0(0,MZs,0,0,MWs,MWs))*sqr(MWs))/(16.*(MWs - MZs)*MZs) + (A0fin(MWs)*(4*MWs*MZs + 12*sqr(MWs) - sqr(MZs)))/(64.*MWs*(-5*MWs*MZs + 4*sqr(MWs) + sqr(MZs))) + (real(B0fin(MZs,0,0))*(-2*MWs*sqr(MZs) + 8*trip(MWs) - 3*trip(MZs)))/(128*MZs*sqr(MWs) - 128*MWs*sqr(MZs)) + (real(C0(MZs,0,0,0,0,MZs))*trip(MZs))/(32.*MWs*(-MWs + MZs)) + (-8*MZs*sqr(MWs) - 2*MWs*sqr(MZs) + 48*trip(MWs) + trip(MZs))/(256.*MWs*(MWs - MZs)*(4*MWs - MZs));
       break;
      case UQU:
+     case CQU:
       res = (MWs*(MWs + MZs)*(2*MWs + MZs)*real(C0(MZs,0,0,0,0,MWs)))/(96.*(MWs - MZs)*MZs) + ((2*MWs + MZs)*real(B0fin(MZs,MWs,MWs))*sqr(MWs))/(8.*(4*MWs - MZs)*MZs*(-MWs + MZs)) + ((MWs + MZs)*real(C0(0,MZs,0,0,MWs,MWs))*sqr(MWs))/(16.*(MWs - MZs)*MZs) + (MZs*real(C0(MZs,0,0,0,0,MZs))*(-20*MWs*MZs + 16*sqr(MWs) + 7*sqr(MZs)))/(96.*MWs*(-MWs + MZs)) + (A0fin(MZs)*(-20*MWs*MZs + 16*sqr(MWs) + 7*sqr(MZs)))/(128*MZs*sqr(MWs) - 128*MWs*sqr(MZs)) + (real(B0fin(MZs,0,0))*(-40*MZs*sqr(MWs) + 62*MWs*sqr(MZs) + 8*trip(MWs) - 21*trip(MZs)))/(384*MZs*sqr(MWs) - 384*MWs*sqr(MZs)) + (A0fin(MWs)*(12*MZs*sqr(MWs) + 32*trip(MWs) + trip(MZs)))/(192.*MWs*MZs*(-5*MWs*MZs + 4*sqr(MWs) + sqr(MZs))) + (112*MZs*sqr(MWs) - 50*MWs*sqr(MZs) + 48*trip(MWs) + 7*trip(MZs))/(768.*MWs*(MWs - MZs)*(4*MWs - MZs));
       break;
      case DQU:
+     case SQU:
       res = (MWs*(4*MWs - MZs)*(MWs + MZs)*real(C0(MZs,0,0,0,0,MWs)))/(96.*MZs*(-MWs + MZs)) + ((MWs + MZs)*real(C0(0,MZs,0,0,MWs,MWs))*sqr(MWs))/(16.*MZs*(-MWs + MZs)) + ((2*MWs + MZs)*real(B0fin(MZs,MWs,MWs))*sqr(MWs))/(8.*MZs*(-5*MWs*MZs + 4*sqr(MWs) + sqr(MZs))) + (A0fin(MZs)*(-2*MWs*MZs + 4*sqr(MWs) + sqr(MZs)))/(128.*MWs*MZs*(-MWs + MZs)) + (MZs*real(C0(MZs,0,0,0,0,MZs))*(-2*MWs*MZs + 4*sqr(MWs) + sqr(MZs)))/(96.*MWs*(MWs - MZs)) + (A0fin(MWs)*(-24*MZs*sqr(MWs) - 6*MWs*sqr(MZs) - 16*trip(MWs) + trip(MZs)))/(192.*MWs*MZs*(-5*MWs*MZs + 4*sqr(MWs) + sqr(MZs))) + (8*MZs*sqr(MWs) - 4*MWs*sqr(MZs) + 112*trip(MWs) + trip(MZs))/(768.*MWs*(4*MWs - MZs)*(-MWs + MZs)) + (real(B0fin(MZs,0,0))*(8*MZs*sqr(MWs) - 4*MWs*sqr(MZs) - 16*trip(MWs) + 3*trip(MZs)))/(384.*MWs*(MWs - MZs)*MZs);
       break;
      case BQU:
@@ -576,16 +660,22 @@ double iz1bp(int type, int form, const inval& input)
   switch(form) {
    case VEC:
     switch(type) {
-     case LEP:
+     case ELE:
+     case MUE:
+     case TAU:
       res = (MWs*(MWs + MZs)*imag(C0(MZs,0,0,0,0,MWs)))/(32.*(-MWs + MZs)) + (imag(B0fin(MZs,0,0))*(-112*MZs*sqr(MWs) + 88*MWs*sqr(MZs) + 48*trip(MWs) - 27*trip(MZs)))/(128*MZs*sqr(MWs) - 128*MWs*sqr(MZs)) + (imag(C0(MZs,0,0,0,0,MZs))*(-36*MZs*sqr(MWs) + 30*MWs*sqr(MZs) + 16*trip(MWs) - 9*trip(MZs)))/(-32*MWs*MZs + 32*sqr(MWs));
       break;
-     case NEU:
+     case NUE:
+     case NUM:
+     case NUT:
       res = (MWs*(2*MWs - MZs)*(MWs + MZs)*imag(C0(MZs,0,0,0,0,MWs)))/(32.*(MWs - MZs)*MZs) + (imag(B0fin(MZs,0,0))*(-2*MWs*sqr(MZs) + 8*trip(MWs) - 3*trip(MZs)))/(128*MZs*sqr(MWs) - 128*MWs*sqr(MZs)) + (imag(C0(MZs,0,0,0,0,MZs))*trip(MZs))/(32.*MWs*(-MWs + MZs));
       break;
      case UQU:
+     case CQU:
       res = (MWs*(MWs + MZs)*(2*MWs + MZs)*imag(C0(MZs,0,0,0,0,MWs)))/(96.*(MWs - MZs)*MZs) + (imag(C0(MZs,0,0,0,0,MZs))*(240*MZs*sqr(MWs) - 204*MWs*sqr(MZs) - 128*trip(MWs) + 65*trip(MZs)))/(864.*MWs*(MWs - MZs)) + (imag(B0fin(MZs,0,0))*(264*MZs*sqr(MWs) - 198*MWs*sqr(MZs) - 104*trip(MWs) + 65*trip(MZs)))/(1152.*MWs*(MWs - MZs)*MZs);
       break;
      case DQU:
+     case SQU:
       res = (MWs*(4*MWs - MZs)*(MWs + MZs)*imag(C0(MZs,0,0,0,0,MWs)))/(96.*MZs*(-MWs + MZs)) + ((4*MWs - MZs)*imag(B0fin(MZs,0,0))*(8*MWs*MZs + 8*sqr(MWs) - 7*sqr(MZs)))/(1152.*MWs*MZs*(-MWs + MZs)) + (imag(C0(MZs,0,0,0,0,MZs))*(-12*MZs*sqr(MWs) + 30*MWs*sqr(MZs) + 16*trip(MWs) - 7*trip(MZs)))/(-864*MWs*MZs + 864*sqr(MWs));
       break;
      case BQU:
@@ -595,16 +685,22 @@ double iz1bp(int type, int form, const inval& input)
     break;
    case AXV:
     switch(type) {
-     case LEP:
+     case ELE:
+     case MUE:
+     case TAU:
       res = (MWs*(MWs + MZs)*imag(C0(MZs,0,0,0,0,MWs)))/(32.*(-MWs + MZs)) + (MZs*imag(C0(MZs,0,0,0,0,MZs))*(-18*MWs*MZs + 12*sqr(MWs) + 7*sqr(MZs)))/(32.*MWs*(MWs - MZs)) + (imag(B0fin(MZs,0,0))*(-56*MWs*MZs + 32*sqr(MWs) + 21*sqr(MZs)))/(-128*MWs*MZs + 128*sqr(MWs));
       break;
-     case NEU:
+     case NUE:
+     case NUM:
+     case NUT:
       res = (MWs*(2*MWs - MZs)*(MWs + MZs)*imag(C0(MZs,0,0,0,0,MWs)))/(32.*(MWs - MZs)*MZs) + (imag(B0fin(MZs,0,0))*(-2*MWs*sqr(MZs) + 8*trip(MWs) - 3*trip(MZs)))/(128*MZs*sqr(MWs) - 128*MWs*sqr(MZs)) + (imag(C0(MZs,0,0,0,0,MZs))*trip(MZs))/(32.*MWs*(-MWs + MZs));
       break;
      case UQU:
+     case CQU:
       res = (MWs*(MWs + MZs)*(2*MWs + MZs)*imag(C0(MZs,0,0,0,0,MWs)))/(96.*(MWs - MZs)*MZs) + (MZs*imag(C0(MZs,0,0,0,0,MZs))*(-20*MWs*MZs + 16*sqr(MWs) + 7*sqr(MZs)))/(96.*MWs*(-MWs + MZs)) + (imag(B0fin(MZs,0,0))*(-40*MZs*sqr(MWs) + 62*MWs*sqr(MZs) + 8*trip(MWs) - 21*trip(MZs)))/(384*MZs*sqr(MWs) - 384*MWs*sqr(MZs));
       break;
      case DQU:
+     case SQU:
       res = (MWs*(4*MWs - MZs)*(MWs + MZs)*imag(C0(MZs,0,0,0,0,MWs)))/(96.*MZs*(-MWs + MZs)) + (MZs*imag(C0(MZs,0,0,0,0,MZs))*(-2*MWs*MZs + 4*sqr(MWs) + sqr(MZs)))/(96.*MWs*(MWs - MZs)) + (imag(B0fin(MZs,0,0))*(8*MZs*sqr(MWs) - 4*MWs*sqr(MZs) - 16*trip(MWs) + 3*trip(MZs)))/(384.*MWs*(MWs - MZs)*MZs);
       break;
      case BQU:
@@ -629,16 +725,22 @@ double rg1f(int type, int form, const inval& input)
   switch(form) {
    case VEC:
     switch(type) {
-     case LEP:
+     case ELE:
+     case MUE:
+     case TAU:
       res = 0;
       break;
-     case NEU:
+     case NUE:
+     case NUM:
+     case NUT:
       res = 0;
       break;
      case UQU:
+     case CQU:
       res = 0;
       break;
      case DQU:
+     case SQU:
       res = 0;
       break;
      case BQU:
@@ -648,16 +750,22 @@ double rg1f(int type, int form, const inval& input)
     break;
    case AXV:
     switch(type) {
-     case LEP:
+     case ELE:
+     case MUE:
+     case TAU:
       res = 0;
       break;
-     case NEU:
+     case NUE:
+     case NUM:
+     case NUT:
       res = 0;
       break;
      case UQU:
+     case CQU:
       res = 0;
       break;
      case DQU:
+     case SQU:
       res = 0;
       break;
      case BQU:
@@ -682,16 +790,22 @@ double ig1f(int type, int form, const inval& input)
   switch(form) {
    case VEC:
     switch(type) {
-     case LEP:
+     case ELE:
+     case MUE:
+     case TAU:
       res = 0;
       break;
-     case NEU:
+     case NUE:
+     case NUM:
+     case NUT:
       res = 0;
       break;
      case UQU:
+     case CQU:
       res = 0;
       break;
      case DQU:
+     case SQU:
       res = 0;
       break;
      case BQU:
@@ -701,16 +815,22 @@ double ig1f(int type, int form, const inval& input)
     break;
    case AXV:
     switch(type) {
-     case LEP:
+     case ELE:
+     case MUE:
+     case TAU:
       res = 0;
       break;
-     case NEU:
+     case NUE:
+     case NUM:
+     case NUT:
       res = 0;
       break;
      case UQU:
+     case CQU:
       res = 0;
       break;
      case DQU:
+     case SQU:
       res = 0;
       break;
      case BQU:
@@ -735,16 +855,22 @@ double rg1b(int type, int form, const inval& input)
   switch(form) {
    case VEC:
     switch(type) {
-     case LEP:
+     case ELE:
+     case MUE:
+     case TAU:
       res = -((2*MWs + MZs)*A0fin(MWs)*pow(AL,1.5))/(8.*MWs*(MWs - MZs)*sqrt(Pi)) + ((2*MWs + MZs)*pow(AL,1.5)*real(B0fin(MZs,MWs,MWs)))/(8.*(MWs - MZs)*sqrt(Pi)) + (MWs*(MWs + 2*MZs)*pow(AL,1.5)*real(C0(0,MZs,0,0,MWs,MWs)))/(4.*(-MWs + MZs)*sqrt(Pi)) + (pow(AL,1.5)*(-26*MWs*MZs + 8*sqr(MWs) + 5*sqr(MZs)))/(32.*MWs*(MWs - MZs)*sqrt(Pi)) - (5*A0fin(MZs)*pow(AL,1.5)*(-12*MWs*MZs + 8*sqr(MWs) + 5*sqr(MZs)))/(16.*MWs*(MWs - MZs)*MZs*sqrt(Pi)) + (5*pow(AL,1.5)*real(B0fin(MZs,0,0))*(-12*MWs*MZs + 8*sqr(MWs) + 5*sqr(MZs)))/(16.*MWs*(MWs - MZs)*sqrt(Pi)) + (MZs*pow(AL,1.5)*real(C0(MZs,0,0,0,0,MZs))*(-12*MWs*MZs + 8*sqr(MWs) + 5*sqr(MZs)))/(2.*MWs*(MWs - MZs)*sqrt(Pi));
       break;
-     case NEU:
+     case NUE:
+     case NUM:
+     case NUT:
       res = (MZs*pow(AL,1.5))/((2*MWs - 2*MZs)*sqrt(Pi)) + (MZs*A0fin(MWs)*pow(AL,1.5))/(4.*MWs*(-MWs + MZs)*sqrt(Pi)) + ((2*MWs + 3*MZs)*pow(AL,1.5)*real(B0fin(MZs,0,0)))/(8.*(MWs - MZs)*sqrt(Pi)) + ((2*MWs + MZs)*pow(AL,1.5)*real(B0fin(MZs,MWs,MWs)))/(8.*(-MWs + MZs)*sqrt(Pi)) + (MWs*(MWs + 2*MZs)*pow(AL,1.5)*real(C0(0,MZs,0,0,MWs,MWs)))/(4.*(MWs - MZs)*sqrt(Pi)) + (pow(AL,1.5)*real(C0(MZs,0,0,0,0,MWs))*sqr(MWs + MZs))/(4.*(MWs - MZs)*sqrt(Pi));
       break;
      case UQU:
+     case CQU:
       res = (A0fin(MWs)*pow(AL,1.5))/((6*MWs - 6*MZs)*sqrt(Pi)) + ((-142*MWs + 85*MZs)*pow(AL,1.5)*real(B0fin(MZs,0,0)))/(216.*MWs*sqrt(Pi)) + ((2*MWs + MZs)*pow(AL,1.5)*real(B0fin(MZs,MWs,MWs)))/(8.*(-MWs + MZs)*sqrt(Pi)) + (MWs*(MWs + 2*MZs)*pow(AL,1.5)*real(C0(0,MZs,0,0,MWs,MWs)))/(4.*(MWs - MZs)*sqrt(Pi)) - (pow(AL,1.5)*(-238*MWs*MZs + 32*sqr(MWs) + 17*sqr(MZs)))/(432.*MWs*(MWs - MZs)*sqrt(Pi)) + (5*A0fin(MZs)*pow(AL,1.5)*(-40*MWs*MZs + 32*sqr(MWs) + 17*sqr(MZs)))/(216.*MWs*(MWs - MZs)*MZs*sqrt(Pi)) - (MZs*pow(AL,1.5)*real(C0(MZs,0,0,0,0,MZs))*(-40*MWs*MZs + 32*sqr(MWs) + 17*sqr(MZs)))/(27.*MWs*(MWs - MZs)*sqrt(Pi)) + (pow(AL,1.5)*real(C0(MZs,0,0,0,0,MWs))*sqr(MWs + MZs))/(12.*(MWs - MZs)*sqrt(Pi));
       break;
      case DQU:
+     case SQU:
       res = ((-2*MWs + 3*MZs)*A0fin(MWs)*pow(AL,1.5))/(24.*MWs*(MWs - MZs)*sqrt(Pi)) + ((2*MWs + MZs)*pow(AL,1.5)*real(B0fin(MZs,MWs,MWs)))/(8.*(MWs - MZs)*sqrt(Pi)) + (MWs*(MWs + 2*MZs)*pow(AL,1.5)*real(C0(0,MZs,0,0,MWs,MWs)))/(4.*(-MWs + MZs)*sqrt(Pi)) - (pow(AL,1.5)*real(B0fin(MZs,0,0))*(128*MWs*MZs + 32*sqr(MWs) - 25*sqr(MZs)))/(432.*MWs*(MWs - MZs)*sqrt(Pi)) + (pow(AL,1.5)*(-418*MWs*MZs + 8*sqr(MWs) + 5*sqr(MZs)))/(864.*MWs*(MWs - MZs)*sqrt(Pi)) - (5*A0fin(MZs)*pow(AL,1.5)*(-4*MWs*MZs + 8*sqr(MWs) + 5*sqr(MZs)))/(432.*MWs*(MWs - MZs)*MZs*sqrt(Pi)) + (MZs*pow(AL,1.5)*real(C0(MZs,0,0,0,0,MZs))*(-4*MWs*MZs + 8*sqr(MWs) + 5*sqr(MZs)))/(54.*MWs*(MWs - MZs)*sqrt(Pi)) - (pow(AL,1.5)*real(C0(MZs,0,0,0,0,MWs))*sqr(MWs + MZs))/(6.*(MWs - MZs)*sqrt(Pi));
       break;
      case BQU:
@@ -754,16 +880,22 @@ double rg1b(int type, int form, const inval& input)
     break;
    case AXV:
     switch(type) {
-     case LEP:
+     case ELE:
+     case MUE:
+     case TAU:
       res = -(MZs*(10*MWs + 3*MZs)*pow(AL,1.5))/(32.*MWs*(MWs - MZs)*sqrt(Pi)) - ((2*MWs + MZs)*A0fin(MWs)*pow(AL,1.5))/(8.*MWs*(MWs - MZs)*sqrt(Pi)) - (5*(4*MWs - 3*MZs)*A0fin(MZs)*pow(AL,1.5))/(16.*MWs*(MWs - MZs)*sqrt(Pi)) + (5*(4*MWs - 3*MZs)*MZs*pow(AL,1.5)*real(B0fin(MZs,0,0)))/(16.*MWs*(MWs - MZs)*sqrt(Pi)) + ((2*MWs + MZs)*pow(AL,1.5)*real(B0fin(MZs,MWs,MWs)))/(8.*(MWs - MZs)*sqrt(Pi)) + (MWs*(MWs + 2*MZs)*pow(AL,1.5)*real(C0(0,MZs,0,0,MWs,MWs)))/(4.*(-MWs + MZs)*sqrt(Pi)) + ((4*MWs - 3*MZs)*pow(AL,1.5)*real(C0(MZs,0,0,0,0,MZs))*sqr(MZs))/(2.*MWs*(MWs - MZs)*sqrt(Pi));
       break;
-     case NEU:
+     case NUE:
+     case NUM:
+     case NUT:
       res = (MZs*pow(AL,1.5))/((2*MWs - 2*MZs)*sqrt(Pi)) + (MZs*A0fin(MWs)*pow(AL,1.5))/(4.*MWs*(-MWs + MZs)*sqrt(Pi)) + ((2*MWs + 3*MZs)*pow(AL,1.5)*real(B0fin(MZs,0,0)))/(8.*(MWs - MZs)*sqrt(Pi)) + ((2*MWs + MZs)*pow(AL,1.5)*real(B0fin(MZs,MWs,MWs)))/(8.*(-MWs + MZs)*sqrt(Pi)) + (MWs*(MWs + 2*MZs)*pow(AL,1.5)*real(C0(0,MZs,0,0,MWs,MWs)))/(4.*(MWs - MZs)*sqrt(Pi)) + (pow(AL,1.5)*real(C0(MZs,0,0,0,0,MWs))*sqr(MWs + MZs))/(4.*(MWs - MZs)*sqrt(Pi));
       break;
      case UQU:
+     case CQU:
       res = (MZs*(58*MWs + 5*MZs)*pow(AL,1.5))/(144.*MWs*(MWs - MZs)*sqrt(Pi)) + (A0fin(MWs)*pow(AL,1.5))/((6*MWs - 6*MZs)*sqrt(Pi)) + (5*(8*MWs - 5*MZs)*A0fin(MZs)*pow(AL,1.5))/(72.*MWs*(MWs - MZs)*sqrt(Pi)) + ((6*MWs - 25*MZs)*pow(AL,1.5)*real(B0fin(MZs,0,0)))/(72.*MWs*sqrt(Pi)) + ((2*MWs + MZs)*pow(AL,1.5)*real(B0fin(MZs,MWs,MWs)))/(8.*(-MWs + MZs)*sqrt(Pi)) + (MWs*(MWs + 2*MZs)*pow(AL,1.5)*real(C0(0,MZs,0,0,MWs,MWs)))/(4.*(MWs - MZs)*sqrt(Pi)) - ((8*MWs - 5*MZs)*pow(AL,1.5)*real(C0(MZs,0,0,0,0,MZs))*sqr(MZs))/(9.*MWs*(MWs - MZs)*sqrt(Pi)) + (pow(AL,1.5)*real(C0(MZs,0,0,0,0,MWs))*sqr(MWs + MZs))/(12.*(MWs - MZs)*sqrt(Pi));
       break;
      case DQU:
+     case SQU:
       res = -(MZs*(134*MWs + MZs)*pow(AL,1.5))/(288.*MWs*(MWs - MZs)*sqrt(Pi)) + ((-2*MWs + 3*MZs)*A0fin(MWs)*pow(AL,1.5))/(24.*MWs*(MWs - MZs)*sqrt(Pi)) - (5*(4*MWs - MZs)*A0fin(MZs)*pow(AL,1.5))/(144.*MWs*(MWs - MZs)*sqrt(Pi)) + ((2*MWs + MZs)*pow(AL,1.5)*real(B0fin(MZs,MWs,MWs)))/(8.*(MWs - MZs)*sqrt(Pi)) + (MWs*(MWs + 2*MZs)*pow(AL,1.5)*real(C0(0,MZs,0,0,MWs,MWs)))/(4.*(-MWs + MZs)*sqrt(Pi)) + ((4*MWs - MZs)*pow(AL,1.5)*real(C0(MZs,0,0,0,0,MZs))*sqr(MZs))/(18.*MWs*(MWs - MZs)*sqrt(Pi)) - (pow(AL,1.5)*real(B0fin(MZs,0,0))*(16*MWs*MZs + 24*sqr(MWs) + 5*sqr(MZs)))/(144.*MWs*(MWs - MZs)*sqrt(Pi)) - (pow(AL,1.5)*real(C0(MZs,0,0,0,0,MWs))*sqr(MWs + MZs))/(6.*(MWs - MZs)*sqrt(Pi));
       break;
      case BQU:
@@ -788,16 +920,22 @@ double ig1b(int type, int form, const inval& input)
   switch(form) {
    case VEC:
     switch(type) {
-     case LEP:
+     case ELE:
+     case MUE:
+     case TAU:
       res = (5*imag(B0fin(MZs,0,0))*pow(AL,1.5)*(-12*MWs*MZs + 8*sqr(MWs) + 5*sqr(MZs)))/(16.*MWs*(MWs - MZs)*sqrt(Pi)) + (MZs*imag(C0(MZs,0,0,0,0,MZs))*pow(AL,1.5)*(-12*MWs*MZs + 8*sqr(MWs) + 5*sqr(MZs)))/(2.*MWs*(MWs - MZs)*sqrt(Pi));
       break;
-     case NEU:
+     case NUE:
+     case NUM:
+     case NUT:
       res = ((2*MWs + 3*MZs)*imag(B0fin(MZs,0,0))*pow(AL,1.5))/(8.*(MWs - MZs)*sqrt(Pi)) + (imag(C0(MZs,0,0,0,0,MWs))*pow(AL,1.5)*sqr(MWs + MZs))/(4.*(MWs - MZs)*sqrt(Pi));
       break;
      case UQU:
+     case CQU:
       res = ((-142*MWs + 85*MZs)*imag(B0fin(MZs,0,0))*pow(AL,1.5))/(216.*MWs*sqrt(Pi)) - (MZs*imag(C0(MZs,0,0,0,0,MZs))*pow(AL,1.5)*(-40*MWs*MZs + 32*sqr(MWs) + 17*sqr(MZs)))/(27.*MWs*(MWs - MZs)*sqrt(Pi)) + (imag(C0(MZs,0,0,0,0,MWs))*pow(AL,1.5)*sqr(MWs + MZs))/(12.*(MWs - MZs)*sqrt(Pi));
       break;
      case DQU:
+     case SQU:
       res = -(imag(B0fin(MZs,0,0))*pow(AL,1.5)*(128*MWs*MZs + 32*sqr(MWs) - 25*sqr(MZs)))/(432.*MWs*(MWs - MZs)*sqrt(Pi)) + (MZs*imag(C0(MZs,0,0,0,0,MZs))*pow(AL,1.5)*(-4*MWs*MZs + 8*sqr(MWs) + 5*sqr(MZs)))/(54.*MWs*(MWs - MZs)*sqrt(Pi)) - (imag(C0(MZs,0,0,0,0,MWs))*pow(AL,1.5)*sqr(MWs + MZs))/(6.*(MWs - MZs)*sqrt(Pi));
       break;
      case BQU:
@@ -807,16 +945,22 @@ double ig1b(int type, int form, const inval& input)
     break;
    case AXV:
     switch(type) {
-     case LEP:
+     case ELE:
+     case MUE:
+     case TAU:
       res = (5*(4*MWs - 3*MZs)*MZs*imag(B0fin(MZs,0,0))*pow(AL,1.5))/(16.*MWs*(MWs - MZs)*sqrt(Pi)) + ((4*MWs - 3*MZs)*imag(C0(MZs,0,0,0,0,MZs))*pow(AL,1.5)*sqr(MZs))/(2.*MWs*(MWs - MZs)*sqrt(Pi));
       break;
-     case NEU:
+     case NUE:
+     case NUM:
+     case NUT:
       res = ((2*MWs + 3*MZs)*imag(B0fin(MZs,0,0))*pow(AL,1.5))/(8.*(MWs - MZs)*sqrt(Pi)) + (imag(C0(MZs,0,0,0,0,MWs))*pow(AL,1.5)*sqr(MWs + MZs))/(4.*(MWs - MZs)*sqrt(Pi));
       break;
      case UQU:
+     case CQU:
       res = ((6*MWs - 25*MZs)*imag(B0fin(MZs,0,0))*pow(AL,1.5))/(72.*MWs*sqrt(Pi)) - ((8*MWs - 5*MZs)*imag(C0(MZs,0,0,0,0,MZs))*pow(AL,1.5)*sqr(MZs))/(9.*MWs*(MWs - MZs)*sqrt(Pi)) + (imag(C0(MZs,0,0,0,0,MWs))*pow(AL,1.5)*sqr(MWs + MZs))/(12.*(MWs - MZs)*sqrt(Pi));
       break;
      case DQU:
+     case SQU:
       res = ((4*MWs - MZs)*imag(C0(MZs,0,0,0,0,MZs))*pow(AL,1.5)*sqr(MZs))/(18.*MWs*(MWs - MZs)*sqrt(Pi)) - (imag(B0fin(MZs,0,0))*pow(AL,1.5)*(16*MWs*MZs + 24*sqr(MWs) + 5*sqr(MZs)))/(144.*MWs*(MWs - MZs)*sqrt(Pi)) - (imag(C0(MZs,0,0,0,0,MWs))*pow(AL,1.5)*sqr(MWs + MZs))/(6.*(MWs - MZs)*sqrt(Pi));
       break;
      case BQU:

@@ -25,7 +25,7 @@ int main()
   
   double sw0 = 1-sqr(myinput.get(MWc)/myinput.get(MZc));
 /*
-  SW_SMNLO sw1(LEP,myinput);
+  SW_SMNLO sw1(ELE,myinput);
   for(i=0; i<4; i++)
   {
     myinput.set(MH, mhlist[i]);
@@ -36,7 +36,7 @@ int main()
   }
   cout << endl;
 */
-  SW_SMNNLO sw2(LEP,myinput);
+  SW_SMNNLO sw2(ELE,myinput);
   cout << "aas = " << sw2.drho2aas()/sw0 << " " << sw2.res2aas()/sw0 << endl;
   cout << "aas2= " << sw2.drho3aas2()/sw0 /*<< " " << sw2.res3aas2()/sw0*/ << endl;
   cout << "aas3= " << sw2.drho4aas3()/sw0 << endl << endl;
@@ -49,10 +49,11 @@ int main()
   }
   
   string typenam[5] = {"LEP", "NEU", "UQU", "DQU", "BQU"};
-  for(j=LEP; j<=BQU; j++)
+  int typenum[5] = {MUE, NUM, CQU, SQU, BQU};
+  for(j=0; j<5; j++)
   {
-    if(j==NEU) continue;
-    sw2.setftype(j);
+    if(typenum[j]==NUM) continue;
+    sw2.setftype(typenum[j]);
     cout << endl << typenam[j] << ":" << endl;
     for(i=0; i<4; i++)
     {

@@ -45,22 +45,28 @@ double SW_SMNNLO::res2fb(void) const
          deltaAlpha = ival->get(Delal);
   double r=0;
   switch(ftyp) {
-   case LEP:
+   case ELE:
+   case MUE:
+   case TAU:
     r = linex3d(axis1kpl2fb, sizeof(axis1kpl2fb)/sizeof(double), 
                 axis2kpl2fb, sizeof(axis2kpl2fb)/sizeof(double), 
                 axis3kpl2fb, sizeof(axis3kpl2fb)/sizeof(double), 
                 sqr(log10(MHs)/2), MWs/MZs, MTs/MZs, &datakpl2fb[0][0][0]);
     break;
-   case NEU:
+   case NUE:
+   case NUM:
+   case NUT:
     r = NAN;
     break;
    case UQU:
+   case CQU:
     r = linex3d(axis1kpu2fb, sizeof(axis1kpu2fb)/sizeof(double), 
                 axis2kpu2fb, sizeof(axis2kpu2fb)/sizeof(double), 
                 axis3kpu2fb, sizeof(axis3kpu2fb)/sizeof(double), 
                 sqr(log10(MHs)/2), MWs/MZs, MTs/MZs, &datakpu2fb[0][0][0]);
     break;
    case DQU:
+   case SQU:
     r = linex3d(axis1kpd2fb, sizeof(axis1kpd2fb)/sizeof(double), 
                 axis2kpd2fb, sizeof(axis2kpd2fb)/sizeof(double), 
                 axis3kpd2fb, sizeof(axis3kpd2fb)/sizeof(double), 
@@ -87,21 +93,27 @@ double SW_SMNNLO::res2bb(void) const
          deltaAlpha = ival->get(Delal);
   double r=0;
   switch(ftyp) {
-   case LEP:  r = linex2d(axis1kpl2bb, sizeof(axis1kpl2bb)/sizeof(double), 
+   case ELE:
+   case MUE:
+   case TAU:  r = linex2d(axis1kpl2bb, sizeof(axis1kpl2bb)/sizeof(double), 
                 	  axis2kpl2bb, sizeof(axis2kpl2bb)/sizeof(double), 
                 	  (mh/mz)/(125.1/91.1876),
 			  sqr((mw/mz)/(80.385/91.1876)) -1,
 			  &datakpl2bb[0][0]);
               break;
-   case NEU:  r = NAN;
+   case NUE:
+   case NUM:
+   case NUT:  r = NAN;
               break;
-   case UQU:  r = linex2d(axis1kpu2bb, sizeof(axis1kpu2bb)/sizeof(double), 
+   case UQU:
+   case CQU:  r = linex2d(axis1kpu2bb, sizeof(axis1kpu2bb)/sizeof(double), 
                 	  axis2kpu2bb, sizeof(axis2kpu2bb)/sizeof(double), 
                 	  (mh/mz)/(125.1/91.1876),
 			  sqr((mw/mz)/(80.385/91.1876)) -1,
 			  &datakpu2bb[0][0]);
               break;
-   case DQU:  r = linex2d(axis1kpd2bb, sizeof(axis1kpd2bb)/sizeof(double), 
+   case DQU:
+   case SQU:  r = linex2d(axis1kpd2bb, sizeof(axis1kpd2bb)/sizeof(double), 
                 	  axis2kpd2bb, sizeof(axis2kpd2bb)/sizeof(double), 
                 	  (mh/mz)/(125.1/91.1876),
 			  sqr((mw/mz)/(80.385/91.1876)) -1,
@@ -122,11 +134,17 @@ double SW_SMNNLO::res2bb(void) const
 Cplx SW_SMNNLO::errest(void) const
 {
   switch(ftyp) {
-   case LEP:
+   case ELE:
+   case MUE:
+   case TAU:
    case UQU:
-   case DQU:  return(4.3e-5);
+   case CQU:
+   case DQU:
+   case SQU:  return(4.3e-5);
    case BQU:  return(5.3e-5);   // from 1906.08815
-   case NEU:  return(0);
+   case NUE:
+   case NUM:
+   case NUT:  return(0);
   }
   return(0);
 }
@@ -173,25 +191,31 @@ double FA_SMNNLO::res2fb(void) const
          deltaAlpha = ival->get(Delal);
   double r=0;
   switch(ftyp) {
-   case LEP:
+   case ELE:
+   case MUE:
+   case TAU:
     r = linex3d(axis1fal2fb, sizeof(axis1fal2fb)/sizeof(double), 
                 axis2fal2fb, sizeof(axis2fal2fb)/sizeof(double), 
                 axis3fal2fb, sizeof(axis3fal2fb)/sizeof(double), 
                 sqr(log10(MHs)/2), MWs/MZs, MTs/MZs, &datafal2fb[0][0][0]);
     break;
-   case NEU:
+   case NUE:
+   case NUM:
+   case NUT:
     r = linex3d(axis1fan2fb, sizeof(axis1fan2fb)/sizeof(double), 
                 axis2fan2fb, sizeof(axis2fan2fb)/sizeof(double), 
                 axis3fan2fb, sizeof(axis3fan2fb)/sizeof(double), 
                 sqr(log10(MHs)/2), MWs/MZs, MTs/MZs, &datafan2fb[0][0][0]);
     break;
    case UQU:
+   case CQU:
     r = linex3d(axis1fau2fb, sizeof(axis1fau2fb)/sizeof(double), 
                 axis2fau2fb, sizeof(axis2fau2fb)/sizeof(double), 
                 axis3fau2fb, sizeof(axis3fau2fb)/sizeof(double), 
                 sqr(log10(MHs)/2), MWs/MZs, MTs/MZs, &datafau2fb[0][0][0]);
     break;
    case DQU:
+   case SQU:
     r = linex3d(axis1fad2fb, sizeof(axis1fad2fb)/sizeof(double), 
                 axis2fad2fb, sizeof(axis2fad2fb)/sizeof(double), 
                 axis3fad2fb, sizeof(axis3fad2fb)/sizeof(double), 
@@ -218,25 +242,31 @@ double FA_SMNNLO::res2bb(void) const
          deltaAlpha = ival->get(Delal);
   double r=0;
   switch(ftyp) {
-   case LEP:  r = linex2d(axis1fal2bb, sizeof(axis1fal2bb)/sizeof(double), 
+   case ELE:
+   case MUE:
+   case TAU:  r = linex2d(axis1fal2bb, sizeof(axis1fal2bb)/sizeof(double), 
                 	  axis2fal2bb, sizeof(axis2fal2bb)/sizeof(double), 
                 	  (mh/mz)/(125.1/91.1876),
 			  sqr((mw/mz)/(80.385/91.1876)) -1,
 			  &datafal2bb[0][0]);
               break;
-   case NEU:  r = linex2d(axis1fan2bb, sizeof(axis1fan2bb)/sizeof(double), 
+   case NUE:
+   case NUM:
+   case NUT:  r = linex2d(axis1fan2bb, sizeof(axis1fan2bb)/sizeof(double), 
                 	  axis2fan2bb, sizeof(axis2fan2bb)/sizeof(double), 
                 	  (mh/mz)/(125.1/91.1876),
 			  sqr((mw/mz)/(80.385/91.1876)) -1,
 			  &datafan2bb[0][0]);
               break;
-   case UQU:  r = linex2d(axis1fau2bb, sizeof(axis1fau2bb)/sizeof(double), 
+   case UQU:
+   case CQU:  r = linex2d(axis1fau2bb, sizeof(axis1fau2bb)/sizeof(double), 
                 	  axis2fau2bb, sizeof(axis2fau2bb)/sizeof(double), 
                 	  (mh/mz)/(125.1/91.1876),
 			  sqr((mw/mz)/(80.385/91.1876)) -1,
 			  &datafau2bb[0][0]);
               break;
-   case DQU:  r = linex2d(axis1fad2bb, sizeof(axis1fad2bb)/sizeof(double), 
+   case DQU:
+   case SQU:  r = linex2d(axis1fad2bb, sizeof(axis1fad2bb)/sizeof(double), 
                 	  axis2fad2bb, sizeof(axis2fad2bb)/sizeof(double), 
                 	  (mh/mz)/(125.1/91.1876),
 			  sqr((mw/mz)/(80.385/91.1876)) -1,
@@ -271,10 +301,16 @@ double FA_SMNNLO::res2aasnf(void) const
 Cplx FA_SMNNLO::errest(void) const
 {
   switch(ftyp) {
-   case LEP:  return(0.4e-5);
-   case NEU:  return(0.6e-5);
-   case UQU:  return(0.5e-5);
-   case DQU:  return(0.7e-5);
+   case ELE:
+   case MUE:
+   case TAU:  return(0.4e-5);
+   case NUE:
+   case NUM:
+   case NUT:  return(0.6e-5);
+   case UQU:
+   case CQU:  return(0.5e-5);
+   case DQU:
+   case SQU:  return(0.7e-5);
    case BQU:  return(0.3e-5);   // from 1906.08815
   }
   return(0);
@@ -293,10 +329,16 @@ Cplx FV_SMNNLO::result(void) const
 Cplx FV_SMNNLO::errest(void) const
 {
   switch(ftyp) {
-   case LEP:  return(0.5e-5);
-   case NEU:  return(0.6e-5);
-   case UQU:  return(0.5e-5);
-   case DQU:  return(1.1e-5);
+   case ELE:
+   case MUE:
+   case TAU:  return(0.5e-5);
+   case NUE:
+   case NUM:
+   case NUT:  return(0.6e-5);
+   case UQU:
+   case CQU:  return(0.5e-5);
+   case DQU:
+   case SQU:  return(1.1e-5);
    case BQU:  return(1.1e-5);   // from 1906.08815
   }
   return(0);

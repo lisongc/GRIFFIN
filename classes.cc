@@ -99,9 +99,47 @@ Cplx FV_SMLO::errest(void) const
 
 /*************************************************************************/
 
-extern const double Qf[5] = { -1., 0, +0.6666666666666667, 
-                              -0.3333333333333333, -0.3333333333333333 };
-extern const double I3f[5] = { -0.5, +0.5, +0.5, -0.5, -0.5 };
+extern const double Qf[20] = { 0, 
+                               -0.3333333333333333,
+			       +0.6666666666666667, 
+                               -0.3333333333333333,
+			       +0.6666666666666667, 
+                               -0.3333333333333333,
+			       +0.6666666666666667, 
+                               -0.3333333333333333,
+			       +0.6666666666666667, 
+			       0,
+			       0,
+			       -1,
+			       0,
+			       -1,
+			       0,
+			       -1,
+			       0,
+			       -1,
+			       0,
+			       0 };
+extern const double I3f[20] = { 0,
+				-0.5, 
+				+0.5,
+				-0.5, 
+				+0.5,
+				-0.5, 
+				+0.5,
+				-0.5, 
+				+0.5,
+				0,
+				0,
+				-0.5, 
+				+0.5,
+				-0.5, 
+				+0.5,
+				-0.5, 
+				+0.5,
+				-0.5, 
+				+0.5,
+				0 };
+				
 
 // tree-level axial-vector Z vertex factors
 double az0(int type, const inval& input)
@@ -110,17 +148,7 @@ double az0(int type, const inval& input)
          cw = input.get(MW)/input.get(MZ);
   double sw = sqrt(1-cw*cw);
   
-  switch(type)
-  {
-    case LEP: 
-    case DQU:
-    case BQU: 
-      return(-el/(4*sw*cw));
-    case NEU:
-    case UQU:
-      return(+el/(4*sw*cw));
-  }
-  return 0;
+  return(I3f[type]*el/(2*sw*cw));
 }
 
 // tree-level vector Z vertex factors

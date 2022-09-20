@@ -21,7 +21,7 @@ int main()
   
   cout << myinput.get(MWc) << endl;
   
-  FA_SMNNLO fa2(LEP,myinput);
+  FA_SMNNLO fa2(ELE,myinput);
   cout << "aas = " << fa2.drho2aas() << " " << fa2.res2aas() << endl;
   cout << "aas2= " << fa2.drho3aas2() /*<< " " << fa2.res3aas2()*/ << endl;
   cout << "aas3= " << fa2.drho4aas3() << endl << endl;
@@ -30,10 +30,11 @@ int main()
   cout << endl;
   
   string typenam[5] = {"LEP", "NEU", "UQU", "DQU", "BQU"};
+  int typenum[5] = {MUE, NUM, CQU, SQU, BQU};
   int i;
-  for(i=LEP; i<=BQU; i++)
+  for(i=0; i<5; i++)
   {
-    fa2.setftype(i);
+    fa2.setftype(typenum[i]);
     cout << typenam[i] << ":  ";
     cout << "a = " << (fa2.res1f()+fa2.res1b()) << "  " <<
     	      "a2_ff = " << fa2.res2ff() << "  a2_fb = " << fa2.res2fb() << endl;
