@@ -49,7 +49,7 @@ int main()
   }
   
   string typenam[5] = {"LEP", "NEU", "UQU", "DQU", "BQU"};
-  int typenum[5] = {MUE, NUM, CQU, SQU, BQU};
+  int typenum[5] = {MUO, NUM, CQU, SQU, BQU};
   for(j=0; j<5; j++)
   {
     if(typenum[j]==NUM) continue;

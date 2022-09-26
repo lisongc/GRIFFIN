@@ -24,7 +24,7 @@ int main()
   myinput.set(Delal, 0.059);
 
   // process ee -> ll
-  int ini = ELE, fin = MUE;
+  int ini = ELE, fin = MUO;
 
 
   double cme = 86.1876, // center-of-mass energy

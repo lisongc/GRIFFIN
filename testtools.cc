@@ -34,7 +34,7 @@ int main()
   FA_SMNNLO fa2(ELE,myinput);  // need to change these with flavor !!! 
   
   string typenam[5] = {"l", "n", "u", "d", "b"};
-  int typenum[5] = {MUE, NUM, CQU, SQU, BQU};
+  int typenum[5] = {MUO, NUM, CQU, SQU, BQU};
   
   for(i = 0; i < 5; i++)
     cout << "Gamma[Z->" << typenam[i] << typenam[i] << "] = "

@@ -99,7 +99,7 @@ public:
 
 // possible values for intype/outtype below
 #define ELE 11
-#define MUE 13
+#define MUO 13
 #define TAU 15
 #define NUE 12
 #define NUM 14
@@ -114,7 +114,7 @@ public:
 #define VEC 0
 #define AXV 1
 
-// object for matrix element computation using Z-pole expansion
+// object for matrix element computation
 class matel : public psobs {
 protected:
   int it, ot, iff, off;
@@ -148,16 +148,19 @@ public:
     s = sval; cost = costheta;
   }
   
+  // change values of inform/outform (VEC or AXV)
   void setform(const int inform, const int outform)
   {
     iff = inform; off = outform;
   }
 
+  // change initial-state and final-state fermion types
   void setftype(const int intype, const int outtype)
   {
     it = intype; ot = outtype;
   }
 
+  // change kinematic variables
   void setkinvar(const double sval, const double costheta)
   {
     s = sval; cost = costheta;
@@ -173,7 +176,7 @@ public:
 };
 
 
-// the form factors predicted in the SM (at LO)
+// form factor for sw_eff predicted in the SM (at LO)
 class SW_SMLO : public psobs {
 protected:
   int ftyp;
@@ -182,7 +185,7 @@ public:
   {
     ftyp = type;
   }
-  void setftype(const int type)
+  void setftype(const int type)		// change fermion type
   {
     ftyp = type;
   }
@@ -190,6 +193,7 @@ public:
   Cplx result(void) const;  // see classes.cc for code
 };
 
+// form factor for F_A predicted in the SM (at LO)
 class FA_SMLO : public psobs {
 protected:
   int ftyp;
@@ -198,7 +202,7 @@ public:
   {
     ftyp = type;
   }
-  void setftype(const int type)
+  void setftype(const int type)		// change fermion type
   {
     ftyp = type;
   }
@@ -206,6 +210,7 @@ public:
   Cplx result(void) const;  // see classes.cc for code
 };
 
+// form factor for F_V predicted in the SM (at LO); computed from F_A and sw_eff
 class FV_SMLO : public psobs {
 protected:
   int ftyp;
@@ -224,7 +229,7 @@ public:
     fa->setinput(input);
     sw->setinput(input);
   }
-  void setftype(const int type)
+  void setftype(const int type)		// change fermion type
   {
     ftyp = type;
     fa->setftype(type);

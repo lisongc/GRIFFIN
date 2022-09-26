@@ -1,7 +1,7 @@
 /*-----------------------------------------------------------------------------
 tools.cc
 Lisong Chen (lic114@pitt.edu), Ayres Freitas (afreitas@pitt.edu)
-last revision: 22 Feb 2022
+last revision: 19 Sep 2022
 -------------------------------------------------------------------------------
 some useful functions for computing decay widths and cross-sections
 -----------------------------------------------------------------------------*/
@@ -21,7 +21,7 @@ double partzwidth(FA_SMLO& fa, FV_SMLO& fv, const int type,
   switch(type)
   {
     case ELE: mf = input.get(ME);  alsp = 0;  fac = 1;  break;
-    case MUE: mf = input.get(MM);  alsp = 0;  fac = 1;  break;
+    case MUO: mf = input.get(MM);  alsp = 0;  fac = 1;  break;
     case TAU: mf = input.get(ML);  alsp = 0;  fac = 1;  break;
     case NUE:
     case NUM:
@@ -33,6 +33,8 @@ double partzwidth(FA_SMLO& fa, FV_SMLO& fv, const int type,
     case BQU: mf = input.get(MB);  fac = 3;  break;
     default: return(0);
   }
+  // QCD+QED corrections from Phys.Rep.277,189; PRL 101,012002; PRL 108,222003;
+  //  PLB 287,209
   y = sqr(mf/input.get(MZ));
   RV = 1+ 0.75*sqr(Qf[type])*alp + alsp
        + (-1.1529539789360381 + x*(0.13037037037037036 

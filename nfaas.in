@@ -9,7 +9,7 @@ double zaas(int type, int form, const inval& input)
    case VEC:
     switch(type) {
      case ELE:
-     case MUE:
+     case MUO:
      case TAU:
       res = 0;
       break;
@@ -34,7 +34,7 @@ double zaas(int type, int form, const inval& input)
    case AXV:
     switch(type) {
      case ELE:
-     case MUE:
+     case MUO:
      case TAU:
       res = 0;
       break;

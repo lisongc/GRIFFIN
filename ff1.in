@@ -206,7 +206,7 @@ double rz1f(int type, int form, const inval& input)
    case VEC:
     switch(type) {
      case ELE:
-     case MUE:
+     case MUO:
      case TAU:
       res = (deltaAlpha*(-4*MWs + 3*MZs)*Pi)/(32.*AL) + (3*(2*MWs - 3*MZs)*real(B0fin(MWs,0,0))*sqr(MZs))/(128.*sqr(MWs - MZs)) - (3*(2*MWs - 3*MZs)*real(B0fin(MZs,0,0))*sqr(MZs))/(128.*sqr(MWs - MZs)) - ((2*MWs - 3*MZs)*real(B0fin(MWs,MTs,MBs))*(MTs*MWs + MBs*(-2*MTs + MWs) + sqr(MBs) + sqr(MTs) - 2*sqr(MWs))*sqr(MZs))/(256.*sqr(MWs)*sqr(MWs - MZs)) - (real(B0fin(MZs,MTs,MTs))*(MWs*sqr(MZs)*(352*MZs*sqr(MWs) - 308*MWs*sqr(MZs) - 128*trip(MWs) + 75*trip(MZs)) + 2*sqr(MTs)*(1280*powint(MWs,4) + 63*powint(MZs,4) + 3788*sqr(MWs)*sqr(MZs) - 3712*MZs*trip(MWs) - 1437*MWs*trip(MZs)) + MTs*MZs*(256*powint(MWs,4) + 81*powint(MZs,4) + 616*sqr(MWs)*sqr(MZs) - 704*MZs*trip(MWs) - 204*MWs*trip(MZs))))/(2304.*MWs*MZs*(-4*MTs + MZs)*sqr(MWs - MZs)) - (real(B0fin(MZs,MBs,MBs))*(MWs*(8*MWs - 11*MZs)*powint(MZs,4) + MBs*(4*MWs*MZs - 16*sqr(MWs) + 27*sqr(MZs))*trip(MZs) + 2*sqr(MBs)*(64*powint(MWs,4) - 51*powint(MZs,4) + 76*sqr(MWs)*sqr(MZs) - 144*MZs*trip(MWs) + 49*MWs*trip(MZs))))/(768.*MWs*MZs*(-4*MBs + MZs)*sqr(MWs - MZs)) + (A0fin(MBs)*(12*(-2*MWs + 3*MZs)*sqr(MBs)*trip(MZs) + (-6*MWs*(MTs - 3*MZs)*MZs - 34*MZs*sqr(MWs) + 9*MTs*sqr(MZs) + 16*trip(MWs))*trip(MZs) + MBs*(-288*MZs*powint(MWs,4) + 128*powint(MWs,5) - 9*(4*MTs + MZs)*powint(MZs,4) + 152*sqr(MZs)*trip(MWs) + 12*MWs*(2*MTs - 5*MZs)*trip(MZs) + 74*sqr(MWs)*trip(MZs))))/(768.*MZs*(-4*MBs + MZs)*sqr(MWs)*sqr(MWs - MZs)) - (A0fin(MTs)*(32*(4*MWs - 3*MZs)*sqr(MWs)*sqr(MWs - MZs)*sqr(MZs) + 36*(2*MWs - 3*MZs)*trip(MTs)*trip(MZs) + MTs*MZs*(704*MZs*powint(MWs,4) - 256*powint(MWs,5) - 27*MBs*powint(MZs,4) - 664*sqr(MZs)*trip(MWs) + 18*MWs*(MBs - 3*MZs)*trip(MZs) + 270*sqr(MWs)*trip(MZs)) + sqr(MTs)*(7424*MZs*powint(MWs,4) - 2560*powint(MWs,5) + 27*(4*MBs + MZs)*powint(MZs,4) - 7576*sqr(MZs)*trip(MWs) - 36*MWs*(2*MBs + 7*MZs)*trip(MZs) + 2946*sqr(MWs)*trip(MZs))))/(2304.*MTs*MZs*(-4*MTs + MZs)*sqr(MWs)*sqr(MWs - MZs)) + (18*(4*MTs - MZs)*sqr(MBs)*(-80*MZs*sqr(MWs) - 4*MWs*sqr(MZs) + 64*trip(MWs) + 33*trip(MZs)) + MZs*(8*sqr(MZs)*(-632*MZs*sqr(MWs) + 474*MWs*sqr(MZs) + 320*trip(MWs) - 135*trip(MZs)) + sqr(MTs)*(14592*MZs*sqr(MWs) - 8136*MWs*sqr(MZs) - 7680*trip(MWs) + 702*trip(MZs)) + MTs*MZs*(14272*MZs*sqr(MWs) - 11604*MWs*sqr(MZs) - 7168*trip(MWs) + 3807*trip(MZs))) + MBs*(8*MTs*MZs*(-6776*MZs*sqr(MWs) + 5748*MWs*sqr(MZs) + 3296*trip(MWs) - 1971*trip(MZs)) + 24*sqr(MTs)*(-2432*MZs*sqr(MWs) + 1356*MWs*sqr(MZs) + 1280*trip(MWs) - 117*trip(MZs)) + sqr(MZs)*(19504*MZs*sqr(MWs) - 15060*MWs*sqr(MZs) - 9664*trip(MWs) + 4455*trip(MZs))))/(6912.*MWs*(MWs - MZs)*MZs*(-4*MBs + MZs)*(-4*MTs + MZs));
       break;
@@ -231,7 +231,7 @@ double rz1f(int type, int form, const inval& input)
    case AXV:
     switch(type) {
      case ELE:
-     case MUE:
+     case MUO:
      case TAU:
       res = -(deltaAlpha*MZs*Pi)/(32.*AL) + (3*(-2*MWs + MZs)*real(B0fin(MWs,0,0))*sqr(MZs))/(128.*sqr(MWs - MZs)) + (3*(2*MWs - MZs)*real(B0fin(MZs,0,0))*sqr(MZs))/(128.*sqr(MWs - MZs)) + ((2*MWs - MZs)*real(B0fin(MWs,MTs,MBs))*(MTs*MWs + MBs*(-2*MTs + MWs) + sqr(MBs) + sqr(MTs) - 2*sqr(MWs))*sqr(MZs))/(256.*sqr(MWs)*sqr(MWs - MZs)) - (18*(4*MTs - MZs)*sqr(MBs)*(8*MWs*MZs + 16*sqr(MWs) - 11*sqr(MZs)) + MZs*(MTs*MZs*(2368*MWs*MZs - 1792*sqr(MWs) - 1269*sqr(MZs)) - 6*sqr(MTs)*(-272*MWs*MZs + 320*sqr(MWs) + 39*sqr(MZs)) + 8*sqr(MZs)*(-98*MWs*MZs + 80*sqr(MWs) + 45*sqr(MZs))) + MBs*((3136*MWs*MZs - 2416*sqr(MWs) - 1485*sqr(MZs))*sqr(MZs) + 24*sqr(MTs)*(-272*MWs*MZs + 320*sqr(MWs) + 39*sqr(MZs)) + 8*MTs*MZs*(-1184*MWs*MZs + 824*sqr(MWs) + 657*sqr(MZs))))/(6912.*MWs*(-4*MBs + MZs)*(-4*MTs + MZs)*(-MWs + MZs)) - (real(B0fin(MZs,MBs,MBs))*(MBs*(16*MWs*MZs + 8*sqr(MWs) - 9*sqr(MZs))*sqr(MZs) + MWs*(-4*MWs + MZs)*trip(MZs) + 2*sqr(MBs)*(-8*MZs*sqr(MWs) - 31*MWs*sqr(MZs) + 16*trip(MWs) + 17*trip(MZs))))/(768.*MWs*(-4*MBs + MZs)*sqr(MWs - MZs)) + (real(B0fin(MZs,MTs,MTs))*(MWs*sqr(MZs)*(-40*MWs*MZs + 32*sqr(MWs) + 17*sqr(MZs)) + MTs*MZs*(80*MZs*sqr(MWs) - 88*MWs*sqr(MZs) - 64*trip(MWs) + 27*trip(MZs)) + sqr(MTs)*(1184*MZs*sqr(MWs) - 550*MWs*sqr(MZs) - 640*trip(MWs) + 42*trip(MZs))))/(2304.*MWs*(-4*MTs + MZs)*sqr(MWs - MZs)) + (A0fin(MTs)*(-32*sqr(MWs)*sqr(MWs - MZs)*sqr(MZs) + 36*(2*MWs - MZs)*sqr(MZs)*trip(MTs) + MTs*MZs*(64*powint(MWs,4) + 18*MWs*(MBs - MZs)*sqr(MZs) + 130*sqr(MWs)*sqr(MZs) - 176*MZs*trip(MWs) - 9*MBs*trip(MZs)) + sqr(MTs)*(640*powint(MWs,4) - 24*MWs*(3*MBs + 4*MZs)*sqr(MZs) + 622*sqr(MWs)*sqr(MZs) - 1184*MZs*trip(MWs) + 9*(4*MBs + MZs)*trip(MZs))))/(2304.*MTs*(-4*MTs + MZs)*sqr(MWs)*sqr(MWs - MZs)) + (A0fin(MBs)*(12*(-2*MWs + MZs)*sqr(MBs)*sqr(MZs) + sqr(MZs)*(6*MWs*MZs*(-MTs + MZs) - 14*MZs*sqr(MWs) + 3*MTs*sqr(MZs) + 8*trip(MWs)) + MBs*(-32*powint(MWs,4) + 8*MWs*(3*MTs - 2*MZs)*sqr(MZs) + 38*sqr(MWs)*sqr(MZs) + 16*MZs*trip(MWs) - 3*(4*MTs + MZs)*trip(MZs))))/(768.*(4*MBs - MZs)*sqr(MWs)*sqr(MWs - MZs));
       break;
@@ -271,7 +271,7 @@ double iz1f(int type, int form, const inval& input)
    case VEC:
     switch(type) {
      case ELE:
-     case MUE:
+     case MUO:
      case TAU:
       res = ((76*MWs - 49*MZs)*imag(B0fin(MZs,0,0)))/144. + ((4*MWs - MZs)*(2*MBs + MZs)*imag(B0fin(MZs,MBs,MBs)))/(144.*MZs);
       break;
@@ -296,7 +296,7 @@ double iz1f(int type, int form, const inval& input)
    case AXV:
     switch(type) {
      case ELE:
-     case MUE:
+     case MUO:
      case TAU:
       res = 0;
       break;
@@ -336,7 +336,7 @@ double rz1b(int type, int form, const inval& input)
    case VEC:
     switch(type) {
      case ELE:
-     case MUE:
+     case MUO:
      case TAU:
       res = ((MWs + 2*MZs)*real(C0(0,MZs,0,0,MWs,MWs))*sqr(MWs))/(32.*(MWs - MZs)) + ((2*MWs - 3*MZs)*real(B0fin(MWs,MHs,MWs))*(-4*MHs*MWs + sqr(MHs) + 12*sqr(MWs))*sqr(MZs))/(1536.*sqr(MWs)*sqr(MWs - MZs)) - ((2*MWs - 3*MZs)*(4*MWs - MZs)*MZs*real(B0fin(MWs,MZs,MWs))*(20*MWs*MZs + 12*sqr(MWs) + sqr(MZs)))/(1536.*sqr(MWs)*sqr(MWs - MZs)) + (MZs*real(C0(MZs,0,0,0,0,MWs))*sqr(MWs + MZs))/(64.*(MWs - MZs)) + (MZs*real(C0(MZs,0,0,0,0,MZs))*(-36*MZs*sqr(MWs) + 30*MWs*sqr(MZs) + 16*trip(MWs) - 9*trip(MZs)))/(32.*MWs*(-MWs + MZs)) + (real(B0fin(MZs,0,0))*(184*MZs*sqr(MWs) - 144*MWs*sqr(MZs) - 80*trip(MWs) + 45*trip(MZs)))/(256.*MWs*(MWs - MZs)) + (real(B0fin(MZs,MWs,MWs))*(-480*powint(MWs,4) + 43*powint(MZs,4) + 412*sqr(MWs)*sqr(MZs) + 552*MZs*trip(MWs) - 626*MWs*trip(MZs)))/(1536.*MZs*sqr(MWs - MZs)) + (A0fin(MHs)*(MZs*sqr(MHs)*(41*MWs*MZs - 44*sqr(MWs) - 12*sqr(MZs)) + 24*MHs*MWs*(4*MWs - 3*MZs)*sqr(MZs) + (-8*MWs*MZs + 8*sqr(MWs) + 3*sqr(MZs))*trip(MHs) + 24*MWs*(-4*MWs + 3*MZs)*trip(MZs)))/(1536.*MHs*(MHs - 4*MZs)*(-MWs + MZs)*sqr(MWs)) + (A0fin(MWs)*(-552*MZs*powint(MWs,4) + 480*powint(MWs,5) - 3*(MHs + MZs)*powint(MZs,4) - 340*sqr(MZs)*trip(MWs) + 2*MWs*(MHs - 53*MZs)*trip(MZs) + 538*sqr(MWs)*trip(MZs)))/(1536.*MZs*sqr(MWs)*sqr(MWs - MZs)) + (real(B0fin(MZs,MHs,MZs))*(MZs*sqr(MHs)*(107*MWs*MZs - 52*sqr(MWs) - 63*sqr(MZs)) + 4*MHs*sqr(MZs)*(-70*MWs*MZs + 32*sqr(MWs) + 45*sqr(MZs)) + (-16*MWs*MZs + 8*sqr(MWs) + 9*sqr(MZs))*trip(MHs) - 12*(-29*MWs*MZs + 12*sqr(MWs) + 21*sqr(MZs))*trip(MZs)))/(1536.*MWs*(MHs - 4*MZs)*sqr(MWs - MZs)) + ((4*MWs - 3*MZs)*sqr(MHs)*sqr(MZs) + 4*MZs*(-480*powint(MWs,4) + 15*powint(MZs,4) + 784*sqr(MWs)*sqr(MZs) + 152*MZs*trip(MWs) - 590*MWs*trip(MZs)) + 2*MHs*(240*powint(MWs,4) - 6*powint(MZs,4) - 392*sqr(MWs)*sqr(MZs) - 76*MZs*trip(MWs) + 293*MWs*trip(MZs)))/(1536.*MWs*(MWs - MZs)*MZs*(-MHs + 4*MZs)) + (A0fin(MZs)*(MWs*MZs*sqr(MHs)*(16*MWs*MZs - 8*sqr(MWs) - 9*sqr(MZs)) + 4*MZs*(-1560*MZs*powint(MWs,4) + 480*powint(MWs,5) + 274*MWs*powint(MZs,4) + 3*powint(MZs,5) + 2012*sqr(MZs)*trip(MWs) - 1226*sqr(MWs)*trip(MZs)) - MHs*(-1560*MZs*powint(MWs,4) + 480*powint(MWs,5) + 247*MWs*powint(MZs,4) + 3*powint(MZs,5) + 1992*sqr(MZs)*trip(MWs) - 1183*sqr(MWs)*trip(MZs))))/(1536.*MZs*(-MHs + 4*MZs)*sqr(MWs)*sqr(MWs - MZs));
       break;
@@ -361,7 +361,7 @@ double rz1b(int type, int form, const inval& input)
    case AXV:
     switch(type) {
      case ELE:
-     case MUE:
+     case MUO:
      case TAU:
       res = ((MWs + 2*MZs)*real(C0(0,MZs,0,0,MWs,MWs))*sqr(MWs))/(32.*(MWs - MZs)) - ((2*MWs - MZs)*real(B0fin(MWs,MHs,MWs))*(-4*MHs*MWs + sqr(MHs) + 12*sqr(MWs))*sqr(MZs))/(1536.*sqr(MWs)*sqr(MWs - MZs)) + ((2*MWs - MZs)*(4*MWs - MZs)*MZs*real(B0fin(MWs,MZs,MWs))*(20*MWs*MZs + 12*sqr(MWs) + sqr(MZs)))/(1536.*sqr(MWs)*sqr(MWs - MZs)) + (real(C0(MZs,0,0,0,0,MZs))*sqr(MZs)*(-18*MWs*MZs + 12*sqr(MWs) + 7*sqr(MZs)))/(32.*MWs*(-MWs + MZs)) + (MZs*real(B0fin(MZs,0,0))*(-96*MWs*MZs + 56*sqr(MWs) + 35*sqr(MZs)))/(256.*MWs*(-MWs + MZs)) + (MZs*real(C0(MZs,0,0,0,0,MWs))*sqr(MWs + MZs))/(64.*(MWs - MZs)) - (real(B0fin(MZs,MWs,MWs))*(44*MZs*sqr(MWs) - 130*MWs*sqr(MZs) + 168*trip(MWs) + 17*trip(MZs)))/(1536.*sqr(MWs - MZs)) + (MZs*A0fin(MHs)*((19*MWs - 4*MZs)*MZs*sqr(MHs) - 24*MHs*MWs*sqr(MZs) + (-4*MWs + MZs)*trip(MHs) + 24*MWs*trip(MZs)))/(1536.*MHs*(MHs - 4*MZs)*(MWs - MZs)*sqr(MWs)) + (A0fin(MWs)*(168*powint(MWs,4) - 2*MWs*(MHs - 41*MZs)*sqr(MZs) - 158*sqr(MWs)*sqr(MZs) - 76*MZs*trip(MWs) + (MHs + MZs)*trip(MZs)))/(1536.*sqr(MWs)*sqr(MWs - MZs)) + (MZs*real(B0fin(MZs,MHs,MZs))*(MZs*(-29*MWs + 21*MZs)*sqr(MHs) + 4*MHs*(22*MWs - 15*MZs)*sqr(MZs) + (4*MWs - 3*MZs)*trip(MHs) + 12*(-11*MWs + 7*MZs)*trip(MZs)))/(1536.*MWs*(MHs - 4*MZs)*sqr(MWs - MZs)) + (sqr(MHs)*sqr(MZs) + 2*MHs*(108*MZs*sqr(MWs) - 117*MWs*sqr(MZs) + 60*trip(MWs) + 8*trip(MZs)) - 4*MZs*(216*MZs*sqr(MWs) - 234*MWs*sqr(MZs) + 120*trip(MWs) + 17*trip(MZs)))/(1536.*MWs*(MWs - MZs)*(-MHs + 4*MZs)) + (A0fin(MZs)*(MWs*MZs*(-4*MWs + 3*MZs)*sqr(MHs) + MHs*(-360*powint(MWs,4) + powint(MZs,4) - 769*sqr(MWs)*sqr(MZs) + 948*MZs*trip(MWs) + 201*MWs*trip(MZs)) - 4*MZs*(-360*powint(MWs,4) + powint(MZs,4) - 782*sqr(MWs)*sqr(MZs) + 948*MZs*trip(MWs) + 210*MWs*trip(MZs))))/(1536.*(-MHs + 4*MZs)*sqr(MWs)*sqr(MWs - MZs));
       break;
@@ -401,7 +401,7 @@ double iz1b(int type, int form, const inval& input)
    case VEC:
     switch(type) {
      case ELE:
-     case MUE:
+     case MUO:
      case TAU:
       res = (MZs*imag(C0(MZs,0,0,0,0,MWs))*sqr(MWs + MZs))/(64.*(MWs - MZs)) + (MZs*imag(C0(MZs,0,0,0,0,MZs))*(36*MZs*sqr(MWs) - 30*MWs*sqr(MZs) - 16*trip(MWs) + 9*trip(MZs)))/(32.*MWs*(MWs - MZs)) + (imag(B0fin(MZs,0,0))*(184*MZs*sqr(MWs) - 144*MWs*sqr(MZs) - 80*trip(MWs) + 45*trip(MZs)))/(256.*MWs*(MWs - MZs));
       break;
@@ -426,7 +426,7 @@ double iz1b(int type, int form, const inval& input)
    case AXV:
     switch(type) {
      case ELE:
-     case MUE:
+     case MUO:
      case TAU:
       res = (imag(C0(MZs,0,0,0,0,MZs))*sqr(MZs)*(-18*MWs*MZs + 12*sqr(MWs) + 7*sqr(MZs)))/(32.*MWs*(-MWs + MZs)) + (MZs*imag(B0fin(MZs,0,0))*(-96*MWs*MZs + 56*sqr(MWs) + 35*sqr(MZs)))/(256.*MWs*(-MWs + MZs)) + (MZs*imag(C0(MZs,0,0,0,0,MWs))*sqr(MWs + MZs))/(64.*(MWs - MZs));
       break;
@@ -466,7 +466,7 @@ double rz1fp(int type, int form, const inval& input)
    case VEC:
     switch(type) {
      case ELE:
-     case MUE:
+     case MUO:
      case TAU:
       res = -(MBs*(4*MWs - MZs)*A0fin(MBs))/(12.*(-4*MBs + MZs)*sqr(MZs)) - (MTs*(8*MWs - 5*MZs)*A0fin(MTs))/(6.*(-4*MTs + MZs)*sqr(MZs)) + ((4*MWs - MZs)*real(B0fin(MZs,MBs,MBs))*sqr(MBs))/(12.*(-4*MBs + MZs)*sqr(MZs)) + ((8*MWs - 5*MZs)*real(B0fin(MZs,MTs,MTs))*sqr(MTs))/(6.*(-4*MTs + MZs)*sqr(MZs)) - (-2*(4*MTs - MZs)*(-4*MWs + MZs)*sqr(MBs) + 2*(8*MWs - 5*MZs)*MZs*(-3*MTs*MZs - 2*sqr(MTs) + sqr(MZs)) + MBs*(4*MTs*(44*MWs - 29*MZs)*MZs + 16*(8*MWs - 5*MZs)*sqr(MTs) - 60*MWs*sqr(MZs) + 39*trip(MZs)))/(24.*(-4*MBs + MZs)*(-4*MTs + MZs)*sqr(MZs));
       break;
@@ -491,7 +491,7 @@ double rz1fp(int type, int form, const inval& input)
    case AXV:
     switch(type) {
      case ELE:
-     case MUE:
+     case MUO:
      case TAU:
       res = 0;
       break;
@@ -531,7 +531,7 @@ double iz1fp(int type, int form, const inval& input)
    case VEC:
     switch(type) {
      case ELE:
-     case MUE:
+     case MUO:
      case TAU:
       res = ((4*MWs - MZs)*imag(B0fin(MZs,MBs,MBs))*sqr(MBs))/(12.*(-4*MBs + MZs)*sqr(MZs));
       break;
@@ -556,7 +556,7 @@ double iz1fp(int type, int form, const inval& input)
    case AXV:
     switch(type) {
      case ELE:
-     case MUE:
+     case MUO:
      case TAU:
       res = 0;
       break;
@@ -596,7 +596,7 @@ double rz1bp(int type, int form, const inval& input)
    case VEC:
     switch(type) {
      case ELE:
-     case MUE:
+     case MUO:
      case TAU:
       res = (MWs*(MWs + MZs)*real(C0(MZs,0,0,0,0,MWs)))/(32.*(-MWs + MZs)) + ((MWs + MZs)*real(C0(0,MZs,0,0,MWs,MWs))*sqr(MWs))/(16.*MZs*(-MWs + MZs)) + (real(B0fin(MZs,0,0))*(-112*MZs*sqr(MWs) + 88*MWs*sqr(MZs) + 48*trip(MWs) - 27*trip(MZs)))/(128*MZs*sqr(MWs) - 128*MWs*sqr(MZs)) + (real(C0(MZs,0,0,0,0,MZs))*(-36*MZs*sqr(MWs) + 30*MWs*sqr(MZs) + 16*trip(MWs) - 9*trip(MZs)))/(-32*MWs*MZs + 32*sqr(MWs)) + (3*A0fin(MZs)*(-36*MZs*sqr(MWs) + 30*MWs*sqr(MZs) + 16*trip(MWs) - 9*trip(MZs)))/(128.*MWs*(-MWs + MZs)*sqr(MZs)) + (MWs*real(B0fin(MZs,MWs,MWs))*(-10*MZs*sqr(MWs) - 9*MWs*sqr(MZs) + 24*trip(MWs) + trip(MZs)))/(16.*sqr(MZs)*(-5*MWs*MZs + 4*sqr(MWs) + sqr(MZs))) + (A0fin(MWs)*(96*powint(MWs,4) + powint(MZs,4) - 44*sqr(MWs)*sqr(MZs) - 40*MZs*trip(MWs) + 2*MWs*trip(MZs)))/(64.*MWs*(4*MWs - MZs)*(-MWs + MZs)*sqr(MZs)) + (-672*MZs*powint(MWs,4) + 1152*powint(MWs,5) - 184*MWs*powint(MZs,4) + 27*powint(MZs,5) - 1120*sqr(MZs)*trip(MWs) + 680*sqr(MWs)*trip(MZs))/(768.*MWs*(MWs - MZs)*(4*MWs - MZs)*sqr(MZs));
       break;
@@ -621,7 +621,7 @@ double rz1bp(int type, int form, const inval& input)
    case AXV:
     switch(type) {
      case ELE:
-     case MUE:
+     case MUO:
      case TAU:
       res = (MWs*(MWs + MZs)*real(C0(MZs,0,0,0,0,MWs)))/(32.*(-MWs + MZs)) + ((MWs + MZs)*real(C0(0,MZs,0,0,MWs,MWs))*sqr(MWs))/(16.*MZs*(-MWs + MZs)) + ((2*MWs + MZs)*real(B0fin(MZs,MWs,MWs))*sqr(MWs))/(8.*MZs*(-5*MWs*MZs + 4*sqr(MWs) + sqr(MZs))) + (3*A0fin(MZs)*(-18*MWs*MZs + 12*sqr(MWs) + 7*sqr(MZs)))/(128.*MWs*MZs*(-MWs + MZs)) + (MZs*real(C0(MZs,0,0,0,0,MZs))*(-18*MWs*MZs + 12*sqr(MWs) + 7*sqr(MZs)))/(32.*MWs*(MWs - MZs)) + (real(B0fin(MZs,0,0))*(-56*MWs*MZs + 32*sqr(MWs) + 21*sqr(MZs)))/(-128*MWs*MZs + 128*sqr(MWs)) + (-96*MZs*sqr(MWs) + 48*MWs*sqr(MZs) + 16*trip(MWs) - 7*trip(MZs))/(256.*MWs*(MWs - MZs)*(4*MWs - MZs)) - (A0fin(MWs)*(-2*MWs*sqr(MZs) + 16*trip(MWs) + trip(MZs)))/(64.*MWs*MZs*(-5*MWs*MZs + 4*sqr(MWs) + sqr(MZs)));
       break;
@@ -661,7 +661,7 @@ double iz1bp(int type, int form, const inval& input)
    case VEC:
     switch(type) {
      case ELE:
-     case MUE:
+     case MUO:
      case TAU:
       res = (MWs*(MWs + MZs)*imag(C0(MZs,0,0,0,0,MWs)))/(32.*(-MWs + MZs)) + (imag(B0fin(MZs,0,0))*(-112*MZs*sqr(MWs) + 88*MWs*sqr(MZs) + 48*trip(MWs) - 27*trip(MZs)))/(128*MZs*sqr(MWs) - 128*MWs*sqr(MZs)) + (imag(C0(MZs,0,0,0,0,MZs))*(-36*MZs*sqr(MWs) + 30*MWs*sqr(MZs) + 16*trip(MWs) - 9*trip(MZs)))/(-32*MWs*MZs + 32*sqr(MWs));
       break;
@@ -686,7 +686,7 @@ double iz1bp(int type, int form, const inval& input)
    case AXV:
     switch(type) {
      case ELE:
-     case MUE:
+     case MUO:
      case TAU:
       res = (MWs*(MWs + MZs)*imag(C0(MZs,0,0,0,0,MWs)))/(32.*(-MWs + MZs)) + (MZs*imag(C0(MZs,0,0,0,0,MZs))*(-18*MWs*MZs + 12*sqr(MWs) + 7*sqr(MZs)))/(32.*MWs*(MWs - MZs)) + (imag(B0fin(MZs,0,0))*(-56*MWs*MZs + 32*sqr(MWs) + 21*sqr(MZs)))/(-128*MWs*MZs + 128*sqr(MWs));
       break;
@@ -726,7 +726,7 @@ double rg1f(int type, int form, const inval& input)
    case VEC:
     switch(type) {
      case ELE:
-     case MUE:
+     case MUO:
      case TAU:
       res = 0;
       break;
@@ -751,7 +751,7 @@ double rg1f(int type, int form, const inval& input)
    case AXV:
     switch(type) {
      case ELE:
-     case MUE:
+     case MUO:
      case TAU:
       res = 0;
       break;
@@ -791,7 +791,7 @@ double ig1f(int type, int form, const inval& input)
    case VEC:
     switch(type) {
      case ELE:
-     case MUE:
+     case MUO:
      case TAU:
       res = 0;
       break;
@@ -816,7 +816,7 @@ double ig1f(int type, int form, const inval& input)
    case AXV:
     switch(type) {
      case ELE:
-     case MUE:
+     case MUO:
      case TAU:
       res = 0;
       break;
@@ -856,7 +856,7 @@ double rg1b(int type, int form, const inval& input)
    case VEC:
     switch(type) {
      case ELE:
-     case MUE:
+     case MUO:
      case TAU:
       res = -((2*MWs + MZs)*A0fin(MWs)*pow(AL,1.5))/(8.*MWs*(MWs - MZs)*sqrt(Pi)) + ((2*MWs + MZs)*pow(AL,1.5)*real(B0fin(MZs,MWs,MWs)))/(8.*(MWs - MZs)*sqrt(Pi)) + (MWs*(MWs + 2*MZs)*pow(AL,1.5)*real(C0(0,MZs,0,0,MWs,MWs)))/(4.*(-MWs + MZs)*sqrt(Pi)) + (pow(AL,1.5)*(-26*MWs*MZs + 8*sqr(MWs) + 5*sqr(MZs)))/(32.*MWs*(MWs - MZs)*sqrt(Pi)) - (5*A0fin(MZs)*pow(AL,1.5)*(-12*MWs*MZs + 8*sqr(MWs) + 5*sqr(MZs)))/(16.*MWs*(MWs - MZs)*MZs*sqrt(Pi)) + (5*pow(AL,1.5)*real(B0fin(MZs,0,0))*(-12*MWs*MZs + 8*sqr(MWs) + 5*sqr(MZs)))/(16.*MWs*(MWs - MZs)*sqrt(Pi)) + (MZs*pow(AL,1.5)*real(C0(MZs,0,0,0,0,MZs))*(-12*MWs*MZs + 8*sqr(MWs) + 5*sqr(MZs)))/(2.*MWs*(MWs - MZs)*sqrt(Pi));
       break;
@@ -881,7 +881,7 @@ double rg1b(int type, int form, const inval& input)
    case AXV:
     switch(type) {
      case ELE:
-     case MUE:
+     case MUO:
      case TAU:
       res = -(MZs*(10*MWs + 3*MZs)*pow(AL,1.5))/(32.*MWs*(MWs - MZs)*sqrt(Pi)) - ((2*MWs + MZs)*A0fin(MWs)*pow(AL,1.5))/(8.*MWs*(MWs - MZs)*sqrt(Pi)) - (5*(4*MWs - 3*MZs)*A0fin(MZs)*pow(AL,1.5))/(16.*MWs*(MWs - MZs)*sqrt(Pi)) + (5*(4*MWs - 3*MZs)*MZs*pow(AL,1.5)*real(B0fin(MZs,0,0)))/(16.*MWs*(MWs - MZs)*sqrt(Pi)) + ((2*MWs + MZs)*pow(AL,1.5)*real(B0fin(MZs,MWs,MWs)))/(8.*(MWs - MZs)*sqrt(Pi)) + (MWs*(MWs + 2*MZs)*pow(AL,1.5)*real(C0(0,MZs,0,0,MWs,MWs)))/(4.*(-MWs + MZs)*sqrt(Pi)) + ((4*MWs - 3*MZs)*pow(AL,1.5)*real(C0(MZs,0,0,0,0,MZs))*sqr(MZs))/(2.*MWs*(MWs - MZs)*sqrt(Pi));
       break;
@@ -921,7 +921,7 @@ double ig1b(int type, int form, const inval& input)
    case VEC:
     switch(type) {
      case ELE:
-     case MUE:
+     case MUO:
      case TAU:
       res = (5*imag(B0fin(MZs,0,0))*pow(AL,1.5)*(-12*MWs*MZs + 8*sqr(MWs) + 5*sqr(MZs)))/(16.*MWs*(MWs - MZs)*sqrt(Pi)) + (MZs*imag(C0(MZs,0,0,0,0,MZs))*pow(AL,1.5)*(-12*MWs*MZs + 8*sqr(MWs) + 5*sqr(MZs)))/(2.*MWs*(MWs - MZs)*sqrt(Pi));
       break;
@@ -946,7 +946,7 @@ double ig1b(int type, int form, const inval& input)
    case AXV:
     switch(type) {
      case ELE:
-     case MUE:
+     case MUO:
      case TAU:
       res = (5*(4*MWs - 3*MZs)*MZs*imag(B0fin(MZs,0,0))*pow(AL,1.5))/(16.*MWs*(MWs - MZs)*sqrt(Pi)) + ((4*MWs - 3*MZs)*imag(C0(MZs,0,0,0,0,MZs))*pow(AL,1.5)*sqr(MZs))/(2.*MWs*(MWs - MZs)*sqrt(Pi));
       break;

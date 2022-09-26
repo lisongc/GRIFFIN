@@ -1,7 +1,7 @@
 /*-----------------------------------------------------------------------------
 EWPOZ2.cc
 Lisong Chen (lic114@pitt.edu), Ayres Freitas (afreitas@pitt.edu)
-last revision: 10 Feb 2022
+last revision: 19 Sep 2022
 -------------------------------------------------------------------------------
 classes for F_A and sw_eff form factors with SM NNLO+ corrections;
 -----------------------------------------------------------------------------*/
@@ -13,6 +13,8 @@ classes for F_A and sw_eff form factors with SM NNLO+ corrections;
 #include "linex.h"
 
 #include "kpaas.grid"
+
+// corrections are computed using linear interpolation of numerical grids
 
 double SW_SMNNLO::res2aas(void) const
 {
@@ -26,6 +28,9 @@ double SW_SMNNLO::res2aas(void) const
                      axis3kpaas, sizeof(axis3kpaas)/sizeof(double), 
 		     MWs/MZs, MTs/MZs, MBs/MZs, &datakpaas[0][0][0]);
   return(drho2aas()/DRHOSCHEME + getalphas(MTs,MZs,ALS)*(1-MWs/MZs)*z);
+  /* write result as a sum of the rho parameter contribution and the remainder,
+     so that the remainder is numerically smaller and the interpolation is
+     more accurate */
 }
 
 #include "sw.in"
@@ -46,7 +51,7 @@ double SW_SMNNLO::res2fb(void) const
   double r=0;
   switch(ftyp) {
    case ELE:
-   case MUE:
+   case MUO:
    case TAU:
     r = linex3d(axis1kpl2fb, sizeof(axis1kpl2fb)/sizeof(double), 
                 axis2kpl2fb, sizeof(axis2kpl2fb)/sizeof(double), 
@@ -80,6 +85,10 @@ double SW_SMNNLO::res2fb(void) const
     break;
   }
   return(r*MTs/MZs*(1-MWs/MZs) + deltaAlpha*res1b());
+  /* term proportional to \delta\alpha can be treated separately (analytically);
+     for the remainder, a prefactor proportional to mt^2 is factored out,
+     to reduce the depenendence on mt and thus improve the accuracy of the
+     interpolation */
 }
 
 #include "kp2bb.grid"
@@ -94,7 +103,7 @@ double SW_SMNNLO::res2bb(void) const
   double r=0;
   switch(ftyp) {
    case ELE:
-   case MUE:
+   case MUO:
    case TAU:  r = linex2d(axis1kpl2bb, sizeof(axis1kpl2bb)/sizeof(double), 
                 	  axis2kpl2bb, sizeof(axis2kpl2bb)/sizeof(double), 
                 	  (mh/mz)/(125.1/91.1876),
@@ -135,7 +144,7 @@ Cplx SW_SMNNLO::errest(void) const
 {
   switch(ftyp) {
    case ELE:
-   case MUE:
+   case MUO:
    case TAU:
    case UQU:
    case CQU:
@@ -171,6 +180,9 @@ double FA_SMNNLO::res2aas(void) const
                      axis3fa2aas, sizeof(axis3fa2aas)/sizeof(double), 
 		     MWs/MZs, MTs/MZs, MBs/MZs, &datafa2aas[0][0][0]);
   return(drho2aas()/DRHOSCHEME + getalphas(MTs,MZs,ALS)*z);
+  /* write result as a sum of the rho parameter contribution and the remainder,
+     so that the remainder is numerically smaller and the interpolation is
+     more accurate */
 }
 
 #include "fa.in"
@@ -192,7 +204,7 @@ double FA_SMNNLO::res2fb(void) const
   double r=0;
   switch(ftyp) {
    case ELE:
-   case MUE:
+   case MUO:
    case TAU:
     r = linex3d(axis1fal2fb, sizeof(axis1fal2fb)/sizeof(double), 
                 axis2fal2fb, sizeof(axis2fal2fb)/sizeof(double), 
@@ -229,6 +241,10 @@ double FA_SMNNLO::res2fb(void) const
     break;
   }
   return(r*MTs/MZs + 2*deltaAlpha*res1b());
+  /* term proportional to \delta\alpha can be treated separately (analytically);
+     for the remainder, a prefactor proportional to mt^2 is factored out,
+     to reduce the depenendence on mt and thus improve the accuracy of the
+     interpolation */
 }
 
 #include "fa2bb.grid"
@@ -243,7 +259,7 @@ double FA_SMNNLO::res2bb(void) const
   double r=0;
   switch(ftyp) {
    case ELE:
-   case MUE:
+   case MUO:
    case TAU:  r = linex2d(axis1fal2bb, sizeof(axis1fal2bb)/sizeof(double), 
                 	  axis2fal2bb, sizeof(axis2fal2bb)/sizeof(double), 
                 	  (mh/mz)/(125.1/91.1876),
@@ -302,7 +318,7 @@ Cplx FA_SMNNLO::errest(void) const
 {
   switch(ftyp) {
    case ELE:
-   case MUE:
+   case MUO:
    case TAU:  return(0.4e-5);
    case NUE:
    case NUM:
@@ -330,7 +346,7 @@ Cplx FV_SMNNLO::errest(void) const
 {
   switch(ftyp) {
    case ELE:
-   case MUE:
+   case MUO:
    case TAU:  return(0.5e-5);
    case NUE:
    case NUM:
