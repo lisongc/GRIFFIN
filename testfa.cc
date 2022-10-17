@@ -10,7 +10,7 @@ int main()
   myinput.set(MZ, 91.1876);
   myinput.set(MW, 80.358);
   myinput.set(al, 1/137.035999084);
-  myinput.set(als, 0.1184);
+  myinput.set(als, 0.1179);
   myinput.set(GamZ, 2.4952);
   myinput.set(GamW, 2.089);
   myinput.set(MT, 173.0);
@@ -28,7 +28,7 @@ int main()
   cout << "aas3= " << fa2.drho4aas3() << endl << endl;
   cout << "a2as = " << fa2.drho3a2as() << "  " <<
             "a3 = " << fa2.drho3a3() << endl;
-  cout << endl;
+            
   
   string typenam[5] = {"LEP", "NEU", "UQU", "DQU", "BQU"};
   int i;
@@ -38,7 +38,8 @@ int main()
     cout << typenam[i] << ":  ";
     cout << "a = " << (fa2.res1f()+fa2.res1b()) << "  " <<
     	      "a2_ff = " << fa2.res2ff() << "  a2_fb = " << fa2.res2fb() << " "<<
-            " a3_fff = " << fa2.res3ff() << endl;
+            " a3_fff = " << fa2.res3fff() << " " <<
+            " a2asff = " << fa2.res3ffas() << endl;
     cout << "       a2_bb = " << fa2.res2bb() << "  aas_nf = " << fa2.res2aasnf() << "   " <<
 	      "F_A = " << real(fa2.result()) << endl;
     cout << endl;

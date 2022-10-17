@@ -6,7 +6,7 @@ using namespace std;
 
 int main()
 {
-  static double mhlist[5] = {100, 200, 300, 600, 1000};
+  static double mhlist[5] = {125, 200, 300, 600, 1000};
   int i;
   SMval myinput;	// properly convert masses for complex pole scheme
   myinput.set(MZ, 91.1876);
@@ -15,7 +15,7 @@ int main()
   myinput.set(als, 0.119);
   myinput.set(GamZ, 2.4952);
   myinput.set(GamW, 2.089);
-  myinput.set(MT, 173.2);
+  myinput.set(MT, 173.0);
 //  myinput.set(MB, 4.7);
   myinput.set(MB, 2.87);	// MSbar mass at scale mu=MZ
   myinput.set(Delal, 0.05900);
@@ -23,7 +23,8 @@ int main()
   
 
   dr_SMNNLO dr3f(myinput);
-  cout << "3lf"<< " " << dr3f.res3ff() << endl;
+  cout << "3lf = "<< " " << dr3f.res3fff() << endl;
+  cout << "3lf_qcd_ew = "<< " " <<dr3f.res3ffas() << endl;
 
 
   dr_SMNLO dr1(myinput);

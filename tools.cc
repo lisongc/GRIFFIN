@@ -48,7 +48,8 @@ double partzwidth(FA_SMLO& fa, FV_SMLO& fv, const int type, const int gen,
   if(scheme == RUNWIDTHSCHEME)
     fac *= sqrt(1+sqr(input.get(GamZ)/input.get(MZ)));
   return(input.get(MZ)*fac/(12*Pi) 
-  	 * (RA*real(fa.result()) + RV*real(fv.result())));
+  	 * (RA*real(fa.res3ffa2as()) + RV*real(fv.res3ffa2as())));
+    
 }
 
 // Note: zwidth will modify the FA and FV objects passed to it,

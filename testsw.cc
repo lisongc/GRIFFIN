@@ -12,7 +12,7 @@ int main()
   myinput.set(MZ, 91.1876);
   myinput.set(MW, 80.358);
   myinput.set(al, 1/137.035999084);
-  myinput.set(als, 0.119);
+  myinput.set(als, 0.1179);
   myinput.set(GamZ, 2.4952);
   myinput.set(GamW, 2.089);
   myinput.set(MT, 173);
@@ -41,7 +41,8 @@ int main()
   cout << "aas = " << sw2.drho2aas()/sw0 << " " << sw2.res2aas()/sw0 << endl;
   cout << "aas2= " << sw2.drho3aas2()/sw0 /*<< " " << sw2.res3aas2()/sw0*/ << endl;
   cout << "aas3= " << sw2.drho4aas3()/sw0 << endl;
-  cout << "3lf=" << sw2.res3ff() << endl;
+  cout << "3lf=" << sw2.res3fff() << endl;
+  cout << "3lfqcdxew = " << sw2.res3ffas() <<endl;
   for(i=0; i<4; i++)
   {
     myinput.set(MH, mhlist[i]);

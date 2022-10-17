@@ -12,7 +12,7 @@ double SW_SMNNLO::res2ff(void) const
   + (powint(MWs - MZs,-4)*real(B0fin(MZs,MTs,MTs))*sqr(AL)*(16*MWs*(4*MWs - MZs)*sqr(MWs - MZs)*sqr(MZs) - 3*MZs*(40*MWs*MZs - 32*sqr(MWs) + sqr(MZs))*trip(MTs) + 24*MTs*MWs*MZs*(-42*MZs*sqr(MWs) + 39*MWs*sqr(MZs) + 16*trip(MWs) - 13*trip(MZs)) + sqr(MTs)*(512*powint(MWs,4) + 39*powint(MZs,4) + 1320*sqr(MWs)*sqr(MZs) - 1440*MZs*trip(MWs) - 404*MWs*trip(MZs))))/(864.*MTs*MWs*MZs*sqr(Pi)))));
 }
 
-double SW_SMNNLO ::res3ff(void) const
+double SW_SMNNLO ::res3fff(void) const
 {
     double mw = ival-> get(MW),
            mt = ival -> get(MT),

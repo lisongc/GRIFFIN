@@ -81,6 +81,28 @@ double dr_SMNNLO::res2bb(void) const
   return(r);
 }
 
+#include "dra2asff.grid" 
+
+double dr_SMNNLO::res3ffa2as(void) const
+{
+  double AL = ival->get(al),
+      ALS = ival->get(als),
+      mz = ival->get(MZ),
+      mw = ival->get(MW),
+      mt = ival->get(MT),
+      deltaAlpha = ival->get(Delal),
+      r1, r2;
+
+       r1 = linex2d(axis1dra2asff, sizeof(axis1dra2asff) / sizeof(double),
+               axis2dra2asff, sizeof(axis2dra2asff) / sizeof(double),
+               mt / mz, mw / mz,
+               &datadra2asff[0][0]);
+  r2 = linex2d(axis1dra2asff, sizeof(axis1dra2asff) / sizeof(double),
+               axis2dra2asff, sizeof(axis2dra2asff) / sizeof(double),
+               mt / mz, mw / mz,
+               &datadraasdaff[0][0]);
+  return (AL * AL * ALS * r1 + AL * ALS * deltaAlpha * r2);
+}   
 
 void invalGmu::compute(void)
 {

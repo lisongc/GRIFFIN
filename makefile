@@ -1,4 +1,4 @@
-MAIN = test5
+MAIN = testsw
 # other options: test3, testdr, testsw, testfa, testtools
 
 makewhat: $(MAIN)

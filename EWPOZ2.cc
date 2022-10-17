@@ -126,6 +126,30 @@ double SW_SMNNLO::res2bb(void) const
   return (r * (1 - sqr(mw / mz)));
 }
 
+#include "swa2asff.grid"
+
+double SW_SMNNLO ::res3ffas(void) const
+{
+  double
+      AL = ival->get(al),
+      ALS = ival->get(als),
+      mz = ival->get(MZ),
+      mw = ival->get(MW),
+      mt = ival->get(MT),
+      deltaAlpha = ival->get(Delal),
+      r1, r2;
+
+  r1 = linex2d(axis1swa2asff, sizeof(axis1swa2asff) / sizeof(double),
+               axis2swa2asff, sizeof(axis2swa2asff) / sizeof(double),
+               mt / mz, mw / mz,
+               &dataswa2asff[0][0]);
+  r2 = linex2d(axis1swa2asff, sizeof(axis1swa2asff) / sizeof(double),
+               axis2swa2asff, sizeof(axis2swa2asff) / sizeof(double),
+               mt / mz, mw / mz,
+               &dataswaasdaff[0][0]);
+  return (AL * AL * ALS * r1 + AL * ALS * deltaAlpha * r2);
+}
+
 Cplx SW_SMNNLO::errest(void) const
 {
   switch (ftyp)
@@ -278,13 +302,33 @@ double SW_SMNNLO::res2aasnf(void) const
   return (-(az0(ftyp, *ival) * zaas(ftyp, VEC, *ival) - vz0(ftyp, *ival) * zaas(ftyp, AXV, *ival)) / sqr(az0(ftyp, *ival)) / (4 * fabs(Qf[ftyp])));
 }
 
-
-
 double FA_SMNNLO::res2aasnf(void) const
 {
   return (2 * az0(ftyp, *ival) * zaas(ftyp, AXV, *ival));
 }
+#include "fa3ffas.grid"
+double FA_SMNNLO::res3ffas(void) const
+{ 
+  double
+      AL = ival->get(al),
+      ALS = ival->get(als),
+      mz = ival->get(MZ),
+      mw = ival->get(MW),
+      mt = ival->get(MT),
+      deltaAlpha = ival->get(Delal),
+      r1, r2;
 
+  r1 = linex2d(axis1fa3a2asff, sizeof(axis1fa3a2asff) / sizeof(double),
+               axis2fa3a2asff, sizeof(axis2fa3a2asff) / sizeof(double),
+               mt / mz, mw / mz,
+               &datafa3a2asff[0][0]);
+  r2 = linex2d(axis1fa3a2asff, sizeof(axis1fa3a2asff) / sizeof(double),
+               axis2fa3a2asff, sizeof(axis2fa3a2asff) / sizeof(double),
+               mt / mz, mw / mz,
+               &datafa3adaasff[0][0]);
+  return ( AL * AL * ALS * r1 +  AL * ALS * deltaAlpha * r2);
+
+}
 Cplx FA_SMNNLO::errest(void) const
 {
   switch (ftyp)
