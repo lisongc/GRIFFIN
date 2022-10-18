@@ -15,7 +15,9 @@ public:
   {
     return(SW_SMLO::result()+res1f()+res1b());
   }
-  Cplx errest(void) const;
+  Cplx errest(void) const;   /* naive error estimate based on prefactors 
+  			        g^2/(4 Pi^2)*Nf and al_s/Pi*2*CF */
+
 };
 
 // axial-vector form factor predicted in the SM (at NLO)
@@ -28,10 +30,11 @@ public:
   {
     return(FA_SMLO::result()+res1f()+res1b());
   }
-  Cplx errest(void) const;
+  Cplx errest(void) const;   /* naive error estimate based on prefactors 
+  			        g^2/(4 Pi^2)*Nf and al_s/Pi*2*CF */
 };
 
-// vector form factor predicted in the SM (at NLO)
+// vector form factor predicted in the SM (at NLO); computed from F_A and sw_eff
 class FV_SMNLO : public FV_SMLO {
 public:
   FV_SMNLO(const int type, const inval& input) : FV_SMLO(type, input)

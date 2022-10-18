@@ -5,12 +5,13 @@
 // matel @ NLO is same as matel @ LO
 #define mat_SMNLO matel
 
+// matrix element predicted in the SM (NNLO on Z peak, NLO off-peak)
 class mat_SMNNLO : public matel {
 public:
   using matel::matel;
-  Cplx coeffR(void) const;
+  Cplx coeffR(void) const;    // correction to R coefficient
   
-  // corrections to S:
+  // corrections to S coefficient:
   Cplx coeffS1f(void) const;  // 1-loop with closed fermion loops
   Cplx coeffS1b(void) const;  // 1-loop without closed fermion loops 
   Cplx coeffS(void) const     // total

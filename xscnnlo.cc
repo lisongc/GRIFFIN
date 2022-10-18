@@ -1,10 +1,10 @@
 /*-----------------------------------------------------------------------------
 xscnnlo.cc
 Lisong Chen (lic114@pitt.edu), Ayres Freitas (afreitas@pitt.edu)
-last revision: 16 Dec 2021
+last revision: 14 Sep 2022
 -------------------------------------------------------------------------------
-matrix element classes needed for description of cross-section at NNLO 
-precision near Z pole
+matrix element class needed for description of cross-section at NNLO 
+precision near Z pole and NLO away from Z pole
 -----------------------------------------------------------------------------*/
 
 #include "xscnnlo.h"

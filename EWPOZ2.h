@@ -33,7 +33,7 @@ public:
     return(SW_SMNLO::result() + res2ff() + res2fb() + res2bb()
     	    + res2aas() + drho3aas2() + drho3a3() + drho3a2as() + drho4aas3());
   }
-  Cplx errest(void) const;
+  Cplx errest(void) const;   // error estimate from 1906.08815
 };
 
 // axial-vector form factor predicted in the SM (at NNLO+)
@@ -65,10 +65,12 @@ public:
     	    + res2aas() + res2aasnf() 
 	    + drho3aas2() + drho3a3() + drho3a2as() + drho4aas3());
   }
-  Cplx errest(void) const;
+  Cplx errest(void) const;   // error estimate from 1906.08815
 };
 
-// vector form factor predicted in the SM (at NNLO+)
+// vector form factor predicted in the SM (at NNLO+); computed from F_A and 
+//  sw_eff, with an additional corrections stemming from imag. parts of form
+//  factors that first appears at NNLO
 class FV_SMNNLO : public FV_SMNLO {
 public:
   FV_SMNNLO(const int type, const inval& input) : FV_SMNLO(type, input)
@@ -79,7 +81,7 @@ public:
   }
   
   Cplx result(void) const;
-  Cplx errest(void) const;
+  Cplx errest(void) const;   // error estimate from 1906.08815
 };
 
 #endif // __EWPOZ2__
