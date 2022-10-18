@@ -7,6 +7,8 @@ Cplx B1s(int it, int ot, int if1, int of1, double s, double cost, const inval& i
          AL = input.get(al),
          MIs, MFs;
   Cplx res;
+  if(it==ot)
+    cerr << "The case of identical initial and final flavors has not been implemented yet" << endl;
   if(it==BQU)
     MIs = MTs;
   else
