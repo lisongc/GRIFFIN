@@ -33,8 +33,6 @@ double linex2d(double *axis1, int len1, double *axis2, int len2,
   y0 = axis2[j-1];
   y1 = axis2[j];
   
-//  cout << i << " " << j << " " << data[(i-1)*len2+(j-1)] << endl;
-  
   return ( (x1-x)*(y1-y)*data[(i-1)*len2+(j-1)]
           +(x1-x)*(y-y0)*data[(i-1)*len2+j]
           +(x-x0)*(y1-y)*data[i*len2+(j-1)]

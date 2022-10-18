@@ -36,6 +36,11 @@ double rsg1b(const inval& input);
 // imag. part of bosonic one-loop photon self-energy for k^2=mz^2
 double isg1b(const inval& input);
 
+/* notation for the following functions:
+   type = fermion type
+   form = form factor type (VEC/AXV)
+*/
+
 // real part of fermionic one-loop Z vertex factor for k^2=mz^2
 double rz1f(int type, int form, const inval& input);
 // imag. part of fermionic one-loop Z vertex factor for k^2=mz^2
@@ -63,6 +68,13 @@ double rg1b(int type, int form, const inval& input);
 double ig1b(int type, int form, const inval& input);
 
 // one-loop box diagrams for s=mz^2
+// it/ot: ini-state/fin-state fermion type
+// if1/of1: ini-state/fin-state form factor type (VEC/AXV)
+// s, cost: kinematic variables
+// inval: model input parameters
+// AA, AZ: flags to turn on/off the gam-gam and gam-Z boxes (use with caution!)
+// gzflag=1: use log(1-s/s0) for singular log term in gam-Z boxes
+// 0<gzflag<<<1: use log(1-s/mz^2) for singular log term in gam-Z boxes
 Cplx B1(int it, int ot, int if1, int of1, double s, double cost, const inval&
 input, int AA, int AZ, double gzflag = 1);
 // contribution from gamma-Z box contributing to R
@@ -88,6 +100,11 @@ double rsg1bs(double s, const inval& input);
 // imag. part of bosonic one-loop photon self-energy for k^2=s
 double isg1bs(double s, const inval& input);
 
+/* notation for the following functions:
+   type = fermion type
+   form = form factor type (VEC/AXV)
+*/
+
 // real part of fermionic one-loop Z vertex factor for k^2=s
 double rz1fs(int type, int form, double s, const inval& input);
 // imag. part of fermionic one-loop Z vertex factor for k^2=s
@@ -107,5 +124,10 @@ double rg1bs(int type, int form, double s, const inval& input);
 double ig1bs(int type, int form, double s, const inval& input);
 
 // one-loop box diagrams for arbitrary s
+// it/ot: ini-state/fin-state fermion type
+// if1/of1: ini-state/fin-state form factor type (VEC/AXV)
+// s, cost: kinematic variables
+// inval: model input parameters
+// AA, AZ: flags to turn on/off the gam-gam and gam-Z boxes (use with caution!)
 Cplx B1s(int it, int ot, int if1, int of1, double s, double cost, const inval&
 input, int AA, int AZ);
