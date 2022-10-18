@@ -6,6 +6,14 @@
 
 #include "classes.h"
 
+/* relabel the input parameters:
+   - the parameters with indices 0,1,17,18 (which are used in the internal
+     computation routines) are now the gauge-boson mass and widths defined in 
+     the complex-mass scheme
+   - new parameter indices 20-23 are defined for the running-width scheme, 
+     which correspond to the masses and width reported in the PDG etc.;
+     the symbols MW,MZ,GamW,GamZ are now defined to refer to these */
+
 #define MWc 0
 #define MZc 1
 #define GWc 17

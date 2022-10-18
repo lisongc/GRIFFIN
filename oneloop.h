@@ -64,8 +64,8 @@ Cplx C0(Double p10, Double p20, Double p12, Double m1, Double m2, Double m3);
 // the derivative of C0 with respect to the third (squared) mass
 Cplx DM3C0(Double p10, Double p20, Double p12, Double m1, Double m2, Double m3);
 
-//the one-loop scalar box function
-//implementation according to A. Denner, Fortschr. Phys. 41(1993) 307
+// the one-loop scalar box function
+// implementation according to Denner, Nierste, Scharf, NPB 367 (1991) 637-656
 Cplx D0(double ps10, double ps20, double ps30, double ps40, double s12, double s23, double msq0, double msq1, double msq2, double msq3);
 
 
