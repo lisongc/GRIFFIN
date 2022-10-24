@@ -128,7 +128,7 @@ double SW_SMNNLO::res2bb(void) const
 
 #include "swa2asff.grid"
 
-double SW_SMNNLO ::res3ffas(void) const
+double SW_SMNNLO ::res3ffa2as(void) const
 {
   double
       AL = ival->get(al),
@@ -306,8 +306,8 @@ double FA_SMNNLO::res2aasnf(void) const
 {
   return (2 * az0(ftyp, *ival) * zaas(ftyp, AXV, *ival));
 }
-#include "fa3ffas.grid"
-double FA_SMNNLO::res3ffas(void) const
+#include "fa3ffa2as.grid"
+double FA_SMNNLO::res3ffa2as(void) const
 { 
   double
       AL = ival->get(al),
@@ -326,7 +326,7 @@ double FA_SMNNLO::res3ffas(void) const
                axis2fa3a2asff, sizeof(axis2fa3a2asff) / sizeof(double),
                mt / mz, mw / mz,
                &datafa3adaasff[0][0]);
-  return ( AL * AL * ALS * r1 +  AL * ALS * deltaAlpha * r2);
+  return ( AL * AL * AL * ALS * r1 +  AL * AL * ALS * deltaAlpha * r2);
 
 }
 Cplx FA_SMNNLO::errest(void) const

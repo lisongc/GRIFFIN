@@ -14,7 +14,7 @@ int main()
   myinput.set(GamZ, 2.4952);
   myinput.set(GamW, 2.089);
   myinput.set(MT, 173.0);
-  myinput.set(MH, 125.1);
+  myinput.set(MH, 125.0);
   myinput.set(MB, 2.87); // MSbar mass at scale mu=MZ for mb(mb)=4.20
   myinput.set(Delal, 0.059);
   myinput.set(Gmu, 1.16638e-5);
@@ -39,7 +39,7 @@ int main()
     cout << "a = " << (fa2.res1f()+fa2.res1b()) << "  " <<
     	      "a2_ff = " << fa2.res2ff() << "  a2_fb = " << fa2.res2fb() << " "<<
             " a3_fff = " << fa2.res3fff() << " " <<
-            " a2asff = " << fa2.res3ffas() << endl;
+            " a2asff = " << fa2.res3ffa2as() << endl;
     cout << "       a2_bb = " << fa2.res2bb() << "  aas_nf = " << fa2.res2aasnf() << "   " <<
 	      "F_A = " << real(fa2.result()) << endl;
     cout << endl;
