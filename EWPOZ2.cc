@@ -326,7 +326,7 @@ double FA_SMNNLO::res3ffa2as(void) const
                axis2fa3a2asff, sizeof(axis2fa3a2asff) / sizeof(double),
                mt / mz, mw / mz,
                &datafa3adaasff[0][0]);
-  return ( AL * AL * AL * ALS * r1 +  AL * AL * ALS * deltaAlpha * r2);
+  return (  (AL * AL * AL * ALS * r1 +  AL * AL * ALS * deltaAlpha * r2));
 
 }
 Cplx FA_SMNNLO::errest(void) const
