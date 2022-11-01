@@ -10,18 +10,17 @@ int main()
   int i, j;
   SMval myinput;	// properly convert masses for complex pole scheme
   myinput.set(MZ, 91.1876);
-  myinput.set(MW, 80.4044);
+  myinput.set(MW, 80.358);
   myinput.set(al, 1/137.03599976);
-  myinput.set(als, 0.119);
+  myinput.set(als, 0.1179);
   myinput.set(GamZ, 2.4952);
-  myinput.set(GamW, 2.115);
-  myinput.set(MT, 172.5);
+  myinput.set(GamW, 2.089);
+  myinput.set(MT, 173);
 //  myinput.set(MB, 4.85);
   myinput.set(MB, 2.91); // MSbar mass at scale mu=MZ for MB_OS=4.85
 //  myinput.set(MB, 2.87); // MSbar mass at scale mu=MZ for mb(mb)=4.20
-  myinput.set(Delal, 0.05907);
-  myinput.set(Gmu, 1.16637e-5);
-//  myinput.set(Gmu, 1.166379e-5);
+  myinput.set(Delal, 0.05900);
+  myinput.set(Gmu, 1.166379e-5);
   
   double sw0 = 1-sqr(myinput.get(MWc)/myinput.get(MZc));
 /*
@@ -39,7 +38,9 @@ int main()
   SW_SMNNLO sw2(ELE,myinput);
   cout << "aas = " << sw2.drho2aas()/sw0 << " " << sw2.res2aas()/sw0 << endl;
   cout << "aas2= " << sw2.drho3aas2()/sw0 /*<< " " << sw2.res3aas2()/sw0*/ << endl;
-  cout << "aas3= " << sw2.drho4aas3()/sw0 << endl << endl;
+  cout << "aas3= " << sw2.drho4aas3()/sw0 << endl;
+  cout << "a3(Nf=3)=   " << sw2.res3fff() << endl;
+  cout << "a2as(Nf=2)= " << sw2.res3ffa2as() << endl << endl;
   for(i=0; i<4; i++)
   {
     myinput.set(MH, mhlist[i]);

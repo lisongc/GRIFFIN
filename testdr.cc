@@ -9,16 +9,16 @@ int main()
   static double mhlist[5] = {100, 200, 300, 600, 1000};
   int i;
   SMval myinput;	// properly convert masses for complex pole scheme
-  myinput.set(MZ, 91.1875);
-  myinput.set(MW, 80.426);
+  myinput.set(MZ, 91.1876);
+  myinput.set(MW, 80.358);
   myinput.set(al, 1/137.03599976);
-  myinput.set(als, 0.119);
+  myinput.set(als, 0.1179);
   myinput.set(GamZ, 2.4952);
-  myinput.set(GamW, 2.139);
-  myinput.set(MT, 174.3);
+  myinput.set(GamW, 2.089);
+  myinput.set(MT, 173.0);
 //  myinput.set(MB, 4.7);
   myinput.set(MB, 2.87);	// MSbar mass at scale mu=MZ
-  myinput.set(Delal, 0.05907);
+  myinput.set(Delal, 0.05900);
   myinput.set(Gmu, 1.166379e-5);
   
   dr_SMNLO dr1(myinput);
@@ -43,7 +43,9 @@ int main()
   cout << "      from DelRho    all" << endl;
   cout << "aas = " << dr2.drho2aas() << "  " << dr2.res2aas() << endl;
   cout << "aas2= " << dr2.drho3aas2() << "  " << dr2.res3aas2() << endl;
-  cout << "aas3= " << dr2.drho4aas3() << endl << endl;
+  cout << "aas3= " << dr2.drho4aas3() << endl;
+  cout << "a3(Nf=3)=          " << dr2.res3fff() << endl;
+  cout << "a2as(Nf=2)=        " << dr2.res3ffa2as() << endl << endl;
   for(i=0; i<5; i++)
   {
     myinput.set(MH, mhlist[i]);

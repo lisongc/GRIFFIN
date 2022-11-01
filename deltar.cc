@@ -12,6 +12,7 @@ as well as input class that computes M_W from G_Fermi
 #include "deltar.h"
 
 #include "dr.in"
+#include "dr3.in"
 
 
 #include "draas.grid"
@@ -23,10 +24,7 @@ double dr_SMNNLO::res2aas(void) const
          MTs = sqr(ival->get(MT)),
          MBs = sqr(ival->get(MB)),
          ALS = ival->get(als);
-/*  double z = linex2d(axis1draas, sizeof(axis1draas)/sizeof(double), 
-                     axis2draas, sizeof(axis2draas)/sizeof(double), 
-		     MWs/MZs, MTs/MZs, &datadraas[0][0]);
-*/
+// compute O(al als) correction via linear interpolation of a numerical grid
   double z = linex3d(axis1draas, sizeof(axis1draas)/sizeof(double), 
                      axis2draas, sizeof(axis2draas)/sizeof(double), 
                      axis3draas, sizeof(axis3draas)/sizeof(double), 
@@ -41,6 +39,7 @@ double dr_SMNNLO::res3aas2(void) const
          MTs = sqr(ival->get(MT)),
          AL = ival->get(al) * DRHOSCHEME,
          ALS = ival->get(als);
+  // expansion formula from hep-ph/9504413:
   double lz = log(MZs/MTs), xw = (MZs-MWs)/MZs;
   return(-3*MWs/(MZs-MWs) * AL/(1-MWs/MZs) * MTs/(16*Pi*MWs) *
           sqr(getalphas(MTs,MZs,ALS)/Pi) * 
@@ -60,6 +59,7 @@ double dr_SMNNLO::res2fb(void) const
          MTs = sqr(ival->get(MT)),
          MHs = sqr(ival->get(MH)),
          deltaAlpha = ival->get(Delal);
+// compute O(al_f al_b) correction via linear interpolation of a numerical grid
   double r = linex3d(axis1dr2fb, sizeof(axis1dr2fb)/sizeof(double), 
                      axis2dr2fb, sizeof(axis2dr2fb)/sizeof(double), 
                      axis3dr2fb, sizeof(axis3dr2fb)/sizeof(double), 
@@ -75,11 +75,35 @@ double dr_SMNNLO::res2bb(void) const
          MWs = sqr(ival->get(MW)),
          MHs = sqr(ival->get(MH)),
          deltaAlpha = ival->get(Delal);
+// compute O(al_b^2) correction via linear interpolation of a numerical grid
   double r = linex2d(axis1dr2bb, sizeof(axis1dr2bb)/sizeof(double), 
                      axis2dr2bb, sizeof(axis2dr2bb)/sizeof(double), 
                      sqr(log10(MHs)/2), MWs/MZs, &datadr2bb[0][0]);
   return(r);
 }
+
+#include "dr3asff.grid"
+
+double dr_SMNNLO::res3ffa2as(void) const
+{
+  double AL = ival->get(al),
+	 ALS = ival->get(als),
+	 mz = ival->get(MZ),
+	 mw = ival->get(MW),
+	 mt = ival->get(MT),
+	 deltaAlpha = ival->get(Delal),
+	 r1, r2;
+
+  r1 = linex2d(axis1dra2asff, sizeof(axis1dra2asff) / sizeof(double),
+               axis2dra2asff, sizeof(axis2dra2asff) / sizeof(double),
+               mt / mz, mw / mz,
+               &datadra2asff[0][0]);
+  r2 = linex2d(axis1dra2asff, sizeof(axis1dra2asff) / sizeof(double),
+               axis2dra2asff, sizeof(axis2dra2asff) / sizeof(double),
+               mt / mz, mw / mz,
+               &datadraasdaff[0][0]);
+  return (AL*AL*ALS*r1 + AL*ALS*deltaAlpha*r2);
+}   
 
 
 void invalGmu::compute(void)

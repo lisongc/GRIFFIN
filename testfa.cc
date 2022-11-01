@@ -8,16 +8,16 @@ int main()
 {
   SMval myinput;	// properly convert masses for complex pole scheme
   myinput.set(MZ, 91.1876);
-  myinput.set(MW, 80.385);
+  myinput.set(MW, 80.358);
   myinput.set(al, 1/137.03599976);
-  myinput.set(als, 0.1184);
+  myinput.set(als, 0.1179);
   myinput.set(GamZ, 2.4952);
-  myinput.set(GamW, 2.085);
-  myinput.set(MT, 173.2);
-  myinput.set(MH, 125.1);
+  myinput.set(GamW, 2.089);
+  myinput.set(MT, 173.0);
+  myinput.set(MH, 125.0);
   myinput.set(MB, 2.87); // MSbar mass at scale mu=MZ for mb(mb)=4.20
   myinput.set(Delal, 0.059);
-  myinput.set(Gmu, 1.16638e-5);
+  myinput.set(Gmu, 1.166379e-5);
   
   cout << myinput.get(MWc) << endl;
   
@@ -27,6 +27,9 @@ int main()
   cout << "aas3= " << fa2.drho4aas3() << endl << endl;
   cout << "a2as = " << fa2.drho3a2as() << "  " <<
             "a3 = " << fa2.drho3a3() << endl;
+  cout << endl;
+  cout << "a3(Nf=3)=   " << fa2.res3fff() << endl;
+  cout << "a2as(Nf=2)= " << fa2.res3ffa2as() << endl;
   cout << endl;
   
   string typenam[5] = {"LEP", "NEU", "UQU", "DQU", "BQU"};

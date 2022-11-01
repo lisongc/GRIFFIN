@@ -27,11 +27,13 @@ public:
   double res2bb(void) const;  // 2-loop ew. corr. without closed fermion loops   
   double res2aas(void) const;  // 2-loop mixed ew-QCD corrections
   double res2aasnf(void) const;  // non-factorizable mixed ew-QCD corrections
-// still to add: reducible 3-loop corrections from work with Lisong Chen
+  double res3fff(void) const;  // 3-loop ew. corr. with three closed fermion loops
+  double res3ffa2as(void) const;  // 3-loop mixed ew-QCD corr. with two closed fermion loops
   Cplx result(void) const
   {
     return(SW_SMNLO::result() + res2ff() + res2fb() + res2bb()
-    	    + res2aas() + drho3aas2() + drho3a3() + drho3a2as() + drho4aas3());
+    	    + res2aas() + res2aasnf() + res3fff() + res3ffa2as()
+	    + drho3aas2() + drho3a3() + drho3a2as() + drho4aas3());
   }
   Cplx errest(void) const;   // error estimate from 1906.08815
 };
@@ -58,11 +60,12 @@ public:
   double res2bb(void) const;  // 2-loop ew. corr. without closed fermion loops   
   double res2aas(void) const;  // 2-loop mixed ew-QCD corrections
   double res2aasnf(void) const;  // non-factorizable mixed ew-QCD corrections
-// still to add: reducible 3-loop corrections from work with Lisong Chen
+  double res3fff(void) const;  // 3-loop ew. corr. with three closed fermion loops
+  double res3ffa2as(void) const;  // 3-loop mixed ew-QCD corr. with two closed fermion loops
   Cplx result(void) const
   {
     return(FA_SMNLO::result() + res2ff() + res2fb() + res2bb()
-    	    + res2aas() + res2aasnf() 
+    	    + res2aas() + res2aasnf() + res3fff() + res3ffa2as() 
 	    + drho3aas2() + drho3a3() + drho3a2as() + drho4aas3());
   }
   Cplx errest(void) const;   // error estimate from 1906.08815
