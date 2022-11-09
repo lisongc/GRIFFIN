@@ -62,7 +62,7 @@ protected:
   void compute(void);
 public:
   using inval::inval;
-  invalGmu(const inval& copyfrom) : inval(copyfrom) {};
+  invalGmu(const inval& copyfrom) : inval(copyfrom) { compute(); };
 };
 
 #endif // __deltar__

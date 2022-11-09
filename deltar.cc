@@ -108,7 +108,7 @@ double dr_SMNNLO::res3ffa2as(void) const
 
 void invalGmu::compute(void)
 {
-  double MWsold = 0, MWscalc = 80;
+  double MWsold = 0, MWscalc = 80*80;
   double MZs = sqr(data[MZ]), GF = data[Gmu], alpha = data[al];
   dr_SMNNLO dr(*this);
     

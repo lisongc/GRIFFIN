@@ -21,6 +21,6 @@ protected:
 public:
   using invalGmu::invalGmu;
   SMvalGmu(void) : invalGmu() {};
-  SMvalGmu(const inval& copyfrom) : invalGmu(copyfrom) {};
+  SMvalGmu(const inval& copyfrom) : invalGmu(copyfrom) { compute(); };
 };
 
