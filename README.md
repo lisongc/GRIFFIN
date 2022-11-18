@@ -14,7 +14,7 @@ GRIFFIN v1.0 is available and can be found [here](https://github.com/lisongc/GRI
 The paper will be on ArXiv soon.
 
 # License
-The authors of this public repository give the consent to the external users to use, reproduce, distribute the content, but with careful citations.
+The authors of this public repository give the consent to the external users to use, reproduce, fork, and distribute the content, but with careful citations.
 
 # Contacts
 Ayres Freitas : afreitas@pitt.edu
