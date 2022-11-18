@@ -1,4 +1,4 @@
-MAIN = testdeltar
+MAIN = testtools
 # other options: testmatel, testdeltar, testtools
 
 makewhat: $(MAIN)
