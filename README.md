@@ -18,7 +18,7 @@ changing the `MAIN` in the `makefile`.
 GRIFFIN v1.0 is available and can be found [here](https://github.com/lisongc/GRIFFIN_manual)
 
 # Using GRIFFIN in your research
-The paper will be on ArXiv soon.
+Please find the paper on ArXiv [here](https://arxiv.org/pdf/2211.16272.pdf)
 
 # License
 The authors of this public repository give the consent to the external users to use, reproduce, fork, and distribute the content, but with careful citations.
