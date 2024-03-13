@@ -1,6 +1,8 @@
 # GRIFFIN  
 GRIFFIN (Gauge-invariant Resonance In Four-Fermion INteractions), as an object-oriented C++ library for electroweak radiative corrections, provides a modular framework of describing 2-to-2 fermion scattering processes with specific attention to a consistent gauge-invariant description of the gauge-boson resonance. Version 1.0 of this library provides Standard Model predictions for the 2-to-2 fermion processes with full NNLO and leading higher-order contributions on the Z-resonance.
 
+The v1.0_powheg branch uses an adjust QED subtraction scheme: The photon-photon and photon-Z boxes are completely removed from the GRIFFIN output.
+
 # Download and Installation
 One can download the released version-1.0 from [here](https://github.com/lisongc/GRIFFIN/releases/tag/v1.0.0).
 
