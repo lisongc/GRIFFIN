@@ -48,7 +48,8 @@ Cplx mat_SMNNLO::coeffR(void) const
        + (iz1fp(ot,off,*ival)+iz1bp(ot,off,*ival))/zjf0 - iszpp1/2;
   return(4*I3f[it]*I3f[ot]*sqrt(FAi->result()*FAo->result()) *
          (QWe*QWf*(Cplx(1 - rIAA*rIAA/2, rIAA) - iszp1*iszp1/2 
-	           + bRaz1(it,ot,cost,*ival))
+	           /*+ bRaz1(it,ot,cost,*ival)*/)
+// For use in POWHEG_EW: ^^^^^^^^^^^^^^^^^^^^ no gamZ box
           + (QWe*IVf + QWf*IVe)*Cplx(-rIAA,1) - IVe*IVf)
 	 + mz*gz*zie0*zjf0*xI);
 }
@@ -85,7 +86,8 @@ Cplx mat_SMNNLO::coeffS1b(void) const
   return(zie0*zpjf1 + zpie1*zjf0 - zie0*zjf0*szpp1/2
         + (gie0*gjf1 + gie1*gjf0 + gie0*gjf0*(/*I*gz/mz*/ - sa1/(mz*mz)))/(mz*mz)
 // the gz/mz term is already in coeffS = S_SMLO   ^^^^^
-	+ B1(it,ot,iff,off,s,cost,*ival,1,1));
+	+ B1(it,ot,iff,off,s,cost,*ival,0,0));
+// Adjustment for use in POWHEG_EW:     ^^^ do not include gamgam and gamZ boxes
 }
 
 Cplx mat_SMNNLO::resoffZ1f(void) const
@@ -140,13 +142,16 @@ Cplx mat_SMNNLO::resoffZ1b(void) const
        sa1 = Cplx(rsg1bs(s,*ival), isg1bs(s,*ival)), 
        sa1z = Cplx(rsg1b(*ival), isg1b(*ival)); 
   Cplx Rp = -zie0*zjf0*sz1z,
-       R = zie0*zjf1z + zie1z*zjf0 + zie0*zjf0*(-szp1z + bRaz1(it,ot,cost,*ival)),
+       R = zie0*zjf1z + zie1z*zjf0 + zie0*zjf0*(-szp1z /*+ bRaz1(it,ot,cost,*ival)*/),
+// For use in POWHEG_EW: no gamZ box                     ^^^^^^^^^^^^^^^^^^^^^^^^^ 
        S = (zie0*zpjf1z + zpie1z*zjf0 - zie0*zjf0*szpp1z/2
           + (gie0*gjf1z + gie1z*gjf0 - gie0*gjf0*sa1z/(mz*mz))/(mz*mz)
-	  + B1(it,ot,iff,off,s,cost,*ival,1,1,1e-12)),
+	  + B1(it,ot,iff,off,s,cost,*ival,0,0,1e-12)),
+// Adjustment for use in POWHEG_EW:       ^^^ do not include gamgam and gamZ boxes
        mats1 = ((zie0*zjf1 + zie1*zjf0 - zie0*zjf0*sz1/(s-mz*mz))/(s-mz*mz)
           + (gie0*gjf1 + gie1*gjf0 - gie0*gjf0*sa1/s)/s
-	  + B1s(it,ot,iff,off,s,cost,*ival,1,1));
+	  + B1s(it,ot,iff,off,s,cost,*ival,0,0));
+// Adjustment for use in POWHEG_EW:        ^^^ do not include gamgam and gamZ boxes
   return(mats1 - ((R + Rp/(s-mz*mz))/(s-mz*mz) + S));
 }
 
