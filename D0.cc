@@ -202,7 +202,7 @@ Cplx D0(double ps10, double ps20, double ps30, double ps40, double s12,
           msq3 = msq1;
           msq1 = temp;
 	}
-	if(msq0 != 0.)
+	else if(msq0 != 0.)
 	{
           temp = ps40;
           ps40 = ps30;
@@ -299,7 +299,7 @@ Cplx D0(double ps10, double ps20, double ps30, double ps40, double s12,
             + del(1 / s[3], xkj[k][3]) - del(s[0], xkj[k][0]) - del(1 / s[0], xkj[k][0]) 
             - del(ik23 / ik02, xkj[k][3]) + del(ik12 / ik02, xkj[k][0]) 
             - etatil(-x[k], 1 / rt[4]) * (log(((k01 - k03 * r13) * 1. + (1 / r13 - r13) * x[k])) + log(ik02)));
-        }
+	}
         res0 /= sqrt(zms) * sqrt(msq0) * sqrt(msq1) * sqrt(msq3) * a * (x[1] - x[2]);
 
         return res0;
