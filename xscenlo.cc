@@ -59,9 +59,9 @@ Cplx mat_SMeNLO::coeffR(void) const
        delFAo = FAo->result() - FAo0;
   double delQWe = QWe-QWe0,
 	 delQWf = QWf-QWf0;
-  return(4*I3f[it]*I3f[ot]*sqrt(FAi0*FAo0)*QWe0*QWf0 *
+  return(4*I3f[it]*I3f[ot]*sqrt(FAi0*FAo0)*(QWe0*QWf0 *
        (Cplx(1, rIAA) + (delFAi/FAi0 + delFAo/FAo0)/2. 
-         + delQWe/QWe0 + delQWf/QWf0 + I*(QWe0*IVf + QWf0*IVe))
+         + delQWe/QWe0 + delQWf/QWf0) + I*(QWe0*IVf + QWf0*IVe))
 	 /*+ mz*gz*zie0*zjf0*xI*/);
 }
 
