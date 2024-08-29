@@ -1,0 +1,43 @@
+// log(1-s/s0) terms for one-loop box diagrams; implemented by adding
+// terms with [log(1-s/s0)-log(1-s/mz^2)] to the case for arbitrary s
+Cplx B1s0(int it, int ot, int if1, int of1, double s, double cost, const inval& input)
+{
+  double MZs = sqr(input.get(MZ)),
+         MWs = sqr(input.get(MW)),
+         MTs = sqr(input.get(MT)),
+         AL = input.get(al),
+         MIs, MFs;
+  Cplx s0 = MZs - I*input.get(MZ)*input.get(GamZ),
+       res = 0;
+  if(it==BQU)
+    MIs = MTs;
+  else
+    MIs = 0;
+  if(ot==BQU)
+    MFs = MTs;
+  else
+    MFs = 0;
+  switch(if1) {
+   case VEC:
+    switch(of1) {
+     case VEC:
+      res = (4*(-clog2(1 - s/MZs) + log(1 - s/s0))*Qf[it]*Qf[ot]*((MWs - MZs)*(2*cost*log(2/(1 + cost)) - (-1 + cost)*log((1 - cost)/(1 + cost)))*Qf[it]*(MZs*I3f[ot] + 2*(MWs - MZs)*Qf[ot]) + MZs*I3f[it]*((-1 + cost)*MZs*(log(2/(1 + cost)) - log((1 - cost)/(1 + cost)))*I3f[ot] + (MWs - MZs)*(2*cost*log(2/(1 + cost)) - (-1 + cost)*log((1 - cost)/(1 + cost)))*Qf[ot])))/((-1 + cost)*(1 + cost)*MWs*(MWs - MZs)*MZs);
+      break;
+     case AXV:
+      res = (4*(-clog2(1 - s/MZs) + log(1 - s/s0))*Qf[it]*Qf[ot]*((MWs - MZs)*(2*cost*log(2/(1 + cost)) - (-1 + cost)*log((1 - cost)/(1 + cost)))*I3f[ot]*Qf[it] + I3f[it]*((-1 + cost)*MZs*(log(2/(1 + cost)) - log((1 - cost)/(1 + cost)))*I3f[ot] - (MWs - MZs)*(2*log(2/(1 + cost)) + (-1 + cost)*log((1 - cost)/(1 + cost)))*Qf[ot])))/((-1 + cost)*(1 + cost)*MWs*(MWs - MZs));
+      break;
+    }
+    break;
+   case AXV:
+    switch(of1) {
+     case VEC:
+      res = (4*(-clog2(1 - s/MZs) + log(1 - s/s0))*Qf[it]*Qf[ot]*(-((MWs - MZs)*(2*log(2/(1 + cost)) + (-1 + cost)*log((1 - cost)/(1 + cost)))*I3f[ot]*Qf[it]) + I3f[it]*((-1 + cost)*MZs*(log(2/(1 + cost)) - log((1 - cost)/(1 + cost)))*I3f[ot] + (MWs - MZs)*(2*cost*log(2/(1 + cost)) - (-1 + cost)*log((1 - cost)/(1 + cost)))*Qf[ot])))/((-1 + cost)*(1 + cost)*MWs*(MWs - MZs));
+      break;
+     case AXV:
+      res = (4*(-clog2(1 - s/MZs) + log(1 - s/s0))*Qf[it]*Qf[ot]*(-((MWs - MZs)*(2*log(2/(1 + cost)) + (-1 + cost)*log((1 - cost)/(1 + cost)))*Qf[it]*(MZs*I3f[ot] + 2*(MWs - MZs)*Qf[ot])) + MZs*I3f[it]*((-1 + cost)*MZs*(log(2/(1 + cost)) - log((1 - cost)/(1 + cost)))*I3f[ot] - (MWs - MZs)*(2*log(2/(1 + cost)) + (-1 + cost)*log((1 - cost)/(1 + cost)))*Qf[ot])))/((-1 + cost)*(1 + cost)*MWs*(MWs - MZs)*MZs);
+    }
+    break;
+  }
+  return(res*sqr(AL));
+}
+

@@ -6,6 +6,8 @@
 
 #include "classes.h"
 
+namespace griffin {
+
 /* relabel the input parameters:
    - the parameters with indices 0,1,17,18 (which are used in the internal
      computation routines) are now the gauge-boson mass and widths defined in 
@@ -47,5 +49,7 @@ public:
   SMval(void) : inval() {};
   SMval(const inval& copyfrom) : inval(copyfrom) {};
 };
+
+} // namespace
 
 #endif // __SMval__

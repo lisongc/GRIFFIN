@@ -9,6 +9,8 @@ some useful functions for computing decay widths and cross-sections
 #include "tools.h"
 #include "ff0.h"
 
+namespace griffin {
+
 // Note: partzwidth will modify the FA and FV objects passed to it,
 // by setting the fermion type and input
 double partzwidth(FA_SMLO& fa, FV_SMLO& fv, const int type, 
@@ -73,3 +75,5 @@ double zwidth(FA_SMLO& fa, FV_SMLO& fv, const inval& input, int scheme)
           + partzwidth(fa, fv, DQU+2*gen, input, scheme);
   return(res);
 }
+
+} // namespace

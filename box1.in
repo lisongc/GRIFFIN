@@ -7,9 +7,7 @@ Cplx B1(int it, int ot, int if1, int of1, double s, double cost, const inval& in
          AL = input.get(al),
          MIs, MFs;
   Cplx s0 = MZs - gzflag*I*input.get(MZ)*input.get(GamZ),
-       res;
-  if(it==ot)
-    cerr << "The case of identical initial and final flavors has not been implemented yet" << endl;
+       res = 0;
   if(it==BQU)
     MIs = MTs;
   else

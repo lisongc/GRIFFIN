@@ -2,6 +2,8 @@
 
 #include "Cplx.h"
 
+namespace griffin {
+
 #define ASYMP_LIMIT_B0N1 1e5
 #define ASYMP_LIMIT_B0S 1e5
 #define ASYMP_LIMIT_DeltaB0N1 1e10
@@ -80,3 +82,5 @@ inline void interchange(Double *x,Double *y)
 
 inline Double la(Double x, Double y, Double z) {return(sqr(x-y-z)-4*y*z); }
    // la = lambda - function
+
+} // namespace

@@ -9,6 +9,8 @@
 
 #include "oneloop.h"
 
+namespace griffin {
+
 #define Errstream cerr
 
 // one-loop self-energy,  B0A = B0 -1/delta +EulerGamma -log(4 Pi mu^2) -2
@@ -1001,3 +1003,4 @@ Cplx B0D(Double ps, Double m1s, Double m2s)
   return(r);
 }
 
+} // namespace

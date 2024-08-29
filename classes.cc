@@ -1,13 +1,15 @@
 /*-----------------------------------------------------------------------------
 classes.cc
 Lisong Chen (lic114@pitt.edu), Ayres Freitas (afreitas@pitt.edu)
-last revision: 10 Feb 2022
+last revision: 15 Aug 2024
 -------------------------------------------------------------------------------
 basic classes for form factors and matrix elements, including SM LO predictions
 -----------------------------------------------------------------------------*/
 
 #include "classes.h"
 #include "ff0.h"
+
+namespace griffin {
 
 // the base classes compute results at LO:
 
@@ -22,6 +24,7 @@ Cplx matel::coeffR(void) const
               break;
     case AXV: zi = 2*I3f[it]*sqrt(FAi->result());
               break;
+    default:  zi = 0;
   }
   switch(off)
   {
@@ -30,6 +33,7 @@ Cplx matel::coeffR(void) const
               break;
     case AXV: zf = 2*I3f[ot]*sqrt(FAo->result());
               break;
+    default:  zf = 0;
   }
   return(zi*zf);
 }
@@ -61,7 +65,26 @@ Cplx matel::resoffZ(void) const
 {
   double mz = ival->get(MZ);
   double gi = g0(it,iff,*ival), gf = g0(ot,off,*ival);
-  return(gi*gf*sqr(1-s/(mz*mz))/s);
+  double res = gi*gf/s;
+  if(it==ot)
+  {
+    double t = -s/2*(1-cost);
+    double g0v = g0(it,VEC,*ival), g0a = g0(it,AXV,*ival),
+    	   z0v = z0(it,VEC,*ival), z0a = z0(it,AXV,*ival);
+    if(iff==off)
+    {
+      if(iff==VEC || iff==AXV)  // iff=off=VEC or AXV
+        res += ((z0v*z0v+z0a*z0a)/(t-mz*mz) + (g0v*g0v+g0a*g0a)/t)/2;
+      else                      // iff=off=SCA or PSC
+        res += ((z0v*z0v-z0a*z0a)/(t-mz*mz) + (g0v*g0v-g0a*g0a)/t);
+    }
+    else
+    {
+      if(iff==VEC || iff==AXV)  // iff=VEC and off=AXV, or vice versa
+        res += (2*z0v*z0a/(t-mz*mz) + 2*g0v*g0a/t)/2;
+    }
+  }
+  return(res);
 }
 
 Cplx matel::result(void) const
@@ -69,7 +92,7 @@ Cplx matel::result(void) const
   double mz = ival->get(MZ),
          gz = ival->get(GamZ);
   Cplx sminuss0(s - mz*mz, mz*gz);
-  return(coeffR()/sminuss0 + coeffS() + coeffSp()*sminuss0 + resoffZ());
+  return(coeffR()/sminuss0 + resoffZ());
 }
 
 /*************************************************************************/
@@ -99,6 +122,7 @@ Cplx FV_SMLO::errest(void) const
 
 /*************************************************************************/
 
+// electric charges of different fermion types
 extern const double Qf[20] = { 0, 
                                -0.3333333333333333,
 			       +0.6666666666666667, 
@@ -119,6 +143,8 @@ extern const double Qf[20] = { 0,
 			       -1,
 			       0,
 			       0 };
+
+// weak isospin of different fermion types
 extern const double I3f[20] = { 0,
 				-0.5, 
 				+0.5,
@@ -162,8 +188,9 @@ double z0(int type, int formt, const inval& input)
 {
   if(formt==VEC)
   { return vz0(type,input); }
-  else
+  if(formt==AXV)
   { return az0(type,input); }
+  return 0;
 }
 
 double g0(int type, int formt, const inval& input)
@@ -184,3 +211,5 @@ double realreg(Cplx x)
   else
     return(0);
 }
+
+} // namespace

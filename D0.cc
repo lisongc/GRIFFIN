@@ -1,7 +1,7 @@
 /*-----------------------------------------------------------------------------
 D0.cc
 Lisong Chen (lic114@pitt.edu), Ayres Freitas (afreitas@pitt.edu)
-last revision: 10 Nov 2021
+last revision: 12 Jul 2024
 -------------------------------------------------------------------------------
 scalar one-loop box integral in terms of dilogs, based on
 A. Denner, U. Nierste, R. Scharf, Nucl.Phys.B 367 (1991) 637-656
@@ -10,6 +10,8 @@ A. Denner, U. Nierste, R. Scharf, Nucl.Phys.B 367 (1991) 637-656
 #include "oneloop.h"
 #include "li.h"
 //#include "real.h"
+
+namespace griffin {
 
 #define Errstream cerr
 #define ZERO_LIMIT 1e-14
@@ -202,7 +204,7 @@ Cplx D0(double ps10, double ps20, double ps30, double ps40, double s12,
           msq3 = msq1;
           msq1 = temp;
 	}
-	if(msq0 != 0.)
+	else if(msq0 != 0.)
 	{
           temp = ps40;
           ps40 = ps30;
@@ -310,3 +312,5 @@ Cplx D0(double ps10, double ps20, double ps30, double ps40, double s12,
         return ((0));
     }
 }
+
+} // namespace

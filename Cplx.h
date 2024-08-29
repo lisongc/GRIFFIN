@@ -6,6 +6,8 @@
 #include<string>
 using namespace std;
 
+namespace griffin {
+
 #define Double double  // for use with B0 and C0 functions from TVID
 typedef std::complex<double> Cplx;
 
@@ -51,11 +53,14 @@ static const Cplx PiI(0.,Pi);
 static const Cplx TwoPiI(0.,TwoPi);
 static const Cplx I(0.,1.);
 
+// compute x^2
 inline Double sqr(const Double x) { return x*x; }
 inline Cplx sqr(const Cplx& x) { return x*x; }
 
+// compute x^3
 inline Double trip(const Double& x) { return x*x*x; }
 
+// compute x^i
 static double powint(const double x, int i)
 {
   int j=i;
@@ -88,5 +93,7 @@ inline Cplx csqrt2(Double x)    // csqrt2 = sqrt(x-i*eps)
 {
   if (x<0) return(-I*sqrt(-x)); else return(sqrt(x));
 }
+
+} // namespace
 
 #endif // __Cplx__

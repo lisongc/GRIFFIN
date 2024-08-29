@@ -4,6 +4,8 @@
 #include "deltar.h"
 #include "SMval.h"
 
+namespace griffin {
+
 /* input class that computes MW and GamW from Gmu, 
    and in addition translates between running-with and complex pole masses */
 class SMvalGmu : public invalGmu {
@@ -24,3 +26,4 @@ public:
   SMvalGmu(const inval& copyfrom) : invalGmu(copyfrom) { compute(); };
 };
 
+} // namespace

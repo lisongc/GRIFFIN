@@ -1,5 +1,7 @@
 /* linex.h: header file for linex.cc */
 
+namespace griffin {
+
 // perform linear interpolation of 1D grid
 // data tuples (xi, fi) are given as follows:
 // axis1: array of x1, x2, ...
@@ -40,3 +42,5 @@ double linex3d(double *axis1, int len1,
                double *axis2, int len2, 
                double *axis3, int len3, 
                double pnt1, double pnt2, double pnt3, double *data);
+
+} // namespace

@@ -1,0 +1,2 @@
+  double izvaas = (ALpi*ALS*(44*MWs - 23*MZs))/(36.*sqrt(MWs)*sqrt(-MWs + MZs));
+  double iszpaas = -(ALpi*ALS*(-92*MWs*MZs + 88*sqr(MWs) + 49*sqr(MZs)))/(72.*MWs*(MWs - MZs));

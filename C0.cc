@@ -9,6 +9,8 @@
 #include "oneloop.h"
 #include "li.h"
 
+namespace griffin {
+
 #define Errstream cerr
 
 
@@ -268,3 +270,4 @@ Cplx DM3C0(Double p10, Double p20, Double p12, Double m1, Double m2, Double m3)
                   m1*((m3c - p20)*(p20 - p12) + m2*(p20 + p12 - p10) + (m3c + p20)*p10))));
 }
 
+} // namespace

@@ -11,6 +11,8 @@ classes for F_A and sw_eff form factors with SM NLO corrections
 #include "ff.h"
 #include "oneloop.h"
 
+namespace griffin {
+
 double SW_SMNLO::res1f(void) const
 {
   return(-(az0(ftyp,*ival)*rz1f(ftyp,VEC,*ival) 
@@ -54,3 +56,5 @@ Cplx FA_SMNLO::errest(void) const
   double qcdfac = ival->get(als)/Pi*8/3.;
   return(res1f()*sqrt(sqr(ewfac)+sqr(qcdfac)) + res1b()*ewfac); 
 }
+
+} // namespace

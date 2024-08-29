@@ -105,7 +105,7 @@ double rz1fs(int type, int form, double s, const inval& input)
          MBs = sqr(input.get(MB)),
          AL = input.get(al),
          deltaAlpha = input.get(Delal),
-         res;
+         res = 0;
   switch(form) {
    case VEC:
     switch(type) {
@@ -170,7 +170,7 @@ double iz1fs(int type, int form, double s, const inval& input)
          MTs = sqr(input.get(MT)),
          MBs = sqr(input.get(MB)),
          AL = input.get(al),
-         res;
+         res = 0;
   switch(form) {
    case VEC:
     switch(type) {
@@ -235,7 +235,7 @@ double rz1bs(int type, int form, double s, const inval& input)
          MTs = sqr(input.get(MT)),
          MBs = sqr(input.get(MB)),
          AL = input.get(al),
-         res;
+         res = 0;
   switch(form) {
    case VEC:
     switch(type) {
@@ -300,7 +300,7 @@ double iz1bs(int type, int form, double s, const inval& input)
          MTs = sqr(input.get(MT)),
          MBs = sqr(input.get(MB)),
          AL = input.get(al),
-         res;
+         res = 0;
   switch(form) {
    case VEC:
     switch(type) {
@@ -365,7 +365,7 @@ double rg1fs(int type, int form, double s, const inval& input)
          MTs = sqr(input.get(MT)),
          MBs = sqr(input.get(MB)),
          AL = input.get(al),
-         res;
+         res = 0;
   switch(form) {
    case VEC:
     switch(type) {
@@ -430,7 +430,7 @@ double ig1fs(int type, int form, double s, const inval& input)
          MTs = sqr(input.get(MT)),
          MBs = sqr(input.get(MB)),
          AL = input.get(al),
-         res;
+         res = 0;
   switch(form) {
    case VEC:
     switch(type) {
@@ -495,7 +495,7 @@ double rg1bs(int type, int form, double s, const inval& input)
          MTs = sqr(input.get(MT)),
          MBs = sqr(input.get(MB)),
          AL = input.get(al),
-         res;
+         res = 0;
   switch(form) {
    case VEC:
     switch(type) {
@@ -560,7 +560,7 @@ double ig1bs(int type, int form, double s, const inval& input)
          MTs = sqr(input.get(MT)),
          MBs = sqr(input.get(MB)),
          AL = input.get(al),
-         res;
+         res = 0;
   switch(form) {
    case VEC:
     switch(type) {

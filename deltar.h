@@ -6,6 +6,8 @@
 #include "classes.h"
 #include "delrho.h"
 
+namespace griffin {
+
 // Delta r predicted in the SM (at NLO)
 class dr_SMNLO : public psobs {
 public:
@@ -64,5 +66,7 @@ public:
   using inval::inval;
   invalGmu(const inval& copyfrom) : inval(copyfrom) { compute(); };
 };
+
+} // namespace
 
 #endif // __deltar__

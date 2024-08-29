@@ -11,6 +11,8 @@ as well as input class that computes M_W from G_Fermi
 #include "linex.h"
 #include "deltar.h"
 
+namespace griffin {
+
 #include "dr.in"
 #include "dr3.in"
 
@@ -125,3 +127,5 @@ void invalGmu::compute(void)
     }
   }
 }
+
+} // namespace

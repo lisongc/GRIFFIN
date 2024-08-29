@@ -2,6 +2,8 @@
 
 #include "classes.h"
 
+namespace griffin {
+
 // matel @ NLO is same as matel @ LO
 #define mat_SMNLO matel
 
@@ -28,3 +30,5 @@ public:
   }
   Cplx result(void) const;
 };
+
+} // namespace

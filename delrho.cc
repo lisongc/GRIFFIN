@@ -9,6 +9,8 @@ higher-order corrections to the rho parameter
 #include "li.h"
 #include "delrho.h"
 
+namespace griffin {
+
 // from CERN 95-03, p.187, eq.(45) 
 double getalphas(double musqval, double mzsqval, double alphasmz)
 {
@@ -147,3 +149,5 @@ double delrho4aas3(const inval* ival) // yt^2*as^3 corrections to \Delta\rho
   return(3*AL/(1-MWs/MZs) * MTs/(16*Pi*MWs) *
           trip(getalphas(MTs,MZs,ALS)/Pi) * (-93.15));
 }
+
+} // namespace

@@ -5,6 +5,8 @@
 
 #include "classes.h"
 
+namespace griffin {
+
 // effective weak mixing angle predicted in the SM (at NLO)
 class SW_SMNLO : public SW_SMLO {
 public:
@@ -44,5 +46,7 @@ public:
     sw = new SW_SMNLO(type, input);
   }
 };
+
+} // namespace
 
 #endif // __EWPOZ__

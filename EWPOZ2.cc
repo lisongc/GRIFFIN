@@ -12,6 +12,8 @@ classes for F_A and sw_eff form factors with SM NNLO+ corrections;
 #include "oneloop.h"
 #include "linex.h"
 
+namespace griffin {
+
 #include "kpaas.grid"
 
 // corrections are computed using linear interpolation of numerical grids
@@ -408,3 +410,5 @@ Cplx FV_SMNNLO::errest(void) const
   }
   return(0);
 }
+
+} // namespace

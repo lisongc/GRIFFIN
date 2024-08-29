@@ -6,6 +6,8 @@
 #include "EWPOZ.h"
 #include "delrho.h"
 
+namespace griffin {
+
 // effective weak mixing angle predicted in the SM (at NNLO+)
 class SW_SMNNLO : public SW_SMNLO {
 public:
@@ -86,5 +88,7 @@ public:
   Cplx result(void) const;
   Cplx errest(void) const;   // error estimate from 1906.08815
 };
+
+} // namespace
 
 #endif // __EWPOZ2__

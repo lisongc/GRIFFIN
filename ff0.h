@@ -3,7 +3,11 @@
 #include "Cplx.h"
 #include "classes.h"
 
+namespace griffin {
+
+// electric charges of different fermion types, values are set in classes.cc
 extern const double Qf[20];
+// weak isospin of different fermion types, values are set in classes.cc
 extern const double I3f[20];
 
 // tree-level axial-vector Z vertex factors
@@ -21,3 +25,5 @@ double g0(int type, int formt, const inval& input);
 
 // returns real part of x if x is a regular number or zero otherwise
 double realreg(Cplx x);
+
+} // namespace

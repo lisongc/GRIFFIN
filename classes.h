@@ -9,6 +9,8 @@
 using namespace std;
 #include "Cplx.h"
 
+namespace griffin {
+
 /******************************************************************************
  inval: base class for input parameters
  There can be derived versions that, e.g., compute MW from Gmu.
@@ -113,6 +115,9 @@ public:
 // possible values for inform/outform below
 #define VEC 0
 #define AXV 1
+#define SCA 2
+#define PSC 3
+// SCA and PSC are relevant only for Bhabha scattering
 
 // object for matrix element computation
 class matel : public psobs {
@@ -171,7 +176,7 @@ public:
   Cplx coeffR(void) const;  // R coefficient of complex pole expansion
   Cplx coeffS(void) const;  // S coefficient of complex pole expansion
   Cplx coeffSp(void) const; // S' coefficient of complex pole expansion
-  Cplx resoffZ(void) const; // off-resonance contribution, M^{noexp} - M^{exp}
+  Cplx resoffZ(void) const; // off-resonance contribution, M^{noexp} - M^{R,mz^2}
   Cplx result(void) const;  // total result (complex pole exp.+ off-res. piece)
 };
 
@@ -239,5 +244,7 @@ public:
   Cplx result(void) const;  // see classes.cc for code
   Cplx errest(void) const;  // see classes.cc for code
 };
+
+} // namespace
 
 #endif // __classes__

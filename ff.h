@@ -2,6 +2,8 @@
 
 #include "classes.h"
 
+namespace griffin {
+
 // real part of fermionic one-loop Z self-energy for k^2=mz^2
 double rsz1f(const inval& input);
 // imag. part of fermionic one-loop Z self-energy for k^2=mz^2
@@ -126,8 +128,18 @@ double ig1bs(int type, int form, double s, const inval& input);
 // one-loop box diagrams for arbitrary s
 // it/ot: ini-state/fin-state fermion type
 // if1/of1: ini-state/fin-state form factor type (VEC/AXV)
-// s, cost: kinematic variables
+// s, t: kinematic variables
 // inval: model input parameters
 // AA, AZ: flags to turn on/off the gam-gam and gam-Z boxes (use with caution!)
-Cplx B1s(int it, int ot, int if1, int of1, double s, double cost, const inval&
-input, int AA, int AZ);
+// LS=(0)1: (don't) use subtraction for singular log(1-s/mz^2) in gam-Z boxes
+Cplx B1s(int it, int ot, int if1, int of1, double s, double t, const inval&
+input, int AA, int AZ, int LS);
+// account for log(1-s/s0) terms in one-loop boxes, equivalent to 
+//  B1(it,ot,iff,off,s,cost,*ival,1,1) - B1(it,ot,iff,off,s,cost,*ival,1,1,1e-12)
+// it/ot: ini-state/fin-state fermion type
+// if1/of1: ini-state/fin-state form factor type (VEC/AXV)
+// s, cost: kinematic variables
+Cplx B1s0(int it, int ot, int if1, int of1, double s, double cost, const inval&
+input);
+
+} // namespace

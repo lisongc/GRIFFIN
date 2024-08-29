@@ -9,6 +9,8 @@ perform linear interpolation and extrapolation for 1D, 2D and 3D grids
 #include <iostream>
 using namespace std;
 
+namespace griffin {
+
 double linex1d(double *axis1, int len1, double x, double *data)
 {
   double x0, x1;
@@ -66,3 +68,5 @@ double linex3d(double *axis1, int len1, double *axis2, int len2,
           +(x-x0)*(y-y0)*(z-z0)*data[i*len2*len3+j*len3+k] )/
 	 ((x1-x0)*(y1-y0)*(z1-z0));
 }
+
+} // namespace
