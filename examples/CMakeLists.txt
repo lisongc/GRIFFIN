@@ -15,6 +15,9 @@ link_directories(${GRFDIR})
 add_executable(testmatel testmatel.cc)
 target_link_libraries(testmatel PUBLIC griffin)
 
+add_executable(testmat2 testmat2.cc)
+target_link_libraries(testmat2 PUBLIC griffin)
+
 add_executable(testbhabha testbhabha.cc)
 target_link_libraries(testbhabha PUBLIC griffin)
 
