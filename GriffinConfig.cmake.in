@@ -1,34 +1,5 @@
-#!/bin/bash
-#Adopted from
-#https://yoda.hepforge.org/trac/browser/bin/yoda-config.in
-#Docs from https://cmake.org/cmake/help/v3.2/command/configure_file.html
-## @configure_input@
-#The line below assures at least some relocation.
-
-if [ "$(uname)" == "Darwin" ]; then
-PACKAGE_BIN_DIR=$(dirname $(greadlink -f $0))
-else
-PACKAGE_BIN_DIR=$(dirname $(readlink -f $0))
-fi
-PACKAGE_PREFIX_DIR=$(dirname ${PACKAGE_BIN_DIR})
+@PACKAGE_INIT@.
 
 
-tmp=$(echo $* | egrep -- '--\<help\>|-\<h\>')
-if test $# -eq 0 || test -n "$tmp"; then
-    echo "@PROJECT_NAME@-config: configuration tool for the @PROJECT_NAME@ library"
-    echo
-    echo "Usage: $( basename $0 ) [--help|-h] | "
-    echo "           [--prefix] | "
-    echo "Options:"
-    echo "  --help | -h   : show this help message"
-    echo
-    echo "  --prefix        : show the installation prefix"
-    exit 0
-fi
-
-OUT=""
-
-tmp=$( echo "$*" | egrep -- '--\<prefix\>')
-test -n "$tmp" && OUT="$OUT ${PACKAGE_PREFIX_DIR}"
-
-echo $OUT
+set(GRIFFIN_PREFIX @CMAKE_SOURCE_DIR@)
+set(GRIFFIN_INCLUDE_DIR @CMAKE_INSTALL_FULL_INCLUDEDIR@)
