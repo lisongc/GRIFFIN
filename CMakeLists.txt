@@ -5,7 +5,7 @@ project(griffin VERSION 1.0
 
 
 set(GRIFFIN_SOURCES classes.cc ff.cc EWPOZ.cc EWPOZ2.cc deltar.cc
-                delrho.cc xscnnlo.cc xscaas.cc B0.cc C0.cc D0.cc li.cc linex.cc tools.cc )
+                delrho.cc xscnnlo.cc  xscenlo.cc xscaas.cc B0.cc C0.cc D0.cc li.cc linex.cc tools.cc )
 
 
 add_library(griffin SHARED ${GRIFFIN_SOURCES} ${GRIFFIN_HEADERS})
