@@ -1,0 +1,5 @@
+*.a
+*.dylib
+*.json
+CMakeCache/
+CMakeFiles/
