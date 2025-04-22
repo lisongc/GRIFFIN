@@ -1,6 +1,4 @@
 /* tools.h: header file for tools.cc */
-#ifndef tool_h
-#define tool_h
 
 #include "classes.h"
 
@@ -27,4 +25,3 @@ double zwidth(FA_SMLO& fa, FV_SMLO& fv, const inval& input,
 	      int scheme = COMPPOLESCHEME);
 
 } // namespace
-#endif

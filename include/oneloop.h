@@ -1,6 +1,4 @@
 /* oneloop.h: header file for B0.cc, C0.cc, D0.cc */
-#ifndef oneloop_h
-#define oneloop_h
 
 #include "Cplx.h"
 
@@ -86,4 +84,3 @@ inline Double la(Double x, Double y, Double z) {return(sqr(x-y-z)-4*y*z); }
    // la = lambda - function
 
 } // namespace
-#endif

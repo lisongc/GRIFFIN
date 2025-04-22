@@ -1,6 +1,4 @@
 /* xscnnlo.h: header file for xscnnlo.cc */
-#ifndef xscnnlo_h
-#define xscnnlo_h
 
 #include "classes.h"
 
@@ -34,4 +32,3 @@ public:
 };
 
 } // namespace
-#endif

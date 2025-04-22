@@ -1,6 +1,4 @@
 /* linex.h: header file for linex.cc */
-#ifndef linex_h
-#define linex_h
 
 namespace griffin {
 
@@ -46,4 +44,3 @@ double linex3d(double *axis1, int len1,
                double pnt1, double pnt2, double pnt3, double *data);
 
 } // namespace
-#endif

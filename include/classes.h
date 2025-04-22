@@ -58,7 +58,6 @@ public:
       cerr << "Input value index " << idx << " outside of range" << endl;
       exit(1);
     }
-    std::cout << "Input value index " << idx << " set to "<< val << endl;
     compute();
   }
   

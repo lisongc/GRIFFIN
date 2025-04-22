@@ -1,6 +1,4 @@
 /* xscaas.h: header file for xscaas.cc */
-#ifndef xsaas_h
-#define xsaas_h
 
 #include "xscnnlo.h"
 
@@ -20,4 +18,3 @@ public:
 };
 
 } // namespace
-#endif

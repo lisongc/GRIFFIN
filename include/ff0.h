@@ -1,6 +1,4 @@
 /* ff0.h: header file for LO form factors in classes.cc */
-#ifndef ff0_h
-#define ff0_h
 
 #include "Cplx.h"
 #include "classes.h"
@@ -29,4 +27,3 @@ double g0(int type, int formt, const inval& input);
 double realreg(Cplx x);
 
 } // namespace
-#endif
