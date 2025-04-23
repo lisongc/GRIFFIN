@@ -1,7 +1,5 @@
 /* SMvalG.h: define input class that converts PDG masses from/to complex-pole 
    masses for MW,MZ, using G_Fermi as input */
-#ifndef smvalg_h
-#define smvalg_h
 
 #include "deltar.h"
 #include "SMval.h"
@@ -29,4 +27,3 @@ public:
 };
 
 } // namespace
-#endif

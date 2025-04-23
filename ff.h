@@ -1,6 +1,4 @@
 /* ff.h: header file for ff.cc */
-#ifndef ff_h
-#define ff_h
 
 #include "classes.h"
 
@@ -145,4 +143,3 @@ Cplx B1s0(int it, int ot, int if1, int of1, double s, double cost, const inval&
 input);
 
 } // namespace
-#endif

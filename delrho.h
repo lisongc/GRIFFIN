@@ -1,6 +1,4 @@
 /* delrho.h: header file for delrho.cc */
-#ifndef delrho_h
-#define delrho_h
 
 // alpha scheme for leading mt-enhanced contributions:
 #define DRHOSCHEME  1
@@ -22,4 +20,3 @@ double delrho3aas2(const inval* ival); // yt^2*as^2 corrections to \Delta\rho
 double delrho4aas3(const inval* ival); // yt^2*as^3 corrections to \Delta\rho
 
 }
-#endif
