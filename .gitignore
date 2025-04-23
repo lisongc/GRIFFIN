@@ -2,7 +2,7 @@
 *.dylib
 *.json
 CMakeFiles
-cmake_install.cmake
+*.cmake
 Makefile
 CMakeCache.txt
 build/
