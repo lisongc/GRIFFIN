@@ -25,8 +25,8 @@ The manual is available and can be found [here](https://github.com/lisongc/GRIFF
 Please find the paper on ArXiv [here](https://arxiv.org/pdf/2211.16272.pdf)
 
 # License
-The authors of this public repository give the consent to the external users to use, reproduce, fork, and distribute the content, but with careful citations.
+The authors of this public repository give consent to the external users to use, reproduce, fork, and distribute the content, but with careful citations.
 
 # Contacts
 Ayres Freitas : afreitas@pitt.edu
-Lisong Chen : lisong.chen@kit.edu
+Lisong Chen : lichen@uni-mainz.de
