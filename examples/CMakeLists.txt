@@ -24,8 +24,14 @@ target_link_libraries(testbhabha PUBLIC griffin)
 add_executable(testaas testaas.cc)
 target_link_libraries(testaas PUBLIC griffin)
 
+add_executable(testrunal testrunal.cc)
+target_link_libraries(testrunal PUBLIC griffin)
+
 add_executable(testdeltar testdeltar.cc)
 target_link_libraries(testdeltar PUBLIC griffin)
+
+add_executable(testGMwMz testGMwMz.cc)
+target_link_libraries(testGMwMz PUBLIC griffin)
 
 add_executable(testtools testtools.cc)
 target_link_libraries(testtools PUBLIC griffin)
