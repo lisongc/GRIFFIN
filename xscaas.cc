@@ -95,6 +95,12 @@ Cplx zzhataas(double s, const inval* ival)
          MBs = sqr(ival->get(MB)),
          ALpi = ival->get(al)/Pi,
          ALS = ival->get(als);
+  if(abs(s-MZs) < 10)
+  {
+    Cplx z10 = zzhataas(MZs+10.01, ival);
+    double ds = (s-MZs)/10.01;
+    return(z10*ds*ds);
+  }
   double cs = s/MTs;
   double rab= linex2d(axis1zahb, sizeof(axis1zahb)/sizeof(double),
                       axis2zahb, sizeof(axis2zahb)/sizeof(double),
