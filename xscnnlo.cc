@@ -111,6 +111,8 @@ Cplx mat_SMNNLO::resoffZ1f(void) const
        szpp1z = Cplx(rsz1fpp(*ival), isz1fpp(*ival)),
        sa1 = Cplx(rsg1fs(s,*ival), isg1fs(s,*ival)), 
        sa1z = Cplx(rsg1f(*ival), isg1f(*ival)); 
+  if(abs(1-s/(mz*mz)) < 1e-5)
+    sz1 = sz1z = szp1z = szpp1z = 0;
   Cplx Rp = -zie0*zjf0*sz1z,
        R = zie0*zjf1z + zie1z*zjf0 - zie0*zjf0*szp1z,
        S = (zie0*zpjf1z + zpie1z*zjf0 - zie0*zjf0*szpp1z/2
@@ -141,6 +143,8 @@ Cplx mat_SMNNLO::resoffZ1b(void) const
        szpp1z = Cplx(rsz1bpp(*ival), isz1bpp(*ival)),
        sa1 = Cplx(rsg1bs(s,*ival), isg1bs(s,*ival)), 
        sa1z = Cplx(rsg1b(*ival), isg1b(*ival)); 
+  if(abs(1-s/(mz*mz)) < 1e-5)
+    sz1 = sz1z = szp1z = szpp1z = 0;
   Cplx Rp = -zie0*zjf0*sz1z,
        R = zie0*zjf1z + zie1z*zjf0 + zie0*zjf0*(-szp1z /*+ bRaz1(it,ot,cost,*ival)*/),
 // For use in POWHEG_EW: no gamZ box                     ^^^^^^^^^^^^^^^^^^^^^^^^^ 
