@@ -92,13 +92,15 @@ Cplx mat_SMNNLO::coeffS1b(void) const
 
 Cplx mat_SMNNLO::resoffZ1f(void) const
 {
-  double mz = ival->get(MZ);
+  double mz = ival->get(MZ), stmp = s;
   double gie0 = g0(it,iff,*ival), gjf0 = g0(ot,off,*ival),
          zie0 = z0(it,iff,*ival), zjf0 = z0(ot,off,*ival);
-  Cplx zie1 = Cplx(rz1fs(it,iff,s,*ival), iz1fs(it,iff,s,*ival)),
+  if(abs(1-s/(mz*mz)) < 1e-5)
+    stmp *= 1+1e-8;
+  Cplx zie1 = Cplx(rz1fs(it,iff,stmp,*ival), iz1fs(it,iff,stmp,*ival)),
        zie1z = Cplx(rz1f(it,iff,*ival), iz1f(it,iff,*ival)),
        zpie1z = Cplx(rz1fp(it,iff,*ival), iz1fp(it,iff,*ival)),
-       zjf1 = Cplx(rz1fs(ot,off,s,*ival), iz1fs(ot,off,s,*ival)),
+       zjf1 = Cplx(rz1fs(ot,off,stmp,*ival), iz1fs(ot,off,stmp,*ival)),
        zjf1z = Cplx(rz1f(ot,off,*ival), iz1f(ot,off,*ival)),
        zpjf1z = Cplx(rz1fp(ot,off,*ival), iz1fp(ot,off,*ival)),
        gie1 = Cplx(rg1fs(it,iff,s,*ival), ig1fs(it,iff,s,*ival)),
@@ -117,20 +119,22 @@ Cplx mat_SMNNLO::resoffZ1f(void) const
        R = zie0*zjf1z + zie1z*zjf0 - zie0*zjf0*szp1z,
        S = (zie0*zpjf1z + zpie1z*zjf0 - zie0*zjf0*szpp1z/2
           + (gie0*gjf1z + gie1z*gjf0 - gie0*gjf0*sa1z/(mz*mz))/(mz*mz)),
-       mats1 = ((zie0*zjf1 + zie1*zjf0 - zie0*zjf0*sz1/(s-mz*mz))/(s-mz*mz)
+       mats1 = ((zie0*zjf1 + zie1*zjf0 - zie0*zjf0*sz1/(stmp-mz*mz))/(stmp-mz*mz)
           + (gie0*gjf1 + gie1*gjf0 - gie0*gjf0*sa1/s)/s);
-  return(mats1 - ((R + Rp/(s-mz*mz))/(s-mz*mz) + S));
+  return(mats1 - ((R + Rp/(stmp-mz*mz))/(stmp-mz*mz) + S));
 }
 
 Cplx mat_SMNNLO::resoffZ1b(void) const
 {
-  double mz = ival->get(MZ);
+  double mz = ival->get(MZ), stmp = s;
   double gie0 = g0(it,iff,*ival), gjf0 = g0(ot,off,*ival),
          zie0 = z0(it,iff,*ival), zjf0 = z0(ot,off,*ival);
-  Cplx zie1 = Cplx(rz1bs(it,iff,s,*ival), iz1bs(it,iff,s,*ival)),
+  if(abs(1-s/(mz*mz)) < 1e-5)
+    stmp *= 1+1e-8;
+  Cplx zie1 = Cplx(rz1bs(it,iff,stmp,*ival), iz1bs(it,iff,stmp,*ival)),
        zie1z = Cplx(rz1b(it,iff,*ival), iz1b(it,iff,*ival)),
        zpie1z = Cplx(rz1bp(it,iff,*ival), iz1bp(it,iff,*ival)),
-       zjf1 = Cplx(rz1bs(ot,off,s,*ival), iz1bs(ot,off,s,*ival)),
+       zjf1 = Cplx(rz1bs(ot,off,stmp,*ival), iz1bs(ot,off,stmp,*ival)),
        zjf1z = Cplx(rz1b(ot,off,*ival), iz1b(ot,off,*ival)),
        zpjf1z = Cplx(rz1bp(ot,off,*ival), iz1bp(ot,off,*ival)),
        gie1 = Cplx(rg1bs(it,iff,s,*ival), ig1bs(it,iff,s,*ival)),
@@ -152,11 +156,11 @@ Cplx mat_SMNNLO::resoffZ1b(void) const
           + (gie0*gjf1z + gie1z*gjf0 - gie0*gjf0*sa1z/(mz*mz))/(mz*mz)
 	  + B1(it,ot,iff,off,s,cost,*ival,0,0,1e-12)),
 // Adjustment for use in POWHEG_EW:       ^^^ do not include gamgam and gamZ boxes
-       mats1 = ((zie0*zjf1 + zie1*zjf0 - zie0*zjf0*sz1/(s-mz*mz))/(s-mz*mz)
+       mats1 = ((zie0*zjf1 + zie1*zjf0 - zie0*zjf0*sz1/(stmp-mz*mz))/(stmp-mz*mz)
           + (gie0*gjf1 + gie1*gjf0 - gie0*gjf0*sa1/s)/s
-	  + B1s(it,ot,iff,off,s,cost,*ival,0,0));
+	  + B1s(it,ot,iff,off,stmp,cost,*ival,0,0));
 // Adjustment for use in POWHEG_EW:        ^^^ do not include gamgam and gamZ boxes
-  return(mats1 - ((R + Rp/(s-mz*mz))/(s-mz*mz) + S));
+  return(mats1 - ((R + Rp/(stmp-mz*mz))/(stmp-mz*mz) + S));
 }
 
 Cplx mat_SMNNLO::result(void) const
