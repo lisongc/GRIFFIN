@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.8...3.20)
 
-project(examples VERSION 1.0
+project(examples VERSION 1.1
                  LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 11)
@@ -26,3 +26,9 @@ target_link_libraries(testdeltar PUBLIC griffin)
 
 add_executable(testtools testtools.cc)
 target_link_libraries(testtools PUBLIC griffin)
+
+add_executable(testmat2 testmat2.cc)
+target_link_libraries(testmat2 PUBLIC griffin)
+
+add_executable(testmatda2 testmatda2.cc)
+target_link_libraries(testmatda2 PUBLIC griffin)
