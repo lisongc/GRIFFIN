@@ -113,7 +113,7 @@ void invalGmu::compute(void)
   double MWsold = 0, MWscalc = 80*80;
   double MZs = sqr(data[MZ]), GF = data[Gmu], alpha = data[al];
   dr_SMNNLO dr(*this);
-    
+  
   if(isfinite(data[MZ]*data[MH]*data[MT]*data[MB]*data[al]*data[als]
               *data[Delal]*data[Gmu])) // only proceed if all parameters needed
 	                               // for Delta_r are set

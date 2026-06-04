@@ -1,6 +1,7 @@
 /* ff.h: header file for ff.cc */
 
 #include "classes.h"
+#include "SMEFTval.h"
 
 namespace griffin {
 
@@ -68,6 +69,12 @@ double ig1f(int type, int form, const inval& input);
 double rg1b(int type, int form, const inval& input);
 // imag. part of bosonic one-loop photon vertex factor for k^2=mz^2
 double ig1b(int type, int form, const inval& input);
+
+// SMEFT tree-level Z vertex factor for k^2=mz^2
+double z0SMEFT(int type, int form, const inval& input);
+
+// SMEFT tree-level matrix element
+double r4fSMEFT(int it, int ot, int if1, int of1, const inval& input);
 
 // one-loop box diagrams for s=mz^2
 // it/ot: ini-state/fin-state fermion type

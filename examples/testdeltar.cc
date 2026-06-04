@@ -2,7 +2,7 @@
 using namespace std;
 
 #include "deltar.h"
-#include "SMvalG.h"
+#include "SMEFTvalG.h"
 using namespace griffin;
 
 int main()
@@ -50,6 +50,18 @@ int main()
   cout << endl;
   cout << "complex-pole mass: mw = " << myinput2.get(MWc) << endl;
   cout << "PDG mass:          mw = " << myinput2.get(MW) << endl;
+  cout << endl;
+
+  SMEFTvalGmu myinput3(myinput);
+  myinput3.set(Cll,0.060516*0.021,1,2,2,1);
+  myinput3.set(Cll,0.060516*0.021,2,1,1,2);
+  myinput3.set(Cphil3,0.060516*0.012,1,1);
+  myinput3.set(Cphil3,0.060516*0.012,2,2);
+  myinput3.set(CphiD,0.060516*0.025);
+  myinput3.set(CphiWB,0.060516*0.0088);
+  cout << endl;
+  cout << "complex-pole mass: mw = " << myinput3.get(MWc) << endl;
+  cout << "PDG mass:          mw = " << myinput3.get(MW) << endl;
   cout << endl;
 
   return 0;

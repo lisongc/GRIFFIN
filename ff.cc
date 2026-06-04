@@ -24,5 +24,6 @@ extern const double I3f[20];
 #include "box1.in"
 #include "boxs1.in"
 #include "box1s0.in"
+#include "ffSMEFT0.in"
 
 } // namespace

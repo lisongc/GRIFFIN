@@ -48,8 +48,8 @@ public:
  
   unsigned int getsize() const
   { return data.size(); }
-     
-  void set(const int idx, const double val)  
+   
+  virtual void set(const int idx, const double val)  
   {
     if(idx < data.size())
       data[idx] = val;
@@ -60,13 +60,33 @@ public:
     }
     compute();
   }
-  
-  double get(const int idx) const
+
+  virtual double get(const int idx) const
   {
     if(idx < data.size())
     {
       if(isfinite(data[idx]))
         return(data[idx]);
+    }
+    cerr << "Invalid or undefined input value for index " << idx << endl;
+    exit(1);
+  }
+
+  virtual double get(const int idx, const int gen1, const int gen2) const
+  {
+    if(idx < data.size())
+    {
+      return 0;
+    }
+    cerr << "Invalid or undefined input value for index " << idx << endl;
+    exit(1);
+  }
+
+  virtual double get(const int idx, const int gen1, const int gen2, const int gen3, const int gen4) const
+  {
+    if(idx < data.size())
+    {
+      return 0;
     }
     cerr << "Invalid or undefined input value for index " << idx << endl;
     exit(1);
