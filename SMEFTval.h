@@ -40,7 +40,7 @@ public:
   SMEFTval(void) : SMEFTval(SIZE1) {};
   SMEFTval(const inval& copyfrom) : SMval(copyfrom), dataSMEFT(SIZE1, vector<vector<vector<vector<double>>>>(3,vector<vector<vector<double>>>(3,vector<vector<double>>(3,vector<double>(3,NAN))))) {};
 
-  //set Wilson coefficient values
+  // set Wilson coefficient values
   void set(const int idx, const double val) override
   {
     if(idx < data.size() & idx > 29)
@@ -83,7 +83,7 @@ public:
     compute();
   }
 
-  //get Wilson coefficient values
+  // get Wilson coefficient values
   double get(const int idx) const override
   {
     if(idx < data.size() & idx > 29)

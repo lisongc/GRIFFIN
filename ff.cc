@@ -1,7 +1,7 @@
 /*-----------------------------------------------------------------------------
 ff.cc 
 Lisong Chen (lic114@pitt.edu), Ayres Freitas (afreitas@pitt.edu)
-last revision: 15 Aug 2024
+last revision: 11 Jun 2026
 -------------------------------------------------------------------------------
 one-loop self-energy, vertex and box form factors
 -----------------------------------------------------------------------------*/
@@ -24,6 +24,8 @@ extern const double I3f[20];
 #include "box1.in"
 #include "boxs1.in"
 #include "box1s0.in"
+
+// import SMEFT corrections
 #include "ffSMEFT0.in"
 
 } // namespace

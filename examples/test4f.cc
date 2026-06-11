@@ -44,9 +44,24 @@ int main()
   myinput2.set(MB, 2.87);
   myinput2.set(Delal, 0.059);
   myinput2.set(als, 0.1179);
-  myinput2.set(Clq3,0.060516,3,3,3,3);
-  myinput2.set(Clq1,0.060516,3,3,3,3);
-  myinput2.set(Cld,0.060516/4,3,3,3,3);
+  myinput2.set(Cll,0.060516,1,1,2,2);
+  myinput2.set(Cll,0.060516,1,2,2,1);
+  myinput2.set(Cll,0.060516,2,2,1,1);
+  myinput2.set(Cll,0.060516,2,1,1,2);
+  myinput2.set(Cee,0.060516/3.,1,1,2,2);
+  myinput2.set(Cee,0.060516/3.,1,2,2,1);
+  myinput2.set(Cee,0.060516/3.,2,2,1,1);
+  myinput2.set(Cee,0.060516/3.,2,1,1,2);
+  myinput2.set(Cle,0.060516/2.,1,1,2,2);
+  myinput2.set(Cle,0.060516/4.,2,2,1,1);
+  myinput2.set(CphiD,0);
+  myinput2.set(CphiWB,0);
+  myinput2.set(Cphie,0,1,1);
+  myinput2.set(Cphil1,0,1,1);
+  myinput2.set(Cphil3,0,1,1);
+  myinput2.set(Cphie,0,2,2);
+  myinput2.set(Cphil1,0,2,2);
+  myinput2.set(Cphil3,0,2,2);
 
 
   cout << endl << "Complex-pole masses: MW=" << myinput1.get(MWc) << ", MZ=" 
@@ -54,9 +69,9 @@ int main()
   cout << endl << "Complex-pole masses: MW=" << myinput2.get(MWc) << ", MZ=" 
     << myinput2.get(MZc) << endl << endl;
  
-  // compute matrix element for ee->ee with vector coupling in initial
+  // compute matrix element for ee->mumu with vector coupling in initial
   // state and vector coupling in final state
-  int ini = BQU, fin = DQU, iff = VEC, off = VEC;
+  int ini = ELE, fin = MUO, iff = VEC, off = VEC;
   
   cout << "=== Matrix element for ee->ee (i=e, f=ee) ===" << endl << endl;
   
@@ -80,7 +95,7 @@ int main()
   Cplx res1, res2;
 
   cout << "SM matrix element M_VV for cos(theta)=" << cost << ": " << endl;
-  // compute matrix element for ee->ee using SM form factors:
+  // compute matrix element for ee->mumu using SM form factors:
   mat_SMNNLO M1(ini, fin, iff, off, FAi, FAf, SWi, SWf, cme*cme, cost, myinput1);
   cout << "sqrt(s)\t\ttot. result\t\toff-resonance contrib." << endl;
   for(cme = 10.; cme <= 190.; cme += 20.)
@@ -93,7 +108,7 @@ int main()
   cout << endl;
 
   cout << "SMEFT matrix element M_VV for cos(theta)=" << cost << ": " << endl;
-  // compute matrix element for ee->ee using SM form factors:
+  // compute matrix element for ee->mumu using SMEFT form factors:
   mat_SMEFTLO M2(ini, fin, iff, off, FAi2, FAf2, SWi2, SWf2, cme*cme, cost, myinput2);
   cout << "sqrt(s)\t\ttot. result\t\toff-resonance contrib." << endl;
   for(cme = 10.; cme <= 190.; cme += 20.)

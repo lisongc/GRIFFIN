@@ -1,4 +1,3 @@
-// will want to use SMEFT inputs, then set Cll/Cphil3 to 0
 /* SMEFTvalG.h: define input class that includes values for Wilsonian SMEFT coeffs using G_mu as input */
 
 #ifndef __SMEFTvalG__

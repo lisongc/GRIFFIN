@@ -34,9 +34,6 @@ class dr_SMEFTLO : public dr_SMNNLO {
   public:
   using dr_SMNNLO::dr_SMNNLO;
   double resSMEFT(void) const;
-  Cplx result(void) const{
-    return(dr_SMNNLO::result()+resSMEFT());
-  }
 };
 
 /* input class that computes MW from Gmu */
@@ -52,7 +49,7 @@ class invalGmuSMEFT : public invalGmu {
     invalGmuSMEFT(void) : invalGmuSMEFT(SIZE1) {};
     invalGmuSMEFT(const inval& copyfrom) : invalGmu(copyfrom), dataSMEFTG(SIZE1, vector<vector<vector<vector<double>>>>(3,vector<vector<vector<double>>>(3,vector<vector<double>>(3,vector<double>(3,NAN))))) {};
 
-    //set Wilson coefficient values
+    // set Wilson coefficient values
     void set(const int idx, const double val) override
     {
       if(idx < data.size() & idx > 29)
@@ -98,7 +95,7 @@ class invalGmuSMEFT : public invalGmu {
       compute();
     }
 
-    //get Wilson coefficient values
+    // get Wilson coefficient values
     double get(const int idx) const override
     {
       if(idx < data.size() & idx > 29)

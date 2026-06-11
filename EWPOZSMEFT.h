@@ -9,13 +9,13 @@
 namespace griffin {
 
 // effective weak mixing angle predicted in the SMEFT (at LO)
-class SW_SMEFTLO : public SW_SMNNLO { //make a template that can choose which order of SM to use with SMEFT
+class SW_SMEFTLO : public SW_SMNNLO {
 public:
   using SW_SMNNLO::SW_SMNNLO;
   Cplx resSMEFTLO(void) const;  // tree-level SMEFT corrections
   Cplx result(void) const
   {
-    return(SW_SMNNLO::result()+resSMEFTLO()); //want all orders of the SM
+    return(SW_SMNNLO::result()+resSMEFTLO());
   }
 };
 

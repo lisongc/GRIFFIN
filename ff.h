@@ -70,7 +70,7 @@ double rg1b(int type, int form, const inval& input);
 // imag. part of bosonic one-loop photon vertex factor for k^2=mz^2
 double ig1b(int type, int form, const inval& input);
 
-// SMEFT tree-level Z vertex factor for k^2=mz^2
+// SMEFT tree-level Z vertex factor
 double z0SMEFT(int type, int form, const inval& input);
 
 // SMEFT tree-level matrix element

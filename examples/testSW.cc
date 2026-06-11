@@ -51,8 +51,8 @@ int main()
   myinput2.set(Cphie,0.060516,1,1);
 
 
-  // compute matrix element for ee->dd with vector coupling in initial
-  // state and vector coupling in final state
+  // compute effective weak mixing angle and vertex form factors for ee with vector coupling in initial
+  // state
   int ini = ELE;
   
   // compute vertex form factors:
