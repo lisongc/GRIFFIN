@@ -1,0 +1,243 @@
+// SMEFT Z vertex factor
+double z0SMEFT(int type, int form, const inval& input)
+{
+  double MZs = sqr(input.get(MZ)),
+         MWs = sqr(input.get(MW)),
+         AL = input.get(al),
+         CPHIF = 0,
+         CPHIF1 = 0,
+         CPHIF3 = 0,
+         CPhiD = input.get(CphiD),
+         CPhiWB = input.get(CphiWB),
+         res = 0,
+         Lambdas = sqr(246),
+         deltagRZf = 0,
+         deltagLZf = 0;
+  double el = sqrt(4*Pi*AL),
+         cw = sqrt(MWs/MZs);
+  double sw = sqrt(1-cw*cw);
+  switch(type) {
+    case ELE:
+      CPHIF  = input.get(Cphie,1,1); // get arguments refer to generation indices of the Wilson coeff
+      CPHIF1 = input.get(Cphil1,1,1);
+      CPHIF3 = input.get(Cphil3,1,1);
+      break;
+    case MUO:
+      CPHIF  = input.get(Cphie,2,2);
+      CPHIF1 = input.get(Cphil1,2,2);
+      CPHIF3 = input.get(Cphil3,2,2);
+      break;
+    case TAU:
+      CPHIF  = input.get(Cphie,3,3);
+      CPHIF1 = input.get(Cphil1,3,3);
+      CPHIF3 = input.get(Cphil3,3,3);
+      break;
+    case NUE:
+      CPHIF  = 0;
+      CPHIF1 = input.get(Cphil1,1,1);
+      CPHIF3 = input.get(Cphil3,1,1);
+      break;
+    case NUM:
+      CPHIF  = 0;
+      CPHIF1 = input.get(Cphil1,2,2);
+      CPHIF3 = input.get(Cphil3,2,2);
+      break;
+    case NUT:
+      CPHIF = 0;
+      CPHIF1 = input.get(Cphil1,3,3);
+      CPHIF3 = input.get(Cphil3,3,3);
+      break;
+    case DQU:
+      CPHIF  = input.get(Cphid,1,1);
+      CPHIF1 = input.get(Cphiq1,1,1);
+      CPHIF3 = input.get(Cphiq3,1,1);
+      break;
+    case UQU:
+      CPHIF  = input.get(Cphiu,1,1);
+      CPHIF1 = input.get(Cphiq1,1,1);
+      CPHIF3 = input.get(Cphiq3,1,1);
+      break;
+    case SQU:
+      CPHIF  = input.get(Cphid,2,2);
+      CPHIF1 = input.get(Cphiq1,2,2);
+      CPHIF3 = input.get(Cphiq3,2,2);
+      break;
+    case CQU:
+      CPHIF  = input.get(Cphiu,2,2);
+      CPHIF1 = input.get(Cphiq1,2,2);
+      CPHIF3 = input.get(Cphiq3,2,2);
+      break;
+    case BQU:
+      CPHIF  = input.get(Cphid,3,3);
+      CPHIF1 = input.get(Cphiq1,3,3);
+      CPHIF3 = input.get(Cphiq3,3,3);
+      break;
+  } 
+  // results derived from 1704.03888
+  deltagLZf = CPhiD/Lambdas*MWs/(8*Pi*AL)*(2*(I3f[type]-Qf[type])-2*(2*I3f[type]-Qf[type])*MWs/MZs)+CPHIF1/Lambdas*(1-MWs/MZs)*MWs/(2*Pi*AL)-I3f[type]*CPHIF3/Lambdas*(1-MWs/MZs)*MWs/(Pi*AL)-I3f[type]*CPhiWB/Lambdas*MWs*sqrt(MWs)/(Pi*AL)/MZs*sqrt(MZs-MWs);
+  deltagRZf = CPHIF/Lambdas*(1-MWs/MZs)*MWs/(2*Pi*AL)-Qf[type]*CPhiD/Lambdas*(1-MWs/MZs)*MWs/(4*Pi*AL);
+  switch(form) {
+   case VEC:
+    res = el/(2*sw*cw)*(deltagLZf+deltagRZf);
+    break;
+   case AXV:
+    res = el/(2*sw*cw)*(deltagLZf-deltagRZf);
+    break;
+  }
+  return(-res); // minus sign to align with sign convention of vz0 and az0
+}
+
+double r4fSMEFT(int it, int ot, int if1, int of1, const inval& input){
+  double Cll0 = 0,
+         Cll1 = 0,
+         Cll2 = 0,
+         Cll3 = 0,
+         Clq10 = 0,
+         Clq30 = 0,
+         Cee0 = 0,
+         Cee1 = 0,
+         Cee2 = 0,
+         Cee3 = 0,
+         Ceu0 = 0,
+         Ced0 = 0,
+         Cle0 = 0,
+         Cle1 = 0,
+         Clu0 = 0,
+         Clu1 = 0,
+         Cld0 = 0,
+         Cld1 = 0,
+         Cqe0 = 0,
+         Cqe1 = 0,
+         LLLL = 0,
+         RRRR = 0,
+         LLRR = 0,
+         RRLL = 0,
+         Lambdas = sqr(246),
+         res = 0;
+  int ftypeToGen[17] = {0,1,1,2,2,3,3,0,0,0,0,1,1,2,2,3,3};
+  if ( (it==ELE || it==MUO || it==TAU) && (ot==ELE || ot==MUO || ot==TAU) )
+  {
+    if(it==ot){
+      cout << "Warning: same-type fermions are not fully implemented for SMEFT yet" << endl;
+    }
+    Cll0 = input.get(Cll,ftypeToGen[it],ftypeToGen[it],ftypeToGen[ot],ftypeToGen[ot]); 
+    Cll1 = input.get(Cll,ftypeToGen[it],ftypeToGen[ot],ftypeToGen[ot],ftypeToGen[it]); 
+    Cll2 = input.get(Cll,ftypeToGen[ot],ftypeToGen[ot],ftypeToGen[it],ftypeToGen[it]); 
+    Cll3 = input.get(Cll,ftypeToGen[ot],ftypeToGen[it],ftypeToGen[it],ftypeToGen[ot]);
+    Cee0 = input.get(Cee,ftypeToGen[it],ftypeToGen[it],ftypeToGen[ot],ftypeToGen[ot]); 
+    Cee1 = input.get(Cee,ftypeToGen[it],ftypeToGen[ot],ftypeToGen[ot],ftypeToGen[it]); 
+    Cee2 = input.get(Cee,ftypeToGen[ot],ftypeToGen[ot],ftypeToGen[it],ftypeToGen[it]); 
+    Cee3 = input.get(Cee,ftypeToGen[ot],ftypeToGen[it],ftypeToGen[it],ftypeToGen[ot]); 
+    Cle0 = input.get(Cle,ftypeToGen[it],ftypeToGen[it],ftypeToGen[ot],ftypeToGen[ot]); 
+    Cle1 = input.get(Cle,ftypeToGen[ot],ftypeToGen[ot],ftypeToGen[it],ftypeToGen[it]);
+
+  } else if ( (it==ELE || it==MUO || it==TAU) && (ot==NUE || ot==NUM || ot==NUT) )
+  {
+    Cll0 = input.get(Cll,ftypeToGen[it],ftypeToGen[it],ftypeToGen[ot],ftypeToGen[ot]);
+    Cll1 = input.get(Cll,ftypeToGen[ot],ftypeToGen[ot],ftypeToGen[it],ftypeToGen[it]);
+    Cle1 = input.get(Cle,ftypeToGen[ot],ftypeToGen[ot],ftypeToGen[it],ftypeToGen[it]);
+  } else if ( (it==NUE || it==NUM || it==NUT) && (ot==ELE || ot==MUO || ot==TAU))
+  {
+    Cll0 = input.get(Cll,ftypeToGen[ot],ftypeToGen[ot],ftypeToGen[it],ftypeToGen[it]);
+    Cll1 = input.get(Cll,ftypeToGen[it],ftypeToGen[it],ftypeToGen[ot],ftypeToGen[ot]);
+    Cle0 = input.get(Cle,ftypeToGen[it],ftypeToGen[it],ftypeToGen[ot],ftypeToGen[ot]);
+  } else if ( (it==NUE || it==NUM || it==NUT) && (ot == NUE|| ot==NUM || ot==NUT) )
+  {
+    if(it==ot){
+      cout << "Warning: same-type fermions are not fully implemented for SMEFT yet" << endl;
+    }
+    Cll0 = input.get(Cll,ftypeToGen[it],ftypeToGen[it],ftypeToGen[ot],ftypeToGen[ot]);
+    Cll1 = input.get(Cll,ftypeToGen[it],ftypeToGen[ot],ftypeToGen[ot],ftypeToGen[it]);
+    Cll2 = input.get(Cll,ftypeToGen[ot],ftypeToGen[ot],ftypeToGen[it],ftypeToGen[it]);
+    Cll3 = input.get(Cll,ftypeToGen[ot],ftypeToGen[it],ftypeToGen[it],ftypeToGen[ot]);
+
+  } else if( (it==ELE || it==MUO || it==TAU) && (ot==UQU || ot==CQU) )
+  {
+    Clq10 = input.get(Clq1,ftypeToGen[it],ftypeToGen[it],ftypeToGen[ot],ftypeToGen[ot]);
+    Clq30 = -input.get(Clq3,ftypeToGen[it],ftypeToGen[it],ftypeToGen[ot],ftypeToGen[ot]); // Clq3 sign based on isospin of both particles?
+    Ceu0 = input.get(Ceu,ftypeToGen[it],ftypeToGen[it],ftypeToGen[ot],ftypeToGen[ot]);
+    Clu0 = input.get(Clu,ftypeToGen[it],ftypeToGen[it],ftypeToGen[ot],ftypeToGen[ot]);
+    Cqe1 = input.get(Cqe,ftypeToGen[ot],ftypeToGen[ot],ftypeToGen[it],ftypeToGen[it]);
+  } else if( (it==UQU || it==CQU) && (ot==ELE || ot==MUO || ot==TAU) )
+  {
+    Clq10 = input.get(Clq1,ftypeToGen[ot],ftypeToGen[ot],ftypeToGen[it],ftypeToGen[it]);
+    Clq30 = -input.get(Clq3,ftypeToGen[ot],ftypeToGen[ot],ftypeToGen[it],ftypeToGen[it]);
+    Ceu0 = input.get(Ceu,ftypeToGen[ot],ftypeToGen[ot],ftypeToGen[it],ftypeToGen[it]);
+    Clu1 = input.get(Clu,ftypeToGen[ot],ftypeToGen[ot],ftypeToGen[it],ftypeToGen[it]);
+    Cqe0 = input.get(Cqe,ftypeToGen[it],ftypeToGen[it],ftypeToGen[ot],ftypeToGen[ot]);
+  } else if( (it==ELE || it==MUO || it==TAU) && (ot==DQU || ot==SQU || ot==BQU) )
+  {
+    Clq10 = input.get(Clq1,ftypeToGen[it],ftypeToGen[it],ftypeToGen[ot],ftypeToGen[ot]);
+    Clq30 = input.get(Clq3,ftypeToGen[it],ftypeToGen[it],ftypeToGen[ot],ftypeToGen[ot]);
+    Ced0 = input.get(Ced,ftypeToGen[it],ftypeToGen[it],ftypeToGen[ot],ftypeToGen[ot]);
+    Cld0 = input.get(Cld,ftypeToGen[it],ftypeToGen[it],ftypeToGen[ot],ftypeToGen[ot]);
+    Cqe1 = input.get(Cqe,ftypeToGen[ot],ftypeToGen[ot],ftypeToGen[it],ftypeToGen[it]);
+  } else if( (it==DQU || it==SQU || it==BQU) && (ot==ELE || ot==MUO || ot==TAU) )
+  {
+    Clq10 = input.get(Clq1,ftypeToGen[ot],ftypeToGen[ot],ftypeToGen[it],ftypeToGen[it]);
+    Clq30 = input.get(Clq3,ftypeToGen[ot],ftypeToGen[ot],ftypeToGen[it],ftypeToGen[it]);
+    Ced0 = input.get(Ced,ftypeToGen[ot],ftypeToGen[ot],ftypeToGen[it],ftypeToGen[it]);
+    Cld1 = input.get(Cld,ftypeToGen[ot],ftypeToGen[ot],ftypeToGen[it],ftypeToGen[it]);
+    Cqe0 = input.get(Cqe,ftypeToGen[it],ftypeToGen[it],ftypeToGen[ot],ftypeToGen[ot]);
+  } else if( (it==NUE || it==NUM || it==NUT) && (ot==UQU || ot==CQU) )
+  {
+    Clq10 = input.get(Clq1,ftypeToGen[it],ftypeToGen[it],ftypeToGen[ot],ftypeToGen[ot]);
+    Clq30 = input.get(Clq3,ftypeToGen[it],ftypeToGen[it],ftypeToGen[ot],ftypeToGen[ot]);
+    Clu0 = input.get(Clu,ftypeToGen[it],ftypeToGen[it],ftypeToGen[ot],ftypeToGen[ot]);
+  } else if( (it==UQU || it==CQU) & (ot==NUE || ot==NUM || ot==NUT) )
+  {
+    Clq10 = input.get(Clq1,ftypeToGen[ot],ftypeToGen[ot],ftypeToGen[it],ftypeToGen[it]);
+    Clq30 = input.get(Clq3,ftypeToGen[ot],ftypeToGen[ot],ftypeToGen[it],ftypeToGen[it]);
+    Clu1 = input.get(Clu,ftypeToGen[ot],ftypeToGen[ot],ftypeToGen[it],ftypeToGen[it]);
+  } else if( (it==NUE || it==NUM || it==NUT) && (ot==DQU || ot==SQU || ot==BQU) )
+  {
+    Clq10 = input.get(Clq1,ftypeToGen[it],ftypeToGen[it],ftypeToGen[ot],ftypeToGen[ot]);
+    Clq30 = -input.get(Clq3,ftypeToGen[it],ftypeToGen[it],ftypeToGen[ot],ftypeToGen[ot]);
+    Cld0 = input.get(Cld,ftypeToGen[it],ftypeToGen[it],ftypeToGen[ot],ftypeToGen[ot]);
+  } else if( (it==DQU || it==SQU || it==BQU) & (ot==NUE || ot==NUM || ot==NUT) )
+  {
+    Clq10 = input.get(Clq1,ftypeToGen[ot],ftypeToGen[ot],ftypeToGen[it],ftypeToGen[it]);
+    Clq30 = -input.get(Clq3,ftypeToGen[ot],ftypeToGen[ot],ftypeToGen[it],ftypeToGen[it]);
+    Cld1 = input.get(Cld,ftypeToGen[ot],ftypeToGen[ot],ftypeToGen[it],ftypeToGen[it]);
+  } else{
+    cout << "This combination of fermions has not been implemented in GRIFFIN for the SMEFT!" << endl;
+  }
+  LLLL = -1/Lambdas*(Cll0+Cll1+Cll2+Cll3+Clq10+Clq30); // SMEFT contributions to four fermion interactions derived from 1704.03888 
+  RRRR = -1/Lambdas*(Cee0+Cee1+Cee2+Cee3+Ceu0+Ced0);
+  LLRR = -1/Lambdas*(Cle0+Cqe0+Clu0+Cld0);
+  RRLL = -1/Lambdas*(Cle1+Cqe1+Clu1+Cld1);
+  switch(if1)
+  {
+    case VEC:
+     switch(of1)
+     {
+      case VEC:
+        res = 0.25*(LLLL+RRRR+LLRR+RRLL);
+        break;
+      case AXV:
+        res = 0.25*(-LLLL+RRRR+LLRR-RRLL);
+        break;
+     }
+     break;
+    case AXV:
+      switch(of1)
+      {
+        case VEC:
+          res = 0.25*(-LLLL+RRRR-LLRR+RRLL);
+          break;
+        case AXV:
+          res = 0.25*(LLLL+RRRR-LLRR-RRLL);
+          break;
+      }
+      break;
+    case SCA:
+      cout << "This option has not been implemented for the SMEFT yet!" << endl;
+      res = 0;
+      break;
+    case PSC:
+      cout << "This option has not been implemented for the SMEFT yet!" << endl;
+      res = 0;
+      break;
+  }
+  return(res);
+}

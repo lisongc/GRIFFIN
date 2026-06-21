@@ -26,3 +26,9 @@ target_link_libraries(testdeltar PUBLIC griffin)
 
 add_executable(testtools testtools.cc)
 target_link_libraries(testtools PUBLIC griffin)
+
+add_executable(testSW testSW.cc)
+target_link_libraries(testSW PUBLIC griffin)
+
+add_executable(test4f test4f.cc)
+target_link_libraries(test4f PUBLIC griffin)
