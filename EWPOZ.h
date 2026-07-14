@@ -45,6 +45,7 @@ public:
     fa = new FA_SMNLO(type, input);
     sw = new SW_SMNLO(type, input);
   }
+  FV_SMNLO(const Fermion type, const inval& input) : FV_SMNLO(index(type), input) {}
 };
 
 } // namespace

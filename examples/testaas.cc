@@ -42,7 +42,7 @@ int main()
   FA_SMNNLO FAi(ini, myinput), FAf(fin, myinput);
   SW_SMNNLO SWi(ini, myinput), SWf(fin, myinput);
 
-  double cme,        // center-of-mass energy
+  double cme = 10.,  // center-of-mass energy
          cost = 0.5; // scattering angle
   Cplx res1, res2;
 

@@ -36,6 +36,37 @@ namespace griffin {
 #define GamW 17
 #define GamZ 18
 
+enum class InputPar {
+  WMassComplex = 0,
+  ZMassComplex = 1,
+  HiggsMass = 2,
+  electronMass = 3,
+  muonMass = 4,
+  tauMass = 5,
+  downMass = 6,
+  strangeMass = 7,
+  bottomMass = 8,
+  upMass = 9,
+  charmMass = 10,
+  topMass = 11,
+  alpha = 12,
+  alphaS = 13,
+  DeltaAlpha = 14,
+  DeltaAlphaHad = 15,
+  fermiConstant = 16,
+  WWidthComplex = 17,
+  ZWidthComplex = 18,
+  WMassExperiment = 20,
+  ZMassExperiment = 21,
+  WWidthExperiment = 22,
+  ZWidthExperiment = 23
+};
+
+inline int index(InputPar par)
+{
+  return static_cast<int>(par);
+}
+
 class inval {
 protected:
   std::vector<double> data;
@@ -60,6 +91,11 @@ public:
     }
     compute();
   }
+
+  void set(const InputPar par, const double val)
+  {
+    set(index(par), val);
+  }
   
   double get(const int idx) const
   {
@@ -70,6 +106,11 @@ public:
     }
     cerr << "Invalid or undefined input value for index " << idx << endl;
     exit(1);
+  }
+
+  double get(const InputPar par) const
+  {
+    return get(index(par));
   }
 };
 
@@ -112,12 +153,50 @@ public:
 #define CQU 4
 #define BQU 5
 
+enum class Fermion {
+  d = DQU,
+  u = UQU,
+  s = SQU,
+  c = CQU,
+  b = BQU,
+  electron = ELE,
+  nuElectron = NUE,
+  muon = MUO,
+  nuMuon = NUM,
+  tau = TAU,
+  nuTau = NUT
+};
+
+inline int index(Fermion type)
+{
+  return static_cast<int>(type);
+}
+
+inline bool isNeutrino(Fermion type)
+{
+  return type == Fermion::nuElectron
+      || type == Fermion::nuMuon
+      || type == Fermion::nuTau;
+}
+
 // possible values for inform/outform below
 #define VEC 0
 #define AXV 1
 #define SCA 2
 #define PSC 3
 // SCA and PSC are relevant only for Bhabha scattering
+
+enum class Current {
+  vector = VEC,
+  axial = AXV,
+  scalar = SCA,
+  pseudoscalar = PSC
+};
+
+inline int index(Current current)
+{
+  return static_cast<int>(current);
+}
 
 // object for matrix element computation
 class matel : public psobs {
@@ -141,6 +220,13 @@ public:
     s = sval; cost = costheta;
   }
 
+  matel(const Fermion intype, const Fermion outtype, const Current inform,
+        const Current outform, const double FAin, const double FAout,
+        const double SWin, const double SWout, const double sval,
+        const double costheta, const inval& input)
+    : matel(index(intype), index(outtype), index(inform), index(outform),
+            FAin, FAout, SWin, SWout, sval, costheta, input) {}
+
   // this constructor takes objects are inputs for the Zff vertex form factors;
   // these objects are supposed to compute predictions for the form factors
   // within the SM or in some BSM model
@@ -152,6 +238,13 @@ public:
     FAi = &FAin; FAo = &FAout; SWi = &SWin; SWo = &SWout;
     s = sval; cost = costheta;
   }
+
+  matel(const Fermion intype, const Fermion outtype, const Current inform,
+        const Current outform, const psobs& FAin, const psobs& FAout,
+        const psobs& SWin, const psobs& SWout, const double sval,
+        const double costheta, const inval& input)
+    : matel(index(intype), index(outtype), index(inform), index(outform),
+            FAin, FAout, SWin, SWout, sval, costheta, input) {}
   
   // change values of inform/outform (VEC or AXV)
   void setform(const int inform, const int outform)
@@ -159,10 +252,20 @@ public:
     iff = inform; off = outform;
   }
 
+  void setform(const Current inform, const Current outform)
+  {
+    setform(index(inform), index(outform));
+  }
+
   // change initial-state and final-state fermion types
   void setftype(const int intype, const int outtype)
   {
     it = intype; ot = outtype;
+  }
+
+  void setftype(const Fermion intype, const Fermion outtype)
+  {
+    setftype(index(intype), index(outtype));
   }
 
   // change kinematic variables
@@ -190,9 +293,14 @@ public:
   {
     ftyp = type;
   }
+  SW_SMLO(const Fermion type, const inval& input) : SW_SMLO(index(type), input) {}
   void setftype(const int type)		// change fermion type
   {
     ftyp = type;
+  }
+  void setftype(const Fermion type)
+  {
+    setftype(index(type));
   }
   
   Cplx result(void) const;  // see classes.cc for code
@@ -207,9 +315,14 @@ public:
   {
     ftyp = type;
   }
+  FA_SMLO(const Fermion type, const inval& input) : FA_SMLO(index(type), input) {}
   void setftype(const int type)		// change fermion type
   {
     ftyp = type;
+  }
+  void setftype(const Fermion type)
+  {
+    setftype(index(type));
   }
     
   Cplx result(void) const;  // see classes.cc for code
@@ -228,6 +341,7 @@ public:
     fa = new FA_SMLO(type, input);
     sw = new SW_SMLO(type, input);
   }
+  FV_SMLO(const Fermion type, const inval& input) : FV_SMLO(index(type), input) {}
   void setinput(const inval& input)
   {
     psobs::setinput(input);
@@ -239,6 +353,10 @@ public:
     ftyp = type;
     fa->setftype(type);
     sw->setftype(type);
+  }
+  void setftype(const Fermion type)
+  {
+    setftype(index(type));
   }
   
   Cplx result(void) const;  // see classes.cc for code

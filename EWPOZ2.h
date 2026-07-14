@@ -84,6 +84,7 @@ public:
     fa = new FA_SMNNLO(type, input);
     sw = new SW_SMNNLO(type, input);
   }
+  FV_SMNNLO(const Fermion type, const inval& input) : FV_SMNNLO(index(type), input) {}
   
   Cplx result(void) const;
   Cplx errest(void) const;   // error estimate from 1906.08815

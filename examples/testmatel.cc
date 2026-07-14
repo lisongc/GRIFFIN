@@ -50,7 +50,7 @@ int main()
   cout << "sineff^f (NNLO+) = " << SWf.result() << endl;
   cout << endl;
   
-  double cme,        // center-of-mass energy
+  double cme = 10.,  // center-of-mass energy
          cost = 0.5; // scattering angle
   Cplx res1, res2;
 

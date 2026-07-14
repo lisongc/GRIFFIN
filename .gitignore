@@ -1,0 +1,28 @@
+.DS_Store
+
+# CMake build trees and generated files
+/build*/
+/CMakeCache.txt
+/CMakeFiles/
+/Makefile
+/cmake_install.cmake
+/CTestTestfile.cmake
+/Testing/
+/libgriffin.a
+
+/examples/CMakeCache.txt
+/examples/CMakeFiles/
+/examples/Makefile
+/examples/cmake_install.cmake
+/examples/CTestTestfile.cmake
+
+# Locally compiled example executables
+/examples/testaas
+/examples/testbhabha
+/examples/testdeltar
+/examples/testdeltar_smeft
+/examples/testEWPOZ_smeft
+/examples/testmatel
+/examples/testprediction
+/examples/testtools
+/examples/__test*
