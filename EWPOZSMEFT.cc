@@ -6,10 +6,9 @@ last revision: 17 Feb 2026
 classes for F_A and sw_eff form factors with SMEFT LO corrections
 -----------------------------------------------------------------------------*/
 
-#include "EWPOZSMEFT.h"
-#include "ff0.h"
 #include "ff.h"
-#include "oneloop.h"
+#include "ff0.h"
+#include "EWPOZSMEFT.h"
 
 namespace griffin {
 
@@ -21,13 +20,14 @@ Cplx SW_SMEFTLO::resSMEFTLO(void) const
 
 Cplx FA_SMEFTLO::resSMEFTLO(void) const
 {
-  return(2*fabs(az0(ftyp,*ival))*fabs(z0SMEFT(ftyp,AXV,*ival))); // In the SMEFT, F_A^f = |a_f^Z|^2 ~ |a_f(0)^Z|^2+2|delta a_f||a_f(0)^Z| 
+  return(2*az0(ftyp,*ival)*z0SMEFT(ftyp,AXV,*ival)); // In the SMEFT, F_A^f = |a_f^Z|^2 ~ |a_f(0)^Z|^2+2*delta a_f*a_f(0)^Z 
 }
 
 Cplx FV_SMEFTLO::result(void) const
 {
   double QVf = 1-4*fabs(Qf[ftyp])*realreg(sw->result());
-  return(fa->result()*(QVf*QVf));
+  //return(fa->result()*(QVf*QVf));
+  return(sqr(vz0(ftyp,*ival))+2*vz0(ftyp,*ival)*z0SMEFT(ftyp,VEC,*ival));
 }
 
 } // namespace

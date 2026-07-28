@@ -3,31 +3,9 @@
 #ifndef __SMEFTval__
 #define __SMEFTval__
 
-#include "classes.h"
 #include "SMval.h"
 
 namespace griffin {
-// define indices for the Wilson coeffs
-
-#define CphiD     30
-#define CphiWB    31    
-#define Cphil1    32 
-#define Cphil3    33   
-#define Cphie     34  
-#define Cphiq1    35  
-#define Cphiq3    36  
-#define Cphiu     37
-#define Cphid     38
-#define Cll       39
-#define Clq1      40
-#define Clq3      41
-#define Cee       42
-#define Ceu       43
-#define Ced       44  
-#define Cle       45
-#define Clu       46
-#define Cld       47
-#define Cqe       48
 
 class SMEFTval : public SMval {
 protected:

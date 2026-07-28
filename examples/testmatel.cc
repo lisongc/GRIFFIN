@@ -1,9 +1,14 @@
 #include <iostream>
+#include <iomanip>
 using namespace std;
 
 #include "EWPOZ2.h"
+#include "EWPOZSMEFT.h"
 #include "xscnnlo.h"
+#include "xscSMEFT.h"
 #include "SMval.h"
+#include "SMEFTval.h"
+#include "SMEFTvalG.h"
 using namespace griffin;
 
 int main()
@@ -31,19 +36,41 @@ int main()
   myinput.set(MB, 2.87);
   myinput.set(Delal, 0.059);
   myinput.set(als, 0.1179);
+  myinput.set(Gmu, 1.166379e-5);
+
+  SMEFTval myinput2(myinput);
+  myinput2.set(CphiD,0.060516*0.001);
+  myinput2.set(CphiWB,0);
+  myinput2.set(Cphie,0,1,1);
+  myinput2.set(Cphie,0,2,2);
+  myinput2.set(Cphil1,0,1,1);
+  myinput2.set(Cphil1,0,2,2);
+  myinput2.set(Cphil3,0,1,1);
+  myinput2.set(Cphil3,0,2,2);
+  myinput2.set(Cll,0,1,1,2,2);
+  myinput2.set(Cll,0,1,2,2,1);
+  myinput2.set(Cll,0,2,2,1,1);
+  myinput2.set(Cll,0,2,1,1,2);
+  myinput2.set(Cee,0,1,1,2,2);
+  myinput2.set(Cee,0,1,2,2,1);
+  myinput2.set(Cee,0,2,2,1,1);
+  myinput2.set(Cee,0,2,1,1,2);
+  myinput2.set(Cle,0,1,1,2,2);
+  myinput2.set(Cle,0,2,2,1,1);
   
-  cout << endl << "Complex-pole masses: MW=" << myinput.get(MWc) << ", MZ=" 
-    << myinput.get(MZc) << endl << endl;
+  cout << endl << "Complex-pole masses: MW=" << myinput2.get(MWc) << ", MZ=" 
+    << myinput2.get(MZc) << endl << endl;
  
-  // compute matrix element for ee->dd with vector coupling in initial
+  // compute matrix element for ee->mumu with vector coupling in initial
   // state and vector coupling in final state
-  int ini = ELE, fin = DQU, iff = VEC, off = VEC;
+  int ini = ELE, fin = MUO, iff = VEC, off = VEC;
+  int Nc = 1;
   
-  cout << "=== Matrix element for ee->dd (i=e, f=d) ===" << endl << endl;
+  cout << "=== Matrix element for ee->mumu (i=e, f=mu) ===" << endl << endl;
   
   // compute vertex form factors:
-  FA_SMNNLO FAi(ini, myinput), FAf(fin, myinput);
-  SW_SMNNLO SWi(ini, myinput), SWf(fin, myinput);
+  FA_SMEFTLO FAi(ini, myinput2), FAf(fin, myinput2);
+  SW_SMEFTLO SWi(ini, myinput2), SWf(fin, myinput2);
   cout << "F_A^i (NNLO+) = " << FAi.result() << endl;
   cout << "F_A^f (NNLO+) = " << FAf.result() << endl;
   cout << "sineff^i (NNLO+) = " << SWi.result() << endl;
@@ -55,8 +82,8 @@ int main()
   Cplx res1, res2;
 
   cout << "SM matrix element M_VV for cos(theta)=" << cost << ": " << endl;
-  // compute matrix element for ee->dd using SM form factors:
-  mat_SMNNLO M(ini, fin, iff, off, FAi, FAf, SWi, SWf, cme*cme, cost, myinput);
+  // compute matrix element for ee->mumu using SM form factors:
+  mat_SMEFTLO M(ini, fin, iff, off, FAi, FAf, SWi, SWf, cme*cme, cost, myinput2);
   cout << "sqrt(s)\t\ttot. result\t\toff-resonance contrib." << endl;
   for(cme = 10.; cme <= 190.; cme += 20.)
   {
@@ -73,7 +100,7 @@ int main()
   double xsec,
          GeVtoNB = 0.38937966e6;  // unit conversion from GeV^-2 to nb
   cout << "sqrt(s)\tdsig/dcos [nb]" << endl;
-  for(cme = 10.; cme <= 190.; cme += 20.)
+  for(cme = 10.; cme <= 190.; cme += 5.)
   {
     M.setkinvar(cme*cme, cost);
     M.setform(VEC, VEC);
@@ -87,8 +114,8 @@ int main()
     xsec = real((1+cost*cost)*(resvv*conj(resvv) + resav*conj(resav)
     			     + resva*conj(resva) + resaa*conj(resaa)) +
 		+ 4*cost*(resvv*conj(resaa) + resva*conj(resav)));
-    xsec *= 3*cme*cme/(32*Pi) * GeVtoNB;
-    cout << cme << " \t" << xsec << endl;
+    xsec *= Nc*cme*cme/(32*Pi) * GeVtoNB;
+    cout << std::setprecision(9) << cme << " \t" << xsec << endl;
   }
   
   return 0;
