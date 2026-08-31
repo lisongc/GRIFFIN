@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 using namespace std;
 
 #include "EWPOZSMEFT.h"
@@ -71,7 +72,7 @@ int main()
   cout << myinput2.get(MWc) << endl;
   cout << myinput2.get(MZc) << endl;
 
-  cout << "NNLO SM SW for initial e+e-: " << SW1.result() << endl;
+  cout << std::setprecision (15) <<  "NNLO SM SW for initial e+e-: " << SW1.result() << endl;
   cout << "SMEFT SW for initial e+e-: " << SW2.result() << endl;
 
   cout << "NNLO SM FA for initial e+e-: " << FA1.result() << endl;

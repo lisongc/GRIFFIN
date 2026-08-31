@@ -74,8 +74,8 @@ double z0SMEFT(int type, int form, const inval& input)
       break;
   } 
   // results derived from 1704.03888
-  deltagLZf = CPhiD/Lambdas*MWs/(8*Pi*AL)*(2*(I3f[type]-Qf[type])-2*(2*I3f[type]-Qf[type])*MWs/MZs)+CPHIF1/Lambdas*(1-MWs/MZs)*MWs/(2*Pi*AL)-I3f[type]*CPHIF3/Lambdas*(1-MWs/MZs)*MWs/(Pi*AL)-I3f[type]*CPhiWB/Lambdas*MWs*sqrt(MWs)/(Pi*AL)/MZs*sqrt(MZs-MWs);
-  deltagRZf = CPHIF/Lambdas*(1-MWs/MZs)*MWs/(2*Pi*AL)-Qf[type]*CPhiD/Lambdas*(1-MWs/MZs)*MWs/(4*Pi*AL);
+  deltagLZf = -CPhiD/Lambdas*MWs/(8*Pi*AL)*(2*(I3f[type]-Qf[type])-2*(2*I3f[type]-Qf[type])*MWs/MZs)-CPHIF1/Lambdas*(1-MWs/MZs)*MWs/(2*Pi*AL)+I3f[type]*CPHIF3/Lambdas*(1-MWs/MZs)*MWs/(Pi*AL)+I3f[type]*CPhiWB/Lambdas*MWs*sqrt(MWs)/(Pi*AL)/MZs*sqrt(MZs-MWs);
+  deltagRZf = -CPHIF/Lambdas*(1-MWs/MZs)*MWs/(2*Pi*AL)+Qf[type]*CPhiD/Lambdas*(1-MWs/MZs)*MWs/(4*Pi*AL);
   switch(form) {
    case VEC:
     res = el/(2*sw*cw)*(deltagLZf+deltagRZf);
@@ -84,7 +84,7 @@ double z0SMEFT(int type, int form, const inval& input)
     res = el/(2*sw*cw)*(deltagLZf-deltagRZf);
     break;
   }
-  return(-res); // minus sign to align with sign convention of vz0 and az0
+  return(res);
 }
 
 double r4fSMEFT(int it, int ot, int if1, int of1, const inval& input){
@@ -202,10 +202,10 @@ double r4fSMEFT(int it, int ot, int if1, int of1, const inval& input){
   } else{
     cout << "This combination of fermions has not been implemented in GRIFFIN for the SMEFT!" << endl;
   }
-  LLLL = -1/Lambdas*(Cll0+Cll1+Cll2+Cll3+Clq10+Clq30); // SMEFT contributions to four fermion interactions derived from 1704.03888 
-  RRRR = -1/Lambdas*(Cee0+Cee1+Cee2+Cee3+Ceu0+Ced0);
-  LLRR = -1/Lambdas*(Cle0+Cqe0+Clu0+Cld0);
-  RRLL = -1/Lambdas*(Cle1+Cqe1+Clu1+Cld1);
+  LLLL = 1/Lambdas*(Cll0+Cll1+Cll2+Cll3+Clq10+Clq30); // SMEFT contributions to four fermion interactions derived from 1704.03888 
+  RRRR = 1/Lambdas*(Cee0+Cee1+Cee2+Cee3+Ceu0+Ced0);
+  LLRR = 1/Lambdas*(Cle0+Cqe0+Clu0+Cld0);
+  RRLL = 1/Lambdas*(Cle1+Cqe1+Clu1+Cld1);
   switch(if1)
   {
     case VEC:
@@ -215,7 +215,7 @@ double r4fSMEFT(int it, int ot, int if1, int of1, const inval& input){
         res = 0.25*(LLLL+RRRR+LLRR+RRLL);
         break;
       case AXV:
-        res = 0.25*(-LLLL+RRRR+LLRR-RRLL);
+        res = 0.25*(LLLL-RRRR-LLRR+RRLL);
         break;
      }
      break;
@@ -223,7 +223,7 @@ double r4fSMEFT(int it, int ot, int if1, int of1, const inval& input){
       switch(of1)
       {
         case VEC:
-          res = 0.25*(-LLLL+RRRR-LLRR+RRLL);
+          res = 0.25*(LLLL-RRRR+LLRR-RRLL);
           break;
         case AXV:
           res = 0.25*(LLLL+RRRR-LLRR-RRLL);

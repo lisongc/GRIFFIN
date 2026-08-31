@@ -1,7 +1,6 @@
 /* ff.h: header file for ff.cc */
 
 #include "classes.h"
-#include "SMEFTval.h"
 
 namespace griffin {
 
