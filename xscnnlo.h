@@ -1,5 +1,8 @@
 /* xscnnlo.h: header file for xscnnlo.cc */
 
+#ifndef __xscnnlo__
+#define __xscnnlo__
+
 #include "classes.h"
 
 namespace griffin {
@@ -32,3 +35,5 @@ public:
 };
 
 } // namespace
+
+#endif // __xscnnlo__

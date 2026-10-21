@@ -132,8 +132,9 @@ double ig1bs(int type, int form, double s, const inval& input);
 // inval: model input parameters
 // AA, AZ: flags to turn on/off the gam-gam and gam-Z boxes (use with caution!)
 // LS=(0)1: (don't) use subtraction for singular log(1-s/mz^2) in gam-Z boxes
+// ZZ, WW: flags to turn on/off the ZZ and WW boxes (use with caution!)
 Cplx B1s(int it, int ot, int if1, int of1, double s, double t, const inval&
-input, int AA, int AZ, int LS);
+input, int AA, int AZ, int LS, int ZZ=1, int WW=1);
 // account for log(1-s/s0) terms in one-loop boxes, equivalent to 
 //  B1(it,ot,iff,off,s,cost,*ival,1,1) - B1(it,ot,iff,off,s,cost,*ival,1,1,1e-12)
 // it/ot: ini-state/fin-state fermion type

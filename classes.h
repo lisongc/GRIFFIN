@@ -96,6 +96,7 @@ public:
   psobsfix(const double value, const inval& input) : psobs(input)
   { myval = value; }
   
+  void setval(const double value) { myval = value; }
   Cplx result(void) const { return myval; }
 };
 

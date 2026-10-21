@@ -1,0 +1,10 @@
+double w1f(const inval& input)
+{
+  double MZs = sqr(input.get(MZ)),
+         MWs = sqr(input.get(MW)),
+         MTs = sqr(input.get(MT)),
+         AL = input.get(al),
+         deltaAlpha = input.get(Delal);
+  return(deltaAlpha/2. + (3*AL*(2*MWs - MZs)*MZs*real(B0fin(MWs,0,0)))/(8.*Pi*sqr(MWs - MZs)) - (AL*(40*MWs - 19*MZs)*MZs*real(B0fin(MZs,0,0)))/(48.*Pi*sqr(MWs - MZs)) + (AL*MZs*real(B0fin(MWs,MTs,0))*(MTs*MWs*(MWs - 2*MZs) + (MWs - 2*MZs)*sqr(MTs) + 2*(2*MWs - MZs)*sqr(MWs)))/(16.*Pi*sqr(MWs)*sqr(MWs - MZs)) - (AL*(8*MWs*MZs*(8*MWs + 19*MZs) + 3*MTs*(-16*MWs*MZs + 64*sqr(MWs) + 9*sqr(MZs))))/(432.*MWs*(MWs - MZs)*MZs*Pi) - (AL*real(B0fin(MZs,MTs,MTs))*(MTs*(-80*MWs*MZs + 64*sqr(MWs) + 7*sqr(MZs)) + MZs*(-40*MWs*MZs + 32*sqr(MWs) + 17*sqr(MZs))))/(144.*MZs*Pi*sqr(MWs - MZs)) + (AL*A0fin(MTs)*(32*MZs*sqr(MWs)*sqr(MWs - MZs) - 9*(MWs - 2*MZs)*sqr(MTs)*sqr(MZs) + 2*MTs*MWs*(-40*MZs*sqr(MWs) - MWs*sqr(MZs) + 32*trip(MWs) + 9*trip(MZs))))/(144.*MTs*MZs*Pi*sqr(MWs)*sqr(MWs - MZs)));
+}
+
