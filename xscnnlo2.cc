@@ -228,6 +228,139 @@ Cplx mat_SMNNLO2::compoffZfb(double sval) const
   return(mats1);
 }
 
+
+double linex3d2(double *axis1, int len1, double *axis2, int len2, 
+                double *axis3, int len3, double x, double y, double z, 
+                double *dataa, double *datab, 
+		double coeffa0, double coeffa1, double coeffa2,
+		double coeffb0, double coeffb1, double coeffb2)
+{
+  double x0, x1, y0, y1, z0, z1, coeffay0, coeffay1, coeffby0, coeffby1, cost;
+  int i, j, k;
+  
+  for(i = 1; i < len1-1 && x > axis1[i]; i++);
+  x0 = axis1[i-1];
+  x1 = axis1[i];
+  for(j = 1; j < len2-1 && y > axis2[j]; j++);
+  y0 = axis2[j-1];
+  y1 = axis2[j];
+  for(k = 1; k < len3-1 && z > axis3[k]; k++);
+  z0 = axis3[k-1];
+  z1 = axis3[k];
+  
+  cost = cos(y0);
+  coeffay0 = (coeffa0 + coeffa1*cost + coeffa2*sqr(cost))/
+  		(sqr(-1 + cost)*sqr(1 + cost));
+  coeffby0 = (coeffb0 + coeffb1*cost + coeffb2*sqr(cost))/
+  		(sqr(-1 + cost)*sqr(1 + cost));
+  cost = cos(y1);
+  coeffay1 = (coeffa0 + coeffa1*cost + coeffa2*sqr(cost))/
+  		(sqr(-1 + cost)*sqr(1 + cost));
+  coeffby1 = (coeffb0 + coeffb1*cost + coeffb2*sqr(cost))/
+  		(sqr(-1 + cost)*sqr(1 + cost));
+  
+  return ( (x1-x)*(y1-y)*(z1-z)*(coeffay0*dataa[(i-1)*len2*len3+(j-1)*len3+(k-1)]
+  				+coeffby0*datab[(i-1)*len2*len3+(j-1)*len3+(k-1)])
+          +(x1-x)*(y1-y)*(z-z0)*(coeffay0*dataa[(i-1)*len2*len3+(j-1)*len3+k]
+  				+coeffby0*datab[(i-1)*len2*len3+(j-1)*len3+k])
+          +(x1-x)*(y-y0)*(z1-z)*(coeffay1*dataa[(i-1)*len2*len3+j*len3+(k-1)]
+  				+coeffby1*datab[(i-1)*len2*len3+j*len3+(k-1)])
+          +(x1-x)*(y-y0)*(z-z0)*(coeffay1*dataa[(i-1)*len2*len3+j*len3+k]
+  				+coeffby1*datab[(i-1)*len2*len3+j*len3+k])
+          +(x-x0)*(y1-y)*(z1-z)*(coeffay0*dataa[i*len2*len3+(j-1)*len3+(k-1)]
+  				+coeffby0*datab[i*len2*len3+(j-1)*len3+(k-1)])
+          +(x-x0)*(y1-y)*(z-z0)*(coeffay0*dataa[i*len2*len3+(j-1)*len3+k]
+  				+coeffby0*datab[i*len2*len3+(j-1)*len3+k])
+          +(x-x0)*(y-y0)*(z1-z)*(coeffay1*dataa[i*len2*len3+j*len3+(k-1)]
+  				+coeffby1*datab[i*len2*len3+j*len3+(k-1)])
+          +(x-x0)*(y-y0)*(z-z0)*(coeffay1*dataa[i*len2*len3+j*len3+k]
+  				+coeffby1*datab[i*len2*len3+j*len3+k]) )/
+         ((x1-x0)*(y1-y0)*(z1-z0));
+}
+
+Cplx linex3dc2(double *axis1, int len1, 
+               double *axis2, int len2, 
+               double *axis3, int len3, 
+               double pnt1, double pnt2, double pnt3, 
+	       double *dataar, double *dataai, double *databr, double *databi, 
+	       double coeffa0, double coeffa1, double coeffa2,
+	       double coeffb0, double coeffb1, double coeffb2)
+{
+  return(Cplx(
+    linex3d2(axis1, len1, axis2, len2, axis3, len3, pnt1, pnt2, pnt3, 
+    	     dataar, databr, coeffa0, coeffa1, coeffa2, 
+	     coeffb0, coeffb1, coeffb2),
+    linex3d2(axis1, len1, axis2, len2, axis3, len3, pnt1, pnt2, pnt3, 
+             dataai, databi, coeffa0, coeffa1, coeffa2, 
+	     coeffb0, coeffb1, coeffb2)));
+}
+              
+double linex3d3(double *axis1, int len1, double *axis2, int len2, 
+                double *axis3, int len3, double x, double y, double z, 
+                double *dataa, double *datab, 
+		double coeffa0, double coeffa1, double coeffa2,
+		double coeffb0, double coeffb1, double coeffb2)
+{
+  double x0, x1, y0, y1, z0, z1, coeffay0, coeffay1, coeffby0, coeffby1, cost;
+  int i, j, k;
+  
+  for(i = 1; i < len1-1 && x > axis1[i]; i++);
+  x0 = axis1[i-1];
+  x1 = axis1[i];
+  for(j = 1; j < len2-1 && y > axis2[j]; j++);
+  y0 = axis2[j-1];
+  y1 = axis2[j];
+  for(k = 1; k < len3-1 && z > axis3[k]; k++);
+  z0 = axis3[k-1];
+  z1 = axis3[k];
+  
+  cost = cos(y0);
+  coeffay0 = (coeffa0 + coeffa1*cost + coeffa2*sqr(cost))/
+  		((-1 + cost)*sqr(1 + cost));
+  coeffby0 = (coeffb0 + coeffb1*cost + coeffb2*sqr(cost))/
+  		((-1 + cost)*sqr(1 + cost));
+  cost = cos(y1);
+  coeffay1 = (coeffa0 + coeffa1*cost + coeffa2*sqr(cost))/
+  		((-1 + cost)*sqr(1 + cost));
+  coeffby1 = (coeffb0 + coeffb1*cost + coeffb2*sqr(cost))/
+  		((-1 + cost)*sqr(1 + cost));
+  
+  return ( (x1-x)*(y1-y)*(z1-z)*(coeffay0*dataa[(i-1)*len2*len3+(j-1)*len3+(k-1)]
+  				+coeffby0*datab[(i-1)*len2*len3+(j-1)*len3+(k-1)])
+          +(x1-x)*(y1-y)*(z-z0)*(coeffay0*dataa[(i-1)*len2*len3+(j-1)*len3+k]
+  				+coeffby0*datab[(i-1)*len2*len3+(j-1)*len3+k])
+          +(x1-x)*(y-y0)*(z1-z)*(coeffay1*dataa[(i-1)*len2*len3+j*len3+(k-1)]
+  				+coeffby1*datab[(i-1)*len2*len3+j*len3+(k-1)])
+          +(x1-x)*(y-y0)*(z-z0)*(coeffay1*dataa[(i-1)*len2*len3+j*len3+k]
+  				+coeffby1*datab[(i-1)*len2*len3+j*len3+k])
+          +(x-x0)*(y1-y)*(z1-z)*(coeffay0*dataa[i*len2*len3+(j-1)*len3+(k-1)]
+  				+coeffby0*datab[i*len2*len3+(j-1)*len3+(k-1)])
+          +(x-x0)*(y1-y)*(z-z0)*(coeffay0*dataa[i*len2*len3+(j-1)*len3+k]
+  				+coeffby0*datab[i*len2*len3+(j-1)*len3+k])
+          +(x-x0)*(y-y0)*(z1-z)*(coeffay1*dataa[i*len2*len3+j*len3+(k-1)]
+  				+coeffby1*datab[i*len2*len3+j*len3+(k-1)])
+          +(x-x0)*(y-y0)*(z-z0)*(coeffay1*dataa[i*len2*len3+j*len3+k]
+  				+coeffby1*datab[i*len2*len3+j*len3+k]) )/
+         ((x1-x0)*(y1-y0)*(z1-z0));
+}
+
+Cplx linex3dc3(double *axis1, int len1, 
+               double *axis2, int len2, 
+               double *axis3, int len3, 
+               double pnt1, double pnt2, double pnt3, 
+	       double *dataar, double *dataai, double *databr, double *databi, 
+	       double coeffa0, double coeffa1, double coeffa2,
+	       double coeffb0, double coeffb1, double coeffb2)
+{
+  return(Cplx(
+    linex3d3(axis1, len1, axis2, len2, axis3, len3, pnt1, pnt2, pnt3, 
+    	     dataar, databr, coeffa0, coeffa1, coeffa2, 
+	     coeffb0, coeffb1, coeffb2),
+    linex3d3(axis1, len1, axis2, len2, axis3, len3, pnt1, pnt2, pnt3, 
+             dataai, databi, coeffa0, coeffa1, coeffa2, 
+	     coeffb0, coeffb1, coeffb2)));
+}
+
 #include "aafbbox.grid"
 #include "ffw1.in"
 
@@ -238,9 +371,10 @@ Cplx mat_SMNNLO2::compboxfb(double sval) const
          MTs = sqr(ival->get(MT)),
          AL = ival->get(al);
   double SWsq = 1-MWs/MZs, CWsq = MWs/MZs;
-  Cplx zzz0, zzz1, reszzz, www, reswww, azz0, azz1, resazz, aza0, aza1, resaza,
-       zza0, zza1, reszza, resctv;
-  
+//  Cplx zzz0, zzz1, reszzz, www, reswww, azz0, azz1, resazz, aza0, aza1, resaza,
+//       zza0, zza1, reszza, resctv;
+  Cplx reszzz, reswww, resazz, resaza, reszza, resctv;
+ 
   Cplx vvbzz = B1s(it,ot,VEC,VEC,s,-s/2*(1-cost),*ival,0,0,1,1,0),
        avbzz = B1s(it,ot,VEC,AXV,s,-s/2*(1-cost),*ival,0,0,1,1,0),
        vabzz = B1s(it,ot,AXV,VEC,s,-s/2*(1-cost),*ival,0,0,1,1,0),
@@ -289,7 +423,7 @@ Cplx mat_SMNNLO2::compboxfb(double sval) const
 //  zza0 = Cplx(5.861748731e11,-1.208892733e11);
 //  zza1 = Cplx(3.350031957e11,-5.196671503e10);
   
-  zzz0 = linex3dc(axis1aafbzzz, sizeof(axis1aafbzzz)/sizeof(double),
+/*  zzz0 = linex3dc(axis1aafbzzz, sizeof(axis1aafbzzz)/sizeof(double),
                   axis2aafbzzz, sizeof(axis2aafbzzz)/sizeof(double),
 		  axis3aafbzzz, sizeof(axis3aafbzzz)/sizeof(double),
 		  s/MZs, acos(cost), MTs/MZs, 
@@ -329,76 +463,131 @@ Cplx mat_SMNNLO2::compboxfb(double sval) const
 		  axis3aafbzza, sizeof(axis3aafbzza)/sizeof(double),
 		  s/MZs, acos(cost), MTs/MZs, 
 		  &dataraafbzza1[0][0][0], &dataiaafbzza1[0][0][0]);
-  
+*/  
   if(iff==VEC)
   {
     if(off==VEC)
     {
       resctv = (llctv + lrctv + rlctv + rrctv)/4.;
-      reszzz = (powint(CWsq,-3)*powint(SWsq,-3)*
-       (2*(zzz0 - 2*cost*zzz1 + zzz0*sqr(cost))*sqr(SWsq)*sqr(Qf[it])*
-          (-2*SWsq*I3f[ot]*Qf[ot] + sqr(I3f[ot]) + 2*sqr(SWsq)*sqr(Qf[ot])) - 
-         2*SWsq*I3f[it]*Qf[it]*(-2*SWsq*(zzz0 + zzz1)*I3f[ot]*Qf[ot]*
-             sqr(-1 + cost) + (zzz0 + zzz1)*sqr(-1 + cost)*sqr(I3f[ot]) + 
-            2*(zzz0 - 2*cost*zzz1 + zzz0*sqr(cost))*sqr(SWsq)*sqr(Qf[ot])) + 
-         sqr(I3f[it])*(-2*SWsq*(zzz0 + zzz1)*I3f[ot]*Qf[ot]*sqr(-1 + cost) + 
-            (zzz0 + zzz1)*sqr(-1 + cost)*sqr(I3f[ot]) + 
-            2*(zzz0 - 2*cost*zzz1 + zzz0*sqr(cost))*sqr(SWsq)*sqr(Qf[ot])))*
-       trip(AL))/(72.*Pi*sqr(MZs)*sqr(s)*sqr(-1 + sqr(cost)));
-      resazz = ((-5 + 8*CWsq)*(Qf[ot]*(-((azz0 + azz1)*I3f[ot]*sqr(-1 + cost)) + 
-            2*SWsq*Qf[ot]*(azz0 - 2*azz1*cost + azz0*sqr(cost)))*sqr(I3f[it]) + 
-         2*SWsq*sqr(Qf[it])*(-3*SWsq*I3f[ot]*Qf[ot]*
-             (azz0 - 2*azz1*cost + azz0*sqr(cost)) + 
-            (azz0 - 2*azz1*cost + azz0*sqr(cost))*sqr(I3f[ot]) + 
-            SWsq*((-(azz1*(1 + cost*(6 + cost))) + 
-                  azz0*(3 + cost*(2 + 3*cost)))*SWsq - 
-               (azz0 + azz1)*(-1 + CWsq)*sqr(-1 + cost))*sqr(Qf[ot])) + 
-         I3f[it]*Qf[it]*(4*(azz0 + azz1)*SWsq*I3f[ot]*Qf[ot]*sqr(-1 + cost) - 
-            (azz0 + azz1)*sqr(-1 + cost)*sqr(I3f[ot]) - 
-            6*(azz0 - 2*azz1*cost + azz0*sqr(cost))*sqr(SWsq)*sqr(Qf[ot])))*
-       trip(AL))/(18.*Pi*sqr(CWsq)*sqr(s)*sqr(SWsq)*sqr(-1 + sqr(cost)));
-      resaza = -((-5 + 8*CWsq)*Qf[it]*Qf[ot]*
-        (I3f[ot]*Qf[it] + (I3f[it] - 4*SWsq*Qf[it])*Qf[ot])*
-        (aza0 - 2*aza1*cost + aza0*sqr(cost))*trip(AL))/
-       (18.*(-1 + cost)*CWsq*Pi*s*SWsq*sqr(1 + cost));
-      reszza = (Qf[it]*Qf[ot]*(-2*SWsq*Qf[it]*(I3f[ot] - 2*SWsq*Qf[ot])*
-          (zza0 - 2*cost*zza1 + zza0*sqr(cost)) + 
-         I3f[it]*((zza0 + zza1)*I3f[ot]*sqr(-1 + cost) - 
-            2*SWsq*Qf[ot]*(zza0 - 2*cost*zza1 + zza0*sqr(cost))))*trip(AL))/
-       (144.*(-1 + cost)*Pi*s*sqr(1 + cost)*sqr(CWsq)*sqr(MZs)*sqr(SWsq));
+      reszzz = linex3dc2(axis1aafbzzz, sizeof(axis1aafbzzz)/sizeof(double),
+              axis2aafbzzz, sizeof(axis2aafbzzz)/sizeof(double),
+	      axis3aafbzzz, sizeof(axis3aafbzzz)/sizeof(double),
+	      s/MZs, acos(cost), MTs/MZs, 
+	      &dataraafbzzz0[0][0][0], &dataiaafbzzz0[0][0][0],
+	      &dataraafbzzz1[0][0][0], &dataiaafbzzz1[0][0][0],
+     (-2*SWsq*I3f[it]*Qf[it] + sqr(I3f[it]) + 2*sqr(SWsq)*sqr(Qf[it]))*
+      (-2*SWsq*I3f[ot]*Qf[ot] + sqr(I3f[ot]) + 2*sqr(SWsq)*sqr(Qf[ot])),
+     -2*I3f[it]*I3f[ot]*(I3f[it] - 2*SWsq*Qf[it])*(I3f[ot] - 2*SWsq*Qf[ot]),
+     (-2*SWsq*I3f[it]*Qf[it] + sqr(I3f[it]) + 2*sqr(SWsq)*sqr(Qf[it]))*
+      (-2*SWsq*I3f[ot]*Qf[ot] + sqr(I3f[ot]) + 2*sqr(SWsq)*sqr(Qf[ot])),
+     I3f[it]*I3f[ot]*(I3f[it] - 2*SWsq*Qf[it])*(I3f[ot] - 2*SWsq*Qf[ot]),
+     -2*(-2*SWsq*I3f[it]*Qf[it] + sqr(I3f[it]) + 2*sqr(SWsq)*sqr(Qf[it]))*
+      (-2*SWsq*I3f[ot]*Qf[ot] + sqr(I3f[ot]) + 2*sqr(SWsq)*sqr(Qf[ot])),
+     I3f[it]*I3f[ot]*(I3f[it] - 2*SWsq*Qf[it])*(I3f[ot] - 2*SWsq*Qf[ot]));
+      resazz = linex3dc2(axis1aafbazz, sizeof(axis1aafbazz)/sizeof(double),
+              axis2aafbazz, sizeof(axis2aafbazz)/sizeof(double),
+	      axis3aafbazz, sizeof(axis3aafbazz)/sizeof(double),
+	      s/MZs, acos(cost), MTs/MZs, 
+	      &dataraafbazz0[0][0][0], &dataiaafbazz0[0][0][0],
+	      &dataraafbazz1[0][0][0], &dataiaafbazz1[0][0][0],
+     6*Qf[it]*Qf[ot]*(I3f[ot]*Qf[it] + I3f[it]*Qf[ot])*sqr(SWsq) + 
+      I3f[ot]*Qf[ot]*sqr(I3f[it]) + I3f[it]*Qf[it]*sqr(I3f[ot]) - 
+      2*SWsq*sqr(I3f[ot]*Qf[it] + I3f[it]*Qf[ot]) - 
+      8*sqr(Qf[it])*sqr(Qf[ot])*trip(SWsq),
+     -2*I3f[it]*I3f[ot]*(I3f[ot]*Qf[it] + (I3f[it] - 4*SWsq*Qf[it])*Qf[ot]),
+     6*Qf[it]*Qf[ot]*(I3f[ot]*Qf[it] + I3f[it]*Qf[ot])*sqr(SWsq) + 
+      I3f[ot]*Qf[ot]*sqr(I3f[it]) + I3f[it]*Qf[it]*sqr(I3f[ot]) - 
+      2*SWsq*sqr(I3f[ot]*Qf[it] + I3f[it]*Qf[ot]) - 
+      8*sqr(Qf[it])*sqr(Qf[ot])*trip(SWsq),
+     I3f[it]*I3f[ot]*(I3f[ot]*Qf[it] + (I3f[it] - 4*SWsq*Qf[it])*Qf[ot]),
+     -2*(6*Qf[it]*Qf[ot]*(I3f[ot]*Qf[it] + I3f[it]*Qf[ot])*sqr(SWsq) + 
+        I3f[ot]*Qf[ot]*sqr(I3f[it]) + I3f[it]*Qf[it]*sqr(I3f[ot]) - 
+        2*SWsq*sqr(I3f[ot]*Qf[it] + I3f[it]*Qf[ot]) - 
+        8*sqr(Qf[it])*sqr(Qf[ot])*trip(SWsq)),
+     I3f[it]*I3f[ot]*(I3f[ot]*Qf[it] + (I3f[it] - 4*SWsq*Qf[it])*Qf[ot]));
+      reszza = linex3dc3(axis1aafbzza, sizeof(axis1aafbzza)/sizeof(double),
+              axis2aafbzza, sizeof(axis2aafbzza)/sizeof(double),
+	      axis3aafbzza, sizeof(axis3aafbzza)/sizeof(double),
+	      s/MZs, acos(cost), MTs/MZs, 
+	      &dataraafbzza0[0][0][0], &dataiaafbzza0[0][0][0],
+	      &dataraafbzza1[0][0][0], &dataiaafbzza1[0][0][0],
+     Qf[it]*(I3f[it] - 2*SWsq*Qf[it])*Qf[ot]*(I3f[ot] - 2*SWsq*Qf[ot]),
+     -2*I3f[it]*I3f[ot]*Qf[it]*Qf[ot],
+     Qf[it]*(I3f[it] - 2*SWsq*Qf[it])*Qf[ot]*(I3f[ot] - 2*SWsq*Qf[ot]),
+     I3f[it]*I3f[ot]*Qf[it]*Qf[ot],
+     -2*Qf[it]*(I3f[it] - 2*SWsq*Qf[it])*Qf[ot]*(I3f[ot] - 2*SWsq*Qf[ot]),
+     I3f[it]*I3f[ot]*Qf[it]*Qf[ot]);
+      resaza = linex3dc3(axis1aafbaza, sizeof(axis1aafbaza)/sizeof(double),
+              axis2aafbaza, sizeof(axis2aafbaza)/sizeof(double),
+	      axis3aafbaza, sizeof(axis3aafbaza)/sizeof(double),
+	      s/MZs, acos(cost), MTs/MZs, 
+	      &dataraafbaza0[0][0][0], &dataiaafbaza0[0][0][0],
+	      &dataraafbaza1[0][0][0], &dataiaafbaza1[0][0][0],
+     -(Qf[it]*Qf[ot]*(I3f[ot]*Qf[it] + 
+          (I3f[it] - 4*SWsq*Qf[it])*Qf[ot])),0,
+     -(Qf[it]*Qf[ot]*(I3f[ot]*Qf[it] + (I3f[it] - 4*SWsq*Qf[it])*Qf[ot])),0,
+     2*Qf[it]*Qf[ot]*(I3f[ot]*Qf[it] + (I3f[it] - 4*SWsq*Qf[it])*Qf[ot]),0);    
     }
     else
     {
       resctv = (llctv + lrctv - rlctv - rrctv)/4.;
-      reszzz = (powint(CWsq,-3)*powint(SWsq,-3)*
-       (2*I3f[ot]*(I3f[ot] - 2*SWsq*Qf[ot])*
-          (zzz0 - 2*cost*zzz1 + zzz0*sqr(cost))*sqr(SWsq)*sqr(Qf[it]) - 
-         2*SWsq*I3f[it]*Qf[it]*(-2*SWsq*(zzz0 + zzz1)*I3f[ot]*Qf[ot]*
-             sqr(-1 + cost) + (zzz0 + zzz1)*sqr(-1 + cost)*sqr(I3f[ot]) + 
-            2*(-2*cost*zzz0 + zzz1 + zzz1*sqr(cost))*sqr(SWsq)*sqr(Qf[ot])) + 
-         sqr(I3f[it])*(-2*SWsq*(zzz0 + zzz1)*I3f[ot]*Qf[ot]*sqr(-1 + cost) + 
-            (zzz0 + zzz1)*sqr(-1 + cost)*sqr(I3f[ot]) + 
-            2*(-2*cost*zzz0 + zzz1 + zzz1*sqr(cost))*sqr(SWsq)*sqr(Qf[ot])))*
-       trip(AL))/(72.*Pi*sqr(MZs)*sqr(s)*sqr(-1 + sqr(cost)));
-      resazz = ((-5 + 8*CWsq)*(Qf[ot]*(-((azz0 + azz1)*I3f[ot]*sqr(-1 + cost)) + 
-            2*SWsq*Qf[ot]*(azz1 - 2*azz0*cost + azz1*sqr(cost)))*sqr(I3f[it]) + 
-         2*SWsq*sqr(Qf[it])*(-3*SWsq*I3f[ot]*Qf[ot]*
-             (azz0 - 2*azz1*cost + azz0*sqr(cost)) + 
-            (azz0 - 2*azz1*cost + azz0*sqr(cost))*sqr(I3f[ot]) + 
-            (azz0 + azz1)*SWsq*(-1 + CWsq + SWsq)*sqr(-1 + cost)*sqr(Qf[ot])) + 
-         I3f[it]*Qf[it]*(4*(azz0 + azz1)*SWsq*I3f[ot]*Qf[ot]*sqr(-1 + cost) - 
-            (azz0 + azz1)*sqr(-1 + cost)*sqr(I3f[ot]) - 
-            6*(azz1 - 2*azz0*cost + azz1*sqr(cost))*sqr(SWsq)*sqr(Qf[ot])))*
-       trip(AL))/(18.*Pi*sqr(CWsq)*sqr(s)*sqr(SWsq)*sqr(-1 + sqr(cost)));
-      resaza = -((-5 + 8*CWsq)*Qf[it]*Qf[ot]*
-        (I3f[ot]*Qf[it]*(aza0 - 2*aza1*cost + aza0*sqr(cost)) + 
-          I3f[it]*Qf[ot]*(aza1 - 2*aza0*cost + aza1*sqr(cost)))*trip(AL))/
-       (18.*(-1 + cost)*CWsq*Pi*s*SWsq*sqr(1 + cost));
-      reszza = (Qf[it]*Qf[ot]*(-2*SWsq*I3f[ot]*Qf[it]*
-          (zza0 - 2*cost*zza1 + zza0*sqr(cost)) + 
-         I3f[it]*((zza0 + zza1)*I3f[ot]*sqr(-1 + cost) - 
-            2*SWsq*Qf[ot]*(-2*cost*zza0 + zza1 + zza1*sqr(cost))))*trip(AL))/
-       (144.*(-1 + cost)*Pi*s*sqr(1 + cost)*sqr(CWsq)*sqr(MZs)*sqr(SWsq));
+      reszzz = linex3dc2(axis1aafbzzz, sizeof(axis1aafbzzz)/sizeof(double),
+              axis2aafbzzz, sizeof(axis2aafbzzz)/sizeof(double),
+	      axis3aafbzzz, sizeof(axis3aafbzzz)/sizeof(double),
+	      s/MZs, acos(cost), MTs/MZs, 
+	      &dataraafbzzz0[0][0][0], &dataiaafbzzz0[0][0][0],
+	      &dataraafbzzz1[0][0][0], &dataiaafbzzz1[0][0][0],
+     I3f[ot]*(I3f[ot] - 2*SWsq*Qf[ot])*
+      (-2*SWsq*I3f[it]*Qf[it] + sqr(I3f[it]) + 2*sqr(SWsq)*sqr(Qf[it])),
+     -2*I3f[it]*(I3f[it] - 2*SWsq*Qf[it])*
+      (-2*SWsq*I3f[ot]*Qf[ot] + sqr(I3f[ot]) + 2*sqr(SWsq)*sqr(Qf[ot])),
+     I3f[ot]*(I3f[ot] - 2*SWsq*Qf[ot])*
+      (-2*SWsq*I3f[it]*Qf[it] + sqr(I3f[it]) + 2*sqr(SWsq)*sqr(Qf[it])),
+     I3f[it]*(I3f[it] - 2*SWsq*Qf[it])*
+      (-2*SWsq*I3f[ot]*Qf[ot] + sqr(I3f[ot]) + 2*sqr(SWsq)*sqr(Qf[ot])),
+     -2*I3f[ot]*(I3f[ot] - 2*SWsq*Qf[ot])*
+      (-2*SWsq*I3f[it]*Qf[it] + sqr(I3f[it]) + 2*sqr(SWsq)*sqr(Qf[it])),
+     I3f[it]*(I3f[it] - 2*SWsq*Qf[it])*
+      (-2*SWsq*I3f[ot]*Qf[ot] + sqr(I3f[ot]) + 2*sqr(SWsq)*sqr(Qf[ot])));
+      resazz = linex3dc2(axis1aafbazz, sizeof(axis1aafbazz)/sizeof(double),
+              axis2aafbazz, sizeof(axis2aafbazz)/sizeof(double),
+	      axis3aafbazz, sizeof(axis3aafbazz)/sizeof(double),
+	      s/MZs, acos(cost), MTs/MZs, 
+	      &dataraafbazz0[0][0][0], &dataiaafbazz0[0][0][0],
+	      &dataraafbazz1[0][0][0], &dataiaafbazz1[0][0][0],
+      I3f[ot]*(I3f[it]*Qf[it]*(I3f[ot] - 4*SWsq*Qf[ot]) + 
+        Qf[ot]*sqr(I3f[it]) + 2*SWsq*(-I3f[ot] + 3*SWsq*Qf[ot])*sqr(Qf[it])),
+     -2*I3f[it]*(I3f[ot]*(I3f[it] - 4*SWsq*Qf[it])*Qf[ot] + 
+        Qf[it]*sqr(I3f[ot]) + 2*SWsq*(-I3f[it] + 3*SWsq*Qf[it])*sqr(Qf[ot])),
+     I3f[ot]*(I3f[it]*Qf[it]*(I3f[ot] - 4*SWsq*Qf[ot]) + Qf[ot]*sqr(I3f[it]) + 
+        2*SWsq*(-I3f[ot] + 3*SWsq*Qf[ot])*sqr(Qf[it])),
+     I3f[it]*(I3f[ot]*(I3f[it] - 4*SWsq*Qf[it])*Qf[ot] + Qf[it]*sqr(I3f[ot]) + 
+        2*SWsq*(-I3f[it] + 3*SWsq*Qf[it])*sqr(Qf[ot])),
+     -2*I3f[ot]*(I3f[it]*Qf[it]*(I3f[ot] - 4*SWsq*Qf[ot]) + 
+        Qf[ot]*sqr(I3f[it]) + 2*SWsq*(-I3f[ot] + 3*SWsq*Qf[ot])*sqr(Qf[it])),
+     I3f[it]*(I3f[ot]*(I3f[it] - 4*SWsq*Qf[it])*Qf[ot] + Qf[it]*sqr(I3f[ot]) + 
+        2*SWsq*(-I3f[it] + 3*SWsq*Qf[it])*sqr(Qf[ot])));
+      reszza = linex3dc3(axis1aafbzza, sizeof(axis1aafbzza)/sizeof(double),
+              axis2aafbzza, sizeof(axis2aafbzza)/sizeof(double),
+	      axis3aafbzza, sizeof(axis3aafbzza)/sizeof(double),
+	      s/MZs, acos(cost), MTs/MZs, 
+	      &dataraafbzza0[0][0][0], &dataiaafbzza0[0][0][0],
+	      &dataraafbzza1[0][0][0], &dataiaafbzza1[0][0][0],
+     I3f[ot]*Qf[it]*(I3f[it] - 2*SWsq*Qf[it])*Qf[ot],
+     -2*I3f[it]*Qf[it]*Qf[ot]*(I3f[ot] - 2*SWsq*Qf[ot]),
+     I3f[ot]*Qf[it]*(I3f[it] - 2*SWsq*Qf[it])*Qf[ot],
+     I3f[it]*Qf[it]*Qf[ot]*(I3f[ot] - 2*SWsq*Qf[ot]),
+     -2*I3f[ot]*Qf[it]*(I3f[it] - 2*SWsq*Qf[it])*Qf[ot],
+     I3f[it]*Qf[it]*Qf[ot]*(I3f[ot] - 2*SWsq*Qf[ot]));
+      resaza = linex3dc3(axis1aafbaza, sizeof(axis1aafbaza)/sizeof(double),
+              axis2aafbaza, sizeof(axis2aafbaza)/sizeof(double),
+	      axis3aafbaza, sizeof(axis3aafbaza)/sizeof(double),
+	      s/MZs, acos(cost), MTs/MZs, 
+	      &dataraafbaza0[0][0][0], &dataiaafbaza0[0][0][0],
+	      &dataraafbaza1[0][0][0], &dataiaafbaza1[0][0][0],
+     -(I3f[ot]*Qf[ot]*sqr(Qf[it])),2*I3f[it]*Qf[it]*sqr(Qf[ot]),
+     -(I3f[ot]*Qf[ot]*sqr(Qf[it])),-(I3f[it]*Qf[it]*sqr(Qf[ot])),
+     2*I3f[ot]*Qf[ot]*sqr(Qf[it]),-(I3f[it]*Qf[it]*sqr(Qf[ot])));
     }
   }
   else
@@ -406,87 +595,159 @@ Cplx mat_SMNNLO2::compboxfb(double sval) const
     if(off==VEC)
     {
       resctv = (llctv - lrctv + rlctv - rrctv)/4.;
-      reszzz = (powint(CWsq,-3)*powint(SWsq,-3)*
-       (2*I3f[ot]*(I3f[ot] - 2*SWsq*Qf[ot])*
-          (-2*cost*zzz0 + zzz1 + zzz1*sqr(cost))*sqr(SWsq)*sqr(Qf[it]) - 
-         2*SWsq*I3f[it]*Qf[it]*(-2*SWsq*(zzz0 + zzz1)*I3f[ot]*Qf[ot]*
-             sqr(-1 + cost) + (zzz0 + zzz1)*sqr(-1 + cost)*sqr(I3f[ot]) + 
-            2*(zzz0 - 2*cost*zzz1 + zzz0*sqr(cost))*sqr(SWsq)*sqr(Qf[ot])) + 
-         sqr(I3f[it])*(-2*SWsq*(zzz0 + zzz1)*I3f[ot]*Qf[ot]*sqr(-1 + cost) + 
-            (zzz0 + zzz1)*sqr(-1 + cost)*sqr(I3f[ot]) + 
-            2*(zzz0 - 2*cost*zzz1 + zzz0*sqr(cost))*sqr(SWsq)*sqr(Qf[ot])))*
-       trip(AL))/(72.*Pi*sqr(MZs)*sqr(s)*sqr(-1 + sqr(cost)));
-      resazz = ((-5 + 8*CWsq)*(Qf[ot]*(-((azz0 + azz1)*I3f[ot]*sqr(-1 + cost)) + 
-            2*SWsq*Qf[ot]*(azz0 - 2*azz1*cost + azz0*sqr(cost)))*sqr(I3f[it]) + 
-         2*SWsq*sqr(Qf[it])*(-3*SWsq*I3f[ot]*Qf[ot]*
-             (azz1 - 2*azz0*cost + azz1*sqr(cost)) + 
-            (azz1 - 2*azz0*cost + azz1*sqr(cost))*sqr(I3f[ot]) + 
-            (azz0 + azz1)*SWsq*(-1 + CWsq + SWsq)*sqr(-1 + cost)*sqr(Qf[ot])) + 
-         I3f[it]*Qf[it]*(4*(azz0 + azz1)*SWsq*I3f[ot]*Qf[ot]*sqr(-1 + cost) - 
-            (azz0 + azz1)*sqr(-1 + cost)*sqr(I3f[ot]) - 
-            6*(azz0 - 2*azz1*cost + azz0*sqr(cost))*sqr(SWsq)*sqr(Qf[ot])))*
-       trip(AL))/(18.*Pi*sqr(CWsq)*sqr(s)*sqr(SWsq)*sqr(-1 + sqr(cost)));
-      resaza = -((-5 + 8*CWsq)*Qf[it]*Qf[ot]*
-        (I3f[it]*Qf[ot]*(aza0 - 2*aza1*cost + aza0*sqr(cost)) + 
-          I3f[ot]*Qf[it]*(aza1 - 2*aza0*cost + aza1*sqr(cost)))*trip(AL))/
-       (18.*(-1 + cost)*CWsq*Pi*s*SWsq*sqr(1 + cost));
-      reszza = (Qf[it]*Qf[ot]*(-2*SWsq*I3f[ot]*Qf[it]*
-          (-2*cost*zza0 + zza1 + zza1*sqr(cost)) + 
-         I3f[it]*((zza0 + zza1)*I3f[ot]*sqr(-1 + cost) - 
-            2*SWsq*Qf[ot]*(zza0 - 2*cost*zza1 + zza0*sqr(cost))))*trip(AL))/
-       (144.*(-1 + cost)*Pi*s*sqr(1 + cost)*sqr(CWsq)*sqr(MZs)*sqr(SWsq));
+      reszzz = linex3dc2(axis1aafbzzz, sizeof(axis1aafbzzz)/sizeof(double),
+              axis2aafbzzz, sizeof(axis2aafbzzz)/sizeof(double),
+	      axis3aafbzzz, sizeof(axis3aafbzzz)/sizeof(double),
+	      s/MZs, acos(cost), MTs/MZs, 
+	      &dataraafbzzz0[0][0][0], &dataiaafbzzz0[0][0][0],
+	      &dataraafbzzz1[0][0][0], &dataiaafbzzz1[0][0][0],
+     I3f[it]*(I3f[it] - 2*SWsq*Qf[it])*
+      (-2*SWsq*I3f[ot]*Qf[ot] + sqr(I3f[ot]) + 2*sqr(SWsq)*sqr(Qf[ot])),
+     -2*I3f[ot]*(I3f[ot] - 2*SWsq*Qf[ot])*
+      (-2*SWsq*I3f[it]*Qf[it] + sqr(I3f[it]) + 2*sqr(SWsq)*sqr(Qf[it])),
+     I3f[it]*(I3f[it] - 2*SWsq*Qf[it])*
+      (-2*SWsq*I3f[ot]*Qf[ot] + sqr(I3f[ot]) + 2*sqr(SWsq)*sqr(Qf[ot])),
+     I3f[ot]*(I3f[ot] - 2*SWsq*Qf[ot])*
+      (-2*SWsq*I3f[it]*Qf[it] + sqr(I3f[it]) + 2*sqr(SWsq)*sqr(Qf[it])),
+     -2*I3f[it]*(I3f[it] - 2*SWsq*Qf[it])*
+      (-2*SWsq*I3f[ot]*Qf[ot] + sqr(I3f[ot]) + 2*sqr(SWsq)*sqr(Qf[ot])),
+     I3f[ot]*(I3f[ot] - 2*SWsq*Qf[ot])*
+      (-2*SWsq*I3f[it]*Qf[it] + sqr(I3f[it]) + 2*sqr(SWsq)*sqr(Qf[it])));
+      resazz = linex3dc2(axis1aafbazz, sizeof(axis1aafbazz)/sizeof(double),
+              axis2aafbazz, sizeof(axis2aafbazz)/sizeof(double),
+	      axis3aafbazz, sizeof(axis3aafbazz)/sizeof(double),
+	      s/MZs, acos(cost), MTs/MZs, 
+	      &dataraafbazz0[0][0][0], &dataiaafbazz0[0][0][0],
+	      &dataraafbazz1[0][0][0], &dataiaafbazz1[0][0][0],
+     I3f[it]*(I3f[ot]*(I3f[it] - 4*SWsq*Qf[it])*Qf[ot] + 
+        Qf[it]*sqr(I3f[ot]) + 2*SWsq*(-I3f[it] + 3*SWsq*Qf[it])*sqr(Qf[ot])),
+     -2*I3f[ot]*(I3f[it]*Qf[it]*(I3f[ot] - 4*SWsq*Qf[ot]) + 
+        Qf[ot]*sqr(I3f[it]) + 2*SWsq*(-I3f[ot] + 3*SWsq*Qf[ot])*sqr(Qf[it])),
+     I3f[it]*(I3f[ot]*(I3f[it] - 4*SWsq*Qf[it])*Qf[ot] + Qf[it]*sqr(I3f[ot]) + 
+        2*SWsq*(-I3f[it] + 3*SWsq*Qf[it])*sqr(Qf[ot])),
+     I3f[ot]*(I3f[it]*Qf[it]*(I3f[ot] - 4*SWsq*Qf[ot]) + Qf[ot]*sqr(I3f[it]) + 
+        2*SWsq*(-I3f[ot] + 3*SWsq*Qf[ot])*sqr(Qf[it])),
+     -2*I3f[it]*(I3f[ot]*(I3f[it] - 4*SWsq*Qf[it])*Qf[ot] + 
+        Qf[it]*sqr(I3f[ot]) + 2*SWsq*(-I3f[it] + 3*SWsq*Qf[it])*sqr(Qf[ot])),
+     I3f[ot]*(I3f[it]*Qf[it]*(I3f[ot] - 4*SWsq*Qf[ot]) + Qf[ot]*sqr(I3f[it]) + 
+        2*SWsq*(-I3f[ot] + 3*SWsq*Qf[ot])*sqr(Qf[it])));
+      reszza = linex3dc3(axis1aafbzza, sizeof(axis1aafbzza)/sizeof(double),
+              axis2aafbzza, sizeof(axis2aafbzza)/sizeof(double),
+	      axis3aafbzza, sizeof(axis3aafbzza)/sizeof(double),
+	      s/MZs, acos(cost), MTs/MZs, 
+	      &dataraafbzza0[0][0][0], &dataiaafbzza0[0][0][0],
+	      &dataraafbzza1[0][0][0], &dataiaafbzza1[0][0][0],
+     I3f[it]*Qf[it]*Qf[ot]*(I3f[ot] - 2*SWsq*Qf[ot]),
+     -2*I3f[ot]*Qf[it]*(I3f[it] - 2*SWsq*Qf[it])*Qf[ot],
+     I3f[it]*Qf[it]*Qf[ot]*(I3f[ot] - 2*SWsq*Qf[ot]),
+     I3f[ot]*Qf[it]*(I3f[it] - 2*SWsq*Qf[it])*Qf[ot],
+     -2*I3f[it]*Qf[it]*Qf[ot]*(I3f[ot] - 2*SWsq*Qf[ot]),
+     I3f[ot]*Qf[it]*(I3f[it] - 2*SWsq*Qf[it])*Qf[ot]);
+      resaza = linex3dc3(axis1aafbaza, sizeof(axis1aafbaza)/sizeof(double),
+              axis2aafbaza, sizeof(axis2aafbaza)/sizeof(double),
+	      axis3aafbaza, sizeof(axis3aafbaza)/sizeof(double),
+	      s/MZs, acos(cost), MTs/MZs, 
+	      &dataraafbaza0[0][0][0], &dataiaafbaza0[0][0][0],
+	      &dataraafbaza1[0][0][0], &dataiaafbaza1[0][0][0],
+     -(I3f[it]*Qf[it]*sqr(Qf[ot])),2*I3f[ot]*Qf[ot]*sqr(Qf[it]),
+     -(I3f[it]*Qf[it]*sqr(Qf[ot])),-(I3f[ot]*Qf[ot]*sqr(Qf[it])),
+     2*I3f[it]*Qf[it]*sqr(Qf[ot]),-(I3f[ot]*Qf[ot]*sqr(Qf[it])));
     }
     else
     {
       resctv = (llctv - lrctv - rlctv + rrctv)/4.;
-      reszzz = (powint(CWsq,-3)*powint(SWsq,-3)*
-       (2*(-2*cost*zzz0 + zzz1 + zzz1*sqr(cost))*sqr(SWsq)*sqr(Qf[it])*
-          (-2*SWsq*I3f[ot]*Qf[ot] + sqr(I3f[ot]) + 2*sqr(SWsq)*sqr(Qf[ot])) - 
-         2*SWsq*I3f[it]*Qf[it]*(-2*SWsq*(zzz0 + zzz1)*I3f[ot]*Qf[ot]*
-             sqr(-1 + cost) + (zzz0 + zzz1)*sqr(-1 + cost)*sqr(I3f[ot]) + 
-            2*(-2*cost*zzz0 + zzz1 + zzz1*sqr(cost))*sqr(SWsq)*sqr(Qf[ot])) + 
-         sqr(I3f[it])*(-2*SWsq*(zzz0 + zzz1)*I3f[ot]*Qf[ot]*sqr(-1 + cost) + 
-            (zzz0 + zzz1)*sqr(-1 + cost)*sqr(I3f[ot]) + 
-            2*(-2*cost*zzz0 + zzz1 + zzz1*sqr(cost))*sqr(SWsq)*sqr(Qf[ot])))*
-       trip(AL))/(72.*Pi*sqr(MZs)*sqr(s)*sqr(-1 + sqr(cost)));
-      resazz = ((-5 + 8*CWsq)*(Qf[ot]*(-((azz0 + azz1)*I3f[ot]*sqr(-1 + cost)) + 
-            2*SWsq*Qf[ot]*(azz1 - 2*azz0*cost + azz1*sqr(cost)))*sqr(I3f[it]) + 
-         2*SWsq*sqr(Qf[it])*(-3*SWsq*I3f[ot]*Qf[ot]*
-             (azz1 - 2*azz0*cost + azz1*sqr(cost)) + 
-            (azz1 - 2*azz0*cost + azz1*sqr(cost))*sqr(I3f[ot]) + 
-            SWsq*(-((azz0*(1 + cost*(6 + cost)) - azz1*(3 + cost*(2 + 3*cost)))*
-                  SWsq) - (azz0 + azz1)*(-1 + CWsq)*sqr(-1 + cost))*sqr(Qf[ot]))
-           + I3f[it]*Qf[it]*(4*(azz0 + azz1)*SWsq*I3f[ot]*Qf[ot]*
-             sqr(-1 + cost) - (azz0 + azz1)*sqr(-1 + cost)*sqr(I3f[ot]) - 
-            6*(azz1 - 2*azz0*cost + azz1*sqr(cost))*sqr(SWsq)*sqr(Qf[ot])))*
-       trip(AL))/(18.*Pi*sqr(CWsq)*sqr(s)*sqr(SWsq)*sqr(-1 + sqr(cost)));
-      resaza = -((-5 + 8*CWsq)*Qf[it]*Qf[ot]*
-        (I3f[ot]*Qf[it] + (I3f[it] - 4*SWsq*Qf[it])*Qf[ot])*
-        (aza1 - 2*aza0*cost + aza1*sqr(cost))*trip(AL))/
-       (18.*(-1 + cost)*CWsq*Pi*s*SWsq*sqr(1 + cost));
-      reszza = (Qf[it]*Qf[ot]*(-2*SWsq*Qf[it]*(I3f[ot] - 2*SWsq*Qf[ot])*
-          (-2*cost*zza0 + zza1 + zza1*sqr(cost)) + 
-         I3f[it]*((zza0 + zza1)*I3f[ot]*sqr(-1 + cost) - 
-            2*SWsq*Qf[ot]*(-2*cost*zza0 + zza1 + zza1*sqr(cost))))*trip(AL))/
-       (144.*(-1 + cost)*Pi*s*sqr(1 + cost)*sqr(CWsq)*sqr(MZs)*sqr(SWsq));
+      reszzz = linex3dc2(axis1aafbzzz, sizeof(axis1aafbzzz)/sizeof(double),
+              axis2aafbzzz, sizeof(axis2aafbzzz)/sizeof(double),
+	      axis3aafbzzz, sizeof(axis3aafbzzz)/sizeof(double),
+	      s/MZs, acos(cost), MTs/MZs, 
+	      &dataraafbzzz0[0][0][0], &dataiaafbzzz0[0][0][0],
+	      &dataraafbzzz1[0][0][0], &dataiaafbzzz1[0][0][0],
+     I3f[it]*I3f[ot]*(I3f[it] - 2*SWsq*Qf[it])*(I3f[ot] - 2*SWsq*Qf[ot]),
+     -2*(-2*SWsq*I3f[it]*Qf[it] + sqr(I3f[it]) + 2*sqr(SWsq)*sqr(Qf[it]))*
+      (-2*SWsq*I3f[ot]*Qf[ot] + sqr(I3f[ot]) + 2*sqr(SWsq)*sqr(Qf[ot])),
+     I3f[it]*I3f[ot]*(I3f[it] - 2*SWsq*Qf[it])*(I3f[ot] - 2*SWsq*Qf[ot]),
+     (-2*SWsq*I3f[it]*Qf[it] + sqr(I3f[it]) + 2*sqr(SWsq)*sqr(Qf[it]))*
+      (-2*SWsq*I3f[ot]*Qf[ot] + sqr(I3f[ot]) + 2*sqr(SWsq)*sqr(Qf[ot])),
+     -2*I3f[it]*I3f[ot]*(I3f[it] - 2*SWsq*Qf[it])*(I3f[ot] - 2*SWsq*Qf[ot]),
+     (-2*SWsq*I3f[it]*Qf[it] + sqr(I3f[it]) + 2*sqr(SWsq)*sqr(Qf[it]))*
+      (-2*SWsq*I3f[ot]*Qf[ot] + sqr(I3f[ot]) + 2*sqr(SWsq)*sqr(Qf[ot])));
+      resazz = linex3dc2(axis1aafbazz, sizeof(axis1aafbazz)/sizeof(double),
+              axis2aafbazz, sizeof(axis2aafbazz)/sizeof(double),
+	      axis3aafbazz, sizeof(axis3aafbazz)/sizeof(double),
+	      s/MZs, acos(cost), MTs/MZs, 
+	      &dataraafbazz0[0][0][0], &dataiaafbazz0[0][0][0],
+	      &dataraafbazz1[0][0][0], &dataiaafbazz1[0][0][0],
+     I3f[it]*I3f[ot]*(I3f[ot]*Qf[it] + (I3f[it] - 4*SWsq*Qf[it])*Qf[ot]),
+     -2*(6*Qf[it]*Qf[ot]*(I3f[ot]*Qf[it] + I3f[it]*Qf[ot])*sqr(SWsq) + 
+        I3f[ot]*Qf[ot]*sqr(I3f[it]) + I3f[it]*Qf[it]*sqr(I3f[ot]) - 
+        2*SWsq*sqr(I3f[ot]*Qf[it] + I3f[it]*Qf[ot]) - 
+        8*sqr(Qf[it])*sqr(Qf[ot])*trip(SWsq)),
+     I3f[it]*I3f[ot]*(I3f[ot]*Qf[it] + (I3f[it] - 4*SWsq*Qf[it])*Qf[ot]),
+     6*Qf[it]*Qf[ot]*(I3f[ot]*Qf[it] + I3f[it]*Qf[ot])*sqr(SWsq) + 
+      I3f[ot]*Qf[ot]*sqr(I3f[it]) + I3f[it]*Qf[it]*sqr(I3f[ot]) - 
+      2*SWsq*sqr(I3f[ot]*Qf[it] + I3f[it]*Qf[ot]) - 
+      8*sqr(Qf[it])*sqr(Qf[ot])*trip(SWsq),
+     -2*I3f[it]*I3f[ot]*(I3f[ot]*Qf[it] + (I3f[it] - 4*SWsq*Qf[it])*Qf[ot]),
+     6*Qf[it]*Qf[ot]*(I3f[ot]*Qf[it] + I3f[it]*Qf[ot])*sqr(SWsq) + 
+      I3f[ot]*Qf[ot]*sqr(I3f[it]) + I3f[it]*Qf[it]*sqr(I3f[ot]) - 
+      2*SWsq*sqr(I3f[ot]*Qf[it] + I3f[it]*Qf[ot]) - 
+      8*sqr(Qf[it])*sqr(Qf[ot])*trip(SWsq));
+      reszza = linex3dc3(axis1aafbzza, sizeof(axis1aafbzza)/sizeof(double),
+              axis2aafbzza, sizeof(axis2aafbzza)/sizeof(double),
+	      axis3aafbzza, sizeof(axis3aafbzza)/sizeof(double),
+	      s/MZs, acos(cost), MTs/MZs, 
+	      &dataraafbzza0[0][0][0], &dataiaafbzza0[0][0][0],
+	      &dataraafbzza1[0][0][0], &dataiaafbzza1[0][0][0],
+     I3f[it]*I3f[ot]*Qf[it]*Qf[ot],
+     -2*Qf[it]*(I3f[it] - 2*SWsq*Qf[it])*Qf[ot]*(I3f[ot] - 2*SWsq*Qf[ot]),
+     I3f[it]*I3f[ot]*Qf[it]*Qf[ot],
+     Qf[it]*(I3f[it] - 2*SWsq*Qf[it])*Qf[ot]*(I3f[ot] - 2*SWsq*Qf[ot]),
+     -2*I3f[it]*I3f[ot]*Qf[it]*Qf[ot],
+     Qf[it]*(I3f[it] - 2*SWsq*Qf[it])*Qf[ot]*(I3f[ot] - 2*SWsq*Qf[ot]));
+      resaza = linex3dc3(axis1aafbaza, sizeof(axis1aafbaza)/sizeof(double),
+              axis2aafbaza, sizeof(axis2aafbaza)/sizeof(double),
+	      axis3aafbaza, sizeof(axis3aafbaza)/sizeof(double),
+	      s/MZs, acos(cost), MTs/MZs, 
+	      &dataraafbaza0[0][0][0], &dataiaafbaza0[0][0][0],
+	      &dataraafbaza1[0][0][0], &dataiaafbaza1[0][0][0],
+     0,2*Qf[it]*Qf[ot]*(I3f[ot]*Qf[it] + (I3f[it] - 4*SWsq*Qf[it])*Qf[ot]),
+     0,-(Qf[it]*Qf[ot]*(I3f[ot]*Qf[it] + (I3f[it] - 4*SWsq*Qf[it])*Qf[ot])),0,
+     -(Qf[it]*Qf[ot]*(I3f[ot]*Qf[it] + (I3f[it] - 4*SWsq*Qf[it])*Qf[ot])));
     }
   }
+  reszzz *= (powint(CWsq,-3)*powint(SWsq,-3)*trip(AL))/(72.*Pi*sqr(MZs)*sqr(s));
+  resazz *= -1/18.*((-5 + 8*CWsq)*trip(AL))/(Pi*sqr(CWsq)*sqr(s)*sqr(SWsq));
+  reszza *= trip(AL)/(144.*Pi*s*sqr(CWsq)*sqr(MZs)*sqr(SWsq));
+  resaza *= ((-5 + 8*CWsq)*trip(AL))/(18.*CWsq*Pi*s*SWsq);
   if(I3f[it]==I3f[ot])
 //    www = Cplx(2.655607953e5,4.728079144e5);
-    www = linex3dc(axis1aafbwww, sizeof(axis1aafbwww)/sizeof(double),
+/*    www = linex3dc(axis1aafbwww, sizeof(axis1aafbwww)/sizeof(double),
                    axis2aafbwww, sizeof(axis2aafbwww)/sizeof(double),
 		   axis3aafbwww, sizeof(axis3aafbwww)/sizeof(double),
 		   s/MZs, acos(cost), MTs/MZs, 
-		   &dataraafbwww0[0][0][0], &dataiaafbwww0[0][0][0]);
+		   &dataraafbwww0[0][0][0], &dataiaafbwww0[0][0][0]);*/
+    reswww = linex3dc3(axis1aafbwww, sizeof(axis1aafbwww)/sizeof(double),
+              axis2aafbwww, sizeof(axis2aafbwww)/sizeof(double),
+	      axis3aafbwww, sizeof(axis3aafbwww)/sizeof(double),
+	      s/MZs, acos(cost), MTs/MZs, 
+	      &dataraafbwww0[0][0][0], &dataiaafbwww0[0][0][0],
+	      &dataraafbwww0[0][0][0], &dataiaafbwww0[0][0][0],
+	      -1,1,0,0,0,0);
   else
 //    www = Cplx(-2.815833256e5,-4.565509878e5);
-    www = linex3dc(axis1aafbwww, sizeof(axis1aafbwww)/sizeof(double),
+/*    www = linex3dc(axis1aafbwww, sizeof(axis1aafbwww)/sizeof(double),
                    axis2aafbwww, sizeof(axis2aafbwww)/sizeof(double),
 		   axis3aafbwww, sizeof(axis3aafbwww)/sizeof(double),
 		   s/MZs, acos(cost), MTs/MZs, 
-		   &dataraafbwww1[0][0][0], &dataiaafbwww1[0][0][0]);
-  reswww = (powint(MWs - MZs,-3)*trip(AL)*trip(MZs))/(16.*Pi*sqr(1+cost)*sqr(s))
-  	   * www;
+		   &dataraafbwww1[0][0][0], &dataiaafbwww1[0][0][0]);*/
+    reswww = linex3dc3(axis1aafbwww, sizeof(axis1aafbwww)/sizeof(double),
+              axis2aafbwww, sizeof(axis2aafbwww)/sizeof(double),
+	      axis3aafbwww, sizeof(axis3aafbwww)/sizeof(double),
+	      s/MZs, acos(cost), MTs/MZs, 
+	      &dataraafbwww1[0][0][0], &dataiaafbwww1[0][0][0],
+	      &dataraafbwww1[0][0][0], &dataiaafbwww1[0][0][0],
+	      -1,1,0,0,0,0);
+  reswww *= (powint(MWs - MZs,-3)*trip(AL)*trip(MZs))/(16.*Pi*sqr(s));
   return resctv+resaza+reszza+resazz+reszzz+reswww;
 }
 
@@ -510,13 +771,14 @@ Cplx mat_SMNNLO2::resvpol(void) const
 //  aaz1 = Cplx(6.692745622e1,-8.243721466);
 
   aaa0 = aaa1 = aaz0 = aaz1 = 0;
+  resaaa = resaaz = 0;
   for(i = ME; i <= MT; i++)
   {
     LMF = log(ival->get(i)/ival->get(MZ));  
     if(i>=ME && i<=ML) fac = 1;
     if(i>=MD && i<=MB) fac = 3*(1/3.)*(1/3.);
     if(i>=MU && i<=MT) fac = 3*(2/3.)*(2/3.);
-    aaa0 += linex3dc(axis1aafbaaa, sizeof(axis1aafbaaa)/sizeof(double),
+/*    aaa0 += linex3dc(axis1aafbaaa, sizeof(axis1aafbaaa)/sizeof(double),
                      axis2aafbaaa, sizeof(axis2aafbaaa)/sizeof(double),
 		     axis3aafbaaa, sizeof(axis3aafbaaa)/sizeof(double),
 		     s/MZs, acos(cost), LMF, 
@@ -536,14 +798,91 @@ Cplx mat_SMNNLO2::resvpol(void) const
 		     axis3aafbaaz, sizeof(axis3aafbaaz)/sizeof(double),
 		     s/MZs, acos(cost), LMF, 
 		     &dataraafbaaz1[0][0][0], &dataiaafbaaz1[0][0][0]) * fac;
+*/
+    if(iff==VEC)
+    {
+      if(off==VEC)
+      {
+        resaaa += linex3dc2(axis1aafbaaa, sizeof(axis1aafbaaa)/sizeof(double),
+        		    axis2aafbaaa, sizeof(axis2aafbaaa)/sizeof(double),
+			    axis3aafbaaa, sizeof(axis3aafbaaa)/sizeof(double),
+			    s/MZs, acos(cost), LMF, 
+			    &dataraafbaaa0[0][0][0], &dataiaafbaaa0[0][0][0],
+			    &dataraafbaaa1[0][0][0], &dataiaafbaaa1[0][0][0],
+			    1,0,1,0,-2,0) * fac;
+        resaaz += linex3dc2(axis1aafbaaz, sizeof(axis1aafbaaz)/sizeof(double),
+        		    axis2aafbaaz, sizeof(axis2aafbaaz)/sizeof(double),
+			    axis3aafbaaz, sizeof(axis3aafbaaz)/sizeof(double),
+			    s/MZs, acos(cost), LMF, 
+			    &dataraafbaaz0[0][0][0], &dataiaafbaaz0[0][0][0],
+			    &dataraafbaaz1[0][0][0], &dataiaafbaaz1[0][0][0],
+     (I3f[it] - 2*SWsq*Qf[it])*(I3f[ot] - 2*SWsq*Qf[ot]),
+     -2*I3f[it]*I3f[ot],(I3f[it] - 2*SWsq*Qf[it])*(I3f[ot] - 2*SWsq*Qf[ot]),
+     I3f[it]*I3f[ot],-2*(I3f[it] - 2*SWsq*Qf[it])*(I3f[ot] - 2*SWsq*Qf[ot]),
+     I3f[it]*I3f[ot]) * fac;
+      }
+      else
+      {
+	resaaa = 0;
+        resaaz += linex3dc2(axis1aafbaaz, sizeof(axis1aafbaaz)/sizeof(double),
+        		    axis2aafbaaz, sizeof(axis2aafbaaz)/sizeof(double),
+			    axis3aafbaaz, sizeof(axis3aafbaaz)/sizeof(double),
+			    s/MZs, acos(cost), LMF, 
+			    &dataraafbaaz0[0][0][0], &dataiaafbaaz0[0][0][0],
+			    &dataraafbaaz1[0][0][0], &dataiaafbaaz1[0][0][0],
+     I3f[ot]*(I3f[it] - 2*SWsq*Qf[it]),
+     -2*I3f[it]*(I3f[ot] - 2*SWsq*Qf[ot]),I3f[ot]*(I3f[it] - 2*SWsq*Qf[it]),
+     I3f[it]*(I3f[ot] - 2*SWsq*Qf[ot]),-2*I3f[ot]*(I3f[it] - 2*SWsq*Qf[it]),
+     I3f[it]*(I3f[ot] - 2*SWsq*Qf[ot])) * fac;
+      }
+    }
+    else
+    {
+      if(off==VEC)
+      {
+	resaaa = 0;
+        resaaz += linex3dc2(axis1aafbaaz, sizeof(axis1aafbaaz)/sizeof(double),
+        		    axis2aafbaaz, sizeof(axis2aafbaaz)/sizeof(double),
+			    axis3aafbaaz, sizeof(axis3aafbaaz)/sizeof(double),
+			    s/MZs, acos(cost), LMF, 
+			    &dataraafbaaz0[0][0][0], &dataiaafbaaz0[0][0][0],
+			    &dataraafbaaz1[0][0][0], &dataiaafbaaz1[0][0][0],
+     I3f[it]*(I3f[ot] - 2*SWsq*Qf[ot]),
+     -2*I3f[ot]*(I3f[it] - 2*SWsq*Qf[it]),I3f[it]*(I3f[ot] - 2*SWsq*Qf[ot]),
+     I3f[ot]*(I3f[it] - 2*SWsq*Qf[it]),-2*I3f[it]*(I3f[ot] - 2*SWsq*Qf[ot]),
+     I3f[ot]*(I3f[it] - 2*SWsq*Qf[it])) * fac;
+      }	
+      else
+      {	
+        resaaa += linex3dc2(axis1aafbaaa, sizeof(axis1aafbaaa)/sizeof(double),
+        		    axis2aafbaaa, sizeof(axis2aafbaaa)/sizeof(double),
+			    axis3aafbaaa, sizeof(axis3aafbaaa)/sizeof(double),
+			    s/MZs, acos(cost), LMF, 
+			    &dataraafbaaa0[0][0][0], &dataiaafbaaa0[0][0][0],
+			    &dataraafbaaa1[0][0][0], &dataiaafbaaa1[0][0][0],
+			    0,-2,0,1,0,1) * fac;
+        resaaz += linex3dc2(axis1aafbaaz, sizeof(axis1aafbaaz)/sizeof(double),
+        		    axis2aafbaaz, sizeof(axis2aafbaaz)/sizeof(double),
+			    axis3aafbaaz, sizeof(axis3aafbaaz)/sizeof(double),
+			    s/MZs, acos(cost), LMF, 
+			    &dataraafbaaz0[0][0][0], &dataiaafbaaz0[0][0][0],
+			    &dataraafbaaz1[0][0][0], &dataiaafbaaz1[0][0][0],
+     I3f[it]*I3f[ot],-2*(I3f[it] - 2*SWsq*Qf[it])*
+      (I3f[ot] - 2*SWsq*Qf[ot]),I3f[it]*I3f[ot],
+     (I3f[it] - 2*SWsq*Qf[it])*(I3f[ot] - 2*SWsq*Qf[ot]),-2*I3f[it]*I3f[ot],
+     (I3f[it] - 2*SWsq*Qf[it])*(I3f[ot] - 2*SWsq*Qf[ot])) * fac;
+      }
+    }	 
   }
 
-  if(iff==VEC)
+  resaaa *= (8*sqr(Qf[it])*sqr(Qf[ot])*trip(AL))/(9.*Pi*s);
+  resaaz *= (4*Qf[it]*Qf[ot]*trip(AL))/(9.*CWsq*Pi*s*SWsq);
+
+/*  if(iff==VEC)
   {
     if(off==VEC)
     {
-      resaaa = (8*(aaa0 - 2*aaa1*cost + aaa0*sqr(cost))*sqr(Qf[it])*
-       sqr(Qf[ot])*trip(AL))/(9.*Pi*s*sqr(-1 + sqr(cost)));
+      resaaa *= (8*sqr(Qf[it])*sqr(Qf[ot])*trip(AL))/(9.*Pi*s);
       resaaz = (4*Qf[it]*Qf[ot]*(-2*SWsq*(I3f[it] - 2*SWsq*Qf[it])*Qf[ot]*
           (aaz0 - 2*aaz1*cost + aaz0*sqr(cost)) + 
          I3f[ot]*((aaz0 + aaz1)*I3f[it]*sqr(-1 + cost) - 
@@ -573,16 +912,15 @@ Cplx mat_SMNNLO2::resvpol(void) const
     }
     else
     {
-      resaaa = (8*(aaa1 - 2*aaa0*cost + aaa1*sqr(cost))*sqr(Qf[it])*
-       sqr(Qf[ot])*trip(AL))/(9.*Pi*s*sqr(-1 + sqr(cost)));
+      resaaa *= (8*sqr(Qf[it])*sqr(Qf[ot])*trip(AL))/(9.*Pi*s);
       resaaz = (4*Qf[it]*Qf[ot]*(-2*SWsq*(I3f[it] - 2*SWsq*Qf[it])*Qf[ot]*
           (aaz1 - 2*aaz0*cost + aaz1*sqr(cost)) + 
          I3f[ot]*((aaz0 + aaz1)*I3f[it]*sqr(-1 + cost) - 
             2*SWsq*Qf[it]*(aaz1 - 2*aaz0*cost + aaz1*sqr(cost))))*trip(AL))/
        (9.*CWsq*Pi*SWsq*s*sqr(-1 + sqr(cost)));
     }
-  }
-  return resaaa+resaaz;
+  }*/
+  return /*resaaa+*/resaaz;
 }
 
 Cplx mat_SMNNLO2::resoffZfb(void) const
@@ -597,7 +935,7 @@ Cplx mat_SMNNLO2::resoffZfb(void) const
     cerr << "The case of neutrinos or bottom quarks has not been implemented yet" << endl;
     return(0);
   }
-  return compboxfb(s)+compoffZfb(s);
+  return compboxfb(s)/*+compoffZfb(s)*/;
 }
 
 Cplx mat_SMNNLO2::result(void) const
