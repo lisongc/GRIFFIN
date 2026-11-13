@@ -179,9 +179,10 @@ each unique coefficient once. See the
 The recommended fresh build directories are `build/release` and
 `build/sanitize`. Do not reuse a relocated CMake cache: its absolute paths
 refer to the old layout. The pre-cleanup source snapshot and archived old
-build trees are recoverable outside the source tree under
+build trees are development-machine records outside the source tree under
 `../diagnostics/layout_cleanup_20261112_ObbFpc/` (old build trees in its
-`old_builds/` subdirectory).
+`old_builds/` subdirectory). These archives are not bundled with a checkout
+and are not required to build the library or run the tests.
 
 The retained `.in` expression fragments and `.grid` tables are compiled
 into the library. Their relocation does not require runtime file searches
