@@ -4,11 +4,9 @@ set(GRIFFIN_EXAMPLES
     testaas
     testdeltar
     testtools
-    testEWPOZ_smeft
-    testdeltar_smeft
-    testprediction)
+    smeft_example)
 
 foreach(example IN LISTS GRIFFIN_EXAMPLES)
   add_executable(${example} ${example}.cc)
-  target_link_libraries(${example} PRIVATE griffin)
+  target_link_libraries(${example} PRIVATE GRIFFIN::griffin)
 endforeach()

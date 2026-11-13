@@ -1,8 +1,8 @@
 #include <iostream>
 using namespace std;
 
-#include "deltar.h"
-#include "SMvalG.h"
+#include "griffin/sm/deltar.h"
+#include "griffin/sm/SMvalG.h"
 using namespace griffin;
 
 int main()

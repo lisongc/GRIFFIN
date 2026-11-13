@@ -1,44 +1,66 @@
-cmake_minimum_required(VERSION 3.8...3.20)
+cmake_minimum_required(VERSION 3.20)
 
-project(griffin VERSION 1.1
-                LANGUAGES CXX)
+project(griffin VERSION 1.1 LANGUAGES CXX)
 
-add_library(griffin STATIC classes.cc ff.cc EWPOZ.cc EWPOZ2.cc deltar.cc
-                delrho.cc xscnnlo.cc xscaas.cc B0.cc C0.cc D0.cc li.cc linex.cc 
-	tools.cc xscmassless.cc smeft/SMEFTInput.cc smeft/EWInputScheme.cc
-		smeft/ff0_smeft.cc smeft/EWPOZ_smeft.cc smeft/deltar_smeft.cc
-		smeft/xsc_smeft.cc prediction/PredictionEngine.cc
-		models/SMProvider.cc models/SMEFTProvider.cc
-		classes.h ff0.h ff.h EWPOZ.h EWPOZ2.h deltar.h delrho.h
-		xscnnlo.h xscaas.h xscmassless.h oneloop.h li.h linex.h tools.h
-		smeft/SMEFTInput.h smeft/SMEFTFlavor.h smeft/EWInputScheme.h smeft/ff0_smeft.h
-		smeft/EWPOZ_smeft.h smeft/deltar_smeft.h smeft/xsc_smeft.h
-		prediction/EWInputScheme.h prediction/CalculationContext.h
-		prediction/Order.h prediction/PerturbativeSeries.h
-		prediction/PredictionResult.h prediction/CombinationRule.h
-		prediction/TheoryProvider.h prediction/PredictionEngine.h
-		models/SMProvider.h models/SMEFTProvider.h)
+include(GNUInstallDirs)
+include(CMakePackageConfigHelpers)
 
-target_include_directories(griffin PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+add_library(griffin STATIC
+  src/core/classes.cc
+  src/core/FermionPairCrossSection.cc
+  src/sm/ff.cc
+  src/sm/EWPOZ.cc
+  src/sm/EWPOZ2.cc
+  src/sm/deltar.cc
+  src/sm/delrho.cc
+  src/sm/xscnnlo.cc
+  src/sm/xscaas.cc
+  src/sm/tools.cc
+  src/numerics/B0.cc
+  src/numerics/C0.cc
+  src/numerics/D0.cc
+  src/numerics/li.cc
+  src/numerics/linex.cc
+  src/smeft/SMEFTInput.cc
+  src/smeft/ff0_smeft.cc
+  src/smeft/xsc_smeft.cc
+  src/smeft/NativeInputPoint.cc
+  src/smeft/SMEFTCalculator.cc)
+add_library(GRIFFIN::griffin ALIAS griffin)
+
+target_include_directories(griffin
+  PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+  PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${CMAKE_CURRENT_SOURCE_DIR}/data)
 target_compile_features(griffin PUBLIC cxx_std_11)
 set_target_properties(griffin PROPERTIES CXX_EXTENSIONS OFF)
 
+# Numerical grids and expression fragments are compiled into the library;
+# installed consumers need only the public headers and the archive.
+install(TARGETS griffin EXPORT GRIFFINTargets
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
+install(DIRECTORY include/griffin DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+  FILES_MATCHING PATTERN "*.h")
+set(GRIFFIN_INSTALL_CMAKEDIR "${CMAKE_INSTALL_LIBDIR}/cmake/GRIFFIN")
+configure_package_config_file(cmake/GRIFFINConfig.cmake.in
+  ${CMAKE_CURRENT_BINARY_DIR}/GRIFFINConfig.cmake
+  INSTALL_DESTINATION ${GRIFFIN_INSTALL_CMAKEDIR})
+write_basic_package_version_file(
+  ${CMAKE_CURRENT_BINARY_DIR}/GRIFFINConfigVersion.cmake
+  VERSION ${PROJECT_VERSION} COMPATIBILITY SameMajorVersion)
+install(EXPORT GRIFFINTargets FILE GRIFFINTargets.cmake
+  NAMESPACE GRIFFIN:: DESTINATION ${GRIFFIN_INSTALL_CMAKEDIR})
+install(FILES
+  ${CMAKE_CURRENT_BINARY_DIR}/GRIFFINConfig.cmake
+  ${CMAKE_CURRENT_BINARY_DIR}/GRIFFINConfigVersion.cmake
+  DESTINATION ${GRIFFIN_INSTALL_CMAKEDIR})
+
 include(CTest)
 if(BUILD_TESTING)
-  function(add_griffin_test target source)
-    add_executable(${target} ${source})
-    target_link_libraries(${target} PRIVATE griffin)
-    add_test(NAME ${target} COMMAND ${target})
-  endfunction()
-
-  add_griffin_test(test_prediction_architecture
-                   tests/test_prediction_architecture.cc)
-  add_griffin_test(test_smeft_input
-                   tests/test_smeft_input.cc)
-  add_griffin_test(test_smeft_input_schemes
-                   tests/test_smeft_input_schemes.cc)
-  add_griffin_test(test_smeft_matrix_elements
-                   tests/test_smeft_matrix_elements.cc)
+  add_subdirectory(tests)
 endif()
 
 option(GRIFFIN_BUILD_EXAMPLES "Build GRIFFIN example programs" OFF)

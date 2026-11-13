@@ -1,9 +1,9 @@
 #include <iostream>
 using namespace std;
 
-#include "EWPOZ2.h"
-#include "xscnnlo.h"
-#include "SMval.h"
+#include "griffin/sm/EWPOZ2.h"
+#include "griffin/sm/xscnnlo.h"
+#include "griffin/sm/SMval.h"
 using namespace griffin;
 
 int main()
@@ -35,7 +35,7 @@ int main()
   cout << endl << "Complex-pole masses: MW=" << myinput.get(MWc) << ", MZ=" 
     << myinput.get(MZc) << endl << endl;
  
-  // compute matrix element for ee->dd with vector coupling in initial
+  // compute matrix element for ee->ee with vector coupling in initial
   // state and vector coupling in final state
   int ini = ELE, fin = ELE, iff = VEC, off = VEC;
   

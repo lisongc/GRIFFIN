@@ -1,0 +1,203 @@
+{
+  "passed": true,
+  "expected_cases": 943,
+  "actual_cases": 943,
+  "numeric_comparisons": 22475,
+  "groups": {
+    "individual": 520,
+    "contact_mapping": 80,
+    "native_tables67": 120,
+    "earlier_tables67": 168,
+    "native_table4": 40,
+    "earlier_table4": 15
+  },
+  "tolerances": {
+    "sigma_pb": {
+      "absolute": 1e-09,
+      "relative": 2e-11
+    },
+    "sm_baseline_pb": {
+      "absolute": 1e-09,
+      "relative": 2e-11
+    },
+    "delta_sigma_pb": {
+      "absolute": 1e-09,
+      "relative": 2e-11
+    },
+    "amplitudes": {
+      "absolute": 2e-15,
+      "relative": 2e-11
+    },
+    "contact_amplitudes": {
+      "absolute": 2e-20,
+      "relative": 2e-12
+    },
+    "MW_pole_GeV": {
+      "absolute": 5e-10,
+      "relative": 2e-12
+    },
+    "MW_running_GeV": {
+      "absolute": 5e-10,
+      "relative": 2e-12
+    },
+    "MZ_pole_GeV": {
+      "absolute": 5e-12,
+      "relative": 2e-12
+    },
+    "GW_pole_GeV": {
+      "absolute": 5e-11,
+      "relative": 2e-11
+    },
+    "GW_running_GeV": {
+      "absolute": 5e-11,
+      "relative": 2e-11
+    },
+    "FA_e": {
+      "absolute": 1e-12,
+      "relative": 2e-11
+    },
+    "FA_mu": {
+      "absolute": 1e-12,
+      "relative": 2e-11
+    },
+    "SW_e": {
+      "absolute": 1e-12,
+      "relative": 2e-11
+    },
+    "SW_mu": {
+      "absolute": 1e-12,
+      "relative": 2e-11
+    }
+  },
+  "field_statistics": {
+    "sigma_pb": {
+      "count": 888,
+      "max_absolute_error": 1.1368683772161603e-13,
+      "max_relative_error_nonzero": 4.319355182205997e-16,
+      "max_tolerance_fraction": 1.5650580454632396e-05,
+      "worst_absolute_id": "earlier_tables67_0038",
+      "worst_relative_id": "native_tables67_0044",
+      "worst_tolerance_id": "native_tables67_0044"
+    },
+    "sm_baseline_pb": {
+      "count": 888,
+      "max_absolute_error": 2.842170943040401e-14,
+      "max_relative_error_nonzero": 2.5193880709361705e-16,
+      "max_tolerance_fraction": 7.767906479807092e-06,
+      "worst_absolute_id": "earlier_tables67_0062",
+      "worst_relative_id": "earlier_tables67_0020",
+      "worst_tolerance_id": "earlier_tables67_0062"
+    },
+    "delta_sigma_pb": {
+      "count": 888,
+      "max_absolute_error": 1.0080825063596421e-13,
+      "max_relative_error_nonzero": 2.499145755834634e-09,
+      "max_tolerance_fraction": 0.0001007021960763554,
+      "worst_absolute_id": "earlier_tables67_0038",
+      "worst_tolerance_id": "earlier_tables67_0038",
+      "worst_relative_id": "earlier_tables67_0090"
+    },
+    "MW_pole_GeV": {
+      "count": 933,
+      "max_absolute_error": 0.0,
+      "max_relative_error_nonzero": 0.0,
+      "max_tolerance_fraction": 0.0,
+      "worst_absolute_id": "earlier_table4_0012",
+      "worst_relative_id": "earlier_table4_0012",
+      "worst_tolerance_id": "earlier_table4_0012"
+    },
+    "MW_running_GeV": {
+      "count": 720,
+      "max_absolute_error": 0.0,
+      "max_relative_error_nonzero": 0.0,
+      "max_tolerance_fraction": 0.0,
+      "worst_absolute_id": "native_tables67_0119",
+      "worst_relative_id": "native_tables67_0119",
+      "worst_tolerance_id": "native_tables67_0119"
+    },
+    "GW_pole_GeV": {
+      "count": 720,
+      "max_absolute_error": 0.0,
+      "max_relative_error_nonzero": 0.0,
+      "max_tolerance_fraction": 0.0,
+      "worst_absolute_id": "native_tables67_0119",
+      "worst_relative_id": "native_tables67_0119",
+      "worst_tolerance_id": "native_tables67_0119"
+    },
+    "GW_running_GeV": {
+      "count": 720,
+      "max_absolute_error": 0.0,
+      "max_relative_error_nonzero": 0.0,
+      "max_tolerance_fraction": 0.0,
+      "worst_absolute_id": "native_tables67_0119",
+      "worst_relative_id": "native_tables67_0119",
+      "worst_tolerance_id": "native_tables67_0119"
+    },
+    "MZ_pole_GeV": {
+      "count": 720,
+      "max_absolute_error": 0.0,
+      "max_relative_error_nonzero": 0.0,
+      "max_tolerance_fraction": 0.0,
+      "worst_absolute_id": "native_tables67_0119",
+      "worst_relative_id": "native_tables67_0119",
+      "worst_tolerance_id": "native_tables67_0119"
+    },
+    "FA_e": {
+      "count": 775,
+      "max_absolute_error": 0.0,
+      "max_relative_error_nonzero": 0.0,
+      "max_tolerance_fraction": 0.0,
+      "worst_absolute_id": "earlier_table4_0014",
+      "worst_relative_id": "earlier_table4_0014",
+      "worst_tolerance_id": "earlier_table4_0014"
+    },
+    "FA_mu": {
+      "count": 720,
+      "max_absolute_error": 0.0,
+      "max_relative_error_nonzero": 0.0,
+      "max_tolerance_fraction": 0.0,
+      "worst_absolute_id": "native_tables67_0119",
+      "worst_relative_id": "native_tables67_0119",
+      "worst_tolerance_id": "native_tables67_0119"
+    },
+    "amplitudes": {
+      "count": 7104,
+      "max_absolute_error": 0.0,
+      "max_relative_error_nonzero": 0.0,
+      "max_tolerance_fraction": 0.0,
+      "worst_absolute_id": "earlier_tables67_0167",
+      "worst_relative_id": "earlier_tables67_0167",
+      "worst_tolerance_id": "earlier_tables67_0167"
+    },
+    "contact_amplitudes": {
+      "count": 7104,
+      "max_absolute_error": 2.481541837659083e-24,
+      "max_relative_error_nonzero": 4.0111128841472247e-16,
+      "max_tolerance_fraction": 7.175542663110602e-05,
+      "worst_absolute_id": "native_tables67_0119",
+      "worst_tolerance_id": "native_tables67_0119",
+      "worst_relative_id": "earlier_tables67_0167"
+    },
+    "SW_e": {
+      "count": 175,
+      "max_absolute_error": 0.0,
+      "max_relative_error_nonzero": 0.0,
+      "max_tolerance_fraction": 0.0,
+      "worst_absolute_id": "earlier_table4_0014",
+      "worst_relative_id": "earlier_table4_0014",
+      "worst_tolerance_id": "earlier_table4_0014"
+    },
+    "SW_mu": {
+      "count": 120,
+      "max_absolute_error": 0.0,
+      "max_relative_error_nonzero": 0.0,
+      "max_tolerance_fraction": 0.0,
+      "worst_absolute_id": "native_tables67_0119",
+      "worst_relative_id": "native_tables67_0119",
+      "worst_tolerance_id": "native_tables67_0119"
+    }
+  },
+  "failure_count": 0,
+  "failures": [],
+  "fixture_sha256": "956234c20636f83187518926da5aa0e8b097297d7a269f012eb520f3bad919f1"
+}

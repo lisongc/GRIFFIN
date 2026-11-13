@@ -1,0 +1,44 @@
+# Each run gets a fresh prefix so stale headers cannot conceal packaging gaps.
+string(RANDOM LENGTH 12 ALPHABET abcdef0123456789 run_id)
+set(workspace "@PROJECT_BINARY_DIR@/installed-api-smoke/${run_id}")
+set(prefix "${workspace}/prefix")
+file(MAKE_DIRECTORY "${workspace}/source" "${workspace}/build")
+
+function(checked_command description)
+  execute_process(COMMAND ${ARGN} WORKING_DIRECTORY "${workspace}/build"
+    RESULT_VARIABLE status OUTPUT_VARIABLE output ERROR_VARIABLE errors)
+  if(NOT status EQUAL 0)
+    message(FATAL_ERROR "${description} failed (${status})\n${output}\n${errors}")
+  endif()
+  message(STATUS "${description}: PASS\n${output}")
+endfunction()
+
+checked_command("Install isolated GRIFFIN package"
+  "@CMAKE_COMMAND@" "-DCMAKE_INSTALL_PREFIX=${prefix}"
+  "-DCMAKE_INSTALL_CONFIG_NAME=${GRIFFIN_TEST_CONFIG}"
+  -P "@PROJECT_BINARY_DIR@/cmake_install.cmake")
+
+configure_file("@PROJECT_SOURCE_DIR@/tests/installed_api/CMakeLists.txt"
+  "${workspace}/source/CMakeLists.txt" COPYONLY)
+configure_file("@PROJECT_SOURCE_DIR@/examples/smeft_example.cc"
+  "${workspace}/source/smeft_example.cc" COPYONLY)
+configure_file("@PROJECT_SOURCE_DIR@/tests/test_public_api.cc"
+  "${workspace}/source/test_public_api.cc" COPYONLY)
+
+checked_command("Configure installed-header-only consumer"
+  "@CMAKE_COMMAND@" "${workspace}/source"
+  "-DGRIFFIN_DIR=${prefix}/@GRIFFIN_INSTALL_CMAKEDIR@"
+  "-DCMAKE_CXX_COMPILER=@CMAKE_CXX_COMPILER@"
+  "-DCMAKE_BUILD_TYPE=@CMAKE_BUILD_TYPE@"
+  "-DCMAKE_CXX_FLAGS=@CMAKE_CXX_FLAGS@"
+  "-DCMAKE_EXE_LINKER_FLAGS=@CMAKE_EXE_LINKER_FLAGS@")
+set(build_configuration)
+set(test_configuration)
+if(GRIFFIN_TEST_CONFIG)
+  list(APPEND build_configuration --config "${GRIFFIN_TEST_CONFIG}")
+  list(APPEND test_configuration -C "${GRIFFIN_TEST_CONFIG}")
+endif()
+checked_command("Build installed-header-only consumer"
+  "@CMAKE_COMMAND@" --build "${workspace}/build" ${build_configuration})
+checked_command("Run installed-header-only consumer"
+  "@CMAKE_CTEST_COMMAND@" ${test_configuration} --output-on-failure)

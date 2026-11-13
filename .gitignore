@@ -23,6 +23,10 @@
 /examples/testdeltar_smeft
 /examples/testEWPOZ_smeft
 /examples/testmatel
-/examples/testprediction
+/examples/smeft_example
 /examples/testtools
 /examples/__test*
+
+# Python regression-harness caches
+__pycache__/
+*.pyc

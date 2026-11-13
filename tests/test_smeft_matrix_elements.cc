@@ -1,498 +1,207 @@
-/*
-  Regression test for smeft::mat_SMEFTLO.
-
-  The test covers the revised local-contact matching for quarks, charged
-  leptons, and all neutrino generations; verifies delta S'_4f = 0; checks the
-  explicitly linearized Z residue; and confirms that the incomplete nu_e
-  full-result path is rejected until its t-channel W module exists.
-*/
-
-#include <algorithm>
+// Standalone contacts: normalization, flavor matching and existing aliases.
+// Full finite amplitudes and contact counting belong to test_native_smeft.
 #include <cmath>
-#include <iomanip>
 #include <iostream>
 #include <stdexcept>
 #include <string>
-
-#include "SMvalG.h"
-#include "ff0.h"
-#include "smeft/ff0_smeft.h"
-#include "smeft/xsc_smeft.h"
+#include "griffin/smeft/xsc_smeft.h"
 
 using namespace griffin;
-using griffin::smeft::EWInputScheme;
-using griffin::smeft::Generation;
-using griffin::smeft::Input;
+using smeft::Generation;
+using smeft::Input;
 
 namespace {
-
-const Generation one = Generation::first;
-const Generation two = Generation::second;
-const Generation three = Generation::third;
-
-SMval makeDirectMWInput()
-{
-  SMval input;
-  input.set(MZ,91.1876);
-  input.set(MW,80.358);
-  input.set(al,1.0/137.03599976);
-  input.set(als,0.1179);
-  input.set(GamZ,2.4952);
-  input.set(GamW,2.089);
-  input.set(MH,125.1);
-  input.set(MT,173.0);
-  input.set(MB,2.87);
-  input.set(Delal,0.05900);
-  input.set(Gmu,1.166379e-5);
-  return input;
-}
-
+const Generation one=Generation::first, two=Generation::second, three=Generation::third;
 void require(bool condition, const std::string& message)
 {
-  if(!condition)
-    throw std::runtime_error(message);
+  if(!condition) throw std::runtime_error(message);
 }
-
-void requireClose(Cplx actual, Cplx expected, const std::string& message)
+void close(Cplx value, Cplx expected, const std::string& message)
 {
-  const double scale = std::max(1.0,std::max(std::abs(actual),std::abs(expected)));
-  if(std::abs(actual-expected) > 2e-13*scale)
-    throw std::runtime_error(message);
+  require(std::isfinite(real(value)) && std::isfinite(imag(value))
+      && std::abs(value-expected)<=1e-20+2e-12*std::abs(expected),message);
 }
-
-template <typename Exception, typename Function>
-void requireThrows(Function function, const std::string& message)
+template<class Exception,class Function>
+void throws(Function f, const std::string& message)
 {
-  bool threw = false;
-  try
-  {
-    function();
-  }
-  catch(const Exception&)
-  {
-    threw = true;
-  }
-  require(threw,message);
+  bool caught=false;
+  try { f(); } catch(const Exception&) { caught=true; }
+  require(caught,message);
 }
-
-double projected(double ll, double lr, double rl, double rr,
-                 Current initialCurrent, Current finalCurrent,
+Input empty()
+{
+  Input input; input.setLambdaGeV(1000.0); return input;
+}
+double projected(double ll,double lr,double rl,double rr,Current ci,Current cf,
                  double inverseLambdaSquared)
 {
-  double combination = 0.0;
-  if(initialCurrent == Current::vector && finalCurrent == Current::vector)
-    combination = ll+lr+rl+rr;
-  else if(initialCurrent == Current::vector && finalCurrent == Current::axial)
-    combination = ll-lr+rl-rr;
-  else if(initialCurrent == Current::axial && finalCurrent == Current::vector)
-    combination = ll+lr-rl-rr;
-  else
-    combination = ll-lr-rl+rr;
-  return 0.25*inverseLambdaSquared*combination;
+  // Left/right signs in the amplitude's vector/axial convention.
+  const double initialRight=ci==Current::axial?-1.0:1.0;
+  const double finalRight=cf==Current::axial?-1.0:1.0;
+  return .25*inverseLambdaSquared*(ll+finalRight*lr+initialRight*rl
+                                  +initialRight*finalRight*rr);
 }
-
-const char* currentName(Current current)
+void check(const Input& input,Fermion final,double ll,double lr,double rl,double rr)
 {
-  return current == Current::vector ? "V" : "A";
-}
-
-void testDownQuarkContact(const inval& smInput)
-{
-  Input input;
-  input.setLambdaGeV(1000.0);
-  input.setClq1(one,one,one,one,0.8);
-  input.setClq3(one,one,one,one,-0.2);
-  input.setCld(one,one,one,one,-0.4);
-  input.setCqe(one,one,one,one,0.3);
-  input.setCed(one,one,one,one,-0.1);
-
-  FA_SMLO faElectron(Fermion::electron,smInput);
-  FA_SMLO faDown(Fermion::d,smInput);
-  SW_SMLO swElectron(Fermion::electron,smInput);
-  SW_SMLO swDown(Fermion::d,smInput);
-
-  matel sm(Fermion::electron,Fermion::d,Current::vector,Current::vector,
-           faElectron,faDown,swElectron,swDown,91.1876*91.1876,0.3,smInput);
-  smeft::mat_SMEFTLO eft(
-      Fermion::electron,Fermion::d,Current::vector,Current::vector,
-      faElectron,faDown,swElectron,swDown,91.1876*91.1876,0.3,smInput,input);
-
-  const Current currents[2] = {Current::vector,Current::axial};
-  const double invLambda2 = input.inverseLambdaSquaredGeV();
-  for(int initial = 0; initial < 2; ++initial)
-  {
-    for(int final = 0; final < 2; ++final)
+  for(Current ci:{Current::vector,Current::axial})
+    for(Current cf:{Current::vector,Current::axial})
     {
-      sm.setform(currents[initial],currents[final]);
-      eft.setform(currents[initial],currents[final]);
-      const double expected = projected(0.6,-0.4,0.3,-0.1,
-                                        currents[initial],currents[final],
-                                        invLambda2);
-      std::cout << "Down contact " << currentName(currents[initial])
-                << currentName(currents[final])
-                << " actual=" << eft.coeffS4fD6Tree()
-                << " expected=" << expected << '\n';
-      requireClose(eft.coeffS4fD6Tree(),expected,
-                   "down-quark contact projection has wrong signs");
-      requireClose(eft.coeffS()-sm.coeffS(),expected,
-                   "down-quark contact was not added to S exactly once");
-      requireClose(eft.coeffSp4fD6Tree(),0.0,
-                   "local down-quark contact generated nonzero S prime");
-      requireClose(eft.coeffSp(),sm.coeffSp(),
-                   "SMEFT contact changed the inherited S prime");
-      requireClose(eft.resoffZ4fD6Tree(),expected,
-                   "exact local background does not equal contact S");
-      requireClose(eft.resoffZD6Tree(),expected,
-                   "total D6 background does not contain the contact once");
-      requireClose(eft.poleD6Tree(),0.0,
-                   "contact-only input unexpectedly shifted the pole");
-      requireClose(eft.resultD6Tree(),expected,
-                   "D6 result is not pole plus exact background");
-      requireClose(eft.resoffZ()-sm.resoffZ(),expected,
-                   "contact was not added once to the regular amplitude");
-      requireClose(eft.result()-sm.result(),expected,
-                   "contact-only matrix-element difference is incorrect");
+      const double expected=projected(ll,lr,rl,rr,ci,cf,input.inverseLambdaSquaredGeV());
+      const Cplx actual=smeft::coeffS4fD6Tree(Fermion::electron,final,ci,cf,input);
+      close(actual,expected,"contact chiral projection/flavor normalization mismatch");
+      close(smeft::coeffS4fD6Tree(ELE,index(final),index(ci),index(cf),input),actual,
+            "integer and typed contact APIs disagree");
+      close(smeft::coeffSp4fD6Tree(Fermion::electron,final,ci,cf,input),0.0,
+            "local contact has a nonzero S prime");
+      close(smeft::coeffSp4fD6Tree(ELE,index(final),index(ci),index(cf),input),0.0,
+            "integer local contact has a nonzero S prime");
+      Input scaled=input; scaled.setLambdaGeV(2000.0);
+      close(smeft::coeffS4fD6Tree(Fermion::electron,final,ci,cf,scaled),expected/4.0,
+            "contact inverse-scale normalization changed");
+    }
+}
+void testQuarks()
+{
+  const Fermion down[]={Fermion::d,Fermion::s,Fermion::b};
+  const Generation gen[]={one,two,three};
+  for(int i=0;i<3;++i)
+  {
+    Input input=empty();
+    input.setClq1(one,one,gen[i],gen[i],.8);
+    input.setClq3(one,one,gen[i],gen[i],-.2);
+    input.setCld(one,one,gen[i],gen[i],-.4);
+    input.setCqe(gen[i],gen[i],one,one,.3);
+    input.setCed(one,one,gen[i],gen[i],-.1);
+    check(input,down[i],.6,-.4,.3,-.1);
+    for(int j=0;j<3;++j) if(j!=i) check(input,down[j],0,0,0,0);
+  }
+  const Fermion up[]={Fermion::u,Fermion::c};
+  for(int i=0;i<2;++i)
+  {
+    Input input=empty();
+    input.setClq1(one,one,gen[i],gen[i],.5);
+    input.setClq3(one,one,gen[i],gen[i],.2);
+    input.setClu(one,one,gen[i],gen[i],.1);
+    input.setCeq(one,one,gen[i],gen[i],-.4);
+    input.setCeu(one,one,gen[i],gen[i],.6);
+    close(input.Cqe(gen[i],gen[i],one,one),-.4,"Ceq/Cqe ordering alias lost");
+    check(input,up[i],.3,.1,-.4,.6);
+    check(input,up[1-i],0,0,0,0);
+  }
+}
+void testChargedLeptons()
+{
+  const Fermion final[]={Fermion::muon,Fermion::tau};
+  const Generation gen[]={two,three};
+  for(int i=0;i<2;++i)
+  {
+    Input input=empty();
+    input.setCll(one,one,gen[i],gen[i],.2);
+    input.setCll(one,gen[i],gen[i],one,.3);
+    input.setCle(one,one,gen[i],gen[i],-.1);
+    input.setCle(gen[i],gen[i],one,one,.4);
+    input.setCee(one,gen[i],gen[i],one,.2); // Fierz alias of 11ii
+    close(input.Cee(one,one,gen[i],gen[i]),.2,"Cee Fierz alias lost");
+    check(input,final[i],.5,-.1,.4,.2);
+    check(input,final[1-i],0,0,0,0);
+    Input canonical=input;
+    canonical.setCee(one,one,gen[i],gen[i],.2);
+    check(canonical,final[i],.5,-.1,.4,.2); // no duplicate alias contribution
+  }
+}
+void testNeutrinos()
+{
+  const Fermion final[]={Fermion::nuElectron,Fermion::nuMuon,Fermion::nuTau};
+  const Generation gen[]={one,two,three};
+  for(int i=0;i<3;++i)
+  {
+    Input input=empty();
+    input.setCll(one,one,gen[i],gen[i],.6);
+    input.setCle(gen[i],gen[i],one,one,-.2);
+    if(i!=0) input.setCll(one,gen[i],gen[i],one,9.0);
+    // Only nu_e has coincident contractions and therefore twice Cll1111.
+    // Charged-lepton exchange contractions do not enter nu_mu/nu_tau.
+    check(input,final[i],i==0?1.2:.6,0.0,-.2,0.0);
+  }
+}
+
+void testEquivalentContactLabels()
+{
+  const Fermion final[]={Fermion::muon,Fermion::tau};
+  const Generation gen[]={two,three};
+  for(int i=0;i<2;++i)
+  {
+    const Generation rr[4][4]={{one,one,gen[i],gen[i]},
+        {gen[i],gen[i],one,one},{one,gen[i],gen[i],one},
+        {gen[i],one,one,gen[i]}};
+    Input repeated=empty();
+    for(const auto& label:rr)
+    {
+      Input single=empty();
+      single.setCee(label[0],label[1],label[2],label[3],.2);
+      check(single,final[i],0.0,0.0,0.0,.2);
+      repeated.setCee(label[0],label[1],label[2],label[3],.2);
+      check(repeated,final[i],0.0,0.0,0.0,.2);
+    }
+    repeated.setCee(rr[3][0],rr[3][1],rr[3][2],rr[3][3],-.3);
+    check(repeated,final[i],0.0,0.0,0.0,-.3);
+    repeated.setCee(rr[1][0],rr[1][1],rr[1][2],rr[1][3],0.0);
+    check(repeated,final[i],0.0,0.0,0.0,0.0);
+
+    const Generation ll[2][2][4]={
+      {{one,one,gen[i],gen[i]},{gen[i],gen[i],one,one}},
+      {{one,gen[i],gen[i],one},{gen[i],one,one,gen[i]}}
+    };
+    for(int contraction=0;contraction<2;++contraction)
+    {
+      Input pair=empty();
+      for(const auto& label:ll[contraction])
+      {
+        Input single=empty();
+        single.setCll(label[0],label[1],label[2],label[3],.2);
+        check(single,final[i],.2,0.0,0.0,0.0);
+        pair.setCll(label[0],label[1],label[2],label[3],.2);
+        check(pair,final[i],.2,0.0,0.0,0.0);
+      }
+      const auto& other=ll[1-contraction][1];
+      pair.setCll(other[0],other[1],other[2],other[3],.3);
+      check(pair,final[i],.5,0.0,0.0,0.0);
     }
   }
-
-  // The two public constructor styles must be numerically identical.
-  smeft::mat_SMEFTLO legacy(
-      ELE,DQU,VEC,VEC,faElectron,faDown,swElectron,swDown,
-      91.1876*91.1876,0.3,smInput,input);
-  eft.setform(Current::vector,Current::vector);
-  requireClose(legacy.result(),eft.result(),
-               "legacy and enum matrix constructors disagree");
-
-  std::cout << "Down VV contact S [GeV^-2]    = "
-            << eft.coeffS4fD6Tree() << '\n';
 }
-
-void testAdditionalFlavorAssembly()
+void testZeroAndValidation()
 {
-  const Current currents[2] = {Current::vector,Current::axial};
-
-  Input upInput;
-  upInput.setLambdaGeV(1000.0);
-  upInput.setClq1(one,one,two,two,0.5);
-  upInput.setClq3(one,one,two,two,0.2);
-  upInput.setClu(one,one,two,two,0.1);
-  // Exercise the old current ordering: Ceq[11ii] = Cqe[ii11].
-  upInput.setCeq(one,one,two,two,-0.4);
-  upInput.setCeu(one,one,two,two,0.6);
-  for(int initial = 0; initial < 2; ++initial)
+  Input input=empty();
+  for(Fermion f:{Fermion::d,Fermion::u,Fermion::s,Fermion::c,Fermion::b,
+                 Fermion::muon,Fermion::tau,Fermion::nuElectron,
+                 Fermion::nuMuon,Fermion::nuTau}) check(input,f,0,0,0,0);
+  throws<std::invalid_argument>([&]{smeft::coeffS4fD6Tree(Fermion::muon,
+      Fermion::c,Current::vector,Current::vector,input);},"non-electron initial state accepted");
+  throws<std::domain_error>([&]{smeft::coeffS4fD6Tree(Fermion::electron,
+      Fermion::electron,Current::vector,Current::vector,input);},"Bhabha contacts accepted");
+  for(Current bad:{Current::scalar,Current::pseudoscalar})
   {
-    for(int final = 0; final < 2; ++final)
-    {
-      const Cplx actual = smeft::coeffS4fD6Tree(
-          Fermion::electron,Fermion::c,currents[initial],currents[final],
-          upInput);
-      const double expected = projected(0.3,0.1,-0.4,0.6,
-                                        currents[initial],currents[final],
-                                        upInput.inverseLambdaSquaredGeV());
-      requireClose(actual,expected,
-                   "up-quark flavor assembly or Ceq alias is incorrect");
-    }
+    throws<std::invalid_argument>([&]{smeft::coeffS4fD6Tree(Fermion::electron,
+        Fermion::tau,bad,Current::vector,input);},"non-vector/axial initial current accepted");
+    throws<std::invalid_argument>([&]{smeft::coeffSp4fD6Tree(Fermion::electron,
+        Fermion::tau,Current::vector,bad,input);},"S prime skipped current validation");
   }
-
-  Input tauInput;
-  tauInput.setLambdaGeV(1000.0);
-  tauInput.setCll(one,one,three,three,0.2);
-  tauInput.setCll(one,three,three,one,0.3);
-  tauInput.setCle(one,one,three,three,-0.1);
-  tauInput.setCle(three,three,one,one,0.4);
-  // Enter RR through the Fierz-equivalent alias, while xsc_smeft reads the
-  // canonical Cee[1,1,3,3] slot.
-  tauInput.setCee(one,three,three,one,0.2);
-  for(int initial = 0; initial < 2; ++initial)
-  {
-    for(int final = 0; final < 2; ++final)
-    {
-      const Cplx actual = smeft::coeffS4fD6Tree(
-          Fermion::electron,Fermion::tau,currents[initial],currents[final],
-          tauInput);
-      const double expected = projected(0.5,-0.1,0.4,0.2,
-                                        currents[initial],currents[final],
-                                        tauInput.inverseLambdaSquaredGeV());
-      requireClose(actual,expected,
-                   "charged-lepton flavor assembly or Cee alias is incorrect");
-    }
-  }
-
-  requireThrows<std::invalid_argument>([&upInput]() {
-    smeft::coeffS4fD6Tree(Fermion::muon,Fermion::c,
-                          Current::vector,Current::vector,upInput);
-  }, "contact S must reject a non-electron initial state");
-  requireThrows<std::domain_error>([&tauInput]() {
-    smeft::coeffS4fD6Tree(Fermion::electron,Fermion::electron,
-                          Current::vector,Current::vector,tauInput);
-  }, "generic contact S must reject Bhabha scattering");
-  requireThrows<std::invalid_argument>([&tauInput]() {
-    smeft::coeffS4fD6Tree(Fermion::electron,Fermion::tau,
-                          Current::scalar,Current::vector,tauInput);
-  }, "contact S must reject scalar currents");
-
-  std::cout << "Up/charged-lepton assembly       = PASS\n";
+  throws<std::invalid_argument>([&]{smeft::coeffS4fD6Tree(ELE,999,VEC,VEC,input);},
+      "invalid final fermion accepted");
 }
-
-void testNeutrinoContacts(const inval& smInput)
-{
-  FA_SMLO faElectron(Fermion::electron,smInput);
-  SW_SMLO swElectron(Fermion::electron,smInput);
-  psobsfix neutralSW(0.0,smInput);
-
-  Input muonNeutrinoInput;
-  muonNeutrinoInput.setLambdaGeV(1000.0);
-  muonNeutrinoInput.setCll(one,one,two,two,0.6);
-  muonNeutrinoInput.setCle(two,two,one,one,-0.2);
-  // This exchange contraction must not enter a neutral-lepton final state.
-  muonNeutrinoInput.setCll(one,two,two,one,9.0);
-
-  FA_SMLO faNuMuon(Fermion::nuMuon,smInput);
-  smeft::mat_SMEFTLO nuMuon(
-      Fermion::electron,Fermion::nuMuon,Current::vector,Current::vector,
-      faElectron,faNuMuon,swElectron,neutralSW,
-      91.1876*91.1876,-0.2,smInput,muonNeutrinoInput);
-
-  const double invLambda2 = muonNeutrinoInput.inverseLambdaSquaredGeV();
-  requireClose(nuMuon.coeffS4fD6Tree(),
-               projected(0.6,0.0,-0.2,0.0,Current::vector,
-                         Current::vector,invLambda2),
-               "nu_mu VV contact is incorrect");
-  nuMuon.setform(Current::vector,Current::axial);
-  requireClose(nuMuon.coeffS4fD6Tree(),
-               projected(0.6,0.0,-0.2,0.0,Current::vector,
-                         Current::axial,invLambda2),
-               "nu_mu VA must equal nu_mu VV");
-  nuMuon.setform(Current::axial,Current::vector);
-  const Cplx nuMuonAV = nuMuon.coeffS4fD6Tree();
-  requireClose(nuMuonAV,
-               projected(0.6,0.0,-0.2,0.0,Current::axial,
-                         Current::vector,invLambda2),
-               "nu_mu AV contact is incorrect");
-  nuMuon.setform(Current::axial,Current::axial);
-  requireClose(nuMuon.coeffS4fD6Tree(),nuMuonAV,
-               "nu_mu AA must equal nu_mu AV");
-  requireClose(nuMuon.coeffSp4fD6Tree(),0.0,
-               "nu_mu local contact generated nonzero S prime");
-
-  Input electronNeutrinoInput;
-  electronNeutrinoInput.setLambdaGeV(1000.0);
-  electronNeutrinoInput.setCll(one,one,one,one,0.5);
-  electronNeutrinoInput.setCle(one,one,one,one,-0.25);
-
-  FA_SMLO faNuElectron(Fermion::nuElectron,smInput);
-  smeft::mat_SMEFTLO nuElectron(
-      Fermion::electron,Fermion::nuElectron,
-      Current::vector,Current::vector,
-      faElectron,faNuElectron,swElectron,neutralSW,
-      91.1876*91.1876,0.1,smInput,electronNeutrinoInput);
-
-  const double expectedVV = projected(1.0,0.0,-0.25,0.0,
-                                      Current::vector,Current::vector,
-                                      electronNeutrinoInput
-                                          .inverseLambdaSquaredGeV());
-  requireClose(nuElectron.coeffS4fD6Tree(),expectedVV,
-               "nu_e contact missed the factor two multiplying Cll[1111]");
-  requireClose(nuElectron.coeffS(),expectedVV,
-               "nu_e S should contain only the local contact in this module");
-  requireClose(nuElectron.coeffSp4fD6Tree(),0.0,
-               "nu_e local contact generated nonzero S prime");
-  requireClose(nuElectron.coeffSp(),0.0,
-               "nu_e neutral-current S prime should vanish in this module");
-  requireClose(nuElectron.resoffZ4fD6Tree(),expectedVV,
-               "nu_e local contact is not available as a regular piece");
-  requireThrows<std::domain_error>([&nuElectron]() {
-    nuElectron.resoffZD6Tree();
-  }, "nu_e background must reject the missing t-channel W contribution");
-  requireThrows<std::domain_error>([&nuElectron]() {
-    nuElectron.resultD6Tree();
-  }, "nu_e D6 result must reject the missing t-channel W contribution");
-  requireThrows<std::domain_error>([&nuElectron]() { nuElectron.resoffZ(); },
-      "nu_e resoffZ must reject the missing t-channel W background");
-  requireThrows<std::domain_error>([&nuElectron]() { nuElectron.result(); },
-      "nu_e result must reject the missing t-channel W background");
-
-  std::cout << "Nu_mu AV contact S [GeV^-2]   = " << nuMuonAV << '\n';
-  std::cout << "Nu_e VV contact S [GeV^-2]    = " << expectedVV << '\n';
-  std::cout << "Nu_e full-result guard         = PASS\n";
-}
-
-void testLinearizedResidue(const inval& smInput)
-{
-  Input input;
-  input.setLambdaGeV(1000.0);
-  input.setCphiWB(0.012);
-  input.setCphiD(-0.018);
-  input.setCphil1(one,one,0.007);
-  input.setCphil3(one,one,-0.005);
-  input.setCphie(one,one,0.004);
-  input.setCphiq1(two,two,-0.006);
-  input.setCphiq3(two,two,0.009);
-  input.setCphiu(two,two,-0.003);
-  input.setCphil3(two,two,0.002);
-  input.setCll(one,two,two,one,0.001);
-  input.setCll(two,one,one,two,0.001);
-  // Independent contact contribution for the combined no-double-counting
-  // check below.  This four-index coefficient does not enter the Z vertex.
-  input.setClq1(one,one,two,two,0.4);
-
-  FA_SMLO faElectron(Fermion::electron,smInput);
-  FA_SMLO faCharm(Fermion::c,smInput);
-  SW_SMLO swElectron(Fermion::electron,smInput);
-  SW_SMLO swCharm(Fermion::c,smInput);
-
-  smeft::mat_SMEFTLO matrix(
-      Fermion::electron,Fermion::c,Current::vector,Current::axial,
-      faElectron,faCharm,swElectron,swCharm,
-      91.1876*91.1876,0.4,smInput,input,EWInputScheme::GmuAlphaMZ);
-  matel sm(Fermion::electron,Fermion::c,Current::vector,Current::axial,
-           faElectron,faCharm,swElectron,swCharm,
-           91.1876*91.1876,0.4,smInput);
-
-  const Cplx ziSM = z0(ELE,VEC,smInput);
-  const Cplx zfSM = z0(CQU,AXV,smInput);
-  const double dzi = smeft::zD6Tree(
-      ELE,VEC,smInput,input,EWInputScheme::GmuAlphaMZ);
-  const double dzf = smeft::zD6Tree(
-      CQU,AXV,smInput,input,EWInputScheme::GmuAlphaMZ);
-  const Cplx expectedD6 = dzi*zfSM+ziSM*dzf;
-
-  requireClose(matrix.matel::coeffR(),ziSM*zfSM,
-               "SM form-factor objects do not reconstruct the SM residue");
-  requireClose(matrix.coeffRD6Tree(),expectedD6,
-               "residue was not linearized with one D6 insertion");
-  requireClose(matrix.coeffR(),ziSM*zfSM+expectedD6,
-               "cumulative SMEFT residue is incorrect");
-  const double mzPole = smInput.get(InputPar::ZMassComplex);
-  const double gzPole = smInput.get(InputPar::ZWidthComplex);
-  requireClose(matrix.poleD6Tree(),
-               expectedD6/Cplx(91.1876*91.1876-
-                               mzPole*mzPole,mzPole*gzPole),
-               "D6 pole amplitude does not use the complex pole denominator");
-  const double expectedBackground = 0.25*0.4
-      *input.inverseLambdaSquaredGeV();
-  requireClose(matrix.resoffZD6Tree(),expectedBackground,
-               "combined test has the wrong exact contact background");
-  requireClose(matrix.resultD6Tree(),
-               matrix.poleD6Tree()+expectedBackground,
-               "D6 result is not exactly pole plus background");
-  requireClose(matrix.result()-sm.result(),matrix.resultD6Tree(),
-               "cumulative result double-counted or omitted a D6 component");
-
-  std::cout << "Linear residue shift            = " << expectedD6 << '\n';
-  std::cout << "Pole/background counting check  = PASS\n";
-}
-
-void testZeroLimit(const inval& smInput)
-{
-  Input input;
-  input.setLambdaGeV(1000.0);
-  FA_SMLO faElectron(Fermion::electron,smInput);
-  FA_SMLO faTau(Fermion::tau,smInput);
-  SW_SMLO swElectron(Fermion::electron,smInput);
-  SW_SMLO swTau(Fermion::tau,smInput);
-
-  matel sm(Fermion::electron,Fermion::tau,Current::vector,Current::axial,
-           faElectron,faTau,swElectron,swTau,90.0*90.0,0.25,smInput);
-  smeft::mat_SMEFTLO eft(
-      Fermion::electron,Fermion::tau,Current::vector,Current::axial,
-      faElectron,faTau,swElectron,swTau,90.0*90.0,0.25,smInput,input);
-
-  requireClose(eft.coeffR(),sm.coeffR(),"zero coefficients changed R");
-  requireClose(eft.coeffS(),sm.coeffS(),"zero coefficients changed S");
-  requireClose(eft.coeffSp(),sm.coeffSp(),"zero coefficients changed S prime");
-  requireClose(eft.poleD6Tree(),0.0,"zero coefficients changed D6 pole");
-  requireClose(eft.resoffZD6Tree(),0.0,
-               "zero coefficients changed D6 background");
-  requireClose(eft.resultD6Tree(),0.0,
-               "zero coefficients changed D6 result");
-  requireClose(eft.result(),sm.result(),"zero coefficients changed result");
-}
-
-void testLinearDifferentialCrossSection(const inval& smInput)
-{
-  Input plus;
-  plus.setLambdaGeV(1000.0);
-  plus.setCphiD(0.02);
-  plus.setCphiWB(-0.01);
-  plus.setCphil3(one,one,0.004);
-  plus.setCphil3(two,two,-0.003);
-  plus.setCll(one,two,two,one,0.002);
-  plus.setCll(two,one,one,two,0.002);
-  plus.setCle(one,one,two,two,0.15);
-
-  Input minus = plus;
-  minus.clearWilsonCoefficients();
-  minus.setCphiD(-0.02);
-  minus.setCphiWB(0.01);
-  minus.setCphil3(one,one,-0.004);
-  minus.setCphil3(two,two,0.003);
-  minus.setCll(one,two,two,one,-0.002);
-  minus.setCll(two,one,one,two,-0.002);
-  minus.setCle(one,one,two,two,-0.15);
-
-  FA_SMLO faElectron(Fermion::electron,smInput);
-  FA_SMLO faMuon(Fermion::muon,smInput);
-  SW_SMLO swElectron(Fermion::electron,smInput);
-  SW_SMLO swMuon(Fermion::muon,smInput);
-
-  const smeft::DifferentialCrossSectionLinear positive =
-      smeft::differentialCrossSectionLinear(
-          Fermion::electron,Fermion::muon,
-          faElectron,faMuon,swElectron,swMuon,
-          100.0*100.0,0.3,smInput,plus,
-          EWInputScheme::GmuAlphaMZ);
-  const smeft::DifferentialCrossSectionLinear negative =
-      smeft::differentialCrossSectionLinear(
-          Fermion::electron,Fermion::muon,
-          faElectron,faMuon,swElectron,swMuon,
-          100.0*100.0,0.3,smInput,minus,
-          EWInputScheme::GmuAlphaMZ);
-
-  requireClose(positive.sm,negative.sm,
-               "SM cross section depends on the SMEFT input");
-  requireClose(positive.d6,-negative.d6,
-               "D6 cross-section interference is not odd in Wilson coefficients");
-  requireClose(positive.total()+negative.total(),2.0*positive.sm,
-               "linear cross section retained an O(Lambda^-4) term");
-  requireClose(positive.total()-positive.sm,positive.d6,
-               "linear cross-section total does not equal SM plus interference");
-
-  std::cout << "Linear cross-section SM [GeV^-2] = " << positive.sm << '\n';
-  std::cout << "Linear cross-section D6 [GeV^-2] = " << positive.d6 << '\n';
-}
-
 } // namespace
 
 int main()
 {
   try
   {
-    const SMval directInput = makeDirectMWInput();
-    const SMvalGmu smInput(directInput);
-
-    std::cout << std::setprecision(16);
-    std::cout << "SMEFT matrix-element test\n";
-    std::cout << "=========================\n";
-    std::cout << "Input scheme                    = GmuAlphaMZ\n";
-    std::cout << "Derived MW pole [GeV]           = "
-              << smInput.get(InputPar::WMassComplex) << '\n';
-
-    testDownQuarkContact(smInput);
-    testAdditionalFlavorAssembly();
-    testNeutrinoContacts(smInput);
-    testLinearizedResidue(smInput);
-    testZeroLimit(smInput);
-    testLinearDifferentialCrossSection(smInput);
-
-    std::cout << "Local four-fermion S prime      = 0\n";
-    std::cout << "STATUS                          = PASS\n";
+    testQuarks(); testChargedLeptons(); testNeutrinos();
+    testEquivalentContactLabels(); testZeroAndValidation();
+    std::cout << "Standalone contacts: flavors, normalization, aliases, S prime, validation PASS\n";
     return 0;
   }
   catch(const std::exception& error)
   {
-    std::cerr << "STATUS = FAIL\n";
-    std::cerr << error.what() << '\n';
-    return 1;
+    std::cerr << "Contact test failed: " << error.what() << '\n'; return 1;
   }
 }

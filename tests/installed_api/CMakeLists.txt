@@ -1,0 +1,36 @@
+cmake_minimum_required(VERSION 3.20)
+project(griffin_installed_api_smoke LANGUAGES CXX)
+
+find_package(GRIFFIN 1.1 CONFIG REQUIRED)
+add_executable(installed_smeft_example smeft_example.cc)
+target_link_libraries(installed_smeft_example PRIVATE GRIFFIN::griffin)
+set_target_properties(installed_smeft_example PROPERTIES CXX_EXTENSIONS OFF)
+add_executable(installed_public_api test_public_api.cc)
+target_link_libraries(installed_public_api PRIVATE GRIFFIN::griffin)
+set_target_properties(installed_public_api PROPERTIES CXX_EXTENSIONS OFF)
+
+# Every installed header must compile on its own and be safe to include twice.
+# These translation units have access only to the package's installed include
+# directory, never to the original source or private expression/grid paths.
+get_target_property(public_include_dirs GRIFFIN::griffin INTERFACE_INCLUDE_DIRECTORIES)
+set(header_check_sources)
+foreach(include_dir IN LISTS public_include_dirs)
+  file(GLOB_RECURSE public_headers "${include_dir}/griffin/*.h")
+  foreach(header IN LISTS public_headers)
+    file(RELATIVE_PATH relative_header "${include_dir}" "${header}")
+    string(MAKE_C_IDENTIFIER "${relative_header}" identifier)
+    set(source "${CMAKE_CURRENT_BINARY_DIR}/header_${identifier}.cc")
+    file(WRITE "${source}" "#include <${relative_header}>\n#include <${relative_header}>\n")
+    list(APPEND header_check_sources "${source}")
+  endforeach()
+endforeach()
+if(NOT header_check_sources)
+  message(FATAL_ERROR "Installed package exports no public headers")
+endif()
+add_library(installed_header_checks OBJECT ${header_check_sources})
+target_link_libraries(installed_header_checks PRIVATE GRIFFIN::griffin)
+set_target_properties(installed_header_checks PROPERTIES CXX_EXTENSIONS OFF)
+
+enable_testing()
+add_test(NAME installed_smeft_example COMMAND installed_smeft_example)
+add_test(NAME installed_public_api COMMAND installed_public_api)

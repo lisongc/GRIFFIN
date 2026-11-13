@@ -1,0 +1,81 @@
+{
+  "format_version": 1,
+  "cases": 943,
+  "groups": {
+    "individual": 520,
+    "contact_mapping": 80,
+    "native_tables67": 120,
+    "earlier_tables67": 168,
+    "native_table4": 40,
+    "earlier_table4": 15
+  },
+  "common_inputs": {
+    "alpha_inverse": 137.03599976,
+    "Gmu_GeVminus2": 1.166379e-05,
+    "MZ_GeV": 91.1876,
+    "GammaZ_GeV": 2.4952,
+    "MW_GeV_alpha_input": 80.377,
+    "GammaW_GeV_alpha_input": 2.085,
+    "MH_GeV": 125.1,
+    "mt_GeV": 172.5,
+    "mb_GeV": 2.87,
+    "mc_GeV": 0.652,
+    "mtau_GeV": 1.777,
+    "other_fermion_masses_GeV": 0,
+    "DeltaAlpha": 0.059,
+    "alpha_s": 0.1179,
+    "process": "unpolarized massless e+ e- -> mu+ mu-",
+    "cross_section": "d sigma / d cos(theta), pb",
+    "GeVminus2_to_pb": 389379660.0
+  },
+  "csv_coefficients": [
+    "CphiD",
+    "CphiWB",
+    "Cphil1_11",
+    "Cphil1_22",
+    "Cphil3_11",
+    "Cphil3_22",
+    "Cphie_11",
+    "Cphie_22",
+    "Cll1122",
+    "Cll1221",
+    "Cee1122",
+    "Cle1122",
+    "Cle2211"
+  ],
+  "amplitude_order": [
+    "VV",
+    "AV",
+    "VA",
+    "AA"
+  ],
+  "sources": {
+    "individual": {
+      "path": "comparison_individual_20261026/jackson/raw.jsonl",
+      "sha256": "ba47569e137aa1d5b42f161cca804645ec7f76e056f2c7c83cad89ddc3e4476d"
+    },
+    "contact_mapping": {
+      "path": "comparison_individual_20261026/jackson/mapping.jsonl",
+      "sha256": "78ae701f3001e7f32a712f7f3c13291be7e2908fe513a165ca266110a71aaf10"
+    },
+    "native_tables67": {
+      "path": "comparison_native_note_20261017/jackson/raw.jsonl",
+      "sha256": "02e95618b99a8d0c16857bd838d916924eb9b8fe64609f41bb147e9dd41eb808"
+    },
+    "earlier_tables67": {
+      "path": "comparison_tables4_7_highsm_20261015/jackson/raw.jsonl",
+      "sha256": "0eeab3cc9473a6a3a89259a3fe9e66985ab34f665076d824acba167d89b40d4e"
+    },
+    "native_table4": {
+      "path": "comparison_native_note_20261017/ewpo/raw_jackson.jsonl",
+      "sha256": "40f521e93b73f49b6db032264965f50307fd76f8c4ac1157699b74406b79340f"
+    },
+    "earlier_table4": {
+      "path": "comparison_tables4_7_highsm_20261015/ewpo/raw_jackson.csv",
+      "sha256": "2aaf81bcb5478ef179252cb0ad60f88d5e645b98049e7ce5789cc925b9dd6907"
+    }
+  },
+  "fixtures_sha256": "956234c20636f83187518926da5aa0e8b097297d7a269f012eb520f3bad919f1",
+  "excluded": "Historical standalone FV and all derivative/projection values.",
+  "mapping_controls_exact_pairs": 40
+}

@@ -1,9 +1,9 @@
 #include <iostream>
 using namespace std;
 
-#include "EWPOZ2.h"
-#include "SMval.h"
-#include "tools.h"
+#include "griffin/sm/EWPOZ2.h"
+#include "griffin/sm/SMval.h"
+#include "griffin/sm/tools.h"
 using namespace griffin;
 
 int main()

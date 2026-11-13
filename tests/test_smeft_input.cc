@@ -1,23 +1,29 @@
 /*
   Exhaustive storage/API regression test for griffin::smeft::Input.
 
-  The test assigns a distinct finite value to every component documented in
-  SMEFT_IMPLEMENTATION.md:
+  The test exercises every flavor spelling of the canonical coefficient
+  family names documented in SMEFT_IMPLEMENTATION.md:
     2 scalar values
     7 * 3^2 = 63 two-index values
     10 * 3^4 = 810 four-index values
-  for a total of 875 Wilson-coefficient values. It also checks validation,
-  default-zero behavior, copying, and clearing.
+  for 875 getter/setter spellings, not 875 independent coefficients. Cll has
+  45 independent current-exchange orbits and Cee has 36 current-exchange/Fierz
+  orbits. Exhaustive checks below verify aliases and non-alias isolation,
+  replacement semantics, validation, copying and clearing. The additional
+  legacy Ceq aliases are covered by representative wrapper checks.
 */
 
 #include <cmath>
+#include <array>
 #include <iomanip>
 #include <iostream>
 #include <limits>
 #include <stdexcept>
 #include <string>
+#include <set>
+#include <vector>
 
-#include "smeft/SMEFTInput.h"
+#include "griffin/smeft/SMEFTInput.h"
 
 using griffin::smeft::Generation;
 using griffin::smeft::Input;
@@ -121,6 +127,117 @@ void requireThrows(Function function, const std::string& message)
   require(threw,message);
 }
 
+using Label = std::array<Generation,4>;
+
+std::vector<Label> allLabels()
+{
+  std::vector<Label> labels;
+  for(Generation p:generations) for(Generation r:generations)
+    for(Generation s:generations) for(Generation t:generations)
+      labels.push_back(Label{{p,r,s,t}});
+  return labels;
+}
+
+std::set<Label> expectedOrbit(const Label& x, bool fierz)
+{
+  std::set<Label> orbit={x,Label{{x[2],x[3],x[0],x[1]}}};
+  if(fierz)
+  {
+    orbit.insert(Label{{x[0],x[3],x[2],x[1]}});
+    orbit.insert(Label{{x[2],x[1],x[0],x[3]}});
+  }
+  return orbit;
+}
+
+void testTensorOrbits(TensorSetter setter, TensorGetter getter, bool fierz,
+                      std::size_t expectedCount)
+{
+  const auto labels=allLabels();
+  std::set<Label> representatives;
+  for(const Label& selected:labels)
+  {
+    const auto orbit=expectedOrbit(selected,fierz);
+    representatives.insert(*orbit.begin());
+    Input input; input.setLambdaGeV(1000.0);
+    (input.*setter)(selected[0],selected[1],selected[2],selected[3],.375);
+    for(const Label& query:labels)
+      require((input.*getter)(query[0],query[1],query[2],query[3])
+                  ==(orbit.count(query)? .375:0.0),
+              "tensor alias orbit or non-alias isolation is incorrect");
+    // Setting an alternate spelling is assignment to one coefficient, not
+    // addition of another operator. This includes repeated identical writes.
+    for(const Label& alias:orbit)
+    {
+      (input.*setter)(alias[0],alias[1],alias[2],alias[3],.375);
+      require((input.*getter)(selected[0],selected[1],selected[2],selected[3])==.375,
+              "repeated alias setter accumulated the coefficient");
+      (input.*setter)(alias[0],alias[1],alias[2],alias[3],-.625);
+      for(const Label& query:orbit)
+        require((input.*getter)(query[0],query[1],query[2],query[3])==-.625,
+                "latest alias assignment did not replace every spelling");
+      (input.*setter)(alias[0],alias[1],alias[2],alias[3],0.0);
+      for(const Label& query:labels)
+        require((input.*getter)(query[0],query[1],query[2],query[3])==0.0,
+                "setting an alias to zero left a duplicate stored coefficient");
+    }
+    (input.*setter)(selected[0],selected[1],selected[2],selected[3],.375);
+    Input copy=input;
+    const Label alternate=*orbit.rbegin();
+    (copy.*setter)(alternate[0],alternate[1],alternate[2],alternate[3],.125);
+    require((input.*getter)(selected[0],selected[1],selected[2],selected[3])==.375,
+            "copy mutation changed original tensor orbit");
+    copy.clearWilsonCoefficients();
+    for(const Label& query:labels)
+      require((copy.*getter)(query[0],query[1],query[2],query[3])==0.0,
+              "clear failed for aliased tensor entry");
+    require(copy.lambdaGeV()==1000.0,"clear changed Lambda");
+  }
+  require(representatives.size()==expectedCount,"wrong number of independent tensor orbits");
+
+  Input valid;
+  valid.setLambdaGeV(1000.0);
+  const Label seed={{generations[0],generations[0],generations[1],generations[1]}};
+  (valid.*setter)(seed[0],seed[1],seed[2],seed[3],.375);
+  for(unsigned position=0;position<4;++position)
+    for(int invalid:{-1,0,4})
+    {
+      Label bad=seed; bad[position]=static_cast<Generation>(invalid);
+      requireThrows<std::out_of_range>([&]{
+        (valid.*setter)(bad[0],bad[1],bad[2],bad[3],.75);
+      },"aliased setter accepted an invalid generation");
+      requireThrows<std::out_of_range>([&]{
+        (valid.*getter)(bad[0],bad[1],bad[2],bad[3]);
+      },"aliased getter accepted an invalid generation");
+    }
+  for(const Label& alias:expectedOrbit(seed,fierz))
+    for(double invalid:{std::numeric_limits<double>::infinity(),
+                        -std::numeric_limits<double>::infinity(),
+                        std::numeric_limits<double>::quiet_NaN()})
+      requireThrows<std::invalid_argument>([&]{
+        (valid.*setter)(alias[0],alias[1],alias[2],alias[3],invalid);
+      },"aliased setter accepted a nonfinite coefficient");
+  require((valid.*getter)(seed[0],seed[1],seed[2],seed[3])==.375,
+          "failed setter damaged an existing coefficient");
+}
+
+void testDistinctOperators()
+{
+  const Generation one=Generation::first,two=Generation::second;
+  Input input;
+  input.setCll(one,one,two,two,.25);
+  input.setCll(one,two,two,one,-.5);
+  require(input.Cll(two,two,one,one)==.25
+          && input.Cll(two,one,one,two)==-.5,
+          "Cll1122 and Cll1221 were incorrectly merged");
+  // Pair exchange is not Hermitian conjugation; do not silently impose it.
+  input.setCll(one,one,one,two,.75);
+  require(input.Cll(one,one,two,one)==0.0,"Cll gained an unrequested Hermitian alias");
+  input.setCee(one,one,one,two,.75);
+  require(input.Cee(one,one,two,one)==0.0,"Cee gained an unrequested Hermitian alias");
+  input.setCle(one,one,two,two,.125);
+  require(input.Cle(two,two,one,one)==0.0,"Cle gained an unrequested pair alias");
+}
+
 } // namespace
 
 int main()
@@ -213,7 +330,10 @@ int main()
     assignTensor(input,std::cout,"Cee",&Input::setCee,&Input::Cee,
                  magnitude,count);
 
-    require(count == 875, "unexpected number of Wilson coefficient values");
+    require(count == 875, "unexpected number of public Wilson-coefficient spellings");
+    testTensorOrbits(&Input::setCll,&Input::Cll,false,45);
+    testTensorOrbits(&Input::setCee,&Input::Cee,true,36);
+    testDistinctOperators();
 
     // The historical Ceq ordering reverses the two currents and must address
     // the same storage as canonical Warsaw/WCxf Cqe.
@@ -255,12 +375,13 @@ int main()
             "clear failed for tensor coefficient");
     require(input.CphiWB() != 0.0, "clearing copy modified original input");
 
-    std::cout << "DefinedScalarValues = 2\n";
-    std::cout << "DefinedTwoIndexValues = 63\n";
-    std::cout << "DefinedFourIndexValues = 810\n";
-    std::cout << "DefinedWilsonCoefficientValues = " << count << '\n';
+    std::cout << "ScalarSpellings = 2\n";
+    std::cout << "TwoIndexSpellings = 63\n";
+    std::cout << "FourIndexSpellings = 810\n";
+    std::cout << "PublicWilsonCoefficientSpellings = " << count << '\n';
+    std::cout << "IndependentCllOrbits = 45\nIndependentCeeOrbits = 36\n";
     std::cout << "CeqCompatibilityAlias = PASS\n";
-    std::cout << "CeeFierzAlias = PASS\n";
+    std::cout << "ExhaustiveCllCeeAliasOrbits = PASS\n";
     std::cout << "ValidationChecks = PASS\n";
     std::cout << "STATUS = PASS\n";
     return 0;

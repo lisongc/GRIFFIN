@@ -1,0 +1,646 @@
+{
+  "cases": 943,
+  "unchanged_fields": [
+    "FA_e",
+    "FA_mu",
+    "FV_e",
+    "FV_mu",
+    "GW_pole_GeV",
+    "GW_running_GeV",
+    "MW_pole_GeV",
+    "MW_running_GeV",
+    "MZ_pole_GeV",
+    "SW_e",
+    "SW_mu",
+    "contact_amplitudes"
+  ],
+  "unchanged_fields_exact": true,
+  "percent_definition": "100*(new-old)/abs(old); null when old is zero",
+  "sm_baselines": [
+    {
+      "id": "individual_0000",
+      "inputs": {
+        "scheme": "alpha",
+        "energy_GeV": 50,
+        "cos_theta": 0.5,
+        "Lambda_GeV": 246,
+        "coefficients": {}
+      },
+      "old": 14.101494405664791,
+      "new": 14.097640221860944,
+      "change": -0.0038541838038472775,
+      "change_percent_of_abs_old": -0.027331740118969175
+    },
+    {
+      "id": "individual_0001",
+      "inputs": {
+        "scheme": "alpha",
+        "energy_GeV": 90,
+        "cos_theta": 0.5,
+        "Lambda_GeV": 246,
+        "coefficients": {}
+      },
+      "old": 449.7977830273739,
+      "new": 449.11537660976444,
+      "change": -0.6824064176094566,
+      "change_percent_of_abs_old": -0.15171404648028836
+    },
+    {
+      "id": "individual_0002",
+      "inputs": {
+        "scheme": "alpha",
+        "energy_GeV": 95,
+        "cos_theta": 0.5,
+        "Lambda_GeV": 246,
+        "coefficients": {}
+      },
+      "old": 132.94317461395232,
+      "new": 132.99362942184038,
+      "change": 0.050454807888058895,
+      "change_percent_of_abs_old": 0.03795216116552981
+    },
+    {
+      "id": "individual_0003",
+      "inputs": {
+        "scheme": "alpha",
+        "energy_GeV": 120,
+        "cos_theta": 0.5,
+        "Lambda_GeV": 246,
+        "coefficients": {}
+      },
+      "old": 9.783597363906328,
+      "new": 9.785060720272007,
+      "change": 0.0014633563656794024,
+      "change_percent_of_abs_old": 0.014957242323544716
+    },
+    {
+      "id": "individual_0260",
+      "inputs": {
+        "scheme": "gmu",
+        "energy_GeV": 50,
+        "cos_theta": 0.5,
+        "Lambda_GeV": 246,
+        "coefficients": {}
+      },
+      "old": 14.105960337121104,
+      "new": 14.102103412128354,
+      "change": -0.0038569249927498106,
+      "change_percent_of_abs_old": -0.027342519761663908
+    },
+    {
+      "id": "individual_0261",
+      "inputs": {
+        "scheme": "gmu",
+        "energy_GeV": 90,
+        "cos_theta": 0.5,
+        "Lambda_GeV": 246,
+        "coefficients": {}
+      },
+      "old": 448.26992780378123,
+      "new": 447.590891660809,
+      "change": -0.6790361429722225,
+      "change_percent_of_abs_old": -0.15147929871161317
+    },
+    {
+      "id": "individual_0262",
+      "inputs": {
+        "scheme": "gmu",
+        "energy_GeV": 95,
+        "cos_theta": 0.5,
+        "Lambda_GeV": 246,
+        "coefficients": {}
+      },
+      "old": 132.59554209176738,
+      "new": 132.64568458985994,
+      "change": 0.05014249809255489,
+      "change_percent_of_abs_old": 0.03781612662200364
+    },
+    {
+      "id": "individual_0263",
+      "inputs": {
+        "scheme": "gmu",
+        "energy_GeV": 120,
+        "cos_theta": 0.5,
+        "Lambda_GeV": 246,
+        "coefficients": {}
+      },
+      "old": 9.770481316492628,
+      "new": 9.771936375606755,
+      "change": 0.001455059114126911,
+      "change_percent_of_abs_old": 0.014892399534818851
+    }
+  ],
+  "single_coefficient_shift_examples": [
+    {
+      "coefficient": "CphiWB",
+      "id": "individual_0032",
+      "inputs": {
+        "scheme": "alpha",
+        "energy_GeV": 50,
+        "cos_theta": 0.5,
+        "Lambda_GeV": 246,
+        "coefficients": {
+          "CphiWB": 0.00060516
+        }
+      },
+      "old": -0.008621121169536394,
+      "new": -0.008620812808983302,
+      "change": 3.083605530918021e-7,
+      "change_percent_of_abs_old": 0.0035768033765889453
+    },
+    {
+      "coefficient": "CphiWB",
+      "id": "individual_0033",
+      "inputs": {
+        "scheme": "alpha",
+        "energy_GeV": 90,
+        "cos_theta": 0.5,
+        "Lambda_GeV": 246,
+        "coefficients": {
+          "CphiWB": 0.00060516
+        }
+      },
+      "old": 2.5239894325366095,
+      "new": 2.5222553241449646,
+      "change": -0.0017341083916448952,
+      "change_percent_of_abs_old": -0.06870505752879148
+    },
+    {
+      "coefficient": "CphiWB",
+      "id": "individual_0034",
+      "inputs": {
+        "scheme": "alpha",
+        "energy_GeV": 95,
+        "cos_theta": 0.5,
+        "Lambda_GeV": 246,
+        "coefficients": {
+          "CphiWB": 0.00060516
+        }
+      },
+      "old": 0.5834280795086499,
+      "new": 0.5836028055630607,
+      "change": 0.0001747260544107121,
+      "change_percent_of_abs_old": 0.02994817365627353
+    },
+    {
+      "coefficient": "CphiWB",
+      "id": "individual_0035",
+      "inputs": {
+        "scheme": "alpha",
+        "energy_GeV": 120,
+        "cos_theta": 0.5,
+        "Lambda_GeV": 246,
+        "coefficients": {
+          "CphiWB": 0.00060516
+        }
+      },
+      "old": 0.0226731045946007,
+      "new": 0.0226772562159141,
+      "change": 0.000004151621313397413,
+      "change_percent_of_abs_old": 0.018310775642018016
+    },
+    {
+      "coefficient": "Cphil3_11",
+      "id": "individual_0092",
+      "inputs": {
+        "scheme": "alpha",
+        "energy_GeV": 50,
+        "cos_theta": 0.5,
+        "Lambda_GeV": 246,
+        "coefficients": {
+          "Cphil3_11": 0.00060516
+        }
+      },
+      "old": -0.002307819907018782,
+      "new": -0.0023077373872109064,
+      "change": 8.25198078757694e-8,
+      "change_percent_of_abs_old": 0.0035756606321317177
+    },
+    {
+      "coefficient": "Cphil3_11",
+      "id": "individual_0093",
+      "inputs": {
+        "scheme": "alpha",
+        "energy_GeV": 90,
+        "cos_theta": 0.5,
+        "Lambda_GeV": 246,
+        "coefficients": {
+          "Cphil3_11": 0.00060516
+        }
+      },
+      "old": 0.6744730550562394,
+      "new": 0.6740088504871551,
+      "change": -0.0004642045690843588,
+      "change_percent_of_abs_old": -0.06882477596464578
+    },
+    {
+      "coefficient": "Cphil3_11",
+      "id": "individual_0094",
+      "inputs": {
+        "scheme": "alpha",
+        "energy_GeV": 95,
+        "cos_theta": 0.5,
+        "Lambda_GeV": 246,
+        "coefficients": {
+          "Cphil3_11": 0.00060516
+        }
+      },
+      "old": 0.1559470104123477,
+      "new": 0.15599374926298992,
+      "change": 0.00004673885064221395,
+      "change_percent_of_abs_old": 0.029970982142350333
+    },
+    {
+      "coefficient": "Cphil3_11",
+      "id": "individual_0095",
+      "inputs": {
+        "scheme": "alpha",
+        "energy_GeV": 120,
+        "cos_theta": 0.5,
+        "Lambda_GeV": 246,
+        "coefficients": {
+          "Cphil3_11": 0.00060516
+        }
+      },
+      "old": 0.006062987784204665,
+      "new": 0.006064098143824026,
+      "change": 0.000001110359619360679,
+      "change_percent_of_abs_old": 0.01831373670673385
+    },
+    {
+      "coefficient": "Cphil3_22",
+      "id": "individual_0112",
+      "inputs": {
+        "scheme": "alpha",
+        "energy_GeV": 50,
+        "cos_theta": 0.5,
+        "Lambda_GeV": 246,
+        "coefficients": {
+          "Cphil3_22": 0.00060516
+        }
+      },
+      "old": -0.002307819907018782,
+      "new": -0.0023077373872109064,
+      "change": 8.25198078757694e-8,
+      "change_percent_of_abs_old": 0.0035756606321317177
+    },
+    {
+      "coefficient": "Cphil3_22",
+      "id": "individual_0113",
+      "inputs": {
+        "scheme": "alpha",
+        "energy_GeV": 90,
+        "cos_theta": 0.5,
+        "Lambda_GeV": 246,
+        "coefficients": {
+          "Cphil3_22": 0.00060516
+        }
+      },
+      "old": 0.6744730550562394,
+      "new": 0.6740088504871551,
+      "change": -0.0004642045690843588,
+      "change_percent_of_abs_old": -0.06882477596464578
+    },
+    {
+      "coefficient": "Cphil3_22",
+      "id": "individual_0114",
+      "inputs": {
+        "scheme": "alpha",
+        "energy_GeV": 95,
+        "cos_theta": 0.5,
+        "Lambda_GeV": 246,
+        "coefficients": {
+          "Cphil3_22": 0.00060516
+        }
+      },
+      "old": 0.1559470104123477,
+      "new": 0.15599374926298992,
+      "change": 0.00004673885064221395,
+      "change_percent_of_abs_old": 0.029970982142350333
+    },
+    {
+      "coefficient": "Cphil3_22",
+      "id": "individual_0115",
+      "inputs": {
+        "scheme": "alpha",
+        "energy_GeV": 120,
+        "cos_theta": 0.5,
+        "Lambda_GeV": 246,
+        "coefficients": {
+          "Cphil3_22": 0.00060516
+        }
+      },
+      "old": 0.006062987784204665,
+      "new": 0.006064098143824026,
+      "change": 0.000001110359619360679,
+      "change_percent_of_abs_old": 0.01831373670673385
+    },
+    {
+      "coefficient": "CphiWB",
+      "id": "individual_0292",
+      "inputs": {
+        "scheme": "gmu",
+        "energy_GeV": 50,
+        "cos_theta": 0.5,
+        "Lambda_GeV": 246,
+        "coefficients": {
+          "CphiWB": 0.00060516
+        }
+      },
+      "old": 0.00041151639692849074,
+      "new": 0.00040631017046877105,
+      "change": -0.000005206226459719687,
+      "change_percent_of_abs_old": -1.2651322033771535
+    },
+    {
+      "coefficient": "CphiWB",
+      "id": "individual_0293",
+      "inputs": {
+        "scheme": "gmu",
+        "energy_GeV": 90,
+        "cos_theta": 0.5,
+        "Lambda_GeV": 246,
+        "coefficients": {
+          "CphiWB": 0.00060516
+        }
+      },
+      "old": -0.5688478551759317,
+      "new": -0.5638142268539355,
+      "change": 0.005033628321996275,
+      "change_percent_of_abs_old": 0.8848813045870566
+    },
+    {
+      "coefficient": "CphiWB",
+      "id": "individual_0294",
+      "inputs": {
+        "scheme": "gmu",
+        "energy_GeV": 95,
+        "cos_theta": 0.5,
+        "Lambda_GeV": 246,
+        "coefficients": {
+          "CphiWB": 0.00060516
+        }
+      },
+      "old": -0.12016250758665592,
+      "new": -0.12061551017131933,
+      "change": -0.0004530025846634089,
+      "change_percent_of_abs_old": -0.376991620565777
+    },
+    {
+      "coefficient": "CphiWB",
+      "id": "individual_0295",
+      "inputs": {
+        "scheme": "gmu",
+        "energy_GeV": 120,
+        "cos_theta": 0.5,
+        "Lambda_GeV": 246,
+        "coefficients": {
+          "CphiWB": 0.00060516
+        }
+      },
+      "old": -0.0038657581675138886,
+      "new": -0.0038783134094071414,
+      "change": -0.000012555241893252855,
+      "change_percent_of_abs_old": -0.3247808411493901
+    },
+    {
+      "coefficient": "Cphil3_11",
+      "id": "individual_0352",
+      "inputs": {
+        "scheme": "gmu",
+        "energy_GeV": 50,
+        "cos_theta": 0.5,
+        "Lambda_GeV": 246,
+        "coefficients": {
+          "Cphil3_11": 0.00060516
+        }
+      },
+      "old": 0.00003813860667634117,
+      "new": 0.00003678308027410537,
+      "change": -0.000001355526402235796,
+      "change_percent_of_abs_old": -3.5542106027609046
+    },
+    {
+      "coefficient": "Cphil3_11",
+      "id": "individual_0353",
+      "inputs": {
+        "scheme": "gmu",
+        "energy_GeV": 90,
+        "cos_theta": 0.5,
+        "Lambda_GeV": 246,
+        "coefficients": {
+          "Cphil3_11": 0.00060516
+        }
+      },
+      "old": -0.12875338355286203,
+      "new": -0.12745156277810565,
+      "change": 0.0013018207747563793,
+      "change_percent_of_abs_old": 1.0110963602147924
+    },
+    {
+      "coefficient": "Cphil3_11",
+      "id": "individual_0354",
+      "inputs": {
+        "scheme": "gmu",
+        "energy_GeV": 95,
+        "cos_theta": 0.5,
+        "Lambda_GeV": 246,
+        "coefficients": {
+          "Cphil3_11": 0.00060516
+        }
+      },
+      "old": -0.026787497429324958,
+      "new": -0.026904483956229797,
+      "change": -0.00011698652690483868,
+      "change_percent_of_abs_old": -0.4367206276491157
+    },
+    {
+      "coefficient": "Cphil3_11",
+      "id": "individual_0355",
+      "inputs": {
+        "scheme": "gmu",
+        "energy_GeV": 120,
+        "cos_theta": 0.5,
+        "Lambda_GeV": 246,
+        "coefficients": {
+          "Cphil3_11": 0.00060516
+        }
+      },
+      "old": -0.0008300441988655649,
+      "new": -0.000833287618881684,
+      "change": -0.000003243420016119103,
+      "change_percent_of_abs_old": -0.39075268769445515
+    },
+    {
+      "coefficient": "Cphil3_22",
+      "id": "individual_0372",
+      "inputs": {
+        "scheme": "gmu",
+        "energy_GeV": 50,
+        "cos_theta": 0.5,
+        "Lambda_GeV": 246,
+        "coefficients": {
+          "Cphil3_22": 0.00060516
+        }
+      },
+      "old": 0.00003813860667634117,
+      "new": 0.00003678308027410537,
+      "change": -0.000001355526402235796,
+      "change_percent_of_abs_old": -3.5542106027609046
+    },
+    {
+      "coefficient": "Cphil3_22",
+      "id": "individual_0373",
+      "inputs": {
+        "scheme": "gmu",
+        "energy_GeV": 90,
+        "cos_theta": 0.5,
+        "Lambda_GeV": 246,
+        "coefficients": {
+          "Cphil3_22": 0.00060516
+        }
+      },
+      "old": -0.12875338355286203,
+      "new": -0.12745156277810565,
+      "change": 0.0013018207747563793,
+      "change_percent_of_abs_old": 1.0110963602147924
+    },
+    {
+      "coefficient": "Cphil3_22",
+      "id": "individual_0374",
+      "inputs": {
+        "scheme": "gmu",
+        "energy_GeV": 95,
+        "cos_theta": 0.5,
+        "Lambda_GeV": 246,
+        "coefficients": {
+          "Cphil3_22": 0.00060516
+        }
+      },
+      "old": -0.026787497429324958,
+      "new": -0.026904483956229797,
+      "change": -0.00011698652690483868,
+      "change_percent_of_abs_old": -0.4367206276491157
+    },
+    {
+      "coefficient": "Cphil3_22",
+      "id": "individual_0375",
+      "inputs": {
+        "scheme": "gmu",
+        "energy_GeV": 120,
+        "cos_theta": 0.5,
+        "Lambda_GeV": 246,
+        "coefficients": {
+          "Cphil3_22": 0.00060516
+        }
+      },
+      "old": -0.0008300441988655649,
+      "new": -0.000833287618881684,
+      "change": -0.000003243420016119103,
+      "change_percent_of_abs_old": -0.39075268769445515
+    }
+  ],
+  "scan_extrema": {
+    "sigma_pb": {
+      "largest_absolute_change": {
+        "id": "native_tables67_0079",
+        "inputs": {
+          "scheme": "gmu",
+          "energy_GeV": 90,
+          "cos_theta": 0.5,
+          "Lambda_GeV": 246,
+          "coefficients": {
+            "CphiD": -0.00060516,
+            "CphiWB": -0.00060516,
+            "Cphil1_11": -0.00060516,
+            "Cphil1_22": -0.00060516,
+            "Cphil3_11": -0.00060516,
+            "Cphil3_22": -0.00060516,
+            "Cphie_11": -0.00060516,
+            "Cphie_22": -0.00060516
+          }
+        },
+        "old": 449.11382280143266,
+        "new": 448.42473669523224,
+        "change": -0.6890861062004205,
+        "change_percent_of_abs_old": -0.1534323975828923
+      },
+      "largest_relative_change": {
+        "id": "native_tables67_0079",
+        "inputs": {
+          "scheme": "gmu",
+          "energy_GeV": 90,
+          "cos_theta": 0.5,
+          "Lambda_GeV": 246,
+          "coefficients": {
+            "CphiD": -0.00060516,
+            "CphiWB": -0.00060516,
+            "Cphil1_11": -0.00060516,
+            "Cphil1_22": -0.00060516,
+            "Cphil3_11": -0.00060516,
+            "Cphil3_22": -0.00060516,
+            "Cphie_11": -0.00060516,
+            "Cphie_22": -0.00060516
+          }
+        },
+        "old": 449.11382280143266,
+        "new": 448.42473669523224,
+        "change": -0.6890861062004205,
+        "change_percent_of_abs_old": -0.1534323975828923
+      }
+    },
+    "delta_sigma_pb": {
+      "largest_absolute_change": {
+        "id": "native_tables67_0079",
+        "inputs": {
+          "scheme": "gmu",
+          "energy_GeV": 90,
+          "cos_theta": 0.5,
+          "Lambda_GeV": 246,
+          "coefficients": {
+            "CphiD": -0.00060516,
+            "CphiWB": -0.00060516,
+            "Cphil1_11": -0.00060516,
+            "Cphil1_22": -0.00060516,
+            "Cphil3_11": -0.00060516,
+            "Cphil3_22": -0.00060516,
+            "Cphie_11": -0.00060516,
+            "Cphie_22": -0.00060516
+          }
+        },
+        "old": 0.8438949976514323,
+        "new": 0.8338450344232342,
+        "change": -0.010049963228198067,
+        "change_percent_of_abs_old": -1.1909020975556448
+      },
+      "largest_relative_change": {
+        "id": "native_tables67_0088",
+        "inputs": {
+          "scheme": "gmu",
+          "energy_GeV": 90,
+          "cos_theta": 0.5,
+          "Lambda_GeV": 246,
+          "coefficients": {
+            "CphiD": 0.00060516,
+            "CphiWB": 0.00060516,
+            "Cphil1_11": 0.00060516,
+            "Cphil1_22": 0.00060516,
+            "Cphil3_11": 0.00060516,
+            "Cphil3_22": 0.00060516,
+            "Cphie_11": 0.00060516,
+            "Cphie_22": 0.00060516,
+            "Cll1122": 0.00121032,
+            "Cll1221": 0.00121032,
+            "Cee1122": 0.0008068799999999999,
+            "Cle1122": 0.00030258,
+            "Cle2211": 0.00015129
+          }
+        },
+        "old": -0.12584622235505094,
+        "new": -0.11802303827028027,
+        "change": 0.007823184084770674,
+        "change_percent_of_abs_old": 6.216463186871882
+      }
+    }
+  }
+}
