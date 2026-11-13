@@ -186,7 +186,7 @@ SMEFTCalculator::Amplitudes amplitudesAt(
 
 SMEFTCalculator::SMEFTCalculator(
     const ElectroweakSetup& setup, const smeft::Input& coefficients,
-    const smeft::NativeSolverOptions& options)
+    const smeft::WMassSolverOptions& options)
   : scheme_(setup.inputScheme()), coefficients_(coefficients),
     zeroCoefficients_(zeroLike(coefficients)),
     // Resolve the zero-coefficient point separately; it is not the shifted

@@ -109,7 +109,8 @@ No separate linear mass derivative is added. The functions
 `smeft::directZAxialShift` and `smeft::directZVectorShift` compute only the
 direct shift at the supplied mass. They have no input-scheme selector and do
 not derive or shift MW. The calculator supplies the mass already resolved by
-the mass resolver (`NativeInputPoint`), also in Gmu.
+the mass resolver (`WMassSolution`), also in Gmu. It is created automatically;
+ordinary callers do not need to include its header or construct it directly.
 
 The requested FV construction is
 

@@ -1,10 +1,12 @@
 /*
-  NativeInputPoint.cc: Jackson-compatible finite Gmu input resolution.
+  WMassSolution.cc: solve and store the W mass and associated input values.
+  GmuAlphaMZ uses Jackson's finite equation; AlphaMWMZ retains the supplied
+  mass. See WMassSolution.h for ownership, user access and solver diagnostics.
   Finite prescription adapted from E. Jackson Wallace's deltarSMEFT.cc and
   SMEFTvalG.h, jackson_smeft revision a25076d; typed-input implementation 2026.
 */
 
-#include "griffin/smeft/NativeInputPoint.h"
+#include "griffin/smeft/WMassSolution.h"
 
 #include <cmath>
 #include <stdexcept>
@@ -107,9 +109,9 @@ void updateWWidthAndRunningParameters(inval& point, double gmu, double alphaS)
 
 } // namespace
 
-NativeInputPoint::NativeInputPoint(const inval& smInput, const Input& eftInput,
-                                 EWInputScheme scheme,
-                                 const NativeSolverOptions& options)
+WMassSolution::WMassSolution(const inval& smInput, const Input& eftInput,
+                            EWInputScheme scheme,
+                            const WMassSolverOptions& options)
   : smInput_(smInput), additiveShift_(0.0), iterations_(0),
     finalResidualGeV2_(0.0)
 {

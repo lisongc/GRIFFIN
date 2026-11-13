@@ -4,7 +4,7 @@
   Conventions follow L_SMEFT = L_SM + Sum_i C_i Q_i/Lambda^2 with
   dimensionless Wilson coefficients.  These are the explicit dimension-six
   tree vertex formulas at the supplied alpha, MW and MZ.  The finite input
-  resolution belongs to NativeInputPoint; it is not repeated or linearized
+  resolution belongs to WMassSolution; it is not repeated or linearized
   here.  SMEFTCalculator uses these shifts in its full finite prediction.
 */
 
@@ -65,7 +65,7 @@ ChiralWilsonCoefficients chiralWilsonCoefficients(
 /*
   Direct SMEFT correction with {alpha, MW, MZ} held fixed.  This is the signed,
   arbitrary-Lambda version of Jackson's z0SMEFT() chiral formula.  A Gmu
-  calculation supplies the W mass already resolved by NativeInputPoint.
+  calculation supplies the W mass already resolved by WMassSolution.
 */
 VertexShift directZShift(int type, const inval& smInput,
                          const Input& eftInput)

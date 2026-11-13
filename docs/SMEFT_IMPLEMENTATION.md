@@ -112,7 +112,7 @@ there is no new public importer API.
 
 The scheme belongs to `prediction::ElectroweakSetup`:
 
-- `GmuAlphaMZ` requires `SMvalGmu`/`invalGmu`. `NativeInputPoint` solves
+- `GmuAlphaMZ` requires `SMvalGmu`/`invalGmu`. `WMassSolution` solves
   Jackson's finite mass equation separately for the zero-coefficient
   reference and the requested coefficients, re-evaluating SM Delta r at each
   iterate. The supplied SM input is not mutated.

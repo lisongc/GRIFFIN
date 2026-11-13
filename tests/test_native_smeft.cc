@@ -215,7 +215,7 @@ void testFVAndLambda(const ElectroweakSetup& context)
 // returned point. This checks the equation itself, not a derivative or a
 // first-order approximation to its solution.
 void checkFiniteEquation(const SMEFTCalculator& prediction,
-                         const smeft::NativeSolverOptions& options)
+                         const smeft::WMassSolverOptions& options)
 {
   const inval& input=prediction.resolvedInput();
   const smeft::Input& coefficients=prediction.wilsonInput();
@@ -251,7 +251,7 @@ void checkFiniteEquation(const SMEFTCalculator& prediction,
 
 void testFiniteGmu(const ElectroweakSetup& context)
 {
-  smeft::NativeSolverOptions tight;
+  smeft::WMassSolverOptions tight;
   tight.massSquaredToleranceGeV2 = 1.0e-10;
   smeft::Input plus = zero(), minus = zero();
   plus.setCphiWB(0.00060516); minus.setCphiWB(-0.00060516);
@@ -334,7 +334,7 @@ void testEquivalentContactLabels(const ElectroweakSetup& context)
       {{one,one,two,two},{two,two,one,one}},
       {{one,two,two,one},{two,one,one,two}}
   };
-  smeft::NativeSolverOptions tight;
+  smeft::WMassSolverOptions tight;
   tight.massSquaredToleranceGeV2=1e-10;
   const double c=.00060516;
   const SMEFTCalculator sm(context,zero(),tight);
@@ -439,7 +439,7 @@ void testExplicitRawContactImport(const ElectroweakSetup& context)
   for(unsigned k=0;k<4;++k)
     close(contacts[k],scale*(a+b+signs[k]*rr),"raw-import summed contact strength");
   if(context.inputScheme()==EWInputScheme::GmuAlphaMZ)
-    checkFiniteEquation(expected,smeft::NativeSolverOptions());
+    checkFiniteEquation(expected,smeft::WMassSolverOptions());
 
   smeft::Input assigned=zero();
   assigned.setCee(one,one,two,two,ee1122);
@@ -540,12 +540,12 @@ void testValidation(const ElectroweakSetup& alpha, const ElectroweakSetup& gmu)
               p.pseudoObservable(PseudoObservable::FA,Fermion::electron); },
          "nonphysical negative FA accepted");
 
-  smeft::NativeSolverOptions options;
+  smeft::WMassSolverOptions options;
   options.maxIterations=1;
   throws([&]{ SMEFTCalculator p(gmu,benchmark(),options); },"solver iteration limit ignored");
   options.maxIterations=0;
   throws([&]{ SMEFTCalculator p(gmu,zero(),options); },"zero solver iterations accepted");
-  options = smeft::NativeSolverOptions(); options.massSquaredToleranceGeV2=nan;
+  options = smeft::WMassSolverOptions(); options.massSquaredToleranceGeV2=nan;
   throws([&]{ SMEFTCalculator p(gmu,zero(),options); },"nonfinite solver tolerance accepted");
   options.massSquaredToleranceGeV2=0.0;
   throws([&]{ SMEFTCalculator p(gmu,zero(),options); },"zero solver tolerance accepted");

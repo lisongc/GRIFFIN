@@ -9,9 +9,10 @@ foreach(retired_directory prediction models smeft)
   endif()
 endforeach()
 
-foreach(retired_file include/griffin/core/xscmassless.h src/core/xscmassless.cc)
+foreach(retired_file include/griffin/core/xscmassless.h src/core/xscmassless.cc
+    include/griffin/smeft/NativeInputPoint.h src/smeft/NativeInputPoint.cc)
   if(EXISTS "${GRIFFIN_SOURCE_DIR}/${retired_file}")
-    message(FATAL_ERROR "Renamed cross-section helper still present: ${retired_file}")
+    message(FATAL_ERROR "Renamed library file still present: ${retired_file}")
   endif()
 endforeach()
 foreach(retired_example testprediction.cc testnativeprediction.cc
@@ -26,6 +27,7 @@ file(GLOB_RECURSE production_sources
   "${GRIFFIN_SOURCE_DIR}/src/*.h" "${GRIFFIN_SOURCE_DIR}/src/*.cc")
 set(retired_symbols "azD6Tree|vzD6Tree|zD6Tree|DerivedMWShiftD6|derivedMWShiftD6|inducedDerivedMWShift|linearizedMW|deltaRSMEFTTree|SMEFTProvider|SW_SMEFTLO|FA_SMEFTLO|FV_SMEFTLO|dr_SMEFTLO|mat_SMEFTLO|differentialCrossSectionLinear|linearEFT|LinearEFT|linearInterference|angularInterference|compmw|PredictionEngine|TheoryProvider|PerturbativeSeries|PredictionResult|CombinationRule|LoopOrder|OrderTag|SMProvider")
 string(APPEND retired_symbols "|MasslessFermionCrossSectionBuilder|xscmassless\\.h")
+string(APPEND retired_symbols "|NativeInputPoint|NativeSolverOptions")
 foreach(source IN LISTS production_sources)
   file(READ "${source}" contents)
   if(contents MATCHES "${retired_symbols}")

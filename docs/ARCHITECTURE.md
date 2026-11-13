@@ -48,7 +48,7 @@ SM inputs + Wilson coefficients + electroweak input scheme
           total / reference / total minus reference
 ```
 
-In Gmu, `NativeInputPoint` solves Jackson's finite mass equation, evaluating
+In Gmu, `WMassSolution` solves Jackson's finite mass equation, evaluating
 SM Delta r again at each mass iterate. In the alpha scheme it keeps the
 supplied masses. No separate linear W-mass derivative is appended. FV is
 constructed from the same FA/SW values and the existing SM imaginary-ratio
@@ -111,10 +111,27 @@ been constructed, it no longer borrows either caller input or setup.
 | `tests/` | Public API, matching, finite-physics and archived-result checks |
 | `docs/history/` | Historical numerical records, explicitly separated from current instructions |
 
-The low-level `NativeInputPoint` header remains installed because the public
-calculator exposes solver diagnostics through it. In contrast,
-`SMEFTFlavor.h` is an implementation-only helper. These classifications are
-about access, not different physical prescriptions.
+The low-level `WMassSolution` owns the resulting electroweak inputs and
+records the mass solver's convergence. The calculator creates it automatically
+for both requested and zero coefficients; ordinary users do not construct it.
+Its header remains installed because the calculator stores this type by value
+and exposes its diagnostics through `massSolution()`.
+
+Not every C++ header belongs in `include/`: that directory contains the
+headers installed for users, not every file shared by the implementation.
+The two source-controlled headers outside it have separate roles:
+
+- `src/smeft/detail/SMEFTFlavor.h` is a private helper shared by the vertex,
+  contact and calculator implementations. It maps fermion species to SMEFT
+  generation/family labels and is not installed.
+- `tests/reference_scattering.h` supplies a test-only amplitude assembly for
+  the regression runner. It is not used by the library or installed for users.
+  The assembly shares the existing SM kernels; it is not independent
+  validation of those kernels.
+
+Headers copied or generated under `build/` are disposable build/install-test
+products, not additional source interfaces. These classifications concern
+who uses a file, not different physical prescriptions.
 
 The old short SM filenames are retained within the `sm/` directories so
 that links to the original GRIFFIN code remain recognizable. Moving a file

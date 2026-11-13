@@ -8,6 +8,20 @@ scattering-content update changes `mat_SMNNLO` to `mat_SMaas`, as described
 below. The 13 November documentation/comment cleanup does not change the
 calculation or public class names.
 
+## W-mass solution rename — 14 November
+
+`griffin::smeft::NativeInputPoint` is now `griffin::smeft::WMassSolution`,
+declared in `<griffin/smeft/WMassSolution.h>` and implemented in
+`src/smeft/WMassSolution.cc`. `NativeSolverOptions` is renamed to
+`WMassSolverOptions` in the same namespace. No old-name aliases or forwarding
+headers are retained.
+
+The finite mass equation, stopping criterion and stored input values are
+unchanged. Ordinary calls to `SMEFTCalculator(setup, coefficients)` and
+`massSolution()` need no change. Only code naming the old types or including
+the old header needs these substitutions. This helper is created by the
+calculator; it is not an additional user input or a second prediction engine.
+
 ## Cross-section helper rename — 14 November
 
 The low-level helper is now `griffin::FermionPairCrossSection`, declared in
@@ -114,7 +128,7 @@ is under `include/`. Old include locations are not retained as wrappers.
 | `li.h` | `griffin/numerics/li.h` |
 | `linex.h` | `griffin/numerics/linex.h` |
 | `smeft/SMEFTInput.h` | `griffin/smeft/SMEFTInput.h` |
-| `smeft/NativeInputPoint.h` | `griffin/smeft/NativeInputPoint.h` |
+| `smeft/NativeInputPoint.h` or `griffin/smeft/NativeInputPoint.h` | `griffin/smeft/WMassSolution.h` |
 | `smeft/ff0_smeft.h` | `griffin/smeft/ff0_smeft.h` |
 | `smeft/xsc_smeft.h` | `griffin/smeft/xsc_smeft.h` |
 

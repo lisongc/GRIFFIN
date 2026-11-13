@@ -3,7 +3,7 @@
 
 #include "griffin/ElectroweakSetup.h"
 #include "griffin/Observables.h"
-#include "griffin/smeft/NativeInputPoint.h"
+#include "griffin/smeft/WMassSolution.h"
 #include "griffin/core/FermionPairCrossSection.h"
 
 namespace griffin {
@@ -54,13 +54,13 @@ public:
 
   SMEFTCalculator(
       const ElectroweakSetup& setup, const smeft::Input& coefficients,
-      const smeft::NativeSolverOptions& options = smeft::NativeSolverOptions());
+      const smeft::WMassSolverOptions& options = smeft::WMassSolverOptions());
 
   EWInputScheme inputScheme() const { return scheme_; }
   const smeft::Input& wilsonInput() const { return coefficients_; }
   const inval& resolvedInput() const { return point_.smInput(); }
   const inval& referenceInput() const { return referencePoint_.smInput(); }
-  const smeft::NativeInputPoint& massSolution() const { return point_; }
+  const smeft::WMassSolution& massSolution() const { return point_; }
 
   // WMass returns the pole mass. SW is undefined for neutrinos.
   // DeltaR is deliberately not exposed: Jackson's additive mass-equation
@@ -88,7 +88,7 @@ public:
 private:
   EWInputScheme scheme_;
   smeft::Input coefficients_, zeroCoefficients_;
-  smeft::NativeInputPoint referencePoint_, point_;
+  smeft::WMassSolution referencePoint_, point_;
 };
 
 } // namespace prediction

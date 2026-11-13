@@ -24,7 +24,7 @@ add_library(griffin STATIC
   src/smeft/SMEFTInput.cc
   src/smeft/ff0_smeft.cc
   src/smeft/xsc_smeft.cc
-  src/smeft/NativeInputPoint.cc
+  src/smeft/WMassSolution.cc
   src/smeft/SMEFTCalculator.cc)
 add_library(GRIFFIN::griffin ALIAS griffin)
 
