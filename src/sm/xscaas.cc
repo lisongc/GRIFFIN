@@ -1,7 +1,9 @@
 /*-----------------------------------------------------------------------------
 xscaas.cc
 Ayres Freitas (afreitas@pitt.edu)
-last revision: 26 Aug 2024
+Upstream correction: 29 May 2025 (v1.1.1, a18f53830283a78155750a23a3594ada8de4c074)
+Merged integration: Jackson Wallace and Lisong Chen
+Last updated: 2026-11-16
 -------------------------------------------------------------------------------
 Matrix element extending mat_SMNNLO with selected fermionic mixed
 electroweak-QCD O(Nf al als) residue and off-resonance contributions.
@@ -96,6 +98,15 @@ Cplx zzhataas(double s, const inval* ival)
          MBs = sqr(ival->get(MB)),
          ALpi = ival->get(al)/Pi,
          ALS = ival->get(als);
+  // Upstream v1.1.1 stabilization of the subtracted Z self-energy.
+  // Together with the corrected aasoffz.grid this makes H(s)/Delta^2
+  // finite near the pole; the caller still needs a limit at Delta=0.
+  if(abs(s-MZs) < 10)
+  {
+    Cplx z10 = zzhataas(MZs+10.01, ival);
+    double ds = (s-MZs)/10.01;
+    return(z10*ds*ds);
+  }
   double cs = s/MTs;
   double rab= linex2d(axis1zahb, sizeof(axis1zahb)/sizeof(double),
                       axis2zahb, sizeof(axis2zahb)/sizeof(double),

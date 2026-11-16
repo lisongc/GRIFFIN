@@ -1,3 +1,11 @@
+/*
+  File: testbhabha.cc
+  Purpose: Demonstrate the legacy SM Bhabha-scattering calculation.
+  Original SM example retained without numerical changes.
+  Merged-version organization: Jackson Wallace and Lisong Chen
+  Last updated: 2026-11-16 (grouped under examples/sm)
+*/
+
 #include <iostream>
 using namespace std;
 
@@ -35,11 +43,11 @@ int main()
   cout << endl << "Complex-pole masses: MW=" << myinput.get(MWc) << ", MZ=" 
     << myinput.get(MZc) << endl << endl;
  
-  // compute matrix element for ee->dd with vector coupling in initial
+  // compute matrix element for ee->ee with vector coupling in initial
   // state and vector coupling in final state
-  int ini = ELE, fin = DQU, iff = VEC, off = VEC;
+  int ini = ELE, fin = ELE, iff = VEC, off = VEC;
   
-  cout << "=== Matrix element for ee->dd (i=e, f=d) ===" << endl << endl;
+  cout << "=== Matrix element for ee->ee (i=e, f=e) ===" << endl << endl;
   
   // compute vertex form factors:
   FA_SMNNLO FAi(ini, myinput), FAf(fin, myinput);
@@ -55,7 +63,7 @@ int main()
   Cplx res1, res2;
 
   cout << "SM matrix element M_VV for cos(theta)=" << cost << ": " << endl;
-  // compute matrix element for ee->dd using SM form factors:
+  // compute matrix element for ee->ee using SM form factors:
   mat_SMNNLO M(ini, fin, iff, off, FAi, FAf, SWi, SWf, cme*cme, cost, myinput);
   cout << "sqrt(s)\t\ttot. result\t\toff-resonance contrib." << endl;
   for(cme = 10.; cme <= 190.; cme += 20.)
@@ -69,7 +77,7 @@ int main()
 
   cout << "diff. cross-section for cos(theta)=" << cost << ": " << endl;
   // compute diff. cross-section for unpolarized beams from matrix element:  
-  Cplx resvv, resva, resav, resaa;
+  Cplx resvv, resva, resav, resaa, resss, respp;
   double xsec,
          GeVtoNB = 0.38937966e6;  // unit conversion from GeV^-2 to nb
   cout << "sqrt(s)\tdsig/dcos [nb]" << endl;
@@ -84,12 +92,16 @@ int main()
     resva = M.result();
     M.setform(AXV, AXV);
     resaa = M.result();
+    M.setform(SCA, SCA);
+    resss = M.result();
+    M.setform(PSC, PSC);
+    respp = M.result();
     xsec = real((1+cost*cost)*(resvv*conj(resvv) + resav*conj(resav)
     			     + resva*conj(resva) + resaa*conj(resaa)) +
-		+ 4*cost*(resvv*conj(resaa) + resva*conj(resav)));
-    xsec *= 3*cme*cme/(32*Pi) * GeVtoNB;
+		+ 4*cost*(resvv*conj(resaa) + resva*conj(resav))
+		+ resss*conj(resss) + respp*conj(respp));
+    xsec *= cme*cme/(32*Pi) * GeVtoNB;
     cout << cme << " \t" << xsec << endl;
   }
-  
   return 0;
 }

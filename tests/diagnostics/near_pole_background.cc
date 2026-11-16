@@ -1,5 +1,10 @@
-// Diagnostic only: evaluate the unchanged COMPLETE backgrounds, not a model
-// for their singular terms. No subtractions or repairs alter the predictions.
+/*
+  File: near_pole_background.cc
+  Purpose: Inspect complete backgrounds after the upstream mixed-term fix;
+           the diagnostic itself adds no subtraction or numerical repair.
+  Authors: Jackson Wallace and Lisong Chen
+  Last updated: 2026-11-16
+*/
 #include <griffin/SMEFT.h>
 #include <griffin/sm/xscaas.h>
 #include <griffin/sm/ff0.h>
@@ -35,8 +40,8 @@ int main()
     FA_SMNNLO fae(Fermion::electron,input), fam(Fermion::muon,input);
     SW_SMNNLO swe(Fermion::electron,input), swm(Fermion::muon,input);
     std::cout<<std::setprecision(12)
-      <<"Known-limitation diagnostic, NOT a physical near-pole prediction\n"
-      <<"SM e+e- -> mu+mu-, AA, cos(theta)=0.5; complete unchanged backgrounds\n"
+      <<"Background diagnostic, not an all-channel precision validation\n"
+      <<"SM e+e- -> mu+mu-, AA, cos(theta)=0.5; complete corrected backgrounds\n"
       <<"Pole MZ [GeV]="<<mz<<", pole MW [GeV]="
       <<input.get(InputPar::WMassComplex)<<", R0="<<R0<<'\n'
       <<"h_GeV2 Im_Q_inherited Im_Q_full_background Im_Q_full_amplitude "

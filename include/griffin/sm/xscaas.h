@@ -1,7 +1,13 @@
 #ifndef GRIFFIN_SM_XSCAAS_H
 #define GRIFFIN_SM_XSCAAS_H
 
-/* xscaas.h: header file for xscaas.cc */
+/*
+  File: xscaas.h
+  Purpose: Declare the mixed electroweak-QCD extension of mat_SMNNLO.
+  Upstream author: Ayres Freitas
+  Merged integration: Jackson Wallace and Lisong Chen
+  Last updated: 2026-11-16
+*/
 
 #include "griffin/sm/xscnnlo.h"
 
@@ -11,9 +17,9 @@ namespace griffin {
 // O(alpha_f alpha_s) extension in the residue and off-resonance remainder.
 // This extends mat_SMNNLO; it does not supply complete NNLO off-resonance
 // corrections. The added remainder supports different initial/final flavors only.
-// Known limitation: the unchanged background has unresolved behaviour near the
-// real Z pole, not only at s=MZ^2. See docs/KNOWN_ISSUES.md and its diagnostic;
-// no universal safe exclusion interval or numerical repair is supplied here.
+// Includes the upstream v1.1.1 corrected grids and near-pole Z self-energy
+// interpolation. Literal evaluation at s=MZ^2 still needs a separate limit;
+// SMEFTCalculator rejects that point. See docs/KNOWN_ISSUES.md for tested scope.
 class mat_SMaas : public mat_SMNNLO {
 public:
   using mat_SMNNLO::mat_SMNNLO;

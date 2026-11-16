@@ -1,20 +1,32 @@
-#include "griffin/SMEFTCalculator.h"
+/*
+  File: SMEFTCalculator.cc
+  Purpose: Coordinate finite SMEFT and zero-coefficient SM evaluations and
+           assemble scattering amplitudes/cross sections. Shared FA/SW/FV
+           calculations are implemented in EWPO_smeft.cc.
+  Authors: Jackson Wallace and Lisong Chen
+  Last updated: 2026-11-16
+*/
+
+#include "griffin/smeft/SMEFTCalculator.h"
 
 #include <cmath>
 #include <stdexcept>
 #include <string>
 
-#include "griffin/sm/EWPOZ2.h"
-#include "griffin/sm/ff.h"
-#include "griffin/sm/ff0.h"
-#include "smeft/detail/SMEFTFlavor.h"
-#include "griffin/smeft/ff0_smeft.h"
-#include "griffin/smeft/xsc_smeft.h"
 #include "griffin/sm/xscaas.h"
+#include "griffin/sm/tools.h"
 
 namespace griffin {
 namespace prediction {
 namespace {
+
+// Fixed order of the public amplitude array: VV, AV, VA, AA.
+const Current initialCurrents[4] = {
+  Current::vector,Current::axial,Current::vector,Current::axial
+};
+const Current finalCurrents[4] = {
+  Current::vector,Current::vector,Current::axial,Current::axial
+};
 
 smeft::Input zeroLike(const smeft::Input& coefficients)
 {
@@ -63,73 +75,6 @@ void validateHighSMInput(const inval& input)
     throw std::domain_error("SMEFT requires 0 < MW < MZ");
 }
 
-void requireFinite(Cplx value, const char* quantity)
-{
-  if(!std::isfinite(real(value)) || !std::isfinite(imag(value)))
-    throw std::domain_error(std::string("nonfinite SMEFT ")+quantity);
-}
-
-struct PoleInputs { Cplx fa, sw; };
-
-PoleInputs poleInputs(Fermion fermion, const inval& input,
-                      const smeft::Input& coefficients)
-{
-  const int type = index(fermion);
-  smeft::detail::fermionInfo(type); // validate before indexing legacy arrays
-  const double a0 = az0(type,input);
-  const double v0 = vz0(type,input);
-  // The input already contains the resolved MW, including its finite Gmu
-  // shift.  These helpers add only the explicit vertex changes at that point.
-  const double da = smeft::directZAxialShift(type,input,coefficients);
-  const double dv = smeft::directZVectorShift(type,input,coefficients);
-  PoleInputs result;
-  // These explicit FA/SW additions are linear in Wilson coefficients at a
-  // fixed mass point. In particular FA has no explicit da*da term. The SM
-  // functions are NNLO+ and use the resolved mass. Downstream pole/FV
-  // construction and full amplitude squaring retain their generated nonlinear
-  // terms; this is not a prescription for all higher powers of the coefficients.
-  result.fa = FA_SMNNLO(type,input).result()+2.0*a0*da;
-  result.sw = 0.0; // unused for neutrinos; their public SW request is rejected
-  if(!isNeutrino(fermion))
-    result.sw = SW_SMNNLO(type,input).result()
-      -(dv/a0-v0*da/(a0*a0))/(4.0*std::fabs(Qf[type]));
-  requireFinite(result.fa,"FA");
-  requireFinite(result.sw,"SW");
-  if(real(result.fa) <= 0.0)
-    throw std::domain_error("SMEFT FA must be positive for the pole construction");
-  return result;
-}
-
-Cplx observableAt(PseudoObservable observable, Fermion fermion,
-                   const inval& input, const smeft::Input& coefficients)
-{
-  if(observable == PseudoObservable::WMass)
-    return input.get(InputPar::WMassComplex);
-  if(observable == PseudoObservable::DeltaR)
-    throw std::domain_error("finite DeltaR is not defined by SMEFTCalculator; "
-                            "use massSolution() for the Gmu equation diagnostics");
-  if(observable == PseudoObservable::SW && isNeutrino(fermion))
-    throw std::domain_error("SW is undefined for a neutral fermion");
-  const PoleInputs pole = poleInputs(fermion,input,coefficients);
-  if(observable == PseudoObservable::FA) return pole.fa;
-  if(observable == PseudoObservable::SW) return pole.sw;
-  if(observable != PseudoObservable::FV)
-    throw std::invalid_argument("unsupported SMEFT pseudo-observable");
-
-  // Use the FV_SMNNLO construction with the same shifted FA and SW
-  // as the pole amplitude. Retain the SM imaginary-ratio term at resolved MW;
-  // otherwise even the zero-coefficient limit would differ from GRIFFIN SM.
-  const int type = index(fermion);
-  const double a0 = az0(type,input), v0 = vz0(type,input);
-  const double imaginaryRatio =
-      (a0*(iz1f(type,VEC,input)+iz1b(type,VEC,input))
-       -v0*(iz1f(type,AXV,input)+iz1b(type,AXV,input)))/(a0*a0);
-  const double q = 1.0-4.0*std::fabs(Qf[type])*real(pole.sw);
-  const Cplx fv = pole.fa*(q*q+imaginaryRatio*imaginaryRatio);
-  requireFinite(fv,"FV");
-  return fv;
-}
-
 void validatePoint(const ScatteringPoint& point)
 {
   if(!std::isfinite(point.s) || !std::isfinite(point.cosTheta)
@@ -139,9 +84,27 @@ void validatePoint(const ScatteringPoint& point)
   // background. This interface is not a real-radiation/inclusive observable.
   if(std::fabs(point.cosTheta) >= 1.0)
     throw std::domain_error("SMEFT cross sections require -1 < cos(theta) < 1");
-  const FermionPairCrossSection validate(
-      point.initial,point.final,point.s,point.cosTheta,point.unitConversion);
-  (void)validate;
+  // Validate before constructing amplitudes. The conversion utility also
+  // checks its own inputs, but must not be used as a dummy calculation here.
+  if(point.initial != Fermion::electron)
+    throw std::invalid_argument("SMEFT scattering requires an electron initial state");
+  switch(point.final)
+  {
+    case Fermion::muon: case Fermion::tau:
+    case Fermion::d: case Fermion::u: case Fermion::s:
+    case Fermion::c: case Fermion::b:
+      break;
+    case Fermion::electron:
+      throw std::domain_error("Bhabha scattering requires dedicated s/t-channel structures");
+    case Fermion::nuElectron: case Fermion::nuMuon: case Fermion::nuTau:
+      throw std::domain_error("neutrino final states require a dedicated process implementation");
+    default:
+      throw std::invalid_argument("unsupported final state for SMEFT scattering");
+  }
+  if(point.s <= 0.0)
+    throw std::domain_error("cross-section invariant mass squared must be positive");
+  if(point.unitConversion <= 0.0)
+    throw std::domain_error("cross-section unit conversion must be positive");
 }
 
 class FixedObservable : public psobs {
@@ -151,15 +114,23 @@ public:
   Cplx result() const override { return value_; }
 };
 
-SMEFTCalculator::Amplitudes amplitudesAt(
+} // namespace
+
+void SMEFTCalculator::requireFinite(Cplx value, const char* quantity)
+{
+  if(!std::isfinite(real(value)) || !std::isfinite(imag(value)))
+    throw std::domain_error(std::string("nonfinite SMEFT ")+quantity);
+}
+
+SMEFTCalculator::Amplitudes SMEFTCalculator::amplitudesAt(
     const ScatteringPoint& point, const inval& input,
     const smeft::Input& coefficients)
 {
   validatePoint(point);
   const double mz = input.get(InputPar::ZMassComplex);
   if(point.s == mz*mz)
-    throw std::domain_error("exact-real-Z-pole evaluation is unsupported; nearby "
-                            "mat_SMaas scattering also has unresolved limitations. "
+    throw std::domain_error("exact-real-Z-pole evaluation is unsupported; "
+                            "the background limit at s=MZ^2 is not implemented. "
                             "See docs/KNOWN_ISSUES.md");
   const PoleInputs initial = poleInputs(point.initial,input,coefficients);
   const PoleInputs final = poleInputs(point.final,input,coefficients);
@@ -168,33 +139,31 @@ SMEFTCalculator::Amplitudes amplitudesAt(
   SMEFTCalculator::Amplitudes result;
   for(std::size_t k = 0; k < result.size(); ++k)
   {
-    const Current ci = FermionPairCrossSection::initialCurrent(k);
-    const Current cf = FermionPairCrossSection::finalCurrent(k);
+    const Current ci = initialCurrents[k];
+    const Current cf = finalCurrents[k];
     // Include the selected mixed electroweak-QCD residue and off-resonance terms at
-    // this resolved mass, for both the full prediction and its SM reference.
+    // this resolved mass, for both the full prediction and its SM result.
     // The borrowed-observable constructor avoids legacy raw-pointer ownership.
     const mat_SMaas poleAndBackground(point.initial,point.final,ci,cf,
         fai,fao,swi,swo,point.s,point.cosTheta,input);
-    result[k] = poleAndBackground.result()+smeft::coeffS4fD6Tree(
+    result[k] = poleAndBackground.result()+smeft::fourFermionContactAmplitude(
         point.initial,point.final,ci,cf,coefficients);
     requireFinite(result[k],"amplitude");
   }
   return result;
 }
 
-} // namespace
-
 SMEFTCalculator::SMEFTCalculator(
     const ElectroweakSetup& setup, const smeft::Input& coefficients,
     const smeft::WMassSolverOptions& options)
   : scheme_(setup.inputScheme()), coefficients_(coefficients),
     zeroCoefficients_(zeroLike(coefficients)),
-    // Resolve the zero-coefficient point separately; it is not the shifted
-    // point with only its explicit vertex/contact terms switched off.
-    referencePoint_(setup.input(),zeroCoefficients_,scheme_,options),
+    // Resolve the SM input values separately with zero coefficients; they are
+    // not the shifted inputs with only direct vertex/contact terms switched off.
+    smMassSolution_(setup.input(),zeroCoefficients_,scheme_,options),
     point_(setup.input(),coefficients_,scheme_,options)
 {
-  validateHighSMInput(referenceInput());
+  validateHighSMInput(smInputValues());
   validateHighSMInput(resolvedInput());
 }
 
@@ -202,7 +171,7 @@ FinitePrediction<Cplx> SMEFTCalculator::pseudoObservable(
     PseudoObservable observable, Fermion fermion) const
 {
   return FinitePrediction<Cplx>(
-      observableAt(observable,fermion,referenceInput(),zeroCoefficients_),
+      observableAt(observable,fermion,smInputValues(),zeroCoefficients_),
       observableAt(observable,fermion,resolvedInput(),coefficients_));
 }
 
@@ -212,10 +181,10 @@ SMEFTCalculator::Amplitudes SMEFTCalculator::amplitudes(
   return amplitudesAt(point,resolvedInput(),coefficients_);
 }
 
-SMEFTCalculator::Amplitudes SMEFTCalculator::referenceAmplitudes(
+SMEFTCalculator::Amplitudes SMEFTCalculator::smAmplitudes(
     const ScatteringPoint& point) const
 {
-  return amplitudesAt(point,referenceInput(),zeroCoefficients_);
+  return amplitudesAt(point,smInputValues(),zeroCoefficients_);
 }
 
 SMEFTCalculator::Amplitudes SMEFTCalculator::contactAmplitudes(
@@ -225,9 +194,8 @@ SMEFTCalculator::Amplitudes SMEFTCalculator::contactAmplitudes(
   Amplitudes result;
   for(std::size_t k = 0; k < result.size(); ++k)
   {
-    result[k] = smeft::coeffS4fD6Tree(point.initial,point.final,
-        FermionPairCrossSection::initialCurrent(k),
-        FermionPairCrossSection::finalCurrent(k),coefficients_);
+    result[k] = smeft::fourFermionContactAmplitude(point.initial,point.final,
+        initialCurrents[k],finalCurrents[k],coefficients_);
     requireFinite(result[k],"contact amplitude");
   }
   return result;
@@ -241,22 +209,24 @@ FinitePrediction<Cplx> SMEFTCalculator::amplitude(
     throw std::domain_error("SMEFT supports only vector/axial currents");
   const unsigned k = (channel.initial == Current::axial ? 1 : 0)
                      +(channel.final == Current::axial ? 2 : 0);
-  return FinitePrediction<Cplx>(referenceAmplitudes(point)[k],amplitudes(point)[k]);
+  return FinitePrediction<Cplx>(smAmplitudes(point)[k],amplitudes(point)[k]);
 }
 
 FinitePrediction<double> SMEFTCalculator::differentialCrossSection(
     const ScatteringPoint& point) const
 {
   validatePoint(point);
-  const FermionPairCrossSection crossSection(
-      point.initial,point.final,point.s,point.cosTheta,point.unitConversion);
   // Square each complete amplitude. Their finite difference includes the
   // nonlinear terms generated by this prescription, not just SM-D6 interference.
-  const double reference = crossSection.squaredPrediction(referenceAmplitudes(point));
-  const double total = crossSection.squaredPrediction(amplitudes(point));
-  if(!std::isfinite(reference) || !std::isfinite(total))
+  const double smResult = differentialCrossSectionFromAmplitudes(
+      smAmplitudes(point),point.initial,point.final,
+      point.s,point.cosTheta,point.unitConversion);
+  const double total = differentialCrossSectionFromAmplitudes(
+      amplitudes(point),point.initial,point.final,
+      point.s,point.cosTheta,point.unitConversion);
+  if(!std::isfinite(smResult) || !std::isfinite(total))
     throw std::domain_error("nonfinite SMEFT cross section");
-  return FinitePrediction<double>(reference,total);
+  return FinitePrediction<double>(smResult,total);
 }
 
 } // namespace prediction

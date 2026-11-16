@@ -1,3 +1,11 @@
+/*
+  File: reference_scattering.h
+  Purpose: Supply test-only scattering assemblies from existing SM kernels;
+           this is not an installed API or an independent SM-kernel derivation.
+  Authors: Jackson Wallace and Lisong Chen
+  Last updated: 2026-11-16
+*/
+
 #ifndef GRIFFIN_TEST_REFERENCE_SCATTERING_H
 #define GRIFFIN_TEST_REFERENCE_SCATTERING_H
 
@@ -5,7 +13,7 @@
 // alternate installed API or an independent validation of the SM kernels.
 // The input masses come from the public finite solver and are separately
 // checked against the unchanged Jackson archive by compare_aas.py.
-#include "griffin/SMEFTCalculator.h"
+#include "griffin/smeft/SMEFTCalculator.h"
 #include "griffin/sm/EWPOZ2.h"
 #include "griffin/sm/ff.h"
 #include "griffin/sm/ff0.h"
@@ -66,7 +74,7 @@ inline SMEFTCalculator::Amplitudes contacts(const ScatteringPoint& point,
   const Current cf[]={Current::vector,Current::vector,Current::axial,Current::axial};
   SMEFTCalculator::Amplitudes result;
   for(unsigned k=0;k<4;++k)
-    result[k]=smeft::coeffS4fD6Tree(point.initial,point.final,ci[k],cf[k],coefficients);
+    result[k]=smeft::fourFermionContactAmplitude(point.initial,point.final,ci[k],cf[k],coefficients);
   return result;
 }
 

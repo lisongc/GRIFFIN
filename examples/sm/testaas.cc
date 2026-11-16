@@ -1,3 +1,11 @@
+/*
+  File: testaas.cc
+  Purpose: Compare SMNNLO and mixed electroweak-QCD scattering predictions.
+  Original SM example retained without numerical changes.
+  Merged-version organization: Jackson Wallace and Lisong Chen
+  Last updated: 2026-11-16 (grouped under examples/sm)
+*/
+
 #include <iostream>
 using namespace std;
 

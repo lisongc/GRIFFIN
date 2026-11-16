@@ -1,3 +1,10 @@
+#[[
+  File: tests/CMakeLists.txt
+  Purpose: Register library, SM scattering, archived-numerical and installation tests.
+  Authors: Jackson Wallace and Lisong Chen
+  Last updated: 2026-11-16
+]]
+
 function(add_griffin_test target source)
   add_executable(${target} ${source})
   target_link_libraries(${target} PRIVATE GRIFFIN::griffin)
@@ -10,9 +17,13 @@ add_griffin_test(test_smeft_input_schemes test_smeft_input_schemes.cc)
 add_griffin_test(test_smeft_matrix_elements test_smeft_matrix_elements.cc)
 add_griffin_test(test_native_smeft test_native_smeft.cc)
 add_griffin_test(test_smeft_aas test_smeft_aas.cc)
+add_griffin_test(test_near_pole sm/test_near_pole.cc)
+add_griffin_test(test_scattering_equivalence sm/test_scattering_equivalence.cc)
+set_tests_properties(test_near_pole test_scattering_equivalence
+  PROPERTIES LABELS "sm;scattering")
 
-# Optional diagnostic of the unchanged known limitation, not a regression
-# assertion that the near-pole defect must persist after a future repair.
+# Optional full-background diagnostic; test_near_pole above independently
+# checks the corrected upstream values and absence of the old AA singularity.
 add_executable(near_pole_background EXCLUDE_FROM_ALL diagnostics/near_pole_background.cc)
 target_link_libraries(near_pole_background PRIVATE GRIFFIN::griffin)
 add_test(NAME test_clean_smeft_api
@@ -32,7 +43,8 @@ if(GRIFFIN_NATIVE_REGRESSION)
       ${CMAKE_CURRENT_SOURCE_DIR}/native_regression/compare_aas.py
       --runner $<TARGET_FILE:native_fixture_runner>
       --summary ${PROJECT_BINARY_DIR}/native_regression_summary.json)
-  set_tests_properties(test_native_regression PROPERTIES TIMEOUT 930)
+  set_tests_properties(test_native_regression PROPERTIES TIMEOUT 930
+    ENVIRONMENT "PYTHONDONTWRITEBYTECODE=1")
   add_test(NAME test_native_regression_harness
     COMMAND ${GRIFFIN_PYTHON_EXECUTABLE}
       ${CMAKE_CURRENT_SOURCE_DIR}/native_regression/test_compare.py)

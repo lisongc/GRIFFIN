@@ -1,3 +1,11 @@
+/*
+  File: native_fixture_runner.cc
+  Purpose: Run archived inputs through the public calculator or test-only
+           reference assemblies and emit numerical records for regression checks.
+  Authors: Jackson Wallace and Lisong Chen
+  Last updated: 2026-11-16
+*/
+
 // Default: archived fixture inputs through the PUBLIC merged API.
 // Explicit --reference-* modes are test-only low-level scattering assemblies,
 // not installed options on SMEFTCalculator and not derivative projections.
@@ -8,7 +16,7 @@
 #include <string>
 #include <vector>
 
-#include "griffin/SMEFTCalculator.h"
+#include "griffin/smeft/SMEFTCalculator.h"
 #include "reference_scattering.h"
 #include "griffin/sm/SMvalG.h"
 
@@ -90,11 +98,11 @@ void evaluate(const std::vector<std::string>& row, const inval& input,
       energy*energy,std::stod(row[3]),0.38937966e9);
   const inval& resolved=prediction.resolvedInput();
   SMEFTCalculator::Amplitudes fullAmplitude,contactAmplitude;
-  double fullSigma,referenceSigma;
+  double fullSigma,smSigma;
   if(evaluation==Evaluation::Public)
   {
     const auto sigma=prediction.differentialCrossSection(point);
-    fullSigma=sigma.total(); referenceSigma=sigma.reference();
+    fullSigma=sigma.total(); smSigma=sigma.smResult();
     fullAmplitude=prediction.amplitudes(point);
     contactAmplitude=prediction.contactAmplitudes(point);
   }
@@ -106,15 +114,15 @@ void evaluate(const std::vector<std::string>& row, const inval& input,
     smeft::Input zero=eft;
     zero.clearWilsonCoefficients();
     fullAmplitude=regression_reference::amplitudes(point,resolved,eft,content);
-    const auto referenceAmplitude=regression_reference::amplitudes(
-        point,prediction.referenceInput(),zero,content);
+    const auto smAmplitude=regression_reference::amplitudes(
+        point,prediction.smInputValues(),zero,content);
     fullSigma=regression_reference::crossSection(point,fullAmplitude);
-    referenceSigma=regression_reference::crossSection(point,referenceAmplitude);
+    smSigma=regression_reference::crossSection(point,smAmplitude);
     contactAmplitude=regression_reference::contacts(point,eft);
   }
   std::cout << "{\"id\":\"" << row[0] << "\",\"sigma_pb\":" << fullSigma
-            << ",\"sm_baseline_pb\":" << referenceSigma
-            << ",\"delta_sigma_pb\":" << fullSigma-referenceSigma
+            << ",\"sm_baseline_pb\":" << smSigma
+            << ",\"delta_sigma_pb\":" << fullSigma-smSigma
             << ",\"MW_pole_GeV\":" << resolved.get(InputPar::WMassComplex)
             << ",\"MZ_pole_GeV\":" << resolved.get(InputPar::ZMassComplex)
             << ",\"MW_running_GeV\":" << resolved.get(InputPar::WMassExperiment)

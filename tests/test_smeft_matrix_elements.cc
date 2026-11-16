@@ -1,3 +1,11 @@
+/*
+  File: test_smeft_matrix_elements.cc
+  Purpose: Test standalone contact amplitudes, flavor/generation matching,
+           coefficient aliases, normalization and invalid-process rejection.
+  Authors: Jackson Wallace and Lisong Chen
+  Last updated: 2026-11-16
+*/
+
 // Standalone contacts: normalization, flavor matching and existing aliases.
 // Full finite amplitudes and contact counting belong to test_native_smeft.
 #include <cmath>
@@ -47,16 +55,12 @@ void check(const Input& input,Fermion final,double ll,double lr,double rl,double
     for(Current cf:{Current::vector,Current::axial})
     {
       const double expected=projected(ll,lr,rl,rr,ci,cf,input.inverseLambdaSquaredGeV());
-      const Cplx actual=smeft::coeffS4fD6Tree(Fermion::electron,final,ci,cf,input);
+      const Cplx actual=smeft::fourFermionContactAmplitude(Fermion::electron,final,ci,cf,input);
       close(actual,expected,"contact chiral projection/flavor normalization mismatch");
-      close(smeft::coeffS4fD6Tree(ELE,index(final),index(ci),index(cf),input),actual,
+      close(smeft::fourFermionContactAmplitude(ELE,index(final),index(ci),index(cf),input),actual,
             "integer and typed contact APIs disagree");
-      close(smeft::coeffSp4fD6Tree(Fermion::electron,final,ci,cf,input),0.0,
-            "local contact has a nonzero S prime");
-      close(smeft::coeffSp4fD6Tree(ELE,index(final),index(ci),index(cf),input),0.0,
-            "integer local contact has a nonzero S prime");
       Input scaled=input; scaled.setLambdaGeV(2000.0);
-      close(smeft::coeffS4fD6Tree(Fermion::electron,final,ci,cf,scaled),expected/4.0,
+      close(smeft::fourFermionContactAmplitude(Fermion::electron,final,ci,cf,scaled),expected/4.0,
             "contact inverse-scale normalization changed");
     }
 }
@@ -175,19 +179,25 @@ void testZeroAndValidation()
   for(Fermion f:{Fermion::d,Fermion::u,Fermion::s,Fermion::c,Fermion::b,
                  Fermion::muon,Fermion::tau,Fermion::nuElectron,
                  Fermion::nuMuon,Fermion::nuTau}) check(input,f,0,0,0,0);
-  throws<std::invalid_argument>([&]{smeft::coeffS4fD6Tree(Fermion::muon,
+  throws<std::invalid_argument>([&]{smeft::fourFermionContactAmplitude(Fermion::muon,
       Fermion::c,Current::vector,Current::vector,input);},"non-electron initial state accepted");
-  throws<std::domain_error>([&]{smeft::coeffS4fD6Tree(Fermion::electron,
+  throws<std::domain_error>([&]{smeft::fourFermionContactAmplitude(Fermion::electron,
       Fermion::electron,Current::vector,Current::vector,input);},"Bhabha contacts accepted");
   for(Current bad:{Current::scalar,Current::pseudoscalar})
   {
-    throws<std::invalid_argument>([&]{smeft::coeffS4fD6Tree(Fermion::electron,
+    throws<std::invalid_argument>([&]{smeft::fourFermionContactAmplitude(Fermion::electron,
         Fermion::tau,bad,Current::vector,input);},"non-vector/axial initial current accepted");
-    throws<std::invalid_argument>([&]{smeft::coeffSp4fD6Tree(Fermion::electron,
-        Fermion::tau,Current::vector,bad,input);},"S prime skipped current validation");
+    throws<std::invalid_argument>([&]{smeft::fourFermionContactAmplitude(Fermion::electron,
+        Fermion::tau,Current::vector,bad,input);},"non-vector/axial final current accepted");
   }
-  throws<std::invalid_argument>([&]{smeft::coeffS4fD6Tree(ELE,999,VEC,VEC,input);},
-      "invalid final fermion accepted");
+  for(int invalid : {-1,0,6,10,17,20,999})
+  {
+    throws<std::invalid_argument>([&]{smeft::fourFermionContactAmplitude(ELE,invalid,VEC,VEC,input);},
+        "invalid final fermion accepted");
+    throws<std::invalid_argument>([&]{smeft::fourFermionContactAmplitude(Fermion::electron,
+        static_cast<Fermion>(invalid),Current::vector,Current::vector,input);},
+        "typed contact API accepted invalid final fermion");
+  }
 }
 } // namespace
 
@@ -197,7 +207,7 @@ int main()
   {
     testQuarks(); testChargedLeptons(); testNeutrinos();
     testEquivalentContactLabels(); testZeroAndValidation();
-    std::cout << "Standalone contacts: flavors, normalization, aliases, S prime, validation PASS\n";
+    std::cout << "Standalone contacts: flavors, normalization, aliases, validation PASS\n";
     return 0;
   }
   catch(const std::exception& error)

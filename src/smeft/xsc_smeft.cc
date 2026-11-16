@@ -1,4 +1,12 @@
 /*
+  File: xsc_smeft.cc
+  Purpose: Match four-fermion Wilson coefficients to local vector/axial contact
+           amplitudes without repeating electroweak mass resolution.
+  Authors: Jackson Wallace and Lisong Chen
+  Last updated: 2026-11-16
+*/
+
+/*
   Local dimension-six four-fermion contact amplitudes.
 
   These fixed-strength contributions are independent of electroweak mass
@@ -11,43 +19,35 @@
 
 #include <stdexcept>
 
-#include "smeft/detail/SMEFTFlavor.h"
-
 namespace griffin {
 namespace smeft {
-namespace {
+namespace detail {
 
 struct ChiralContact {
   double ll;
   double lr;
   double rl;
   double rr;
+  static ChiralContact forProcess(int intype, int outtype, const Input& input);
 };
 
-void validateVectorAxialCurrents(int inform, int outform)
-{
-  if((inform != VEC && inform != AXV)
-      || (outform != VEC && outform != AXV))
-    throw std::invalid_argument(
-        "SMEFT contact S supports only vector and axial-vector currents");
-}
-
-ChiralContact chiralContact(int intype, int outtype, const Input& input)
+ChiralContact ChiralContact::forProcess(
+    int intype, int outtype, const Input& input)
 {
   if(intype != ELE)
     throw std::invalid_argument(
-        "SMEFT contact S formulas require an electron initial state");
+        "SMEFT contact amplitudes require an electron initial state");
   if(outtype == ELE)
     throw std::domain_error(
         "Bhabha SMEFT contact terms require separate s/t-channel treatment");
 
-  const detail::FermionInfo info = detail::fermionInfo(outtype);
+  const Input::FermionInfo info = Input::lookupFermion(outtype);
   const Generation one = Generation::first;
   const Generation i = info.generation;
 
-  switch(info.family)
+  switch(info.category)
   {
-    case detail::FermionFamily::upQuark:
+    case Input::FermionCategory::upQuark:
       return {
         input.Clq1(one,one,i,i)-input.Clq3(one,one,i,i),
         input.Clu(one,one,i,i),
@@ -55,7 +55,7 @@ ChiralContact chiralContact(int intype, int outtype, const Input& input)
         input.Ceu(one,one,i,i)
       };
 
-    case detail::FermionFamily::downQuark:
+    case Input::FermionCategory::downQuark:
       return {
         input.Clq1(one,one,i,i)+input.Clq3(one,one,i,i),
         input.Cld(one,one,i,i),
@@ -63,7 +63,7 @@ ChiralContact chiralContact(int intype, int outtype, const Input& input)
         input.Ced(one,one,i,i)
       };
 
-    case detail::FermionFamily::chargedLepton:
+    case Input::FermionCategory::chargedLepton:
       // The electron final state was rejected above.  For muons and taus the
       // two Cll contractions are independent gauge-invariant inputs.
       // Each getter is already the total coefficient of its unique operator;
@@ -75,7 +75,7 @@ ChiralContact chiralContact(int intype, int outtype, const Input& input)
         input.Cee(one,one,i,i)
       };
 
-    case detail::FermionFamily::neutrino:
+    case Input::FermionCategory::neutrino:
       if(i == Generation::first)
       {
         // Qll[1111] contains two identical ee-nu_e-nu_e components in the
@@ -95,10 +95,22 @@ ChiralContact chiralContact(int intype, int outtype, const Input& input)
       };
   }
 
-  throw std::logic_error("unreachable SMEFT fermion family");
+  throw std::logic_error("unreachable SMEFT fermion category");
 }
 
-double projectContact(const ChiralContact& coefficient,
+} // namespace detail
+
+namespace {
+
+void validateVectorAxialCurrents(int inform, int outform)
+{
+  if((inform != VEC && inform != AXV)
+      || (outform != VEC && outform != AXV))
+    throw std::invalid_argument(
+        "SMEFT contact amplitudes support only vector and axial-vector currents");
+}
+
+double projectContact(const detail::ChiralContact& coefficient,
                       int inform, int outform)
 {
   if(inform == VEC && outform == VEC)
@@ -112,22 +124,14 @@ double projectContact(const ChiralContact& coefficient,
 
 } // namespace
 
-Cplx coeffS4fD6Tree(int intype, int outtype, int inform, int outform,
-                    const Input& eftInput)
+Cplx fourFermionContactAmplitude(int intype, int outtype, int inform, int outform,
+                                const Input& eftInput)
 {
   validateVectorAxialCurrents(inform,outform);
-  const ChiralContact coefficient = chiralContact(intype,outtype,eftInput);
+  const detail::ChiralContact coefficient =
+      detail::ChiralContact::forProcess(intype,outtype,eftInput);
   return 0.25*eftInput.inverseLambdaSquaredGeV()
       *projectContact(coefficient,inform,outform);
-}
-
-Cplx coeffSp4fD6Tree(int intype, int outtype, int inform, int outform,
-                     const Input& eftInput)
-{
-  validateVectorAxialCurrents(inform,outform);
-  // Validate the flavor/process domain even though the local derivative is 0.
-  chiralContact(intype,outtype,eftInput);
-  return 0.0;
 }
 
 } // namespace smeft

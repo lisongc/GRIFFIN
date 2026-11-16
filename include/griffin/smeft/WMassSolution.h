@@ -1,5 +1,8 @@
 /*
-  WMassSolution.h: the W-mass solution and the electroweak inputs that use it.
+  WMassSolution.h
+  Purpose: represent the W-mass solution and the electroweak inputs that use it.
+  Merged-version authors: Jackson Wallace and Lisong Chen.
+  Last updated: 2026-11-16.
 
   In GmuAlphaMZ, MW is a prediction rather than an independent input. This
   object solves Jackson's finite mass equation using the supplied SM inputs
@@ -14,7 +17,7 @@
   It also records the iteration count and final mass-equation residual.
 
   SMEFTCalculator constructs two solutions automatically: one with the user's
-  coefficients, and one with zero coefficients for the SM reference. Ordinary
+  coefficients, and one with zero coefficients for the SM input values. Ordinary
   users need not construct this class or include this header directly; use
   <griffin/SMEFT.h>. Optional solver diagnostics are available through
   calculator.massSolution(). This is not another prediction engine or an
@@ -25,7 +28,7 @@
 #define GRIFFIN_SMEFT_W_MASS_SOLUTION_H
 
 #include "griffin/core/classes.h"
-#include "griffin/EWInputScheme.h"
+#include "griffin/sm/ElectroweakSetup.h"
 #include "griffin/smeft/SMEFTInput.h"
 
 namespace griffin {

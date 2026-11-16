@@ -1,21 +1,42 @@
+/*
+  File: test_public_api.cc
+  Purpose: Test the public entry header, electroweak setup, local contacts and
+           amplitude-to-cross-section conversion, including rejected inputs.
+  Authors: Jackson Wallace and Lisong Chen
+  Last updated: 2026-11-16
+*/
+
 // Public facade, input setup and full-square algebra tests. No generic engine.
 #include "griffin/SMEFT.h"
 #include "griffin/SMEFT.h" // the recommended facade must be safe to include twice
 #include "griffin/sm/EWPOZ2.h"
 #include "griffin/sm/deltar.h"
+#include "griffin/sm/tools.h"
 #include "griffin/sm/xscnnlo.h"
 #include "griffin/sm/xscnnlo.h"
+#include "griffin/smeft/xsc_smeft.h"
 
 #include <algorithm>
 #include <cmath>
 #include <iostream>
+#include <limits>
 #include <stdexcept>
 #include <string>
+#include <type_traits>
+#include <utility>
 
 using namespace griffin;
 using namespace griffin::prediction;
 
 namespace {
+
+static_assert(std::is_same<decltype(std::declval<const FinitePrediction<double>&>().smResult()),
+    const double&>::value,"SM result accessor must return the stored value");
+static_assert(std::is_same<decltype(std::declval<const SMEFTCalculator&>().smInputValues()),
+    const inval&>::value,"SM input accessor must return the stored input values");
+static_assert(std::is_same<decltype(std::declval<const SMEFTCalculator&>().smAmplitudes(
+    std::declval<const ScatteringPoint&>())),SMEFTCalculator::Amplitudes>::value,
+    "SM amplitudes must preserve the public channel-array type");
 
 void require(bool condition, const std::string& message)
 { if(!condition) throw std::runtime_error(message); }
@@ -100,43 +121,105 @@ void testSetupAndFacade()
     const SMEFTCalculator calculation(*setup,zero);
     const auto sigma=calculation.differentialCrossSection(point);
     require(sigma.total()>0.0,"zero-coefficient cross section is not positive");
-    close(sigma.total(),sigma.reference(),"zero coefficients differ from reference");
+    close(sigma.total(),sigma.smResult(),"zero coefficients differ from SM result");
     close(sigma.modelCorrection(),0.0,"zero coefficients have a model change");
     close(calculation.amplitude(point,vv).total(),
           calculation.amplitudes(point)[0],"channel accessor differs from array");
+    close(calculation.smInputValues().get(InputPar::WMassComplex),
+          calculation.resolvedInput().get(InputPar::WMassComplex),
+          "zero coefficients differ from SM input values");
+    close(calculation.smAmplitudes(point)[0],calculation.amplitudes(point)[0],
+          "zero coefficients differ from SM amplitudes");
   }
 }
 
-void testFermionPairCrossSection()
+void testContactAmplitudeApi()
 {
-  typedef FermionPairCrossSection CrossSection;
+  smeft::Input coefficients;
+  coefficients.setLambdaGeV(1000.0);
+  const smeft::Generation one=smeft::Generation::first;
+  const smeft::Generation two=smeft::Generation::second;
+  coefficients.setCee(one,one,two,two,0.2);
+  const double expected=0.25*0.2/(1000.0*1000.0);
+  close(smeft::fourFermionContactAmplitude(Fermion::electron,Fermion::muon,
+        Current::vector,Current::vector,coefficients),expected,
+        "typed public contact amplitude normalization");
+  close(smeft::fourFermionContactAmplitude(ELE,MUO,VEC,VEC,coefficients),expected,
+        "integer public contact amplitude normalization");
+}
+
+void testCrossSectionFromAmplitudes()
+{
+  typedef std::array<Cplx,4> Amplitudes;
   const double s=100.0,c=0.25,conversion=2.0;
-  const CrossSection lepton(Fermion::electron,Fermion::muon,s,c,conversion);
-  const CrossSection quark(Fermion::electron,Fermion::d,s,c,conversion);
-  const Current ci[]={Current::vector,Current::axial,Current::vector,Current::axial};
-  const Current cf[]={Current::vector,Current::vector,Current::axial,Current::axial};
-  for(std::size_t k=0; k<4; ++k)
-    require(CrossSection::initialCurrent(k)==ci[k] && CrossSection::finalCurrent(k)==cf[k],
-            "current-channel ordering");
-  CrossSection::Amplitudes a={{Cplx(1.0,0.2),Cplx(-0.4,0.3),Cplx(0.1,-0.5),Cplx(0.7,0.2)}};
-  CrossSection::Amplitudes b={{Cplx(0.2,-0.1),Cplx(0.3,0.1),Cplx(-0.2,0.4),Cplx(0.1,0.2)}};
+  const auto leptonSquare=[&](const Amplitudes& values) {
+    return differentialCrossSectionFromAmplitudes(
+        values,Fermion::electron,Fermion::muon,s,c,conversion);
+  };
+  const Amplitudes a={{Cplx(1.0,0.2),Cplx(-0.4,0.3),Cplx(0.1,-0.5),Cplx(0.7,0.2)}};
+  const Amplitudes b={{Cplx(0.2,-0.1),Cplx(0.3,0.1),Cplx(-0.2,0.4),Cplx(0.1,0.2)}};
   double even=0.0;
   for(Cplx value : a) even+=std::norm(value);
   const double expected=s/(32.0*Pi)*conversion
       *((1+c*c)*even+4*c*real(a[0]*conj(a[3])+a[2]*conj(a[1])));
-  close(lepton.squaredPrediction(a),expected,"angular-square normalization");
-  close(quark.squaredPrediction(a),3.0*expected,"quark color multiplicity");
-  CrossSection::Amplitudes plus=a,minus=a;
+  close(leptonSquare(a),expected,"angular-square normalization");
+  for(Fermion final : {Fermion::muon,Fermion::tau})
+    close(differentialCrossSectionFromAmplitudes(a,Fermion::electron,final,s,c,conversion),
+          expected,"charged-lepton normalization");
+  for(Fermion final : {Fermion::d,Fermion::u,Fermion::s,Fermion::c,Fermion::b})
+    close(differentialCrossSectionFromAmplitudes(a,Fermion::electron,final,s,c,conversion),
+          3.0*expected,"quark color multiplicity");
+  close(differentialCrossSectionFromAmplitudes(a,Fermion::electron,Fermion::muon,s,c),
+        expected/conversion,"default GeV^-2 normalization");
+  close(leptonSquare(Amplitudes{}),0.0,"zero amplitudes gave nonzero cross section");
+  for(std::size_t k=0; k<4; ++k)
+  {
+    Amplitudes single={};
+    single[k]=Cplx(1.0,0.5);
+    close(leptonSquare(single),s/(32.0*Pi)*conversion*(1+c*c)*1.25,
+          "single VV/AV/VA/AA channel normalization");
+  }
+  // The conversion of already-supplied finite amplitudes is defined at both
+  // angular endpoints, unlike the inherited SMEFT virtual-amplitude kernels.
+  for(double endpoint : {-1.0,1.0})
+    close(differentialCrossSectionFromAmplitudes(a,Fermion::electron,Fermion::muon,
+          s,endpoint,conversion),s/(32.0*Pi)*conversion
+          *(2.0*even+4.0*endpoint*real(a[0]*conj(a[3])+a[2]*conj(a[1]))),
+          "finite supplied amplitudes rejected or changed at angular endpoint");
+  Amplitudes plus=a,minus=a;
   for(std::size_t k=0; k<4; ++k) { plus[k]+=b[k]; minus[k]-=b[k]; }
-  close(lepton.squaredPrediction(plus)+lepton.squaredPrediction(minus),
-        2.0*(lepton.squaredPrediction(a)+lepton.squaredPrediction(b)),
+  close(leptonSquare(plus)+leptonSquare(minus),
+        2.0*(leptonSquare(a)+leptonSquare(b)),
         "full-square quadratic identity");
-  require(lepton.squaredPrediction(b)>0.0,"correction square was discarded");
-  rejects([]{ CrossSection::initialCurrent(4); },"invalid current-channel index accepted");
-  rejects([]{ CrossSection bad(Fermion::electron,Fermion::muon,0.0,0.5); },"nonpositive s accepted");
-  rejects([]{ CrossSection bad(Fermion::electron,Fermion::muon,100.0,1.1); },"invalid angle accepted");
-  rejects([]{ CrossSection bad(Fermion::electron,Fermion::muon,100.0,0.5,0.0); },
-          "nonpositive conversion accepted");
+  require(leptonSquare(b)>0.0,"correction square was discarded");
+  for(double bad : {0.0,-1.0})
+  {
+    rejects([&]{ differentialCrossSectionFromAmplitudes(a,Fermion::electron,
+        Fermion::muon,bad,c); },"nonpositive s accepted");
+    rejects([&]{ differentialCrossSectionFromAmplitudes(a,Fermion::electron,
+        Fermion::muon,s,c,bad); },"nonpositive conversion accepted");
+  }
+  for(double bad : {-1.1,1.1})
+    rejects([&]{ differentialCrossSectionFromAmplitudes(a,Fermion::electron,
+        Fermion::muon,s,bad); },"invalid angle accepted");
+  for(double bad : {std::numeric_limits<double>::quiet_NaN(),
+                   std::numeric_limits<double>::infinity(),
+                   -std::numeric_limits<double>::infinity()})
+  {
+    rejects([&]{ differentialCrossSectionFromAmplitudes(a,Fermion::electron,
+        Fermion::muon,bad,c); },"nonfinite s accepted");
+    rejects([&]{ differentialCrossSectionFromAmplitudes(a,Fermion::electron,
+        Fermion::muon,s,bad); },"nonfinite angle accepted");
+    rejects([&]{ differentialCrossSectionFromAmplitudes(a,Fermion::electron,
+        Fermion::muon,s,c,bad); },"nonfinite unit conversion accepted");
+  }
+  for(Fermion bad : {Fermion::muon,Fermion::nuElectron,static_cast<Fermion>(999)})
+    rejects([&]{ differentialCrossSectionFromAmplitudes(a,bad,Fermion::muon,s,c); },
+            "unsupported initial state accepted");
+  for(Fermion bad : {Fermion::electron,Fermion::nuElectron,Fermion::nuMuon,
+                    Fermion::nuTau,static_cast<Fermion>(6),static_cast<Fermion>(999)})
+    rejects([&]{ differentialCrossSectionFromAmplitudes(a,Fermion::electron,bad,s,c); },
+            "unsupported final state accepted");
 }
 
 } // namespace
@@ -146,7 +229,8 @@ int main()
   try
   {
     testSetupAndFacade();
-    testFermionPairCrossSection();
+    testContactAmplitudeApi();
+    testCrossSectionFromAmplitudes();
     std::cout << "Finite public API tests: PASS\n";
     return 0;
   }

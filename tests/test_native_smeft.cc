@@ -1,3 +1,11 @@
+/*
+  File: test_native_smeft.cc
+  Purpose: Test finite SMEFT mass matching, direct shifts, observables, amplitude
+           assembly, full cross-section squares, ownership and domain validation.
+  Authors: Jackson Wallace and Lisong Chen
+  Last updated: 2026-11-16
+*/
+
 #include <algorithm>
 #include <cmath>
 #include <iostream>
@@ -10,7 +18,7 @@
 #include "griffin/sm/SMvalG.h"
 #include "griffin/sm/ff.h"
 #include "griffin/sm/ff0.h"
-#include "griffin/SMEFTCalculator.h"
+#include "griffin/smeft/SMEFTCalculator.h"
 #include "griffin/smeft/ff0_smeft.h"
 #include "griffin/sm/xscaas.h"
 
@@ -42,6 +50,14 @@ void throws(const Callable& call, const std::string& message)
 {
   try { call(); }
   catch(const std::exception&) { return; }
+  throw std::runtime_error(message);
+}
+
+template<typename Callable>
+void throwsInvalidArgument(const Callable& call, const std::string& message)
+{
+  try { call(); }
+  catch(const std::invalid_argument&) { return; }
   throw std::runtime_error(message);
 }
 
@@ -92,12 +108,13 @@ SMEFTCalculator::Amplitudes independentSM(
 {
   const FA_SMNNLO fai(where.initial,input), faf(where.final,input);
   const SW_SMNNLO swi(where.initial,input), swf(where.final,input);
+  const Current initial[]={Current::vector,Current::axial,Current::vector,Current::axial};
+  const Current final[]={Current::vector,Current::vector,Current::axial,Current::axial};
   SMEFTCalculator::Amplitudes result;
   for(std::size_t k=0; k<result.size(); ++k)
   {
     const mat_SMaas matrix(where.initial,where.final,
-        FermionPairCrossSection::initialCurrent(k),
-        FermionPairCrossSection::finalCurrent(k),
+        initial[k],final[k],
         fai,faf,swi,swf,where.s,where.cosTheta,input);
     result[k] = matrix.result();
   }
@@ -166,10 +183,12 @@ void testZeroAndSquare(const ElectroweakSetup& context)
       }
       const auto result = prediction.differentialCrossSection(where);
       close(result.total(),independentSquare(expected,where),"full SM square mismatch");
-      close(result.reference(),result.total(),"zero model differs from reference");
+      close(result.smResult(),result.total(),"zero model differs from SM result");
     }
 
   const SMEFTCalculator nonzero(context,benchmark());
+  const Current initial[]={Current::vector,Current::axial,Current::vector,Current::axial};
+  const Current final[]={Current::vector,Current::vector,Current::axial,Current::axial};
   for(double energy : {50.0,90.0,120.0})
   {
     const ScatteringPoint where = point(energy);
@@ -178,9 +197,7 @@ void testZeroAndSquare(const ElectroweakSetup& context)
           independentSquare(a,where),"nonzero prediction is not the full square");
     for(std::size_t k=0; k<a.size(); ++k)
     {
-      const CurrentChannel channel(
-          FermionPairCrossSection::initialCurrent(k),
-          FermionPairCrossSection::finalCurrent(k));
+      const CurrentChannel channel(initial[k],final[k]);
       close(nonzero.amplitude(where,channel).total(),a[k],"single-channel ordering");
     }
   }
@@ -320,7 +337,7 @@ void sameContactPredictions(const SMEFTCalculator& actual,
     }
     const auto sa=actual.differentialCrossSection(where);
     const auto sb=expected.differentialCrossSection(where);
-    close(sa.reference(),sb.reference(),label+" reference");
+    close(sa.smResult(),sb.smResult(),label+" SM result");
     close(sa.total(),sb.total(),label+" full cross section");
     close(sa.modelCorrection(),sb.modelCorrection(),label+" correction");
   }
@@ -519,8 +536,22 @@ void testValidation(const ElectroweakSetup& alpha, const ElectroweakSetup& gmu)
          "neutrino SW accepted");
   throws([&]{ prediction.pseudoObservable(PseudoObservable::DeltaR,Fermion::electron); },
          "undefined finite DeltaR accepted");
-  throws([&]{ prediction.pseudoObservable(PseudoObservable::FA,static_cast<Fermion>(999)); },
-         "invalid fermion accepted");
+  // The private lookup must reject unsupported identifiers before any legacy
+  // array is indexed, both through the calculator and standalone shifts.
+  // Include negative/out-of-range indices and unsupported in-range species.
+  const smeft::Input zeroCoefficients=zero();
+  for(int invalid : {-1,0,6,10,17,20,999})
+  {
+    const Fermion fermion=static_cast<Fermion>(invalid);
+    for(PseudoObservable observable : {PseudoObservable::FA,PseudoObservable::FV,
+                                       PseudoObservable::SW})
+      throwsInvalidArgument([&]{ prediction.pseudoObservable(observable,fermion); },
+                            "invalid observable fermion accepted");
+    throwsInvalidArgument([&]{ smeft::directZAxialShift(invalid,alpha.input(),zeroCoefficients); },
+                          "invalid axial-shift fermion accepted");
+    throwsInvalidArgument([&]{ smeft::directZVectorShift(invalid,alpha.input(),zeroCoefficients); },
+                          "invalid vector-shift fermion accepted");
+  }
   throws([&]{ SMEFTCalculator p(alpha,smeft::Input()); },"missing Lambda accepted");
 
   for(double invalid : {nan,inf,-1.0,0.0})

@@ -1,5 +1,8 @@
 .DS_Store
 
+# Personal editor settings are local, not part of the collaborator package.
+/.vscode/
+
 # CMake build trees and generated files
 /build*/
 /CMakeCache.txt

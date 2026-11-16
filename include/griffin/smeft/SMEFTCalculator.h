@@ -1,27 +1,38 @@
+/*
+  SMEFTCalculator.h
+  Purpose: declare the finite SMEFT calculator and its full/SM result
+  container, using resolved electroweak inputs, shifted pole observables
+  and complete scattering amplitudes.
+  Merged-version authors: Jackson Wallace and Lisong Chen.
+  Last updated: 2026-11-16.
+*/
+
 #ifndef GRIFFIN_SMEFT_CALCULATOR_H
 #define GRIFFIN_SMEFT_CALCULATOR_H
 
-#include "griffin/ElectroweakSetup.h"
-#include "griffin/Observables.h"
+#include <array>
+
+#include "griffin/sm/ElectroweakSetup.h"
+#include "griffin/smeft/EWPO_smeft.h"
 #include "griffin/smeft/WMassSolution.h"
-#include "griffin/core/FermionPairCrossSection.h"
+#include "griffin/smeft/xsc_smeft.h"
 
 namespace griffin {
 namespace prediction {
 
-// Two complete evaluations: reference() has all Wilson coefficients zero;
+// Two complete evaluations: smResult() has all Wilson coefficients zero;
 // total() uses the supplied coefficients. modelCorrection() is their finite
 // difference, not just the term linear in Wilson coefficients. The total is
-// stored directly, not reconstructed by adding the difference to the reference.
+// stored directly, not reconstructed by adding the difference to the SM result.
 template<typename Value>
 class FinitePrediction {
-  Value reference_, total_;
+  Value smResult_, total_;
 public:
-  FinitePrediction(const Value& reference, const Value& total)
-    : reference_(reference), total_(total) {}
-  const Value& reference() const { return reference_; }
+  FinitePrediction(const Value& smResult, const Value& total)
+    : smResult_(smResult), total_(total) {}
+  const Value& smResult() const { return smResult_; }
   const Value& total() const { return total_; }
-  Value modelCorrection() const { return total_-reference_; }
+  Value modelCorrection() const { return total_-smResult_; }
 };
 
 /*
@@ -50,7 +61,7 @@ public:
 */
 class SMEFTCalculator {
 public:
-  typedef FermionPairCrossSection::Amplitudes Amplitudes;
+  typedef std::array<Cplx,4> Amplitudes;
 
   SMEFTCalculator(
       const ElectroweakSetup& setup, const smeft::Input& coefficients,
@@ -59,7 +70,8 @@ public:
   EWInputScheme inputScheme() const { return scheme_; }
   const smeft::Input& wilsonInput() const { return coefficients_; }
   const inval& resolvedInput() const { return point_.smInput(); }
-  const inval& referenceInput() const { return referencePoint_.smInput(); }
+  // SM input values resolved independently with all Wilson coefficients zero.
+  const inval& smInputValues() const { return smMassSolution_.smInput(); }
   const smeft::WMassSolution& massSolution() const { return point_; }
 
   // WMass returns the pole mass. SW is undefined for neutrinos.
@@ -69,10 +81,10 @@ public:
       PseudoObservable observable, Fermion fermion) const;
 
   // Order of channels: VV, AV, VA, AA. amplitudes() includes contacts once;
-  // referenceAmplitudes() uses zero coefficients; contactAmplitudes() returns
+  // smAmplitudes() uses zero coefficients; contactAmplitudes() returns
   // only the contact term and must not be added to amplitudes() a second time.
   Amplitudes amplitudes(const ScatteringPoint& point) const;
-  Amplitudes referenceAmplitudes(const ScatteringPoint& point) const;
+  Amplitudes smAmplitudes(const ScatteringPoint& point) const;
   Amplitudes contactAmplitudes(const ScatteringPoint& point) const;
   FinitePrediction<Cplx> amplitude(
       const ScatteringPoint& point, const CurrentChannel& channel) const;
@@ -80,15 +92,26 @@ public:
   // Unpolarized d sigma / d cos(theta), with massless external fermions;
   // GeV^-2 unless point.unitConversion is supplied. This is the angular square
   // of the amplitude, not a radiation-inclusive detector-level observable.
-  // The exact real Z pole is rejected, but nearby mat_SMaas background values
-  // also have unresolved limitations; see docs/KNOWN_ISSUES.md before scanning.
+  // Uses the upstream v1.1.1 near-pole correction. The exact real Z pole is
+  // still rejected: its background limit is not implemented. See KNOWN_ISSUES.md.
   FinitePrediction<double> differentialCrossSection(
       const ScatteringPoint& point) const;
 
 private:
+  // Shared internal evaluation, not additional user-facing calculation paths.
+  // EWPO_smeft.cc supplies the same FA/SW to observables and scattering.
+  struct PoleInputs { Cplx fa, sw; };
+  static PoleInputs poleInputs(Fermion fermion, const inval& input,
+                               const smeft::Input& coefficients);
+  static Cplx observableAt(PseudoObservable observable, Fermion fermion,
+                           const inval& input, const smeft::Input& coefficients);
+  static Amplitudes amplitudesAt(const ScatteringPoint& point, const inval& input,
+                                 const smeft::Input& coefficients);
+  static void requireFinite(Cplx value, const char* quantity);
+
   EWInputScheme scheme_;
   smeft::Input coefficients_, zeroCoefficients_;
-  smeft::WMassSolution referencePoint_, point_;
+  smeft::WMassSolution smMassSolution_, point_;
 };
 
 } // namespace prediction

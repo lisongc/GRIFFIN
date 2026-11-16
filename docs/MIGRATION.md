@@ -1,203 +1,117 @@
-# Migrating to the cleaned layout
+<!--
+File: MIGRATION.md
+Purpose: Help users adapt existing client programs and coefficient inputs to the current package.
+Authors: Jackson Wallace and Lisong Chen
+Last updated: 2026-11-16
+-->
 
-Updated 14 November 2026. Rebuild the library and client programs after
-updating the local merged version. The source-layout/interface cleanup does
-not change the finite Gmu equation, coefficient normalization, FA/SW insertion,
-FV construction or full-square treatment. The separate 12 November
-scattering-content update changes `mat_SMNNLO` to `mat_SMaas`, as described
-below. The 13 November documentation/comment cleanup does not change the
-calculation or public class names.
+# Updating an existing program
 
-## W-mass solution rename — 14 November
+This is a practical upgrade checklist, **not a change archive**. Use it when
+adapting an existing GRIFFIN program or importing coefficient inputs.
+For a new program, start with the [user guide](USER_GUIDE.md).
 
-`griffin::smeft::NativeInputPoint` is now `griffin::smeft::WMassSolution`,
-declared in `<griffin/smeft/WMassSolution.h>` and implemented in
-`src/smeft/WMassSolution.cc`. `NativeSolverOptions` is renamed to
-`WMassSolverOptions` in the same namespace. No old-name aliases or forwarding
-headers are retained.
+This package is identified as `smeft_v1.1.1`; its numeric CMake version is
+`1.1.1`, and its library target remains `GRIFFIN::griffin`.
 
-The finite mass equation, stopping criterion and stored input values are
-unchanged. Ordinary calls to `SMEFTCalculator(setup, coefficients)` and
-`massSolution()` need no change. Only code naming the old types or including
-the old header needs these substitutions. This helper is created by the
-calculator; it is not an additional user input or a second prediction engine.
+## 1. Rebuild and use the public include paths
 
-## Cross-section helper rename — 14 November
+Choose a fresh build directory after moving or renaming the package:
+CMake caches retain absolute paths. Use a fresh installation prefix too,
+because installing over an existing prefix does not remove stale headers.
 
-The low-level helper is now `griffin::FermionPairCrossSection`, declared in
-`<griffin/core/FermionPairCrossSection.h>` and implemented in
-`src/core/FermionPairCrossSection.cc`. Replace
-`MasslessFermionCrossSectionBuilder` and either old `xscmassless.h` include
-spelling with these names; no compatibility alias or forwarding header is
-retained.
+The package requires C++11 and CMake 3.20 or newer. Prefer the CMake library
+target `GRIFFIN::griffin` rather than maintaining a list of source files.
+For an installed package:
 
-This is a name-only change. The helper still computes the unpolarized
-cross section for supported charged-fermion-pair annihilation with massless
-external-fermion kinematics. No additional processes or corrections are
-introduced. Calls to `SMEFTCalculator::differentialCrossSection()` and the
-calculator's public `Amplitudes` type are unchanged.
+```cmake
+find_package(GRIFFIN 1.1.1 CONFIG REQUIRED)
+target_link_libraries(my_program PRIVATE GRIFFIN::griffin)
+```
 
-## Scattering-content update
+Supply the installation prefix through `CMAKE_PREFIX_PATH`. When building
+directly from source, add the package with `add_subdirectory()` and link
+the same target.
 
-Existing `SMEFTCalculator` calls now include the additional selected fermionic
-mixed electroweak–QCD pole-residue and off-resonance terms supplied by `mat_SMaas`.
-No new caller option is required: both the full result and its independently
-computed zero-coefficient reference use the extension at their resolved
-inputs. Contact amplitudes still occur once, and the full square is retained.
-
-Cross sections and their finite coefficient-induced shifts can therefore
-change. The W-mass matching and standalone FA/SW/FV formulas are unchanged.
-The original Jackson fixture numbers remain unchanged: the test suite
-distinguishes the archived `mat_SMNNLO` baseline from the extended-amplitude
-checks. See the
-[regression report](REGRESSION_TEST_REPORT.md) for numerical effects and
-verification. The runtime exact-real-pole restriction and process coverage
-remain unchanged. The 14 November handoff adds a warning and optional
-diagnostic for unresolved behaviour throughout the nearby region; it does
-not repair or change `mat_SMaas`. See
-[known issues](KNOWN_ISSUES.md#1-unresolved-near-pole-scattering-background).
-
-Use **NNLO+ SM form factors with a finite, unlinearized dimension-six
-prescription** to describe the current calculation. The FA/SW classes include
-selected terms beyond NNLO. Explicit coefficient shifts at a fixed mass
-remain linear, while the mass solution, pole construction and full square
-retain their generated nonlinear dependence. No explicit $(\delta a)^2$ term
-was added to the FA input. This is not a claim of complete off-resonance NNLO
-or of every possible higher-power SMEFT contribution; see the
-[exact prescription](USER_GUIDE.md#exact-prescription).
-
-## Recommended includes and build target
-
-For ordinary finite-SMEFT use:
+Ordinary SMEFT programs can use just:
 
 ```cpp
 #include <griffin/SMEFT.h>
 ```
 
-This supplies the calculator, setup, observable/kinematic types, coefficient
-input and SM input classes. The fully qualified class names remain
-`griffin::prediction::ElectroweakSetup` and
-`griffin::prediction::SMEFTCalculator`; `griffin::smeft::Input` is unchanged.
-No namespace aliases or class-name wrappers were introduced.
+For individual headers, use the following current locations:
 
-Include this convenience header first when also using advanced SM headers.
-It loads the relevant inline SM formulas before the legacy mass-macro
-redefinitions. Prefer typed `InputPar` setters; arbitrary legacy input-header
-ordering remains a separate [known issue](KNOWN_ISSUES.md#5-ownership-and-legacy-error-handling).
+| Needed interface | Include |
+|---|---|
+| SM inputs and amplitudes | `griffin/sm/SMval.h`, `griffin/sm/SMvalG.h`, `griffin/sm/xscnnlo.h`, `griffin/sm/xscaas.h` |
+| Electroweak setup and scheme | `griffin/sm/ElectroweakSetup.h` |
+| Wilson coefficients | `griffin/smeft/SMEFTInput.h` |
+| SMEFT calculator | `griffin/smeft/SMEFTCalculator.h` |
+| Observable selections | `griffin/smeft/EWPO_smeft.h` |
+| Scattering request and contact amplitudes | `griffin/smeft/xsc_smeft.h` |
+| Amplitude-to-cross-section function | `griffin/sm/tools.h` |
 
-With the repository as a CMake subdirectory, link to `GRIFFIN::griffin`.
-For an installation, use:
+Programs using the original flat SM layout must qualify their includes:
+for example, `"xscaas.h"` becomes `<griffin/sm/xscaas.h>`.
+Shared headers are under `griffin/core/`; numerical headers are under
+`griffin/numerics/`. Client include paths should point to `include/`,
+not `src/` or `data/`. Grids are compiled into the library; no runtime
+grid directory is required.
 
-```cmake
-find_package(GRIFFIN CONFIG REQUIRED)
-target_link_libraries(my_program PRIVATE GRIFFIN::griffin)
+## 2. Check the input and result conventions
+
+Use `SMval` with `EWInputScheme::AlphaMWMZ`, or `SMvalGmu` with
+`EWInputScheme::GmuAlphaMZ`. Set Wilson coefficients through
+`smeft::Input` and explicitly supply a positive Lambda in GeV.
+Coefficients are dimensionless: an imported dimensional coefficient must
+be converted to the convention $C_i/\Lambda^2$.
+
+`SMEFTCalculator` solves Jackson's finite Gmu equation at the supplied
+coefficients and evaluates the prediction at that mass. It solves the SM
+case separately with all coefficients zero. In the alpha scheme the W
+mass is supplied directly. The calculator uses fixed SM content, constructs
+FV from FA/SW, and squares the complete scattering amplitude.
+
+Read `total()` for the full result, `smResult()` for the zero-coefficient
+SM result, and `modelCorrection()` for their finite difference.
+For scattering, `ScatteringPoint` takes $s$ in GeV$^2$, not $\sqrt{s}$.
+The default cross-section unit is GeV$^{-2}$; use `0.38937966e9` for pb.
+The full input example is [smeft_example.cc](../examples/smeft_example.cc).
+
+### Import equivalent contact labels once
+
+Cll identifies `prst/stpr`; Cee identifies `prst/stpr/ptsr/srpt`.
+Equivalent labels access **one value**. Setters assign rather than accumulate,
+so importing independently specified raw contributions requires summing
+their strengths before one assignment per unique operator.
+
+For electron–muon inputs, Cll `1122/2211` and `1221/2112` are two separate
+groups; Cee `1122/2211/1221/2112` is one group. Gmu matching uses half the
+canonical Cll1221 strength once. Do not loop over every alias, including
+zero-valued entries, after setting a nonzero coefficient: a later assignment
+can overwrite it. See the [coefficient conventions](SMEFT_IMPLEMENTATION.md#contact-aliases-and-canonical-strengths)
+and [import example](USER_GUIDE.md#contact-inputs-and-importing-jackson-benchmarks).
+
+## 3. Compare like-for-like calculations and run the tests
+
+The calculator uses `mat_SMaas`, including selected mixed electroweak–QCD
+residue/background contributions and the upstream v1.1.1 correction.
+Its zero-coefficient scattering result therefore need not equal a program
+using only `mat_SMNNLO`. The [calculation specification](SMEFT_IMPLEMENTATION.md)
+defines the retained content; [KNOWN_ISSUES.md](KNOWN_ISSUES.md) lists
+unsupported processes and the exact-$s=M_Z^2$ restriction.
+
+From the package root:
+
+```bash
+./scripts/run_checks.sh build/current
+ctest --test-dir build/current --output-on-failure -L sm
 ```
 
-Set `CMAKE_PREFIX_PATH` to the install prefix when configuring your client.
-For manual builds, use `-I/path/to/installation/include` and link the installed
-library. Do not add the repository root, `src/`, or `data/` as public include
-directories. C++11 remains the minimum language level; the cleaned build
-requires CMake 3.20 or newer.
-
-## Header path mapping
-
-Each new path below is the spelling used in `#include <...>`. On disk it
-is under `include/`. Old include locations are not retained as wrappers.
-
-| Old include | New include |
-|---|---|
-| `prediction/SMEFTCalculator.h` | `griffin/SMEFTCalculator.h` |
-| `prediction/ElectroweakSetup.h` | `griffin/ElectroweakSetup.h` |
-| `prediction/EWInputScheme.h` | `griffin/EWInputScheme.h` |
-| `prediction/Observables.h` | `griffin/Observables.h` |
-| `classes.h` | `griffin/core/classes.h` |
-| `Cplx.h` | `griffin/core/Cplx.h` |
-| `xscmassless.h` or `griffin/core/xscmassless.h` | `griffin/core/FermionPairCrossSection.h` |
-| `SMval.h` | `griffin/sm/SMval.h` |
-| `SMvalG.h` | `griffin/sm/SMvalG.h` |
-| `EWPOZ.h` | `griffin/sm/EWPOZ.h` |
-| `EWPOZ2.h` | `griffin/sm/EWPOZ2.h` |
-| `deltar.h` | `griffin/sm/deltar.h` |
-| `delrho.h` | `griffin/sm/delrho.h` |
-| `ff.h` | `griffin/sm/ff.h` |
-| `ff0.h` | `griffin/sm/ff0.h` |
-| `xscnnlo.h` | `griffin/sm/xscnnlo.h` |
-| `xscaas.h` | `griffin/sm/xscaas.h` |
-| `tools.h` | `griffin/sm/tools.h` |
-| `oneloop.h` | `griffin/numerics/oneloop.h` |
-| `li.h` | `griffin/numerics/li.h` |
-| `linex.h` | `griffin/numerics/linex.h` |
-| `smeft/SMEFTInput.h` | `griffin/smeft/SMEFTInput.h` |
-| `smeft/NativeInputPoint.h` or `griffin/smeft/NativeInputPoint.h` | `griffin/smeft/WMassSolution.h` |
-| `smeft/ff0_smeft.h` | `griffin/smeft/ff0_smeft.h` |
-| `smeft/xsc_smeft.h` | `griffin/smeft/xsc_smeft.h` |
-
-The old `smeft/SMEFTFlavor.h` was a helper rather than a supported user
-interface. It is now private at `src/smeft/detail/SMEFTFlavor.h` and is not
-installed. Client code should use the public `Fermion` and `Generation`
-types instead of depending on that helper.
-
-## Removed infrastructure
-
-The following generic components are removed, not optional or deprecated:
-
-- `PredictionEngine`, `TheoryProvider` and `SMProvider`.
-- `PerturbativeSeries`, `OrderTag`, `LoopOrder`, `Accuracy` and their sector metadata.
-- `PredictionResult`, `CombinationRule` and `CombinationKind`.
-- The provider-only `ElectroweakSetup::inputAddress()` and `compatibleWith()` helpers.
-- The `testprediction` example and synthetic generic-provider tests.
-
-For SMEFT, call `SMEFTCalculator` directly. `FinitePrediction` is its result
-type; `modelCorrection()` means the finite total minus the independently
-computed zero-coefficient reference, not a coefficient of a truncated series.
-There is no `Accuracy` replacement because this calculator intentionally
-uses fixed SM content, now including the `mat_SMaas` scattering extension.
-
-For SM-only work, use the retained SM classes directly from
-`griffin/sm/`. The existing SM examples demonstrate those interfaces. A
-zero-Wilson `SMEFTCalculator` also supplies its fixed-prescription SM limit,
-but it is not an order-selection wrapper.
-
-Earlier cleanups removed `linearEFT()`, the interference-only cross-section
-helpers, the old linear SMEFT providers/observables and the unimplemented
-`dr_SMNLO::compmw()` declaration. No compatibility layer restores them.
-Use `SMvalGmu`/`invalGmu` for the SM mass solution and the finite calculator
-for the merged SMEFT solution.
-
-If migrating from older public names, replace `CalculationContext` with
-`ElectroweakSetup` and `NativeSMEFTPrediction` with `SMEFTCalculator`.
-The direct vertex functions are `directZAxialShift` and `directZVectorShift`;
-they contain no separate linear W-mass response.
-
-## Contact inputs still require canonical strengths
-
-The 9 November Cll/Cee alias rules are unchanged by the folder move. Setters
-overwrite one canonical value; they do not add equivalent labels. When
-importing independent redundant raw entries, sum them first and assign
-each unique coefficient once. See the
-[contact-input migration examples](SMEFT_IMPLEMENTATION.md#contact-aliases-and-canonical-strengths).
-
-## Examples, documents and build products
-
-| Previous location/name | Current location/name |
-|---|---|
-| `examples/testnativeprediction.cc`, target `testnativeprediction` | `examples/smeft_example.cc`, target `smeft_example` |
-| `scripts/run_prediction_architecture_checks.sh` | `scripts/run_checks.sh` |
-| `NATIVE_SMEFT.md` | `docs/USER_GUIDE.md` |
-| `SMEFT_IMPLEMENTATION.md` | `docs/SMEFT_IMPLEMENTATION.md` |
-| `KNOWN_ISSUES.md` | `docs/KNOWN_ISSUES.md` |
-| `REGRESSION_TEST_REPORT.md` | `docs/REGRESSION_TEST_REPORT.md` |
-| `SMEFT_JACKSON_COMPARISON.md` | `docs/history/SMEFT_JACKSON_COMPARISON.md` |
-| `PREDICTION_ENGINE.md` | Replaced by `docs/ARCHITECTURE.md` |
-
-The recommended fresh build directories are `build/release` and
-`build/sanitize`. Do not reuse a relocated CMake cache: its absolute paths
-refer to the old layout. The pre-cleanup source snapshot and archived old
-build trees are development-machine records outside the source tree under
-`../diagnostics/layout_cleanup_20261112_ObbFpc/` (old build trees in its
-`old_builds/` subdirectory). These archives are not bundled with a checkout
-and are not required to build the library or run the tests.
-
-The retained `.in` expression fragments and `.grid` tables are compiled
-into the library. Their relocation does not require runtime file searches
-or a data-directory setting in external programs.
+SM demonstration sources are in `examples/sm/`; executable names are
+unchanged. The SMEFT example remains `examples/smeft_example.cc`.
+The checks in `tests/sm/` include the independent upstream near-pole
+comparison and `test_scattering_equivalence.cc`, which compares manual
+SM formulas with the cross-section helper and zero-coefficient calculator.
+They run with `BUILD_TESTING=ON`, even when examples are disabled.
+See the [test report](REGRESSION_TEST_REPORT.md) for coverage and tolerances.

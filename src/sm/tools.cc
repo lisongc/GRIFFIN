@@ -1,3 +1,13 @@
+/*
+  File: tools.cc
+  Purpose: Implement decay-width utilities and the angular conversion of
+           supplied amplitudes into a differential cross section.
+  Original authors: Lisong Chen and Ayres Freitas
+  Integration contributors: Jackson Wallace and Lisong Chen
+  Last updated: 2026-11-16
+  The original author/revision record is preserved below.
+*/
+
 /*-----------------------------------------------------------------------------
 tools.cc
 Lisong Chen (lic114@pitt.edu), Ayres Freitas (afreitas@pitt.edu)
@@ -9,7 +19,65 @@ some useful functions for computing decay widths and cross-sections
 #include "griffin/sm/tools.h"
 #include "griffin/sm/ff0.h"
 
+#include <cmath>
+#include <stdexcept>
+
 namespace griffin {
+
+double differentialCrossSectionFromAmplitudes(
+    const std::array<Cplx,4>& amplitudes, Fermion initial, Fermion final,
+    double invariantMassSquared, double cosTheta, double unitConversion)
+{
+  if(initial != Fermion::electron)
+    throw std::invalid_argument(
+        "massless annihilation cross section currently requires an electron initial state");
+  double color;
+  switch(final)
+  {
+    case Fermion::muon:
+    case Fermion::tau:
+      color = 1.0;
+      break;
+    case Fermion::d:
+    case Fermion::u:
+    case Fermion::s:
+    case Fermion::c:
+    case Fermion::b:
+      color = 3.0;
+      break;
+    case Fermion::electron:
+      throw std::domain_error(
+          "Bhabha scattering requires dedicated s/t-channel and scalar/pseudoscalar structures");
+    case Fermion::nuElectron:
+    case Fermion::nuMuon:
+    case Fermion::nuTau:
+      throw std::domain_error(
+          "neutrino final states require a dedicated process implementation");
+    default:
+      throw std::invalid_argument(
+          "unsupported final state for the massless annihilation cross section");
+  }
+  if(!std::isfinite(invariantMassSquared) || !std::isfinite(cosTheta)
+      || !std::isfinite(unitConversion))
+    throw std::invalid_argument("cross-section kinematics must be finite");
+  if(invariantMassSquared <= 0.0 || cosTheta < -1.0 || cosTheta > 1.0)
+    throw std::domain_error(
+        "cross-section kinematics are outside the physical domain");
+  if(unitConversion <= 0.0)
+    throw std::domain_error("cross-section unit conversion must be positive");
+
+  const double even = 1.0+cosTheta*cosTheta;
+  const double odd = 4.0*cosTheta;
+  const Cplx squared = even*(
+      amplitudes[0]*conj(amplitudes[0])
+      + amplitudes[1]*conj(amplitudes[1])
+      + amplitudes[2]*conj(amplitudes[2])
+      + amplitudes[3]*conj(amplitudes[3]))
+      + odd*(amplitudes[0]*conj(amplitudes[3])
+             + amplitudes[2]*conj(amplitudes[1]));
+  const double prefactor = color*invariantMassSquared/(32.0*Pi)*unitConversion;
+  return prefactor*real(squared);
+}
 
 // Note: partzwidth will modify the FA and FV objects passed to it,
 // by setting the fermion type and input

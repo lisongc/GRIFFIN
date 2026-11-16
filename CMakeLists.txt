@@ -1,13 +1,19 @@
+# File: CMakeLists.txt
+# Purpose: Build and install GRIFFIN, export its CMake package, and enable tests/examples.
+# Authors: Jackson Wallace and Lisong Chen
+# Last updated: 2026-11-16
+
 cmake_minimum_required(VERSION 3.20)
 
-project(griffin VERSION 1.1 LANGUAGES CXX)
+# Collaborator branch/variant: smeft_v1.1.1.
+# CMake requires a numeric package version; the exported target stays GRIFFIN::griffin.
+project(griffin VERSION 1.1.1 LANGUAGES CXX)
 
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 
 add_library(griffin STATIC
   src/core/classes.cc
-  src/core/FermionPairCrossSection.cc
   src/sm/ff.cc
   src/sm/EWPOZ.cc
   src/sm/EWPOZ2.cc
@@ -23,6 +29,7 @@ add_library(griffin STATIC
   src/numerics/linex.cc
   src/smeft/SMEFTInput.cc
   src/smeft/ff0_smeft.cc
+  src/smeft/EWPO_smeft.cc
   src/smeft/xsc_smeft.cc
   src/smeft/WMassSolution.cc
   src/smeft/SMEFTCalculator.cc)
