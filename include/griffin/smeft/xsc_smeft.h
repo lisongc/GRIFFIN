@@ -50,16 +50,9 @@ namespace smeft {
   require separate process structures and are rejected. Neutrino contacts
   are available as coefficients, not as a complete scattering prediction.
 */
-Cplx fourFermionContactAmplitude(int intype, int outtype, int inform, int outform,
+Cplx fourFermionContactAmplitude(Fermion intype, Fermion outtype,
+                                Current inform, Current outform,
                                 const Input& eftInput);
-
-inline Cplx fourFermionContactAmplitude(Fermion intype, Fermion outtype,
-                                       Current inform, Current outform,
-                                       const Input& eftInput)
-{
-  return fourFermionContactAmplitude(index(intype),index(outtype),index(inform),
-                                    index(outform),eftInput);
-}
 
 } // namespace smeft
 } // namespace griffin

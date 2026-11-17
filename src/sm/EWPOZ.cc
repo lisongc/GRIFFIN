@@ -1,3 +1,12 @@
+/*
+  File: EWPOZ.cc
+  Purpose: Evaluate NLO SM pole form factors using typed fermion and SM inputs.
+  Typed-input integration: Jackson Wallace and Lisong Chen
+  Last updated: 2026-11-16
+  Original GRIFFIN calculations/author records are retained below or in the
+  including source file; this migration changes labels, not the expressions.
+*/
+
 /*-----------------------------------------------------------------------------
 EWPOZ.cc
 Lisong Chen (lic114@pitt.edu), Ayres Freitas (afreitas@pitt.edu)
@@ -15,46 +24,46 @@ namespace griffin {
 
 double SW_SMNLO::res1f(void) const
 {
-  return(-(az0(ftyp,*ival)*rz1f(ftyp,VEC,*ival) 
-          - vz0(ftyp,*ival)*rz1f(ftyp,AXV,*ival))/sqr(az0(ftyp,*ival))
-	 /(4*fabs(Qf[ftyp]))); 
+  return(-(az0(ftyp,*ival)*rz1f(ftyp,Current::vector,*ival)
+          - vz0(ftyp,*ival)*rz1f(ftyp,Current::axial,*ival))/sqr(az0(ftyp,*ival))
+	 /(4*fabs(Qf[index(ftyp)])));
 }
 
 double SW_SMNLO::res1b(void) const
 {
-  return(-(az0(ftyp,*ival)*rz1b(ftyp,VEC,*ival) 
-          - vz0(ftyp,*ival)*rz1b(ftyp,AXV,*ival))/sqr(az0(ftyp,*ival))
-	 /(4*fabs(Qf[ftyp]))); 
+  return(-(az0(ftyp,*ival)*rz1b(ftyp,Current::vector,*ival)
+          - vz0(ftyp,*ival)*rz1b(ftyp,Current::axial,*ival))/sqr(az0(ftyp,*ival))
+	 /(4*fabs(Qf[index(ftyp)])));
 }
 
-/* naive error estimate based on prefactors g^2/(4 Pi^2)*Nf and al_s/Pi*2*CF 
+/* naive error estimate based on prefactors g^2/(4 Pi^2)*Nf and al_s/Pi*2*CF
    Nf = # of fermions, 2 = combinatorial fudge factor */
 Cplx SW_SMNLO::errest(void) const
-{  
-  double ewfac = ival->get(al)/(Pi*(1-sqr(ival->get(MW)/ival->get(MZ))))*(3*3+3);
-  double qcdfac = ival->get(als)/Pi*8/3.;
-  return(res1f()*sqrt(sqr(ewfac)+sqr(qcdfac)) + res1b()*ewfac); 
+{
+  double ewfac = ival->get(InputPar::alpha)/(Pi*(1-sqr(ival->get(InputPar::WMassComplex)/ival->get(InputPar::ZMassComplex))))*(3*3+3);
+  double qcdfac = ival->get(InputPar::alphaS)/Pi*8/3.;
+  return(res1f()*sqrt(sqr(ewfac)+sqr(qcdfac)) + res1b()*ewfac);
 }
 
 double FA_SMNLO::res1f(void) const
 {
-  return(2*az0(ftyp,*ival)*rz1f(ftyp,AXV,*ival)
+  return(2*az0(ftyp,*ival)*rz1f(ftyp,Current::axial,*ival)
          - sqr(az0(ftyp,*ival))*rsz1fp(*ival));
 }
 
 double FA_SMNLO::res1b(void) const
 {
-  return(2*az0(ftyp,*ival)*rz1b(ftyp,AXV,*ival)
+  return(2*az0(ftyp,*ival)*rz1b(ftyp,Current::axial,*ival)
          - sqr(az0(ftyp,*ival))*rsz1bp(*ival));
 }
 
-/* naive error estimate based on prefactors g^2/(4 Pi^2)*Nf and al_s/Pi*2*CF 
+/* naive error estimate based on prefactors g^2/(4 Pi^2)*Nf and al_s/Pi*2*CF
    Nf = # of fermions, 2 = combinatorial fudge factor */
 Cplx FA_SMNLO::errest(void) const
-{  
-  double ewfac = ival->get(al)/(Pi*(1-sqr(ival->get(MW)/ival->get(MZ))))*(3*3+3);
-  double qcdfac = ival->get(als)/Pi*8/3.;
-  return(res1f()*sqrt(sqr(ewfac)+sqr(qcdfac)) + res1b()*ewfac); 
+{
+  double ewfac = ival->get(InputPar::alpha)/(Pi*(1-sqr(ival->get(InputPar::WMassComplex)/ival->get(InputPar::ZMassComplex))))*(3*3+3);
+  double qcdfac = ival->get(InputPar::alphaS)/Pi*8/3.;
+  return(res1f()*sqrt(sqr(ewfac)+sqr(qcdfac)) + res1b()*ewfac);
 }
 
 } // namespace

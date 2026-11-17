@@ -1,6 +1,6 @@
 /*
   File: SMEFT.h
-  Purpose: Collect the finite SMEFT interface and SM input headers in a safe order.
+  Purpose: Collect the finite SMEFT interface and typed SM input containers.
   Authors: Jackson Wallace and Lisong Chen
   Last updated: 2026-11-16
 */
@@ -9,9 +9,8 @@
 #define GRIFFIN_SMEFT_H
 
 // Recommended finite-SMEFT interface and SM input containers.
-// Parse SM physics headers before the input containers: legacy SM input
-// headers redefine short mass macros. Include this entry header first when
-// mixing it with advanced SM headers; use explicit InputPar names in callers.
+// InputPar, Fermion and Current are the only input labels; including SMvalG.h
+// does not change their meaning or the behavior of other SM headers.
 #include "griffin/sm/EWPOZ2.h"
 #include "griffin/smeft/SMEFTCalculator.h"
 #include "griffin/sm/SMvalG.h"

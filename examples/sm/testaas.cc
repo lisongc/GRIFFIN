@@ -2,8 +2,8 @@
   File: testaas.cc
   Purpose: Compare SMNNLO and mixed electroweak-QCD scattering predictions.
   Original SM example retained without numerical changes.
-  Merged-version organization: Jackson Wallace and Lisong Chen
-  Last updated: 2026-11-16 (grouped under examples/sm)
+  Merged-version authors: Jackson Wallace and Lisong Chen
+  Last updated: 2026-11-16 (typed-only input labels)
 */
 
 #include <iostream>
@@ -29,20 +29,21 @@ int main()
   cout<<"======================================================"<<endl;
 
   SMval myinput;        // convert masses from PDG values to complex pole scheme
-  myinput.set(al, 1/137.03599976);
-  myinput.set(MZ, 91.1876);
-  myinput.set(MW, 80.377);
-  myinput.set(GamZ, 2.4952);
-  myinput.set(GamW, 2.085);
-  myinput.set(MH, 125.1);
-  myinput.set(MT, 172.5);
-  myinput.set(MB, 2.87);
-  myinput.set(Delal, 0.059);
-  myinput.set(als, 0.1179);
+  myinput.set(InputPar::alpha, 1/137.03599976);
+  myinput.set(InputPar::ZMassExperiment, 91.1876);
+  myinput.set(InputPar::WMassExperiment, 80.377);
+  myinput.set(InputPar::ZWidthExperiment, 2.4952);
+  myinput.set(InputPar::WWidthExperiment, 2.085);
+  myinput.set(InputPar::HiggsMass, 125.1);
+  myinput.set(InputPar::topMass, 172.5);
+  myinput.set(InputPar::bottomMass, 2.87);
+  myinput.set(InputPar::DeltaAlpha, 0.059);
+  myinput.set(InputPar::alphaS, 0.1179);
 
   // compute matrix element for ee->dd with vector coupling in initial
   // state and vector coupling in final state
-  int ini = ELE, fin = DQU, iff = VEC, off = VEC;
+  const Fermion ini = Fermion::electron, fin = Fermion::d;
+  const Current iff = Current::vector, off = Current::vector;
   
   cout << "=== Matrix element for ee->dd (i=e, f=d) ===" << endl << endl;
 
@@ -88,16 +89,16 @@ int main()
   for(cme = 10.; cme <= 190.; cme += 20.)
   {
     M.setkinvar(cme*cme, cost);
-    M.setform(VEC, VEC);
+    M.setform(Current::vector, Current::vector);
     res1vv = M.mat_SMNNLO::result();
     res2vv = M.result();
-    M.setform(AXV, VEC);
+    M.setform(Current::axial, Current::vector);
     res1av = M.mat_SMNNLO::result();
     res2av = M.result();
-    M.setform(VEC, AXV);
+    M.setform(Current::vector, Current::axial);
     res1va = M.mat_SMNNLO::result();
     res2va = M.result();
-    M.setform(AXV, AXV);
+    M.setform(Current::axial, Current::axial);
     res1aa = M.mat_SMNNLO::result();
     res2aa = M.result();
     xsec = real((1+cost*cost)*(res1vv*conj(res1vv) + res1av*conj(res1av)

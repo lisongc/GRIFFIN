@@ -1,18 +1,45 @@
 # Purpose: build isolated clients and standalone headers against an installed
-# GRIFFIN package, checking its public layout and private implementation boundary.
+# GRIFFIN package, checking version compatibility, public layout, ownership
+# and private boundaries.
 # Authors: Jackson Wallace and Lisong Chen.
-# Last updated: 2026-11-16.
+# Last updated: 2026-11-17.
 
 cmake_minimum_required(VERSION 3.20)
 project(griffin_installed_api_smoke LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(GRIFFIN 1.1.1 EXACT CONFIG REQUIRED)
+# The caller supplies this fresh installation's exact package directory.
+# Reject an old NON-EXACT request too: SameMajorVersion would wrongly accept
+# it despite removal of the old-label interfaces. Preserve the path because
+# a rejected find_package may update its GRIFFIN_DIR cache entry.
+set(griffin_test_package_dir "${GRIFFIN_DIR}")
+find_package(GRIFFIN 1.1.1 QUIET CONFIG
+  PATHS "${griffin_test_package_dir}" NO_DEFAULT_PATH)
+if(GRIFFIN_FOUND)
+  message(FATAL_ERROR "The 1.1.2 package incorrectly claims 1.1.1 compatibility")
+endif()
+find_package(GRIFFIN 1.1.2 EXACT CONFIG REQUIRED
+  PATHS "${griffin_test_package_dir}" NO_DEFAULT_PATH)
+message(STATUS "Package versions: rejected 1.1.1, accepted exact 1.1.2")
 add_executable(installed_smeft_example smeft_example.cc)
 target_link_libraries(installed_smeft_example PRIVATE GRIFFIN::griffin)
 set_target_properties(installed_smeft_example PROPERTIES CXX_EXTENSIONS OFF)
 add_executable(installed_public_api test_public_api.cc)
 target_link_libraries(installed_public_api PRIVATE GRIFFIN::griffin)
 set_target_properties(installed_public_api PROPERTIES CXX_EXTENSIONS OFF)
+add_executable(installed_typed_inputs test_typed_inputs.cc)
+target_link_libraries(installed_typed_inputs PRIVATE GRIFFIN::griffin)
+set_target_properties(installed_typed_inputs PROPERTIES CXX_EXTENSIONS OFF)
+add_executable(installed_typed_inputs_smval_first test_typed_inputs.cc)
+target_link_libraries(installed_typed_inputs_smval_first PRIVATE GRIFFIN::griffin)
+target_compile_definitions(installed_typed_inputs_smval_first PRIVATE GRIFFIN_TEST_SMVAL_FIRST)
+set_target_properties(installed_typed_inputs_smval_first PROPERTIES CXX_EXTENSIONS OFF)
+foreach(ownership_test test_fv_ownership test_matel_ownership)
+  add_executable(installed_${ownership_test} ${ownership_test}.cc)
+  target_link_libraries(installed_${ownership_test} PRIVATE GRIFFIN::griffin)
+  set_target_properties(installed_${ownership_test} PROPERTIES CXX_EXTENSIONS OFF)
+endforeach()
 
 # A plain tools.h client must be able to use the amplitude-to-cross-section
 # utility without including any SMEFT header or constructing a helper class.
@@ -248,6 +275,11 @@ set_target_properties(installed_header_checks PROPERTIES CXX_EXTENSIONS OFF)
 enable_testing()
 add_test(NAME installed_smeft_example COMMAND installed_smeft_example)
 add_test(NAME installed_public_api COMMAND installed_public_api)
+add_test(NAME installed_typed_inputs COMMAND installed_typed_inputs)
+add_test(NAME installed_typed_inputs_smval_first COMMAND installed_typed_inputs_smval_first)
+foreach(ownership_test test_fv_ownership test_matel_ownership)
+  add_test(NAME installed_${ownership_test} COMMAND installed_${ownership_test})
+endforeach()
 add_test(NAME installed_tools_cross_section COMMAND installed_tools_cross_section)
 add_test(NAME installed_electroweak_setup COMMAND installed_electroweak_setup)
 add_test(NAME installed_smeft_physics_headers COMMAND installed_smeft_physics_headers)

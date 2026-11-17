@@ -2,7 +2,7 @@
 File: ARCHITECTURE.md
 Purpose: Explain calculation flow, input ownership and the public/private source layout.
 Authors (merged-version documentation): Jackson Wallace and Lisong Chen
-Last updated: 2026-11-16
+Last updated: 2026-11-17
 -->
 
 # Architecture and source map
@@ -57,6 +57,7 @@ corrections: `mat_SMNNLO` and `mat_SMaas` perform that separate job.
 | Object | Responsibility |
 |---|---|
 | `SMval` / `SMvalGmu` | Ordinary SM inputs |
+| `InputPar` / `Fermion` / `Current` | The only SM parameter, particle and current labels; no parallel integer-label interface |
 | `smeft::Input` | Wilson coefficients, aliases and Lambda |
 | `prediction::ElectroweakSetup` | Pair SM inputs with the chosen electroweak scheme |
 | `prediction::SMEFTCalculator` | Resolve inputs and evaluate finite full/SM predictions |
@@ -71,11 +72,31 @@ energy/angle scans, and construct a new calculator for another input or
 coefficient point. The namespace `griffin::prediction` is not a separate
 engine or directory.
 
+The low-level SM ownership repair follows `merged_griffin_v1.2`, without
+importing its scattering formulas. `FV_SMLO`, `FV_SMNLO` and `FV_SMNNLO`
+own their selected FA/SW pair through `std::unique_ptr`; construction no
+longer creates lower-order pairs and then abandons them. Copies duplicate
+the pair while preserving its LO/NLO/NNLO type. The SM input is still borrowed.
+
+`matel` owns the four fixed form factors created by its numerical-value
+constructor. Its object-based constructor instead borrows the supplied
+form factors. Copies duplicate owned values or retain borrowed references;
+moves transfer ownership. `setinput()` updates owned fixed form factors,
+but does not modify external borrowed form factors. These rules are inherited
+by `mat_SMNNLO` and `mat_SMaas`. Reassign moved-from FV or matrix-element
+objects before using them again. Inputs and borrowed form factors must
+outlive the objects that use them.
+
+`psobs` has a virtual destructor so deleting an observable through a base
+pointer runs the correct cleanup. This does not transfer ownership of its
+borrowed SM input. Remaining input-class precautions are in
+[known limitations](KNOWN_ISSUES.md#5-ownership-and-legacy-error-handling).
+
 ## Source responsibilities
 
 | Location | Contents |
 |---|---|
-| `include/griffin/SMEFT.h` | Convenience entry header in a safe include order |
+| `include/griffin/SMEFT.h` | Convenience entry header collecting the usual SMEFT/SM interfaces |
 | `include/griffin/sm/ElectroweakSetup.h` | Both `EWInputScheme` and `ElectroweakSetup`; no Wilson coefficients |
 | `include/griffin/smeft/SMEFTCalculator.h` | Calculator and finite-result types |
 | `include/griffin/smeft/EWPO_smeft.h` | Observable selections |
@@ -113,9 +134,11 @@ runtime. All grid files are retained, including those not selected by the
 current build. Generated build/install products are not additional source
 interfaces.
 
-Include `<griffin/SMEFT.h>` first when mixing it with advanced SM headers;
-typed input keys alone do not remove the
-[legacy header-order constraint](KNOWN_ISSUES.md#5-ownership-and-legacy-error-handling).
+Typed labels are used throughout the SM and SMEFT implementations, not just
+at the outer calculator interface. Experimental and complex-pole masses have
+different `InputPar` labels, and including an input header cannot redefine
+their meaning. Integer array indices remain an internal storage detail,
+not a second public input convention.
 
 The public cross section supports massless electron annihilation to muons,
 taus and $u,d,s,c,b$. Exactly $s=M_Z^2$ is still rejected; the upstream

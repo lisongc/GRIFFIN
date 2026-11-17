@@ -126,16 +126,16 @@ public:
 Cplx explicitFA(Fermion f, const inval& input, const smeft::Input& eft)
 {
   return FA_SMNNLO(f,input).result()
-      +2.0*az0(index(f),input)*smeft::directZAxialShift(f,input,eft);
+      +2.0*az0(f,input)*smeft::directZAxialShift(f,input,eft);
 }
 
 Cplx explicitSW(Fermion f, const inval& input, const smeft::Input& eft)
 {
-  const int type=index(f);
+  const Fermion type=f;
   const double a=az0(type,input), v=vz0(type,input);
   const double da=smeft::directZAxialShift(f,input,eft);
   const double dv=smeft::directZVectorShift(f,input,eft);
-  return SW_SMNNLO(f,input).result()-(dv/a-v*da/(a*a))/(4.0*std::fabs(Qf[type]));
+  return SW_SMNNLO(f,input).result()-(dv/a-v*da/(a*a))/(4.0*std::fabs(Qf[index(type)]));
 }
 
 struct Assembly {

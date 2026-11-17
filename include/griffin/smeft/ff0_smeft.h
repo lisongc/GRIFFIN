@@ -1,5 +1,9 @@
 /*
-  ff0_smeft.h: direct SMEFT changes to the axial/vector Zff couplings
+  File: ff0_smeft.h
+  Purpose: Declare direct SMEFT changes to the axial/vector Zff couplings,
+           selected only by typed Fermion labels.
+  Authors: Jackson Wallace and Lisong Chen
+  Last updated: 2026-11-16
 
   These functions return the explicit dimension-six tree vertex shifts, not
   the SM couplings themselves.  The supplied alpha, MW and MZ are held fixed
@@ -22,24 +26,12 @@ namespace griffin {
 namespace smeft {
 
 // Explicit change in the axial Zff coupling at the supplied mass point.
-double directZAxialShift(int type, const inval& smInput,
+double directZAxialShift(Fermion type, const inval& smInput,
                         const Input& eftInput);
 
 // Explicit change in the vector Zff coupling at the supplied mass point.
-double directZVectorShift(int type, const inval& smInput,
+double directZVectorShift(Fermion type, const inval& smInput,
                          const Input& eftInput);
-
-inline double directZAxialShift(Fermion type, const inval& smInput,
-                               const Input& eftInput)
-{
-  return directZAxialShift(index(type),smInput,eftInput);
-}
-
-inline double directZVectorShift(Fermion type, const inval& smInput,
-                                const Input& eftInput)
-{
-  return directZVectorShift(index(type),smInput,eftInput);
-}
 
 } // namespace smeft
 } // namespace griffin

@@ -2,7 +2,7 @@
 File: KNOWN_ISSUES.md
 Purpose: List current limitations, supported domains and precautions.
 Authors: Jackson Wallace and Lisong Chen
-Last updated: 2026-11-16
+Last updated: 2026-11-17
 -->
 
 # Current limitations and supported scope
@@ -117,19 +117,38 @@ checks have the separate coverage described in the regression report.
 using the setup. `SMEFTCalculator` copies the SM/coefficient inputs at
 construction and then owns those snapshots and stack-based pole inputs.
 
-Some low-level SM constructors have separate ownership limitations.
-`FV_SMLO` allocates FA/SW objects without releasing them; derived FV
-constructors can replace those pointers with further allocations. The
-value-based `matel` constructor allocates `psobsfix` objects without an
-ownership-aware destructor. The calculator does not use these allocating
-constructors. Repairing them requires defined ownership and copy/move
-semantics, not unconditional deletion of borrowed pointers.
+**The FV and value-based `matel` allocation leaks are repaired.** Following
+the ownership implementation in `merged_griffin_v1.2`, FV classes own their
+FA/SW pair with `std::unique_ptr` and construct only the selected correction
+order. Numerical-value `matel` construction owns its four `psobsfix` objects;
+the object-based constructor continues to borrow external form factors.
+Copies duplicate owned objects without sharing mutable helper state; moves
+transfer ownership. `psobs` has a virtual destructor for safe cleanup through
+base pointers. This port changes ownership, not the v1.1.1 physics formulas.
 
-`SMval.h` redefines the short mass macros `MW`, `MZ`, `GamW` and `GamZ`.
-Arbitrary ordering of low-level SM headers can therefore affect mass slots
-used by inline formulas. Include `<griffin/SMEFT.h>` first when combining it
-with advanced SM headers, and use typed `InputPar` keys in caller code.
-Typed keys alone do not remove the low-level header-order dependency.
+Lifetime precautions remain: keep borrowed inputs and form factors alive,
+and reassign moved-from FV or matrix-element objects before using them.
+`matel::setinput()` does not mutate externally supplied form factors.
+`inval` still lacks a virtual destructor: do not delete a derived SM input
+through an `inval*`. Ordinary named input objects, as used in the examples,
+do not require that operation. These remaining restrictions are separate
+from the repaired allocations. See [ownership instructions](USER_GUIDE.md#headers-and-ownership)
+and the [test report](REGRESSION_TEST_REPORT.md) for the validation scope.
+
+Use the default constructors for the supplied `SMval` and `SMvalGmu` input
+classes. Their inherited custom-capacity constructors do not validate the
+storage size required by the internal `compute()` routines; an undersized
+allocation can cause out-of-bounds access. Checked `get/set` access does not
+protect those direct internal accesses. This pre-existing low-level limitation
+is separate from the ownership repair and does not affect the default-size
+input objects used by the examples and validated calculator path.
+
+The former mass-label header-order dependency is removed: `SMval.h` no
+longer redefines short mass macros, and all kernels use explicit `InputPar`
+keys. All SM/SMEFT particle and current interfaces now use `Fermion` and
+`Current`; the old integer-label overloads are not supported. This is a
+source-interface change requiring client updates and a rebuild, not a change
+to the mass-conversion or prediction formulas. See [migration instructions](MIGRATION.md#use-typed-labels-only).
 
 Low-level `inval::get/set` can terminate the process on invalid/unset
 inputs. The finite calculator validates its required inputs, but that is
@@ -144,6 +163,6 @@ The current test results, tolerances and reproduction instructions are in
 require external comparison directories or archived run records.
 
 Further work includes the exact-pole limit, broader precision validation,
-low-level ownership/error handling, automated cross-platform tests and
+input-class lifetime/error handling, automated cross-platform tests and
 independent review of the coefficient conventions. New process support
 requires its own validation.

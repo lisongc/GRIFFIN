@@ -64,14 +64,14 @@ void throwsInvalidArgument(const Callable& call, const std::string& message)
 SMval makeSM()
 {
   SMval input;
-  input.set(MZ,91.1876); input.set(MW,80.377);
-  input.set(GamZ,2.4952); input.set(GamW,2.085);
-  input.set(al,1.0/137.03599976); input.set(als,0.1179);
-  input.set(MH,125.1); input.set(MT,172.5); input.set(MB,2.87);
-  input.set(MC,0.652); input.set(ML,1.777);
-  input.set(MS,0.0); input.set(MU,0.0); input.set(MD,0.0);
-  input.set(MM,0.0); input.set(ME,0.0);
-  input.set(Delal,0.059); input.set(Gmu,1.166379e-5);
+  input.set(InputPar::ZMassExperiment,91.1876); input.set(InputPar::WMassExperiment,80.377);
+  input.set(InputPar::ZWidthExperiment,2.4952); input.set(InputPar::WWidthExperiment,2.085);
+  input.set(InputPar::alpha,1.0/137.03599976); input.set(InputPar::alphaS,0.1179);
+  input.set(InputPar::HiggsMass,125.1); input.set(InputPar::topMass,172.5); input.set(InputPar::bottomMass,2.87);
+  input.set(InputPar::charmMass,0.652); input.set(InputPar::tauMass,1.777);
+  input.set(InputPar::strangeMass,0.0); input.set(InputPar::upMass,0.0); input.set(InputPar::downMass,0.0);
+  input.set(InputPar::muonMass,0.0); input.set(InputPar::electronMass,0.0);
+  input.set(InputPar::DeltaAlpha,0.059); input.set(InputPar::fermiConstant,1.166379e-5);
   return input;
 }
 
@@ -211,15 +211,15 @@ void testFVAndLambda(const ElectroweakSetup& context)
   const inval& input = prediction.resolvedInput();
   for(Fermion fermion : {Fermion::electron,Fermion::muon,Fermion::b})
   {
-    const int type = index(fermion);
+    const Fermion type=fermion;
     const Cplx fa = prediction.pseudoObservable(PseudoObservable::FA,fermion).total();
     const Cplx sw = prediction.pseudoObservable(PseudoObservable::SW,fermion).total();
     const Cplx fv = prediction.pseudoObservable(PseudoObservable::FV,fermion).total();
     const double a0 = az0(type,input), v0 = vz0(type,input);
     const double imaginaryRatio =
-      (a0*(iz1f(type,VEC,input)+iz1b(type,VEC,input))
-       -v0*(iz1f(type,AXV,input)+iz1b(type,AXV,input)))/(a0*a0);
-    const double q = 1.0-4.0*std::fabs(Qf[type])*real(sw);
+      (a0*(iz1f(type,Current::vector,input)+iz1b(type,Current::vector,input))
+       -v0*(iz1f(type,Current::axial,input)+iz1b(type,Current::axial,input)))/(a0*a0);
+    const double q = 1.0-4.0*std::fabs(Qf[index(type)])*real(sw);
     close(fv,fa*(q*q+imaginaryRatio*imaginaryRatio),"FV lost FA/SW identity");
     require(std::abs(fv-fa*q*q)>1.0e-15,"FV test has no absorptive contribution");
     const double dv = smeft::directZVectorShift(type,input,benchmark());
@@ -485,7 +485,7 @@ void testOwnership()
   const SMEFTCalculator original(context,coefficients);
   SMEFTCalculator copied(original);
   SMEFTCalculator moved(std::move(copied));
-  direct.set(MW,80.30); coefficients.clearWilsonCoefficients();
+  direct.set(InputPar::WMassExperiment,80.30); coefficients.clearWilsonCoefficients();
   samePrediction(original,moved,"copy/move or caller mutation changed snapshot");
   close(original.wilsonInput().CphiWB(),0.0002,"Wilson snapshot aliases caller");
   require(std::fabs(original.resolvedInput().get(InputPar::WMassComplex)
@@ -547,9 +547,9 @@ void testValidation(const ElectroweakSetup& alpha, const ElectroweakSetup& gmu)
                                        PseudoObservable::SW})
       throwsInvalidArgument([&]{ prediction.pseudoObservable(observable,fermion); },
                             "invalid observable fermion accepted");
-    throwsInvalidArgument([&]{ smeft::directZAxialShift(invalid,alpha.input(),zeroCoefficients); },
+    throwsInvalidArgument([&]{ smeft::directZAxialShift(fermion,alpha.input(),zeroCoefficients); },
                           "invalid axial-shift fermion accepted");
-    throwsInvalidArgument([&]{ smeft::directZVectorShift(invalid,alpha.input(),zeroCoefficients); },
+    throwsInvalidArgument([&]{ smeft::directZVectorShift(fermion,alpha.input(),zeroCoefficients); },
                           "invalid vector-shift fermion accepted");
   }
   throws([&]{ SMEFTCalculator p(alpha,smeft::Input()); },"missing Lambda accepted");

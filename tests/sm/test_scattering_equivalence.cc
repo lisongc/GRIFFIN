@@ -117,10 +117,10 @@ Amplitudes legacyAmplitudes(Matrix& matrix, double s, double cosine)
 {
   matrix.setkinvar(s,cosine);
   Amplitudes result;
-  matrix.setform(VEC,VEC); result[0] = matrix.result();
-  matrix.setform(AXV,VEC); result[1] = matrix.result();
-  matrix.setform(VEC,AXV); result[2] = matrix.result();
-  matrix.setform(AXV,AXV); result[3] = matrix.result();
+  matrix.setform(Current::vector,Current::vector); result[0] = matrix.result();
+  matrix.setform(Current::axial,Current::vector); result[1] = matrix.result();
+  matrix.setform(Current::vector,Current::axial); result[2] = matrix.result();
+  matrix.setform(Current::axial,Current::axial); result[3] = matrix.result();
   return result;
 }
 
@@ -207,11 +207,11 @@ unsigned scan(double alphaS, Comparison& nnloHelper, Comparison& aasHelper,
   unsigned points = 0;
   for(const FinalState& final : finals)
   {
-    const FA_SMNNLO fai(ELE,input), faf(index(final.fermion),input);
-    const SW_SMNNLO swi(ELE,input), swf(index(final.fermion),input);
+    const FA_SMNNLO fai(Fermion::electron,input), faf(final.fermion,input);
+    const SW_SMNNLO swi(Fermion::electron,input), swf(final.fermion,input);
     // Separate concrete objects preserve the two legacy SM orders.
-    mat_SMNNLO nnlo(ELE,index(final.fermion),VEC,VEC,fai,faf,swi,swf,100,.5,input);
-    mat_SMaas aas(ELE,index(final.fermion),VEC,VEC,fai,faf,swi,swf,100,.5,input);
+    mat_SMNNLO nnlo(Fermion::electron,final.fermion,Current::vector,Current::vector,fai,faf,swi,swf,100,.5,input);
+    mat_SMaas aas(Fermion::electron,final.fermion,Current::vector,Current::vector,fai,faf,swi,swf,100,.5,input);
     for(double energy=10;energy<=190;energy+=20)
       for(double c : {-0.8,-0.3,0.0,0.5,0.8})
       {

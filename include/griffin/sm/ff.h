@@ -1,3 +1,12 @@
+/*
+  File: ff.h
+  Purpose: Declare one-loop self-energy, vertex and box functions with typed labels.
+  Typed-input integration: Jackson Wallace and Lisong Chen
+  Last updated: 2026-11-16
+  Original GRIFFIN calculations/author records are retained below or in the
+  including source file; this migration changes labels, not the expressions.
+*/
+
 #ifndef GRIFFIN_SM_FF_H
 #define GRIFFIN_SM_FF_H
 
@@ -43,47 +52,47 @@ double isg1b(const inval& input);
 
 /* notation for the following functions:
    type = fermion type
-   form = form factor type (VEC/AXV)
+   form = form factor type (Current::vector/Current::axial)
 */
 
 // real part of fermionic one-loop Z vertex factor for k^2=mz^2
-double rz1f(int type, int form, const inval& input);
+double rz1f(Fermion type, Current form, const inval& input);
 // imag. part of fermionic one-loop Z vertex factor for k^2=mz^2
-double iz1f(int type, int form, const inval& input);
+double iz1f(Fermion type, Current form, const inval& input);
 // real part of bosonic one-loop Z vertex factor for k^2=mz^2
-double rz1b(int type, int form, const inval& input);
+double rz1b(Fermion type, Current form, const inval& input);
 // imag. part of bosonic one-loop Z vertex factor for k^2=mz^2
-double iz1b(int type, int form, const inval& input);
+double iz1b(Fermion type, Current form, const inval& input);
 // deriv. of real part of fermionic one-loop Z vertex factor for k^2=mz^2
-double rz1fp(int type, int form, const inval& input);
+double rz1fp(Fermion type, Current form, const inval& input);
 // deriv. of imag. part of fermionic one-loop Z vertex factor for k^2=mz^2
-double iz1fp(int type, int form, const inval& input);
+double iz1fp(Fermion type, Current form, const inval& input);
 // deriv. of real part of bosonic one-loop Z vertex factor for k^2=mz^2
-double rz1bp(int type, int form, const inval& input);
+double rz1bp(Fermion type, Current form, const inval& input);
 // deriv. of imag. part of bosonic one-loop Z vertex factor for k^2=mz^2
-double iz1bp(int type, int form, const inval& input);
+double iz1bp(Fermion type, Current form, const inval& input);
 
 // real part of fermionic one-loop photon vertex factor for k^2=mz^2
-double rg1f(int type, int form, const inval& input);
+double rg1f(Fermion type, Current form, const inval& input);
 // imag. part of fermionic one-loop photon vertex factor for k^2=mz^2
-double ig1f(int type, int form, const inval& input);
+double ig1f(Fermion type, Current form, const inval& input);
 // real part of bosonic one-loop photon vertex factor for k^2=mz^2
-double rg1b(int type, int form, const inval& input);
+double rg1b(Fermion type, Current form, const inval& input);
 // imag. part of bosonic one-loop photon vertex factor for k^2=mz^2
-double ig1b(int type, int form, const inval& input);
+double ig1b(Fermion type, Current form, const inval& input);
 
 // one-loop box diagrams for s=mz^2
 // it/ot: ini-state/fin-state fermion type
-// if1/of1: ini-state/fin-state form factor type (VEC/AXV)
+// if1/of1: ini-state/fin-state form factor type (Current::vector/Current::axial)
 // s, cost: kinematic variables
 // inval: model input parameters
 // AA, AZ: flags to turn on/off the gam-gam and gam-Z boxes (use with caution!)
 // gzflag=1: use log(1-s/s0) for singular log term in gam-Z boxes
 // 0<gzflag<<<1: use log(1-s/mz^2) for singular log term in gam-Z boxes
-Cplx B1(int it, int ot, int if1, int of1, double s, double cost, const inval&
+Cplx B1(Fermion it, Fermion ot, Current if1, Current of1, double s, double cost, const inval&
 input, int AA, int AZ, double gzflag = 1);
 // contribution from gamma-Z box contributing to R
-double bRaz1(int it, int ot, double cost, const inval& input);
+double bRaz1(Fermion it, Fermion ot, double cost, const inval& input);
 
 
 // real part of fermionic one-loop Z self-energy for k^2=s
@@ -107,42 +116,42 @@ double isg1bs(double s, const inval& input);
 
 /* notation for the following functions:
    type = fermion type
-   form = form factor type (VEC/AXV)
+   form = form factor type (Current::vector/Current::axial)
 */
 
 // real part of fermionic one-loop Z vertex factor for k^2=s
-double rz1fs(int type, int form, double s, const inval& input);
+double rz1fs(Fermion type, Current form, double s, const inval& input);
 // imag. part of fermionic one-loop Z vertex factor for k^2=s
-double iz1fs(int type, int form, double s, const inval& input);
+double iz1fs(Fermion type, Current form, double s, const inval& input);
 // real part of bosonic one-loop Z vertex factor for k^2=s
-double rz1bs(int type, int form, double s, const inval& input);
+double rz1bs(Fermion type, Current form, double s, const inval& input);
 // imag. part of bosonic one-loop Z vertex factor for k^2=s
-double iz1bs(int type, int form, double s, const inval& input);
+double iz1bs(Fermion type, Current form, double s, const inval& input);
 
 // real part of fermionic one-loop photon vertex factor for k^2=s
-double rg1fs(int type, int form, double s, const inval& input);
+double rg1fs(Fermion type, Current form, double s, const inval& input);
 // imag. part of fermionic one-loop photon vertex factor for k^2=s
-double ig1fs(int type, int form, double s, const inval& input);
+double ig1fs(Fermion type, Current form, double s, const inval& input);
 // real part of bosonic one-loop photon vertex factor for k^2=s
-double rg1bs(int type, int form, double s, const inval& input);
+double rg1bs(Fermion type, Current form, double s, const inval& input);
 // imag. part of bosonic one-loop photon vertex factor for k^2=s
-double ig1bs(int type, int form, double s, const inval& input);
+double ig1bs(Fermion type, Current form, double s, const inval& input);
 
 // one-loop box diagrams for arbitrary s
 // it/ot: ini-state/fin-state fermion type
-// if1/of1: ini-state/fin-state form factor type (VEC/AXV)
+// if1/of1: ini-state/fin-state form factor type (Current::vector/Current::axial)
 // s, t: kinematic variables
 // inval: model input parameters
 // AA, AZ: flags to turn on/off the gam-gam and gam-Z boxes (use with caution!)
 // LS=(0)1: (don't) use subtraction for singular log(1-s/mz^2) in gam-Z boxes
-Cplx B1s(int it, int ot, int if1, int of1, double s, double t, const inval&
+Cplx B1s(Fermion it, Fermion ot, Current if1, Current of1, double s, double t, const inval&
 input, int AA, int AZ, int LS);
 // account for log(1-s/s0) terms in one-loop boxes, equivalent to 
 //  B1(it,ot,iff,off,s,cost,*ival,1,1) - B1(it,ot,iff,off,s,cost,*ival,1,1,1e-12)
 // it/ot: ini-state/fin-state fermion type
-// if1/of1: ini-state/fin-state form factor type (VEC/AXV)
+// if1/of1: ini-state/fin-state form factor type (Current::vector/Current::axial)
 // s, cost: kinematic variables
-Cplx B1s0(int it, int ot, int if1, int of1, double s, double cost, const inval&
+Cplx B1s0(Fermion it, Fermion ot, Current if1, Current of1, double s, double cost, const inval&
 input);
 
 } // namespace

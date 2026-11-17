@@ -2,16 +2,18 @@
 File: README.md
 Purpose: Introduce the merged GRIFFIN library, build instructions and documentation entry points.
 Authors (merged-version documentation): Jackson Wallace and Lisong Chen
-Last updated: 2026-11-16
+Last updated: 2026-11-17
 -->
 
-# GRIFFIN — smeft_v1.1.1
+# GRIFFIN — smeft_v1.1.2
+
+**SMEFT integration authors: Jackson Wallace and Lisong Chen.**
 
 GRIFFIN (Gauge-invariant Resonance In Four-Fermion INteractions) is a C++
 library for electroweak radiative corrections and fermion scattering near
 and away from the Z resonance.
 
-The `smeft_v1.1.1` integration candidate (CMake package version **1.1.1**)
+The `smeft_v1.1.2` integration candidate (CMake package version **1.1.2**)
 combines Lisong's typed SMEFT inputs with
 Jackson's finite calculation. `SMEFTCalculator` uses GRIFFIN's NNLO+ SM
 form factors and the `mat_SMaas` scattering amplitude, including selected
@@ -25,6 +27,40 @@ every higher-power SMEFT contribution or complete off-resonance NNLO
 corrections. The zero-coefficient SM result uses the same SM content and
 input-solving procedure. There is one SMEFT prediction path and no public
 SM-order selector.
+
+## Interface and memory-management updates
+
+Version 1.1.2 identifies the typed-only interface and the FV/matrix-element
+memory-leak repairs. It is not a drop-in replacement for old-label client
+programs from `smeft_v1.1.1`: migrate their calls and rebuild. The removed
+overloads are the legacy integer-label forms; copy/move constructors and
+constructors with distinct physical purposes remain supported.
+
+- **Typed labels only:** SM parameters, particles and currents use `InputPar`,
+  `Fermion` and `Current`; decay-width conventions use `WidthScheme`. The old
+  short macros and integer-label constructors/setters have been removed.
+  Experimental and complex-pole mass labels now have fixed meanings,
+  independent of header inclusion order. See the
+  [label migration guide](docs/MIGRATION.md#use-typed-labels-only).
+- **Automatic cleanup:** FV objects own their FA/SW helpers, and numerical-value
+  matrix elements own their fixed form factors. Copies duplicate owned helpers
+  while preserving their calculation order; moves transfer ownership. External
+  SM inputs and supplied form factors remain borrowed and must outlive their
+  users. See the [ownership rules](docs/USER_GUIDE.md#headers-and-ownership).
+- **Additional checks and examples:** tests cover typed-only calls in both
+  header orders, allocation/cleanup, copies, moves and failure handling, also
+  through an isolated installed package. The commented
+  [memory-management example](examples/sm/test_memory_management.cc) prints
+  object creation and destruction. Recorded numerical, sanitizer and leak-check
+  results are in the [regression report](docs/REGRESSION_TEST_REPORT.md).
+
+These updates preserve the finite Gmu prescription, FA/SW-based FV construction,
+contact conventions and SM calculation formulas. They do not import the v1.2
+scattering calculation or change the interpolation grids. **Update old-label
+calls and rebuild the library and all client programs:** the ownership repair
+changes class layouts, so old compiled objects must not be mixed with the
+updated library. The internal helper names `axiaff` and `swtheff` and explanatory
+comments improve readability without changing the calculation.
 
 ## Start here
 
@@ -54,6 +90,16 @@ The numerical regression requires Python 3's standard library; no external
 Python packages are needed. See the [regression report](docs/REGRESSION_TEST_REPORT.md)
 for recorded results and reproduction instructions.
 
+To see why automatic memory management matters, start at `main()` in the
+teaching example and run:
+
+```bash
+./build/release/examples/test_memory_management
+```
+
+Its tracing classes are only teaching aids; ordinary client programs do not
+need them. The example is also checked by CTest when examples are enabled.
+
 New client code can include `<griffin/SMEFT.h>`. A CMake client links to
 `GRIFFIN::griffin`, either after `add_subdirectory()` or through the installed
 package:
@@ -63,13 +109,15 @@ cmake --install build/release --prefix /path/to/griffin-install
 ```
 
 ```cmake
-find_package(GRIFFIN 1.1.1 CONFIG REQUIRED)
+find_package(GRIFFIN 1.1.2 EXACT CONFIG REQUIRED)
 target_link_libraries(my_program PRIVATE GRIFFIN::griffin)
 ```
 
 Point the client's `CMAKE_PREFIX_PATH` at that installation. See the
 [migration guide](docs/MIGRATION.md) for adapting existing programs and
 coefficient inputs. This integration branch is not an official published release.
+Versioned CMake requests use exact-version compatibility: a request for
+1.1.1 will not silently accept this source-incompatible 1.1.2 package.
 
 ## Documentation
 
@@ -94,9 +142,9 @@ coefficient inputs. This integration branch is not an official published release
 | `src/sm/expressions/` | Analytic formula fragments compiled into the SM implementation |
 | `data/grids/` | Retained interpolation tables; the selected tables are compiled into the library |
 | `examples/smeft_example.cc` | Complete public-interface SMEFT example |
-| `examples/sm/` | Retained SM demonstration programs |
-| `tests/sm/` | SM near-pole and scattering-equivalence checks |
-| Other `tests/` files | API, SMEFT, installation and frozen Jackson regression checks |
+| `examples/sm/` | SM demonstration programs and the memory-management teaching example |
+| `tests/sm/` | SM near-pole, scattering-equivalence and object-ownership checks |
+| Other `tests/` files | Typed/public interfaces, SMEFT, installation and frozen Jackson regression checks |
 | `docs/` | Current guides, architecture, limitations and regression evidence |
 | `cmake/`, `scripts/` | Build/install support and developer checks |
 | `build/` | Generated build products, not source files |
@@ -136,6 +184,10 @@ Please cite the [GRIFFIN paper](https://arxiv.org/pdf/2211.16272.pdf) when
 using the library in research.
 
 ## License and contacts
+
+The SMEFT integration is by Jackson Wallace and Lisong Chen. Original GRIFFIN
+author credits and citations are retained in the source files and linked
+reference material; the existing contacts are listed below.
 
 The authors of this public repository consent to external users using,
 reproducing, forking, and distributing the content with appropriate citation.

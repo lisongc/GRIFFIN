@@ -1,3 +1,12 @@
+/*
+  File: deltar.cc
+  Purpose: Evaluate SM Delta-r corrections and solve the Gmu W-mass relation.
+  Typed-input integration: Jackson Wallace and Lisong Chen
+  Last updated: 2026-11-16
+  Original GRIFFIN calculations/author records are retained below or in the
+  including source file; this migration changes labels, not the expressions.
+*/
+
 /*-----------------------------------------------------------------------------
 deltar.cc
 Ayres Freitas (afreitas@pitt.edu)
@@ -21,11 +30,11 @@ namespace griffin {
 
 double dr_SMNNLO::res2aas(void) const
 {
-  double MZs = sqr(ival->get(MZ)),
-         MWs = sqr(ival->get(MW)),
-         MTs = sqr(ival->get(MT)),
-         MBs = sqr(ival->get(MB)),
-         ALS = ival->get(als);
+  double MZs = sqr(ival->get(InputPar::ZMassComplex)),
+         MWs = sqr(ival->get(InputPar::WMassComplex)),
+         MTs = sqr(ival->get(InputPar::topMass)),
+         MBs = sqr(ival->get(InputPar::bottomMass)),
+         ALS = ival->get(InputPar::alphaS);
 // compute O(al als) correction via linear interpolation of a numerical grid
   double z = linex3d(axis1draas, sizeof(axis1draas)/sizeof(double), 
                      axis2draas, sizeof(axis2draas)/sizeof(double), 
@@ -36,11 +45,11 @@ double dr_SMNNLO::res2aas(void) const
 
 double dr_SMNNLO::res3aas2(void) const
 {
-  double MZs = sqr(ival->get(MZ)),
-         MWs = sqr(ival->get(MW)),
-         MTs = sqr(ival->get(MT)),
-         AL = ival->get(al) * DRHOSCHEME,
-         ALS = ival->get(als);
+  double MZs = sqr(ival->get(InputPar::ZMassComplex)),
+         MWs = sqr(ival->get(InputPar::WMassComplex)),
+         MTs = sqr(ival->get(InputPar::topMass)),
+         AL = ival->get(InputPar::alpha) * DRHOSCHEME,
+         ALS = ival->get(InputPar::alphaS);
   // expansion formula from hep-ph/9504413:
   double lz = log(MZs/MTs), xw = (MZs-MWs)/MZs;
   return(-3*MWs/(MZs-MWs) * AL/(1-MWs/MZs) * MTs/(16*Pi*MWs) *
@@ -56,11 +65,11 @@ double dr_SMNNLO::res3aas2(void) const
 
 double dr_SMNNLO::res2fb(void) const
 {
-  double MZs = sqr(ival->get(MZ)),
-         MWs = sqr(ival->get(MW)),
-         MTs = sqr(ival->get(MT)),
-         MHs = sqr(ival->get(MH)),
-         deltaAlpha = ival->get(Delal);
+  double MZs = sqr(ival->get(InputPar::ZMassComplex)),
+         MWs = sqr(ival->get(InputPar::WMassComplex)),
+         MTs = sqr(ival->get(InputPar::topMass)),
+         MHs = sqr(ival->get(InputPar::HiggsMass)),
+         deltaAlpha = ival->get(InputPar::DeltaAlpha);
 // compute O(al_f al_b) correction via linear interpolation of a numerical grid
   double r = linex3d(axis1dr2fb, sizeof(axis1dr2fb)/sizeof(double), 
                      axis2dr2fb, sizeof(axis2dr2fb)/sizeof(double), 
@@ -73,10 +82,10 @@ double dr_SMNNLO::res2fb(void) const
 
 double dr_SMNNLO::res2bb(void) const
 {
-  double MZs = sqr(ival->get(MZ)),
-         MWs = sqr(ival->get(MW)),
-         MHs = sqr(ival->get(MH)),
-         deltaAlpha = ival->get(Delal);
+  double MZs = sqr(ival->get(InputPar::ZMassComplex)),
+         MWs = sqr(ival->get(InputPar::WMassComplex)),
+         MHs = sqr(ival->get(InputPar::HiggsMass)),
+         deltaAlpha = ival->get(InputPar::DeltaAlpha);
 // compute O(al_b^2) correction via linear interpolation of a numerical grid
   double r = linex2d(axis1dr2bb, sizeof(axis1dr2bb)/sizeof(double), 
                      axis2dr2bb, sizeof(axis2dr2bb)/sizeof(double), 
@@ -88,12 +97,12 @@ double dr_SMNNLO::res2bb(void) const
 
 double dr_SMNNLO::res3ffa2as(void) const
 {
-  double AL = ival->get(al),
-	 ALS = ival->get(als),
-	 mz = ival->get(MZ),
-	 mw = ival->get(MW),
-	 mt = ival->get(MT),
-	 deltaAlpha = ival->get(Delal),
+  double AL = ival->get(InputPar::alpha),
+	 ALS = ival->get(InputPar::alphaS),
+	 mz = ival->get(InputPar::ZMassComplex),
+	 mw = ival->get(InputPar::WMassComplex),
+	 mt = ival->get(InputPar::topMass),
+	 deltaAlpha = ival->get(InputPar::DeltaAlpha),
 	 r1, r2;
 
   r1 = linex2d(axis1dra2asff, sizeof(axis1dra2asff) / sizeof(double),
@@ -111,17 +120,17 @@ double dr_SMNNLO::res3ffa2as(void) const
 void invalGmu::compute(void)
 {
   double MWsold = 0, MWscalc = 80*80;
-  double MZs = sqr(data[MZ]), GF = data[Gmu], alpha = data[al];
+  double MZs = sqr(data[index(InputPar::ZMassComplex)]), GF = data[index(InputPar::fermiConstant)], alpha = data[index(InputPar::alpha)];
   dr_SMNNLO dr(*this);
     
-  if(isfinite(data[MZ]*data[MH]*data[MT]*data[MB]*data[al]*data[als]
-              *data[Delal]*data[Gmu])) // only proceed if all parameters needed
+  if(isfinite(data[index(InputPar::ZMassComplex)]*data[index(InputPar::HiggsMass)]*data[index(InputPar::topMass)]*data[index(InputPar::bottomMass)]*data[index(InputPar::alpha)]*data[index(InputPar::alphaS)]
+              *data[index(InputPar::DeltaAlpha)]*data[index(InputPar::fermiConstant)])) // only proceed if all parameters needed
 	                               // for Delta_r are set
   {
     while(fabs(MWscalc-MWsold) > 1e-4)  // demand keV technical precision for m_W
     {
       MWsold = MWscalc;
-      data[MW] = sqrt(MWscalc);
+      data[index(InputPar::WMassComplex)] = sqrt(MWscalc);
       MWscalc = MZs * (0.5 + sqrt(0.25 - 2.221441469079183*alpha/(GF*MZs) 
     			  * (1+real(dr.result()))));
     }

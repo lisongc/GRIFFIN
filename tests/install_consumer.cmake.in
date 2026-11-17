@@ -1,3 +1,9 @@
+# File: install_consumer.cmake.in
+# Purpose: Install the package into a fresh prefix, then build and run isolated
+# downstream clients, including typed-only inputs and SM ownership checks.
+# Authors: Jackson Wallace and Lisong Chen
+# Last updated: 2026-11-17
+
 # Each run gets a fresh prefix so stale headers cannot conceal packaging gaps.
 string(RANDOM LENGTH 12 ALPHABET abcdef0123456789 run_id)
 set(workspace "@PROJECT_BINARY_DIR@/installed-api-smoke/${run_id}")
@@ -24,6 +30,12 @@ configure_file("@PROJECT_SOURCE_DIR@/examples/smeft_example.cc"
   "${workspace}/source/smeft_example.cc" COPYONLY)
 configure_file("@PROJECT_SOURCE_DIR@/tests/test_public_api.cc"
   "${workspace}/source/test_public_api.cc" COPYONLY)
+configure_file("@PROJECT_SOURCE_DIR@/tests/test_typed_inputs.cc"
+  "${workspace}/source/test_typed_inputs.cc" COPYONLY)
+foreach(ownership_test test_fv_ownership test_matel_ownership)
+  configure_file("@PROJECT_SOURCE_DIR@/tests/sm/${ownership_test}.cc"
+    "${workspace}/source/${ownership_test}.cc" COPYONLY)
+endforeach()
 
 checked_command("Configure installed-header-only consumer"
   "@CMAKE_COMMAND@" "${workspace}/source"

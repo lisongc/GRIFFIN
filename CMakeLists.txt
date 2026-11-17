@@ -1,13 +1,13 @@
 # File: CMakeLists.txt
 # Purpose: Build and install GRIFFIN, export its CMake package, and enable tests/examples.
 # Authors: Jackson Wallace and Lisong Chen
-# Last updated: 2026-11-16
+# Last updated: 2026-11-17
 
 cmake_minimum_required(VERSION 3.20)
 
-# Collaborator branch/variant: smeft_v1.1.1.
+# Package variant: smeft_v1.1.2 (independent of the checkout's branch/folder name).
 # CMake requires a numeric package version; the exported target stays GRIFFIN::griffin.
-project(griffin VERSION 1.1.1 LANGUAGES CXX)
+project(griffin VERSION 1.1.2 LANGUAGES CXX)
 
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
@@ -57,7 +57,9 @@ configure_package_config_file(cmake/GRIFFINConfig.cmake.in
   INSTALL_DESTINATION ${GRIFFIN_INSTALL_CMAKEDIR})
 write_basic_package_version_file(
   ${CMAKE_CURRENT_BINARY_DIR}/GRIFFINConfigVersion.cmake
-  VERSION ${PROJECT_VERSION} COMPATIBILITY SameMajorVersion)
+  # Typed-only interfaces break old-label callers: do not promise that a
+  # request for an older same-major version can use this package unchanged.
+  VERSION ${PROJECT_VERSION} COMPATIBILITY ExactVersion)
 install(EXPORT GRIFFINTargets FILE GRIFFINTargets.cmake
   NAMESPACE GRIFFIN:: DESTINATION ${GRIFFIN_INSTALL_CMAKEDIR})
 install(FILES

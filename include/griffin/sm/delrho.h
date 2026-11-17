@@ -1,3 +1,12 @@
+/*
+  File: delrho.h
+  Purpose: Declare higher-order rho-parameter and running strong-coupling functions.
+  Typed-input integration: Jackson Wallace and Lisong Chen
+  Last updated: 2026-11-16
+  Original GRIFFIN calculations/author records are retained below or in the
+  including source file; this migration changes labels, not the expressions.
+*/
+
 #ifndef GRIFFIN_SM_DELRHO_H
 #define GRIFFIN_SM_DELRHO_H
 
@@ -7,7 +16,7 @@
 #define DRHOSCHEME  1
 
 // Gmu scheme for leading mt-enhanced contributions:
-//#define DRHOSCHEME  (0.4501581580785531*ival->get(Gmu)*MWs*(1-MWs/MZs)/ival->get(al))
+//#define DRHOSCHEME  (0.4501581580785531*ival->get(InputPar::fermiConstant)*MWs*(1-MWs/MZs)/ival->get(InputPar::alpha))
 
 #include "griffin/core/classes.h"
 

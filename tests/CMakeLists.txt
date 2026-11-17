@@ -2,7 +2,7 @@
   File: tests/CMakeLists.txt
   Purpose: Register library, SM scattering, archived-numerical and installation tests.
   Authors: Jackson Wallace and Lisong Chen
-  Last updated: 2026-11-16
+  Last updated: 2026-11-17
 ]]
 
 function(add_griffin_test target source)
@@ -12,6 +12,13 @@ function(add_griffin_test target source)
 endfunction()
 
 add_griffin_test(test_public_api test_public_api.cc)
+add_griffin_test(test_fv_ownership sm/test_fv_ownership.cc)
+add_griffin_test(test_matel_ownership sm/test_matel_ownership.cc)
+set_tests_properties(test_fv_ownership test_matel_ownership
+  PROPERTIES LABELS "sm;ownership")
+add_griffin_test(test_typed_inputs test_typed_inputs.cc)
+add_griffin_test(test_typed_inputs_smval_first test_typed_inputs.cc)
+target_compile_definitions(test_typed_inputs_smval_first PRIVATE GRIFFIN_TEST_SMVAL_FIRST)
 add_griffin_test(test_smeft_input test_smeft_input.cc)
 add_griffin_test(test_smeft_input_schemes test_smeft_input_schemes.cc)
 add_griffin_test(test_smeft_matrix_elements test_smeft_matrix_elements.cc)

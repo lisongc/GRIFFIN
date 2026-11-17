@@ -28,16 +28,16 @@ struct ChiralContact {
   double lr;
   double rl;
   double rr;
-  static ChiralContact forProcess(int intype, int outtype, const Input& input);
+  static ChiralContact forProcess(Fermion intype, Fermion outtype, const Input& input);
 };
 
 ChiralContact ChiralContact::forProcess(
-    int intype, int outtype, const Input& input)
+    Fermion intype, Fermion outtype, const Input& input)
 {
-  if(intype != ELE)
+  if(intype != Fermion::electron)
     throw std::invalid_argument(
         "SMEFT contact amplitudes require an electron initial state");
-  if(outtype == ELE)
+  if(outtype == Fermion::electron)
     throw std::domain_error(
         "Bhabha SMEFT contact terms require separate s/t-channel treatment");
 
@@ -102,29 +102,30 @@ ChiralContact ChiralContact::forProcess(
 
 namespace {
 
-void validateVectorAxialCurrents(int inform, int outform)
+void validateVectorAxialCurrents(Current inform, Current outform)
 {
-  if((inform != VEC && inform != AXV)
-      || (outform != VEC && outform != AXV))
+  if((inform != Current::vector && inform != Current::axial)
+      || (outform != Current::vector && outform != Current::axial))
     throw std::invalid_argument(
         "SMEFT contact amplitudes support only vector and axial-vector currents");
 }
 
 double projectContact(const detail::ChiralContact& coefficient,
-                      int inform, int outform)
+                      Current inform, Current outform)
 {
-  if(inform == VEC && outform == VEC)
+  if(inform == Current::vector && outform == Current::vector)
     return coefficient.ll+coefficient.lr+coefficient.rl+coefficient.rr;
-  if(inform == VEC && outform == AXV)
+  if(inform == Current::vector && outform == Current::axial)
     return coefficient.ll-coefficient.lr+coefficient.rl-coefficient.rr;
-  if(inform == AXV && outform == VEC)
+  if(inform == Current::axial && outform == Current::vector)
     return coefficient.ll+coefficient.lr-coefficient.rl-coefficient.rr;
   return coefficient.ll-coefficient.lr-coefficient.rl+coefficient.rr;
 }
 
 } // namespace
 
-Cplx fourFermionContactAmplitude(int intype, int outtype, int inform, int outform,
+Cplx fourFermionContactAmplitude(Fermion intype, Fermion outtype,
+                                Current inform, Current outform,
                                 const Input& eftInput)
 {
   validateVectorAxialCurrents(inform,outform);

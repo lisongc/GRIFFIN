@@ -301,7 +301,8 @@ double da = smeft::directZAxialShift(fermion, resolvedSM, coefficients);
 double dv = smeft::directZVectorShift(fermion, resolvedSM, coefficients);
 ```
 
-Both integer and `Fermion` overloads are available. These functions return
+The `fermion` argument is a `Fermion` value; no integer overload is retained.
+These functions return
 only the direct tree-level dimension-six current shifts at the supplied
 alpha, MW and MZ. They have no scheme selector and never change MW.
 The calculator passes its already-resolved mass point to them.
@@ -330,7 +331,8 @@ Complete scattering-amplitude assembly remains in `SMEFTCalculator.cc`;
 
 `<griffin/smeft/xsc_smeft.h>` exposes the standalone function
 `smeft::fourFermionContactAmplitude(initial, final, initialCurrent, finalCurrent,
-coefficients)`, with typed and integer overloads. It returns the local reduced
+coefficients)`, with `Fermion` species and `Current` current labels only.
+It returns the local reduced
 contact amplitude, not a cross section or another SMEFT prediction
 prescription. Its chiral coefficients are:
 

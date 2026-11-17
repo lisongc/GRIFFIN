@@ -4,7 +4,7 @@
            assemble scattering amplitudes/cross sections. Shared FA/SW/FV
            calculations are implemented in EWPO_smeft.cc.
   Authors: Jackson Wallace and Lisong Chen
-  Last updated: 2026-11-16
+  Last updated: 2026-11-17
 */
 
 #include "griffin/smeft/SMEFTCalculator.h"
@@ -143,7 +143,7 @@ SMEFTCalculator::Amplitudes SMEFTCalculator::amplitudesAt(
     const Current cf = finalCurrents[k];
     // Include the selected mixed electroweak-QCD residue and off-resonance terms at
     // this resolved mass, for both the full prediction and its SM result.
-    // The borrowed-observable constructor avoids legacy raw-pointer ownership.
+    // Borrow the stack-owned form factors for this amplitude evaluation.
     const mat_SMaas poleAndBackground(point.initial,point.final,ci,cf,
         fai,fao,swi,swo,point.s,point.cosTheta,input);
     result[k] = poleAndBackground.result()+smeft::fourFermionContactAmplitude(

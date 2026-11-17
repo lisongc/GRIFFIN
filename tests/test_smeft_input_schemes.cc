@@ -1,3 +1,10 @@
+/*
+  File: test_smeft_input_schemes.cc
+  Purpose: Test typed direct Z-vertex corrections at the supplied mass.
+  Authors: Jackson Wallace and Lisong Chen
+  Last updated: 2026-11-16
+*/
+
 // Direct Z-vertex corrections at the mass supplied by the caller.
 // Finite Gmu input resolution is tested separately in test_native_smeft.
 #include <cmath>
@@ -25,14 +32,14 @@ void close(double actual, double expected, const std::string& message)
 SMval makeSM()
 {
   SMval input;
-  input.set(MZ,91.1876); input.set(MW,80.377);
-  input.set(GamZ,2.4952); input.set(GamW,2.085);
-  input.set(al,1.0/137.03599976); input.set(als,0.1179);
-  input.set(MH,125.1); input.set(MT,172.5); input.set(MB,2.87);
-  input.set(MC,0.652); input.set(ML,1.777);
-  input.set(MS,0.0); input.set(MU,0.0); input.set(MD,0.0);
-  input.set(MM,0.0); input.set(ME,0.0);
-  input.set(Delal,0.059); input.set(Gmu,1.166379e-5);
+  input.set(InputPar::ZMassExperiment,91.1876); input.set(InputPar::WMassExperiment,80.377);
+  input.set(InputPar::ZWidthExperiment,2.4952); input.set(InputPar::WWidthExperiment,2.085);
+  input.set(InputPar::alpha,1.0/137.03599976); input.set(InputPar::alphaS,0.1179);
+  input.set(InputPar::HiggsMass,125.1); input.set(InputPar::topMass,172.5); input.set(InputPar::bottomMass,2.87);
+  input.set(InputPar::charmMass,0.652); input.set(InputPar::tauMass,1.777);
+  input.set(InputPar::strangeMass,0.0); input.set(InputPar::upMass,0.0); input.set(InputPar::downMass,0.0);
+  input.set(InputPar::muonMass,0.0); input.set(InputPar::electronMass,0.0);
+  input.set(InputPar::DeltaAlpha,0.059); input.set(InputPar::fermiConstant,1.166379e-5);
   return input;
 }
 enum Family { charged, neutrino, up, down };
@@ -80,8 +87,6 @@ void check(const Flavor& f, const inval& sm, const Input& eft,
 {
   close(smeft::directZAxialShift(f.fermion,sm,eft),axial,label+" axial");
   close(smeft::directZVectorShift(f.fermion,sm,eft),vector,label+" vector");
-  close(smeft::directZAxialShift(index(f.fermion),sm,eft),axial,label+" int axial");
-  close(smeft::directZVectorShift(index(f.fermion),sm,eft),vector,label+" int vector");
 }
 void testDirectFormulas(const inval& sm)
 {

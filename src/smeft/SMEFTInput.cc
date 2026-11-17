@@ -18,21 +18,21 @@
 namespace griffin {
 namespace smeft {
 
-Input::FermionInfo Input::lookupFermion(int type)
+Input::FermionInfo Input::lookupFermion(Fermion type)
 {
   switch(type)
   {
-    case NUE: return {Generation::first,FermionCategory::neutrino};
-    case NUM: return {Generation::second,FermionCategory::neutrino};
-    case NUT: return {Generation::third,FermionCategory::neutrino};
-    case ELE: return {Generation::first,FermionCategory::chargedLepton};
-    case MUO: return {Generation::second,FermionCategory::chargedLepton};
-    case TAU: return {Generation::third,FermionCategory::chargedLepton};
-    case UQU: return {Generation::first,FermionCategory::upQuark};
-    case CQU: return {Generation::second,FermionCategory::upQuark};
-    case DQU: return {Generation::first,FermionCategory::downQuark};
-    case SQU: return {Generation::second,FermionCategory::downQuark};
-    case BQU: return {Generation::third,FermionCategory::downQuark};
+    case Fermion::nuElectron: return {Generation::first,FermionCategory::neutrino};
+    case Fermion::nuMuon: return {Generation::second,FermionCategory::neutrino};
+    case Fermion::nuTau: return {Generation::third,FermionCategory::neutrino};
+    case Fermion::electron: return {Generation::first,FermionCategory::chargedLepton};
+    case Fermion::muon: return {Generation::second,FermionCategory::chargedLepton};
+    case Fermion::tau: return {Generation::third,FermionCategory::chargedLepton};
+    case Fermion::u: return {Generation::first,FermionCategory::upQuark};
+    case Fermion::c: return {Generation::second,FermionCategory::upQuark};
+    case Fermion::d: return {Generation::first,FermionCategory::downQuark};
+    case Fermion::s: return {Generation::second,FermionCategory::downQuark};
+    case Fermion::b: return {Generation::third,FermionCategory::downQuark};
     default:
       throw std::invalid_argument("unsupported fermion type in SMEFT calculation");
   }

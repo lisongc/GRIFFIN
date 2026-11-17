@@ -31,11 +31,11 @@ struct ChiralWilsonCoefficients {
   double right;
   double leftSinglet;
   double leftTriplet;
-  static ChiralWilsonCoefficients forFermion(int type, const Input& input);
+  static ChiralWilsonCoefficients forFermion(Fermion type, const Input& input);
 };
 
 ChiralWilsonCoefficients ChiralWilsonCoefficients::forFermion(
-    int type, const Input& input)
+    Fermion type, const Input& input)
 {
   const Input::FermionInfo info = Input::lookupFermion(type);
   const Generation i = info.generation;
@@ -80,7 +80,7 @@ struct VertexShift {
   arbitrary-Lambda version of Jackson's z0SMEFT() chiral formula.  A Gmu
   calculation supplies the W mass already resolved by WMassSolution.
 */
-VertexShift directZShift(int type, const inval& smInput,
+VertexShift directZShift(Fermion type, const inval& smInput,
                          const Input& eftInput)
 {
   const detail::ChiralWilsonCoefficients coefficients =
@@ -103,8 +103,8 @@ VertexShift directZShift(int type, const inval& smInput,
   const double cw = std::sqrt(x);
   const double e = std::sqrt(4.0*Pi*alpha);
   const double invLambda2 = eftInput.inverseLambdaSquaredGeV();
-  const double t3 = I3f[type];
-  const double charge = Qf[type];
+  const double t3 = I3f[index(type)];
+  const double charge = Qf[index(type)];
 
   const double deltaLeft =
       eftInput.CphiD()*invLambda2*mw2/(8.0*Pi*alpha)
@@ -126,12 +126,12 @@ VertexShift directZShift(int type, const inval& smInput,
 
 } // namespace
 
-double directZAxialShift(int type, const inval& smInput, const Input& eftInput)
+double directZAxialShift(Fermion type, const inval& smInput, const Input& eftInput)
 {
   return directZShift(type,smInput,eftInput).axial;
 }
 
-double directZVectorShift(int type, const inval& smInput, const Input& eftInput)
+double directZVectorShift(Fermion type, const inval& smInput, const Input& eftInput)
 {
   return directZShift(type,smInput,eftInput).vector;
 }

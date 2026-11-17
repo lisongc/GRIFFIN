@@ -144,8 +144,6 @@ void testContactAmplitudeApi()
   close(smeft::fourFermionContactAmplitude(Fermion::electron,Fermion::muon,
         Current::vector,Current::vector,coefficients),expected,
         "typed public contact amplitude normalization");
-  close(smeft::fourFermionContactAmplitude(ELE,MUO,VEC,VEC,coefficients),expected,
-        "integer public contact amplitude normalization");
 }
 
 void testCrossSectionFromAmplitudes()

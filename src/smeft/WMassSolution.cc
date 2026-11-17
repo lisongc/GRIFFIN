@@ -1,5 +1,9 @@
 /*
-  WMassSolution.cc: solve and store the W mass and associated input values.
+  File: WMassSolution.cc
+  Purpose: Solve and store the W mass and associated typed SM input values.
+  Authors: Jackson Wallace and Lisong Chen
+  Last updated: 2026-11-16
+
   GmuAlphaMZ uses Jackson's finite equation; AlphaMWMZ retains the supplied
   mass. See WMassSolution.h for ownership, user access and solver diagnostics.
   Finite prescription adapted from E. Jackson Wallace's deltarSMEFT.cc and
@@ -189,8 +193,8 @@ WMassSolution::WMassSolution(const inval& smInput, const Input& eftInput,
     finalResidualGeV2_ = std::fabs(candidate-massSquared);
     if(finalResidualGeV2_ <= options.massSquaredToleranceGeV2)
     {
-      // Do not store candidate: the legacy solver exits with the last
-      // evaluated iterate in data[MW], and derives its width from that mass.
+      // Do not store candidate: Jackson's solver exits with the last
+      // evaluated W pole mass, and derives its width from that mass.
       updateWWidthAndRunningParameters(smInput_,gmu,alphaS);
       return;
     }

@@ -1,3 +1,12 @@
+/*
+  File: ff.cc
+  Purpose: Compile generated one-loop self-energy, vertex and box expressions.
+  Typed-input integration: Jackson Wallace and Lisong Chen
+  Last updated: 2026-11-16
+  Original GRIFFIN calculations/author records are retained below or in the
+  including source file; this migration changes labels, not the expressions.
+*/
+
 /*-----------------------------------------------------------------------------
 ff.cc 
 Lisong Chen (lic114@pitt.edu), Ayres Freitas (afreitas@pitt.edu)

@@ -24,10 +24,10 @@ namespace prediction {
 SMEFTCalculator::PoleInputs SMEFTCalculator::poleInputs(
     Fermion fermion, const inval& input, const smeft::Input& coefficients)
 {
-  const int type = index(fermion);
+  const Fermion type = fermion;
   // The input already contains the resolved MW, including its finite Gmu
   // shift.  These helpers add only the explicit vertex changes at that point.
-  // They validate the particle before the legacy arrays are indexed below.
+  // They validate the particle before the charge arrays are indexed below.
   const double da = smeft::directZAxialShift(type,input,coefficients);
   const double dv = smeft::directZVectorShift(type,input,coefficients);
   const double a0 = az0(type,input);
@@ -42,7 +42,7 @@ SMEFTCalculator::PoleInputs SMEFTCalculator::poleInputs(
   result.sw = 0.0; // unused for neutrinos; their public SW request is rejected
   if(!isNeutrino(fermion))
     result.sw = SW_SMNNLO(type,input).result()
-      -(dv/a0-v0*da/(a0*a0))/(4.0*std::fabs(Qf[type]));
+      -(dv/a0-v0*da/(a0*a0))/(4.0*std::fabs(Qf[index(type)]));
   requireFinite(result.fa,"FA");
   requireFinite(result.sw,"SW");
   if(real(result.fa) <= 0.0)
@@ -70,12 +70,12 @@ Cplx SMEFTCalculator::observableAt(PseudoObservable observable, Fermion fermion,
   // Use the FV_SMNNLO construction with the same shifted FA and SW
   // as the pole amplitude. Retain the SM imaginary-ratio term at resolved MW;
   // otherwise even the zero-coefficient limit would differ from GRIFFIN SM.
-  const int type = index(fermion);
+  const Fermion type = fermion;
   const double a0 = az0(type,input), v0 = vz0(type,input);
   const double imaginaryRatio =
-      (a0*(iz1f(type,VEC,input)+iz1b(type,VEC,input))
-       -v0*(iz1f(type,AXV,input)+iz1b(type,AXV,input)))/(a0*a0);
-  const double q = 1.0-4.0*std::fabs(Qf[type])*real(pole.sw);
+      (a0*(iz1f(type,Current::vector,input)+iz1b(type,Current::vector,input))
+       -v0*(iz1f(type,Current::axial,input)+iz1b(type,Current::axial,input)))/(a0*a0);
+  const double q = 1.0-4.0*std::fabs(Qf[index(type)])*real(pole.sw);
   const Cplx fv = pole.fa*(q*q+imaginaryRatio*imaginaryRatio);
   requireFinite(fv,"FV");
   return fv;

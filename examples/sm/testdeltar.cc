@@ -2,8 +2,8 @@
   File: testdeltar.cc
   Purpose: Demonstrate SM Delta-r and the Gmu W-mass calculation.
   Original SM example retained without numerical changes.
-  Merged-version organization: Jackson Wallace and Lisong Chen
-  Last updated: 2026-11-16 (grouped under examples/sm)
+  Merged-version authors: Jackson Wallace and Lisong Chen
+  Last updated: 2026-11-16 (typed-only input labels)
 */
 
 #include <iostream>
@@ -29,35 +29,35 @@ int main()
 
   int i;
   SMval myinput;	// properly convert masses for complex pole scheme
-  myinput.set(MZ, 91.1876);
-  myinput.set(MW, 80.358);
-  myinput.set(al, 1/137.03599976);
-  myinput.set(als, 0.1179);
-  myinput.set(GamZ, 2.4952);
-  myinput.set(GamW, 2.089);
-  myinput.set(MH, 125.1);
-  myinput.set(MT, 173.0);
-  myinput.set(MB, 2.87);	// MSbar mass at scale mu=MZ
-  myinput.set(Delal, 0.05900);
-  myinput.set(Gmu, 1.166379e-5);
+  myinput.set(InputPar::ZMassExperiment, 91.1876);
+  myinput.set(InputPar::WMassExperiment, 80.358);
+  myinput.set(InputPar::alpha, 1/137.03599976);
+  myinput.set(InputPar::alphaS, 0.1179);
+  myinput.set(InputPar::ZWidthExperiment, 2.4952);
+  myinput.set(InputPar::WWidthExperiment, 2.089);
+  myinput.set(InputPar::HiggsMass, 125.1);
+  myinput.set(InputPar::topMass, 173.0);
+  myinput.set(InputPar::bottomMass, 2.87);	// MSbar mass at scale mu=MZ
+  myinput.set(InputPar::DeltaAlpha, 0.05900);
+  myinput.set(InputPar::fermiConstant, 1.166379e-5);
   
   dr_SMNNLO dr2(myinput);
   
   // show dependence on input parameters:
   for(i=-2; i<=2; i++)
   {
-    myinput.set(MT, 173+i);
+    myinput.set(InputPar::topMass, 173+i);
     cout << "mt = " << 173+i << ":  ";
     cout << "Delta r = " << dr2.res1f()+dr2.res1b() << " (NLO)     ";
     cout <<                 dr2.result() << " (NNLO+)" << endl;
   }
-  myinput.set(MT, 173.0);
+  myinput.set(InputPar::topMass, 173.0);
   
   // illustration of Gmu input scheme, where MW is an output:
   SMvalGmu myinput2(myinput);
   cout << endl;
-  cout << "complex-pole mass: mw = " << myinput2.get(MWc) << endl;
-  cout << "PDG mass:          mw = " << myinput2.get(MW) << endl;
+  cout << "complex-pole mass: mw = " << myinput2.get(InputPar::WMassComplex) << endl;
+  cout << "PDG mass:          mw = " << myinput2.get(InputPar::WMassExperiment) << endl;
   cout << endl;
 
   return 0;

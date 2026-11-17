@@ -30,6 +30,9 @@
 #include <cstddef>
 
 namespace griffin {
+
+enum class Fermion;
+
 namespace smeft {
 
 // Public generation labels follow the one-based Warsaw-basis convention.
@@ -190,9 +193,9 @@ private:
     Generation generation;
     FermionCategory category;
   };
-  // Maps the existing GRIFFIN particle identifiers; rejects unsupported ones.
+  // Maps typed GRIFFIN particle labels; rejects unsupported ones.
   // The shared mapping is implemented in SMEFTInput.cc.
-  static FermionInfo lookupFermion(int type);
+  static FermionInfo lookupFermion(Fermion type);
 
   /*
     Fixed-size flat storage keeps the object allocation-free and compact:

@@ -57,8 +57,6 @@ void check(const Input& input,Fermion final,double ll,double lr,double rl,double
       const double expected=projected(ll,lr,rl,rr,ci,cf,input.inverseLambdaSquaredGeV());
       const Cplx actual=smeft::fourFermionContactAmplitude(Fermion::electron,final,ci,cf,input);
       close(actual,expected,"contact chiral projection/flavor normalization mismatch");
-      close(smeft::fourFermionContactAmplitude(ELE,index(final),index(ci),index(cf),input),actual,
-            "integer and typed contact APIs disagree");
       Input scaled=input; scaled.setLambdaGeV(2000.0);
       close(smeft::fourFermionContactAmplitude(Fermion::electron,final,ci,cf,scaled),expected/4.0,
             "contact inverse-scale normalization changed");
@@ -192,8 +190,6 @@ void testZeroAndValidation()
   }
   for(int invalid : {-1,0,6,10,17,20,999})
   {
-    throws<std::invalid_argument>([&]{smeft::fourFermionContactAmplitude(ELE,invalid,VEC,VEC,input);},
-        "invalid final fermion accepted");
     throws<std::invalid_argument>([&]{smeft::fourFermionContactAmplitude(Fermion::electron,
         static_cast<Fermion>(invalid),Current::vector,Current::vector,input);},
         "typed contact API accepted invalid final fermion");

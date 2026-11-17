@@ -2,8 +2,8 @@
   File: testtools.cc
   Purpose: Demonstrate SM Z-width utilities.
   Original SM example retained without numerical changes.
-  Merged-version organization: Jackson Wallace and Lisong Chen
-  Last updated: 2026-11-16 (grouped under examples/sm)
+  Merged-version authors: Jackson Wallace and Lisong Chen
+  Last updated: 2026-11-16 (typed-only input labels)
 */
 
 #include <iostream>
@@ -31,36 +31,36 @@ int main()
   static double mhlist[4] = {100, 200, 600, 1000};
   int i;
   SMval myinput;	// properly convert masses for complex pole scheme
-  myinput.set(MZ, 91.1876);
-  myinput.set(MW, 80.358);
-  myinput.set(al, 1/137.03599976);
-  myinput.set(als, 0.1179);
-  myinput.set(GamZ, 2.4952);
-  myinput.set(GamW, 2.089);
-  myinput.set(MH, 125.1);
-  myinput.set(MT, 173.0);
-  myinput.set(MB, 2.877); // MSbar mass at scale mu=MZ for mb(mb)=4.20
-  myinput.set(MC, 0.652); // MSbar mass at scale mu=MZ
-  myinput.set(MS, 0);
-  myinput.set(MU, 0);
-  myinput.set(MD, 0);
-  myinput.set(ML, 1.777);
-  myinput.set(MM, 0);
-  myinput.set(ME, 0);
-  myinput.set(Delal, 0.05900);
-  myinput.set(Gmu, 1.166379e-5);
+  myinput.set(InputPar::ZMassExperiment, 91.1876);
+  myinput.set(InputPar::WMassExperiment, 80.358);
+  myinput.set(InputPar::alpha, 1/137.03599976);
+  myinput.set(InputPar::alphaS, 0.1179);
+  myinput.set(InputPar::ZWidthExperiment, 2.4952);
+  myinput.set(InputPar::WWidthExperiment, 2.089);
+  myinput.set(InputPar::HiggsMass, 125.1);
+  myinput.set(InputPar::topMass, 173.0);
+  myinput.set(InputPar::bottomMass, 2.877); // MSbar mass at scale mu=MZ for mb(mb)=4.20
+  myinput.set(InputPar::charmMass, 0.652); // MSbar mass at scale mu=MZ
+  myinput.set(InputPar::strangeMass, 0);
+  myinput.set(InputPar::upMass, 0);
+  myinput.set(InputPar::downMass, 0);
+  myinput.set(InputPar::tauMass, 1.777);
+  myinput.set(InputPar::muonMass, 0);
+  myinput.set(InputPar::electronMass, 0);
+  myinput.set(InputPar::DeltaAlpha, 0.05900);
+  myinput.set(InputPar::fermiConstant, 1.166379e-5);
   
-  FV_SMNNLO fv2(ELE,myinput);
-  FA_SMNNLO fa2(ELE,myinput);  
+  FV_SMNNLO fv2(Fermion::electron,myinput);
+  FA_SMNNLO fa2(Fermion::electron,myinput);
   // flavor selection here will be overwritten by partzwidth/zwidth below
   
   string typenam[5] = {"l", "n", "u", "d", "b"};
-  int typenum[5] = {ELE, NUE, UQU, DQU, BQU};
+  const Fermion typenum[5] = {Fermion::electron, Fermion::nuElectron, Fermion::u, Fermion::d, Fermion::b};
   
   for(i = 0; i < 5; i++)
     cout << "Gamma[Z->" << typenam[i] << typenam[i] << "] = "
-         << partzwidth(fa2, fv2, typenum[i], myinput, RUNWIDTHSCHEME) << endl;
-  cout << "Gamma[Z] = " << zwidth(fa2, fv2, myinput, RUNWIDTHSCHEME) << endl;
+         << partzwidth(fa2, fv2, typenum[i], myinput, WidthScheme::RunningWidth) << endl;
+  cout << "Gamma[Z] = " << zwidth(fa2, fv2, myinput, WidthScheme::RunningWidth) << endl;
   cout << endl;
   
   return 0;

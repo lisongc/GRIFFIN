@@ -36,7 +36,7 @@ int main()
     input.set(InputPar::DeltaAlpha,0.059);
     input.set(InputPar::fermiConstant,1.166379e-5);
     const double mz=input.get(InputPar::ZMassComplex), Z=mz*mz;
-    const double R0=az0(index(Fermion::electron),input)*az0(index(Fermion::muon),input);
+    const double R0=az0(Fermion::electron,input)*az0(Fermion::muon,input);
     FA_SMNNLO fae(Fermion::electron,input), fam(Fermion::muon,input);
     SW_SMNNLO swe(Fermion::electron,input), swm(Fermion::muon,input);
     std::cout<<std::setprecision(12)

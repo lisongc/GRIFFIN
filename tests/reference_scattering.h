@@ -34,7 +34,7 @@ struct PoleValues { Cplx fa, sw; };
 
 inline PoleValues pole(Fermion f, const inval& input, const smeft::Input& coefficients)
 {
-  const double a = az0(index(f),input), v = vz0(index(f),input);
+  const double a = az0(f,input), v = vz0(f,input);
   const double da = smeft::directZAxialShift(f,input,coefficients);
   const double dv = smeft::directZVectorShift(f,input,coefficients);
   PoleValues result;
@@ -52,11 +52,11 @@ inline Cplx observable(PseudoObservable which, Fermion f, const inval& input,
   if(which==PseudoObservable::SW) return p.sw;
   if(which!=PseudoObservable::FV)
     throw std::invalid_argument("reference only implements FA/SW/FV");
-  const int flavor=index(f);
+  const Fermion flavor=f;
   const double a=az0(flavor,input),v=vz0(flavor,input);
-  const double imaginaryRatio=(a*(iz1f(flavor,VEC,input)+iz1b(flavor,VEC,input))
-      -v*(iz1f(flavor,AXV,input)+iz1b(flavor,AXV,input)))/(a*a);
-  const double realRatio=1.0-4.0*std::fabs(Qf[flavor])*real(p.sw);
+  const double imaginaryRatio=(a*(iz1f(flavor,Current::vector,input)+iz1b(flavor,Current::vector,input))
+      -v*(iz1f(flavor,Current::axial,input)+iz1b(flavor,Current::axial,input)))/(a*a);
+  const double realRatio=1.0-4.0*std::fabs(Qf[index(flavor)])*real(p.sw);
   return p.fa*(realRatio*realRatio+imaginaryRatio*imaginaryRatio);
 }
 
@@ -108,7 +108,9 @@ inline double crossSection(const ScatteringPoint& point,
   const double angular=(1.0+point.cosTheta*point.cosTheta)*even
       +4.0*point.cosTheta*real(amplitudes[0]*conj(amplitudes[3])
                             +amplitudes[2]*conj(amplitudes[1]));
-  const double color=index(point.final)<6 ? 3.0 : 1.0;
+  const bool quark=point.final==Fermion::d || point.final==Fermion::u
+      || point.final==Fermion::s || point.final==Fermion::c || point.final==Fermion::b;
+  const double color=quark ? 3.0 : 1.0;
   return color*point.s/(32.0*Pi)*point.unitConversion*angular;
 }
 
