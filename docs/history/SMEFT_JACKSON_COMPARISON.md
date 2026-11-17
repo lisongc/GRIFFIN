@@ -1,3 +1,10 @@
+<!--
+File: SMEFT_JACKSON_COMPARISON.md
+Purpose: Preserve the comparison of the SMEFT implementations tested on 14 July 2026.
+Authors (merged-version documentation): Jackson Wallace and Lisong Chen
+Last updated: 2026-11-16 (SM terminology only; original comparison not re-evaluated)
+-->
+
 # Historical SMEFT implementation comparison — 14 July 2026
 
 Historical notice: the comparison below describes the branches tested on
@@ -6,8 +13,9 @@ numerical tables and analysis are preserved, not revalidated for today's
 code. References to "current" or "new" below refer only to that historical
 version. Its linear SMEFT path has been removed. Use the
 [current user guide](../USER_GUIDE.md) and
-[current regression report](../REGRESSION_TEST_REPORT.md) for today's
-calculation and validation results.
+[16 November regression audit](REGRESSION_REPORT_2026-11-16.md) for today's
+calculation and validation results. Zero-coefficient terminology was refreshed
+on 16 November; the historical numbers and analysis are unchanged.
 
 ## How to read this comparison
 
@@ -93,7 +101,7 @@ Changing to `{alpha,MW,MZ}` removes only the Wilson-dependent derived-W-mass
 feedback. It does not remove Jackson's mass-slot, `FA`, `FV`, contact, or
 cross-section construction issues.
 
-## Native Standard Model reference values
+## Native Standard Model results
 
 The electron EW pseudo-observables are already close in the two branches:
 
@@ -160,7 +168,7 @@ The 19--35% `FV` differences remain because Jackson multiplies fully shifted
 The direct-only `SW` directions remain close. Directions that also move the
 derived W mass differ by roughly 5--13% because Jackson feeds a
 Wilson-dependent W mass through cumulative SM objects, whereas new GRIFFIN
-keeps the SM reference fixed and adds the analytically linear response.
+keeps the SM result fixed and adds the analytically linear response.
 
 ## Native SMEFT differential cross section
 

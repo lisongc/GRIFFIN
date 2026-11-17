@@ -10,18 +10,28 @@
 namespace griffin {
 
 /* input class that computes MW and GamW from Gmu, 
-   and in addition translates between running-with and complex pole masses */
+   and in addition translates between running-width and complex pole masses */
 class SMvalGmu : public invalGmu {
 protected:
   void compute(void)
   {
-    data[MZc] = data[MZ]/sqrt(1+sqr(data[GamZ]/data[MZ]));
-    data[GZc] = data[GamZ]/sqrt(1+sqr(data[GamZ]/data[MZ]));
+    data[index(InputPar::ZMassComplex)] = data[index(InputPar::ZMassExperiment)]
+        /sqrt(1+sqr(data[index(InputPar::ZWidthExperiment)]
+                  /data[index(InputPar::ZMassExperiment)]));
+    data[index(InputPar::ZWidthComplex)] = data[index(InputPar::ZWidthExperiment)]
+        /sqrt(1+sqr(data[index(InputPar::ZWidthExperiment)]
+                  /data[index(InputPar::ZMassExperiment)]));
     invalGmu::compute();
-    data[GWc] = 0.3376186*data[Gmu]*powint(data[MWc],3)*
-    		 (1+ 0.2122066*data[als]);
-    data[MW] = data[MWc]*sqrt(1+sqr(data[GWc]/data[MWc]));
-    data[GamW] = data[GWc]*sqrt(1+sqr(data[GWc]/data[MWc]));
+    data[index(InputPar::WWidthComplex)] =
+        0.3376186*data[index(InputPar::fermiConstant)]
+        *powint(data[index(InputPar::WMassComplex)],3)
+        *(1+ 0.2122066*data[index(InputPar::alphaS)]);
+    data[index(InputPar::WMassExperiment)] = data[index(InputPar::WMassComplex)]
+        *sqrt(1+sqr(data[index(InputPar::WWidthComplex)]
+                  /data[index(InputPar::WMassComplex)]));
+    data[index(InputPar::WWidthExperiment)] = data[index(InputPar::WWidthComplex)]
+        *sqrt(1+sqr(data[index(InputPar::WWidthComplex)]
+                  /data[index(InputPar::WMassComplex)]));
   }
 public:
   using invalGmu::invalGmu;

@@ -68,34 +68,34 @@ double Rmt4(double ht)
 
 double delrho2a2(const inval* ival)   // yt^4 corrections to \Delta\rho
 {
-  double MZs = sqr(ival->get(MZ)),
-         MWs = sqr(ival->get(MW)),
-         MHs = sqr(ival->get(MH)),
-         MTs = sqr(ival->get(MT)),
-         AL = ival->get(al) * DRHOSCHEME,
-         ALS = ival->get(als);
+  double MZs = sqr(ival->get(InputPar::ZMassComplex)),
+         MWs = sqr(ival->get(InputPar::WMassComplex)),
+         MHs = sqr(ival->get(InputPar::HiggsMass)),
+         MTs = sqr(ival->get(InputPar::topMass)),
+         AL = ival->get(InputPar::alpha) * DRHOSCHEME,
+         ALS = ival->get(InputPar::alphaS);
   return(3*sqr(AL/(1-MWs/MZs) * MTs/(16*Pi*MWs)) * Rmt4(MHs/MTs));
 }
 
 double delrho2aas(const inval* ival)  // yt^2*as corrections to \Delta\rho
 {
-  double MZs = sqr(ival->get(MZ)),
-         MWs = sqr(ival->get(MW)),
-         MTs = sqr(ival->get(MT)),
-         AL = ival->get(al) * DRHOSCHEME,
-         ALS = ival->get(als);
+  double MZs = sqr(ival->get(InputPar::ZMassComplex)),
+         MWs = sqr(ival->get(InputPar::WMassComplex)),
+         MTs = sqr(ival->get(InputPar::topMass)),
+         AL = ival->get(InputPar::alpha) * DRHOSCHEME,
+         ALS = ival->get(InputPar::alphaS);
   return(-3*AL/(1-MWs/MZs) * MTs/(16*Pi*MWs) *
           getalphas(MTs,MZs,ALS)/Pi * 4/3. *(.5 + PiSonSix));
 }
 
 double delrho3a2as(const inval* ival) // yt^4*as corrections to \Delta\rho
 {
-  double MZs = sqr(ival->get(MZ)),
-         MWs = sqr(ival->get(MW)),
-         MTs = sqr(ival->get(MT)),
-	 r = ival->get(MH)/ival->get(MT),
-         AL = ival->get(al) * DRHOSCHEME,
-         ALS = ival->get(als);
+  double MZs = sqr(ival->get(InputPar::ZMassComplex)),
+         MWs = sqr(ival->get(InputPar::WMassComplex)),
+         MTs = sqr(ival->get(InputPar::topMass)),
+	 r = ival->get(InputPar::HiggsMass)/ival->get(InputPar::topMass),
+         AL = ival->get(InputPar::alpha) * DRHOSCHEME,
+         ALS = ival->get(InputPar::alphaS);
 // use asymptotic formulas from hep-ph/0302275 and Pade approximant for 
 // intermediate region
   double lr = log(sqr(r)), rr;
@@ -112,11 +112,11 @@ double delrho3a2as(const inval* ival) // yt^4*as corrections to \Delta\rho
 
 double delrho3a3(const inval* ival)   // yt^6 corrections to \Delta\rho
 {
-  double MZs = sqr(ival->get(MZ)),
-         MWs = sqr(ival->get(MW)),
-         MTs = sqr(ival->get(MT)),
-	 r = ival->get(MH)/ival->get(MT),
-         AL = ival->get(al) * DRHOSCHEME;
+  double MZs = sqr(ival->get(InputPar::ZMassComplex)),
+         MWs = sqr(ival->get(InputPar::WMassComplex)),
+         MTs = sqr(ival->get(InputPar::topMass)),
+	 r = ival->get(InputPar::HiggsMass)/ival->get(InputPar::topMass),
+         AL = ival->get(InputPar::alpha) * DRHOSCHEME;
   double lr = log(sqr(r)), rr;
 // use asymptotic formulas from hep-ph/0302275 and Pade approximant for 
 // intermediate region
@@ -133,22 +133,22 @@ double delrho3a3(const inval* ival)   // yt^6 corrections to \Delta\rho
 
 double delrho3aas2(const inval* ival) // yt^2*as^2 corrections to \Delta\rho
 {
-  double MZs = sqr(ival->get(MZ)),
-         MWs = sqr(ival->get(MW)),
-         MTs = sqr(ival->get(MT)),
-         AL = ival->get(al) * DRHOSCHEME,
-         ALS = ival->get(als);
+  double MZs = sqr(ival->get(InputPar::ZMassComplex)),
+         MWs = sqr(ival->get(InputPar::WMassComplex)),
+         MTs = sqr(ival->get(InputPar::topMass)),
+         AL = ival->get(InputPar::alpha) * DRHOSCHEME,
+         ALS = ival->get(InputPar::alphaS);
   return(3*AL/(1-MWs/MZs) * MTs/(16*Pi*MWs) *
           sqr(getalphas(MTs,MZs,ALS)/Pi) * (-14.5940));
 }
 
 double delrho4aas3(const inval* ival) // yt^2*as^3 corrections to \Delta\rho
 {
-  double MZs = sqr(ival->get(MZ)),
-         MWs = sqr(ival->get(MW)),
-         MTs = sqr(ival->get(MT)),
-         AL = ival->get(al) * DRHOSCHEME,
-         ALS = ival->get(als);
+  double MZs = sqr(ival->get(InputPar::ZMassComplex)),
+         MWs = sqr(ival->get(InputPar::WMassComplex)),
+         MTs = sqr(ival->get(InputPar::topMass)),
+         AL = ival->get(InputPar::alpha) * DRHOSCHEME,
+         ALS = ival->get(InputPar::alphaS);
   return(3*AL/(1-MWs/MZs) * MTs/(16*Pi*MWs) *
           trip(getalphas(MTs,MZs,ALS)/Pi) * (-93.15));
 }

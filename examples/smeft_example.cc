@@ -1,3 +1,11 @@
+/*
+  File: smeft_example.cc
+  Purpose: Demonstrate SM input values, Wilson coefficients, the finite SMEFT
+           calculation, and full/SM observable results through the public API.
+  Authors: Jackson Wallace and Lisong Chen
+  Last updated: 2026-11-16
+*/
+
 // Complete example of the finite SMEFT interface: NNLO+ SM form factors,
 // mat_SMaas residue/background and prescription-generated nonlinear terms.
 #include <iomanip>
@@ -45,7 +53,7 @@ int main()
     std::cout << std::setprecision(15)
       << "Finite Gmu pole MW [GeV]: "
       << calculator.resolvedInput().get(InputPar::WMassComplex) << '\n'
-      << "SM d sigma/d cos(theta) [pb]: " << sigma.reference() << '\n'
+      << "SM d sigma/d cos(theta) [pb]: " << sigma.smResult() << '\n'
       << "Full SMEFT d sigma/d cos(theta) [pb]: " << sigma.total() << '\n'
       << "Full minus zero-coefficient result [pb]: " << sigma.modelCorrection() << '\n'
       << "FV from the same FA and sweff (including SM imaginary part): "

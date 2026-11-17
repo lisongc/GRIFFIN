@@ -1,13 +1,17 @@
+# File: CMakeLists.txt
+# Purpose: Build and install GRIFFIN, export its CMake package, and enable tests/examples.
+# Authors: Jackson Wallace and Lisong Chen
+# Last updated: 2026-11-17
+
 cmake_minimum_required(VERSION 3.20)
 
-project(griffin VERSION 1.1 LANGUAGES CXX)
+project(griffin VERSION 1.2.2 LANGUAGES CXX)
 
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 
 add_library(griffin STATIC
   src/core/classes.cc
-  src/core/FermionPairCrossSection.cc
   src/sm/ff.cc
   src/sm/EWPOZ.cc
   src/sm/EWPOZ2.cc
@@ -15,6 +19,7 @@ add_library(griffin STATIC
   src/sm/delrho.cc
   src/sm/xscnnlo.cc
   src/sm/xscaas.cc
+  src/sm/xscnnlo2.cc
   src/sm/tools.cc
   src/numerics/B0.cc
   src/numerics/C0.cc
@@ -23,6 +28,7 @@ add_library(griffin STATIC
   src/numerics/linex.cc
   src/smeft/SMEFTInput.cc
   src/smeft/ff0_smeft.cc
+  src/smeft/EWPO_smeft.cc
   src/smeft/xsc_smeft.cc
   src/smeft/WMassSolution.cc
   src/smeft/SMEFTCalculator.cc)
@@ -31,10 +37,7 @@ add_library(GRIFFIN::griffin ALIAS griffin)
 target_include_directories(griffin
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
-  PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/src
-    ${CMAKE_CURRENT_SOURCE_DIR}/data)
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 target_compile_features(griffin PUBLIC cxx_std_11)
 set_target_properties(griffin PROPERTIES CXX_EXTENSIONS OFF)
 
@@ -63,7 +66,8 @@ if(BUILD_TESTING)
   add_subdirectory(tests)
 endif()
 
-option(GRIFFIN_BUILD_EXAMPLES "Build GRIFFIN example programs" OFF)
-if(GRIFFIN_BUILD_EXAMPLES)
+option(GRIFFIN_BUILD_EXAMPLES "Build the main SMEFT and v1.2 SM examples" OFF)
+option(GRIFFIN_BUILD_LEGACY_EXAMPLES "Build the legacy SM demonstration programs" OFF)
+if(GRIFFIN_BUILD_EXAMPLES OR GRIFFIN_BUILD_LEGACY_EXAMPLES)
   add_subdirectory(examples)
 endif()

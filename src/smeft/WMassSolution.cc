@@ -190,7 +190,7 @@ WMassSolution::WMassSolution(const inval& smInput, const Input& eftInput,
     if(finalResidualGeV2_ <= options.massSquaredToleranceGeV2)
     {
       // Do not store candidate: the legacy solver exits with the last
-      // evaluated iterate in data[MW], and derives its width from that mass.
+      // evaluated iterate in the pole W-mass slot, and derives its width from that mass.
       updateWWidthAndRunningParameters(smInput_,gmu,alphaS);
       return;
     }

@@ -1,5 +1,5 @@
-// Diagnostic only: evaluate the unchanged COMPLETE backgrounds, not a model
-// for their singular terms. No subtractions or repairs alter the predictions.
+// Diagnostic only: evaluate the complete backgrounds with the imported
+// upstream v1.1.1/v1.2 stabilizations. No additional repair is applied here.
 #include <griffin/SMEFT.h>
 #include <griffin/sm/xscaas.h>
 #include <griffin/sm/ff0.h>
@@ -31,12 +31,12 @@ int main()
     input.set(InputPar::DeltaAlpha,0.059);
     input.set(InputPar::fermiConstant,1.166379e-5);
     const double mz=input.get(InputPar::ZMassComplex), Z=mz*mz;
-    const double R0=az0(index(Fermion::electron),input)*az0(index(Fermion::muon),input);
+    const double R0=az0(Fermion::electron,input)*az0(Fermion::muon,input);
     FA_SMNNLO fae(Fermion::electron,input), fam(Fermion::muon,input);
     SW_SMNNLO swe(Fermion::electron,input), swm(Fermion::muon,input);
     std::cout<<std::setprecision(12)
-      <<"Known-limitation diagnostic, NOT a physical near-pole prediction\n"
-      <<"SM e+e- -> mu+mu-, AA, cos(theta)=0.5; complete unchanged backgrounds\n"
+      <<"Near-pole diagnostic, NOT a validated physical prediction\n"
+      <<"SM e+e- -> mu+mu-, AA, cos(theta)=0.5; stabilized upstream backgrounds\n"
       <<"Pole MZ [GeV]="<<mz<<", pole MW [GeV]="
       <<input.get(InputPar::WMassComplex)<<", R0="<<R0<<'\n'
       <<"h_GeV2 Im_Q_inherited Im_Q_full_background Im_Q_full_amplitude "

@@ -1,16 +1,25 @@
+<!--
+File: REGRESSION_LOG_2026-11-12.md
+Purpose: Preserve dated integration and regression evidence through 12 November 2026.
+Authors (merged-version documentation): Jackson Wallace and Lisong Chen
+Last updated: 2026-11-16 (SM terminology only; recorded results and dates unchanged)
+-->
+
 # Archived integration and regression log — through 12 November 2026
 
 This is a historical record, preserved when the current documentation was
 cleaned on 13 November 2026. Statements about retained engines, old include
 paths and earlier benchmark agreement describe their dated stages, not the
-present library. See the [current test report](../REGRESSION_TEST_REPORT.md)
+present library. See the [16 November regression audit](REGRESSION_REPORT_2026-11-16.md)
 and [documentation index](../README.md) for current instructions.
+Zero-coefficient terminology was refreshed on 16 November; the historical
+calculations, numerical data and verification dates below are unchanged.
 
 **Latest update:** 12 November 2026. **Result: PASS.** Original integration:
 3 November 2026.
 
 The current calculator uses **`mat_SMaas` for both the full SMEFT prediction
-and its zero-coefficient SM reference**. This intentionally extends the SM
+and its zero-coefficient SM result**. This intentionally extends the SM
 scattering content beyond the earlier `mat_SMNNLO` comparison with Jackson;
 the current cross sections are therefore not claimed to equal those old
 cross-section fixtures. The finite SMEFT prescription is retained, without
@@ -30,7 +39,7 @@ pre-extension stages, not to the current calculation.
 The shared amplitude helper now constructs `mat_SMaas` instead of
 `mat_SMNNLO`. It includes both the additional pole-residue terms and
 `resoffZaas()` off-resonance terms, evaluated with the appropriate finite
-inputs separately for the full prediction and the zero-coefficient reference.
+inputs separately for the full prediction and the zero-coefficient SM result.
 Contact amplitudes are still added exactly once before squaring the complete
 amplitude. Jackson's finite Gmu mass solver and the FA/SW/FV constructions
 are unchanged. The underlying `xscaas.cc` implementation was not modified.
@@ -51,12 +60,12 @@ Verification:
   seven supported final-state flavors, five energies, two angles and seven
   zero/vertex/contact/combined coefficient configurations. It checks all
   four amplitude channels, the residue/background decomposition, full and
-  reference predictions, and their finite cross-section difference.
+  SM results, and their finite cross-section difference.
   Additional cases cover the zero-strong-coupling limit.
 - All **943 historical cases / 22,475 comparisons** pass with unchanged
   fixtures and tolerances, using the explicitly labelled test-only
   `mat_SMNNLO` assembly. All **28,290 extended-output comparisons** pass
-  against the separate `mat_SMaas` assembly. These references share the SM
+  against the separate `mat_SMaas` assembly. These comparison assemblies share the SM
   kernels and the public finite mass solver: this is an independent
   assembly check, not independent validation of those kernels or a new
   set of Jackson-supplied extended benchmarks.
@@ -67,7 +76,7 @@ Verification:
   change.
 - The nine original regression-harness self-tests remain, supplemented by
   twelve extended-harness tests. These catch omitted extensions, an
-  unchanged reference baseline, incorrect finite differences, corrupted
+  unchanged SM result, incorrect finite differences, corrupted
   historical results and malformed/missing/nonfinite outputs.
 - The installed-client test still compiles all **26 public headers**
   independently and runs the example and API tests using only the installed
@@ -75,9 +84,9 @@ Verification:
   remain in place.
 
 The full machine-readable test results are in
-[results_2026-11-12_aas.json](../../tests/native_regression/results_2026-11-12_aas.json).
+[results_2026-11-12_aas.json](validation/results_2026-11-12_aas.json).
 The numerical before/after study is in
-[aas_impact_2026-11-12.json](../../tests/native_regression/aas_impact_2026-11-12.json).
+[aas_impact_2026-11-12.json](validation/aas_impact_2026-11-12.json).
 
 ### Size of the numerical change
 
@@ -146,7 +155,7 @@ Verification of the reorganized tree:
   allocations, so this is not a leak-freedom claim.
 - All **943 archived cases / 22,475 scalar comparisons pass**, with
   unchanged fixtures and tolerances. Numerical summary:
-  [results_2026-11-12_layout.json](../../tests/native_regression/results_2026-11-12_layout.json).
+  [results_2026-11-12_layout.json](validation/results_2026-11-12_layout.json).
 - Complete before/after JSONL outputs are **byte-for-byte identical**.
   Their common SHA-256 remains
   `614c6407df0f3fc402e39f6b92f9e6ebf7f6faa76d9f467f259f5b5e59e232bd`.
@@ -188,7 +197,7 @@ the interference-only model cross-section path, and the now-unused
 `linearInterference()`/`angularInterference()` helpers. There are no
 compatibility aliases. All model cross-section accuracy requests to the
 generic engine now raise an explicit SM-only error; none silently returns
-a reference prediction in place of a requested correction. SM-only requests continue to work even
+an SM result in place of a requested correction. SM-only requests continue to work even
 when a model provider is attached. Generic pseudo-observable additive and
 full-model combination rules remain available, as do SM order comparisons.
 
@@ -214,7 +223,7 @@ Verification:
   this is not a leak-freedom claim.
 - All **943 archived cases / 22,475 scalar checks pass**, with unchanged
   fixtures and tolerances. The numerical report is
-  [results_2026-11-12.json](../../tests/native_regression/results_2026-11-12.json).
+  [results_2026-11-12.json](validation/results_2026-11-12.json).
 - All **943 complete before/after output records are byte-identical**,
   including masses, contact amplitudes, full amplitudes and cross sections.
   The common output SHA-256 is
@@ -272,7 +281,7 @@ component factor is retained; it is not a repeated-label sum.
 All **943 archived cases / 22,475 scalar checks pass** without changing
 fixtures or tolerances. Complete before/after runner output is byte-identical,
 including contact amplitudes, masses and finite cross sections. The result is
-[results_2026-11-09.json](../../tests/native_regression/results_2026-11-09.json);
+[results_2026-11-09.json](validation/results_2026-11-09.json);
 before/after outputs are in `../diagnostics/contact_aliases_20261109/`.
 
 Both rebuilt configurations pass **8/8 automated suites**: release in
@@ -288,7 +297,7 @@ indices and nonfinite values. Contact checks cover muon and tau final states
 and preserve the independent LL contractions and neutrino component factor.
 End-to-end tests cover all **16 mixed label combinations**, plus isolated and
 repeated aliases, in **both schemes at 50, 90, 95 and 120 GeV**. They compare
-contact and full amplitudes, SM references, full cross sections and finite
+contact and full amplitudes, SM results, full cross sections and finite
 shifts. Separate checks establish the Gmu factor of one half, no mass shift
 from the `1122/2211` group, and explicit import of unequal raw coefficients.
 Both public prediction examples still reproduce their previous outputs.
@@ -328,7 +337,7 @@ Verification specific to this cleanup:
   this is not a leak-freedom claim.
 - All **943 archived cases / 22,475 scalar checks pass**, with the same
   maximum errors listed below. The machine-readable result is
-  [results_2026-11-08.json](../../tests/native_regression/results_2026-11-08.json).
+  [results_2026-11-08.json](validation/results_2026-11-08.json).
 - The original pre-cleanup executable and freshly rebuilt executable were
   each run on the complete fixture set. Their **entire JSONL outputs are
   byte-for-byte identical**, including fields beyond the archived assertions.
@@ -364,7 +373,7 @@ pass all **943 cases and 22,475 numerical comparisons**. Leak detection was
 disabled as in the original sanitizer run; no new leak-freedom claim is made.
 The updated example reproduces its earlier cross-section, mass, and FV
 outputs. The release numerical summary is saved as
-[results_2026-11-06.json](../../tests/native_regression/results_2026-11-06.json).
+[results_2026-11-06.json](validation/results_2026-11-06.json).
 
 The class rename does not add an SM-order selector. `SMEFTCalculator` still
 uses the validated fixed higher-order prescription. The generic
@@ -418,7 +427,7 @@ rule, and public API.
    removal, tests of the retired linear predictors were replaced with direct
    vertex/contact checks and finite-equation checks; the numerical fixtures
    are unchanged. Removing those public APIs is an intentional source-interface
-   change, documented in [USER_GUIDE.md](../USER_GUIDE.md#migration-from-the-removed-linear-smeft-api).
+   change, documented in [USER_GUIDE.md](../MIGRATION.md).
 
 ## Archived comparison coverage
 
@@ -474,7 +483,7 @@ $t=0.01\,{\rm TeV}^{-2}$:
 | $C_{\phi l,22}^{(3)}$ | $3.813860667556401\times10^{-5}$ | $+7.77\times10^{-16}$ |
 
 The machine-readable result is
-[results_2026-11-03.json](../../tests/native_regression/results_2026-11-03.json).
+[results_2026-11-03.json](validation/results_2026-11-03.json).
 Its fixture SHA-256 is
 `956234c20636f83187518926da5aa0e8b097297d7a269f012eb520f3bad919f1`.
 The manifest records a SHA-256 for each original archive. Fixtures contain
@@ -565,7 +574,7 @@ values and stack pole inputs rather than those legacy allocating constructors.
   SM classes can still be called directly, but there is no separate
   order-selection engine and no SM-order selector on `SMEFTCalculator`.
 - The fixed scattering calculation now includes `mat_SMaas` for both full
-  and reference predictions. The earlier `mat_SMNNLO` Jackson comparisons
+  and SM results. The earlier `mat_SMNNLO` Jackson comparisons
   remain a separate historical validation stage; the extended predictions
   are checked against a separately assembled low-level calculation.
 - No Bhabha/neutrino cross-section implementation was added. Cll/Cee now

@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "upstream_repository": "https://github.com/lisongc/GRIFFIN",
+  "upstream_tag": "v1.1.1",
+  "upstream_commit": "a18f53830283a78155750a23a3594ada8de4c074",
+  "upstream_tree": "55144aa54da8005033f87aacba95b60d54ce542e",
+  "upstream_archive_sha256": "cbc3c746a34c43064e4ed6102ccca7d6cc7f8d866176c7c7d863979316189539",
+  "upstream_source_files_sha256": "0b31f109bcc31a04db0ff470b7b1f2ea5421c6edc419d7501618c1debfa5f6b4",
+  "fixtures_sha256": "90ba327d3804f725be1402c7343211046c747848a0e33b6eddb0482ba86464e9",
+  "reference_driver_sha256": "c73348c96993a7387ef9a0692b57f5ee233c7f3b63394fedef7f366b29659d51",
+  "generator_sha256": "c819a376ec909181c6eb9bdcea8a7f5da3ec4a34de8d7a119439be0f204af1bf",
+  "public_runner_source_sha256": "84b9294c3748902cd877a212a196d18c0fefccdaa6608cea1cc1bf241c68b619",
+  "compiler": "Apple clang version 16.0.0 (clang-1600.0.26.6)",
+  "reference_library_build": "CMake Release; upstream sources unmodified",
+  "reference_driver_flags": "-std=c++11 -O2",
+  "raw_inputs": {
+    "alpha": 0.007297352533285885,
+    "MZ_running": 91.1876,
+    "MW_running": 80.377,
+    "GammaZ_running": 2.4952,
+    "GammaW_running": 2.085,
+    "MH": 125.1,
+    "MT": 172.5,
+    "MB": 2.87,
+    "MC": 1.27,
+    "MS": 0.342,
+    "MU": 0.246,
+    "MD": 0.246,
+    "ML": 1.777,
+    "MM": 0.1057,
+    "ME": 0.000511,
+    "DeltaAlpha": 0.059,
+    "alphaS": 0.1179,
+    "Gmu": 1.166379e-05
+  },
+  "resolved_input_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    16,
+    17,
+    18,
+    20,
+    21,
+    22,
+    23
+  ],
+  "amplitude_order": [
+    "VV",
+    "AV",
+    "VA",
+    "AA"
+  ],
+  "cross_section_unit": "pb",
+  "cross_section_conversion": 389379660.0,
+  "strict_cases": 560,
+  "diagnostic_cases": 56,
+  "tolerances": {
+    "amplitude": {
+      "absolute": 2e-15,
+      "relative": 2e-11
+    },
+    "sigma_pb": {
+      "absolute": 1e-09,
+      "relative": 2e-11
+    }
+  },
+  "independence": "Amplitudes and angular squares come only from a separately linked frozen upstream library. Resolved zero-Wilson inputs, including the Gmu W mass, are supplied by the public calculator and frozen; its mass solver is not independently validated here.",
+  "near_pole_policy": "Offsets +/-0.01 and +/-0.03 GeV^2 lie inside v1.2's changed one-loop interpolation. Their external-reference differences are diagnostic, not equality assertions or physics validation. Strict tolerances are unchanged for the 560 off-resonance cases."
+}

@@ -7,7 +7,7 @@
 #define DRHOSCHEME  1
 
 // Gmu scheme for leading mt-enhanced contributions:
-//#define DRHOSCHEME  (0.4501581580785531*ival->get(Gmu)*MWs*(1-MWs/MZs)/ival->get(al))
+//#define DRHOSCHEME  (0.4501581580785531*ival->get(InputPar::fermiConstant)*MWs*(1-MWs/MZs)/ival->get(InputPar::alpha))
 
 #include "griffin/core/classes.h"
 

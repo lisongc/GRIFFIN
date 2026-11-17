@@ -42,3 +42,6 @@ checked_command("Build installed-header-only consumer"
   "@CMAKE_COMMAND@" --build "${workspace}/build" ${build_configuration})
 checked_command("Run installed-header-only consumer"
   "@CMAKE_CTEST_COMMAND@" ${test_configuration} --output-on-failure)
+
+# Keep failed runs for diagnosis; successful runs need no temporary installation.
+file(REMOVE_RECURSE "${workspace}")

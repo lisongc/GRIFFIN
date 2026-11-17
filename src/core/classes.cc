@@ -19,19 +19,19 @@ Cplx matel::coeffR(void) const
   
   switch(iff)
   {
-    case VEC: zi = 2*I3f[it]*sqrt(FAi->result())
-    			*(1.-4*fabs(Qf[it])*realreg(SWi->result()));
+    case Current::vector: zi = 2*I3f[index(it)]*sqrt(FAi->result())
+                        *(1.-4*fabs(Qf[index(it)])*realreg(SWi->result()));
               break;
-    case AXV: zi = 2*I3f[it]*sqrt(FAi->result());
+    case Current::axial: zi = 2*I3f[index(it)]*sqrt(FAi->result());
               break;
     default:  zi = 0;
   }
   switch(off)
   {
-    case VEC: zf = 2*I3f[ot]*sqrt(FAo->result())
-    			*(1.-4*fabs(Qf[ot])*realreg(SWo->result()));
+    case Current::vector: zf = 2*I3f[index(ot)]*sqrt(FAo->result())
+                        *(1.-4*fabs(Qf[index(ot)])*realreg(SWo->result()));
               break;
-    case AXV: zf = 2*I3f[ot]*sqrt(FAo->result());
+    case Current::axial: zf = 2*I3f[index(ot)]*sqrt(FAo->result());
               break;
     default:  zf = 0;
   }
@@ -40,10 +40,10 @@ Cplx matel::coeffR(void) const
 
 Cplx matel::coeffS(void) const
 {
-  if(iff==VEC && off==VEC)
+  if(iff==Current::vector && off==Current::vector)
   {
-    double mz = ival->get(MZ),
-	   gz = ival->get(GamZ);
+    double mz = ival->get(InputPar::ZMassComplex),
+	   gz = ival->get(InputPar::ZWidthComplex);
     return(vg0(it,*ival) * vg0(ot,*ival) / (mz*mz) * (1.+ I*gz/mz));
   }
   else
@@ -52,9 +52,9 @@ Cplx matel::coeffS(void) const
 
 Cplx matel::coeffSp(void) const
 {
-  if(iff==VEC && off==VEC)
+  if(iff==Current::vector && off==Current::vector)
   {
-    double mz = ival->get(MZ);
+    double mz = ival->get(InputPar::ZMassComplex);
     return(-vg0(it,*ival) * vg0(ot,*ival) / (mz*mz*mz*mz));
   }
   else
@@ -63,24 +63,24 @@ Cplx matel::coeffSp(void) const
 
 Cplx matel::resoffZ(void) const
 {
-  double mz = ival->get(MZ);
+  double mz = ival->get(InputPar::ZMassComplex);
   double gi = g0(it,iff,*ival), gf = g0(ot,off,*ival);
   double res = gi*gf/s;
   if(it==ot)
   {
     double t = -s/2*(1-cost);
-    double g0v = g0(it,VEC,*ival), g0a = g0(it,AXV,*ival),
-    	   z0v = z0(it,VEC,*ival), z0a = z0(it,AXV,*ival);
+    double g0v = g0(it,Current::vector,*ival), g0a = g0(it,Current::axial,*ival),
+           z0v = z0(it,Current::vector,*ival), z0a = z0(it,Current::axial,*ival);
     if(iff==off)
     {
-      if(iff==VEC || iff==AXV)  // iff=off=VEC or AXV
+      if(iff==Current::vector || iff==Current::axial)  // iff=off=Current::vector or Current::axial
         res += ((z0v*z0v+z0a*z0a)/(t-mz*mz) + (g0v*g0v+g0a*g0a)/t)/2;
-      else                      // iff=off=SCA or PSC
+      else                      // iff=off=Current::scalar or Current::pseudoscalar
         res += ((z0v*z0v-z0a*z0a)/(t-mz*mz) + (g0v*g0v-g0a*g0a)/t);
     }
     else
     {
-      if(iff==VEC || iff==AXV)  // iff=VEC and off=AXV, or vice versa
+      if(iff==Current::vector || iff==Current::axial)  // iff=Current::vector and off=Current::axial, or vice versa
         res += (2*z0v*z0a/(t-mz*mz) + 2*g0v*g0a/t)/2;
     }
   }
@@ -89,8 +89,8 @@ Cplx matel::resoffZ(void) const
 
 Cplx matel::result(void) const
 {
-  double mz = ival->get(MZ),
-         gz = ival->get(GamZ);
+  double mz = ival->get(InputPar::ZMassComplex),
+         gz = ival->get(InputPar::ZWidthComplex);
   Cplx sminuss0(s - mz*mz, mz*gz);
   return(coeffR()/sminuss0 + resoffZ());
 }
@@ -99,7 +99,7 @@ Cplx matel::result(void) const
 
 Cplx SW_SMLO::result(void) const
 {
-  return((1 - vz0(ftyp,*ival)/az0(ftyp,*ival))/(4*fabs(Qf[ftyp])));
+  return((1 - vz0(ftyp,*ival)/az0(ftyp,*ival))/(4*fabs(Qf[index(ftyp)])));
 }
 
 Cplx FA_SMLO::result(void) const
@@ -109,14 +109,14 @@ Cplx FA_SMLO::result(void) const
 
 Cplx FV_SMLO::result(void) const
 {
-  double QVf = 1-4*fabs(Qf[ftyp])*realreg(sw->result());
+  double QVf = 1-4*fabs(Qf[index(ftyp)])*realreg(sw->result());
   return(fa->result()*QVf*QVf);
 }
 
 Cplx FV_SMLO::errest(void) const
 {
   double QVf0 = vz0(ftyp,*ival)/az0(ftyp,*ival),
-         xsw0 = vz0(ftyp,*ival)*az0(ftyp,*ival)*fabs(Qf[ftyp]);
+         xsw0 = vz0(ftyp,*ival)*az0(ftyp,*ival)*fabs(Qf[index(ftyp)]);
   return(sqrt(sqr(fa->errest()*QVf0*QVf0) + sqr(-8*xsw0 * sw->errest())));
 }
 
@@ -168,34 +168,34 @@ extern const double I3f[20] = { 0,
 				
 
 // tree-level axial-vector Z vertex factors
-double az0(int type, const inval& input)
+double az0(Fermion type, const inval& input)
 {
-  double el = sqrt(4*Pi * input.get(al)),
-         cw = input.get(MW)/input.get(MZ);
+  double el = sqrt(4*Pi * input.get(InputPar::alpha)),
+         cw = input.get(InputPar::WMassComplex)/input.get(InputPar::ZMassComplex);
   double sw = sqrt(1-cw*cw);
   
-  return(I3f[type]*el/(2*sw*cw));
+  return(I3f[index(type)]*el/(2*sw*cw));
 }
 
 // tree-level vector Z vertex factors
-double vz0(int type, const inval& input)
+double vz0(Fermion type, const inval& input)
 {
-  double cw = input.get(MW)/input.get(MZ);
-  return az0(type,input) * (1- 4*fabs(Qf[type])*(1 - cw*cw));
+  double cw = input.get(InputPar::WMassComplex)/input.get(InputPar::ZMassComplex);
+  return az0(type,input) * (1- 4*fabs(Qf[index(type)])*(1 - cw*cw));
 }
 
-double z0(int type, int formt, const inval& input)
+double z0(Fermion type, Current formt, const inval& input)
 {
-  if(formt==VEC)
+  if(formt==Current::vector)
   { return vz0(type,input); }
-  if(formt==AXV)
+  if(formt==Current::axial)
   { return az0(type,input); }
   return 0;
 }
 
-double g0(int type, int formt, const inval& input)
+double g0(Fermion type, Current formt, const inval& input)
 {
-  if(formt==VEC)
+  if(formt==Current::vector)
   { return vg0(type,input); }
   else
   { return 0; }

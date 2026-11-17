@@ -1,12 +1,10 @@
-set(GRIFFIN_EXAMPLES
-    testmatel
-    testbhabha
-    testaas
-    testdeltar
-    testtools
-    smeft_example)
+if(GRIFFIN_BUILD_EXAMPLES)
+  foreach(example IN ITEMS smeft_example testmatel2)
+    add_executable(${example} ${example}.cc)
+    target_link_libraries(${example} PRIVATE GRIFFIN::griffin)
+  endforeach()
+endif()
 
-foreach(example IN LISTS GRIFFIN_EXAMPLES)
-  add_executable(${example} ${example}.cc)
-  target_link_libraries(${example} PRIVATE GRIFFIN::griffin)
-endforeach()
+if(GRIFFIN_BUILD_LEGACY_EXAMPLES)
+  add_subdirectory(legacy)
+endif()

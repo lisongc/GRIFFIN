@@ -1,11 +1,11 @@
 /*
-  Standalone local four-fermion contact amplitudes for SMEFTCalculator.
-
-  Their reduced amplitude is independent of s, so its S coefficient is the
-  contact amplitude itself and its S' coefficient vanishes. These functions
-  neither solve for MW nor square the amplitude. The D6Tree suffix describes
-  these tree-level dimension-six contact amplitudes, not an approximation
-  order imposed on the complete SMEFTCalculator prediction.
+  File: xsc_smeft.h
+  Purpose: Define scattering kinematics/current requests for SMEFTCalculator
+           and declare local dimension-six four-fermion contact amplitudes.
+           The reduced contact amplitude is independent of s. SMEFTCalculator
+           adds it once before taking the full amplitude square.
+  Authors: Jackson Wallace and Lisong Chen
+  Last updated: 2026-11-16
 */
 
 #ifndef GRIFFIN_SMEFT_XSC_H
@@ -15,6 +15,33 @@
 #include "griffin/smeft/SMEFTInput.h"
 
 namespace griffin {
+namespace prediction {
+
+struct ScatteringPoint {
+  Fermion initial;       // fermion in the incoming fermion-antifermion pair
+  Fermion final;         // fermion in the outgoing fermion-antifermion pair
+  double s;              // center-of-mass energy squared, in GeV^2
+  double cosTheta;       // cosine of the scattering angle, not the angle
+  double unitConversion; // multiply GeV^-2 by this factor (0.38937966e9 for pb)
+
+  ScatteringPoint(Fermion initialState, Fermion finalState,
+                  double invariantMassSquared, double cosine,
+                  double conversion = 1.0)
+    : initial(initialState), final(finalState),
+      s(invariantMassSquared), cosTheta(cosine),
+      unitConversion(conversion) {}
+};
+
+struct CurrentChannel {
+  Current initial;
+  Current final;
+
+  CurrentChannel(Current initialCurrent, Current finalCurrent)
+    : initial(initialCurrent), final(finalCurrent) {}
+};
+
+} // namespace prediction
+
 namespace smeft {
 
 /*
@@ -23,24 +50,8 @@ namespace smeft {
   require separate process structures and are rejected. Neutrino contacts
   are available as coefficients, not as a complete scattering prediction.
 */
-Cplx coeffS4fD6Tree(int intype, int outtype, int inform, int outform,
-                    const Input& eftInput);
-Cplx coeffSp4fD6Tree(int intype, int outtype, int inform, int outform,
-                     const Input& eftInput);
-
-inline Cplx coeffS4fD6Tree(Fermion intype, Fermion outtype, Current inform,
-                           Current outform, const Input& eftInput)
-{
-  return coeffS4fD6Tree(index(intype),index(outtype),index(inform),
-                        index(outform),eftInput);
-}
-
-inline Cplx coeffSp4fD6Tree(Fermion intype, Fermion outtype, Current inform,
-                            Current outform, const Input& eftInput)
-{
-  return coeffSp4fD6Tree(index(intype),index(outtype),index(inform),
-                         index(outform),eftInput);
-}
+Cplx fourFermionContactAmplitude(Fermion intype, Fermion outtype, Current inform, Current outform,
+                                const Input& eftInput);
 
 } // namespace smeft
 } // namespace griffin

@@ -11,9 +11,10 @@ namespace griffin {
 // O(alpha_f alpha_s) extension in the residue and off-resonance remainder.
 // This extends mat_SMNNLO; it does not supply complete NNLO off-resonance
 // corrections. The added remainder supports different initial/final flavors only.
-// Known limitation: the unchanged background has unresolved behaviour near the
-// real Z pole, not only at s=MZ^2. See docs/KNOWN_ISSUES.md and its diagnostic;
-// no universal safe exclusion interval or numerical repair is supplied here.
+// Includes upstream v1.1.1 mixed-self-energy stabilization and v1.2 one-loop
+// interpolation. The exact real Z pole remains unsupported. Near-pole
+// precision and interpolation boundaries need dedicated validation; see
+// docs/KNOWN_ISSUES.md and the background diagnostic.
 class mat_SMaas : public mat_SMNNLO {
 public:
   using mat_SMNNLO::mat_SMNNLO;

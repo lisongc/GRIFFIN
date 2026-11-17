@@ -1,229 +1,172 @@
+<!--
+File: KNOWN_ISSUES.md
+Purpose: Record supported-domain limits and unresolved issues.
+Authors (merged-version documentation): Jackson Wallace and Lisong Chen
+Last updated: 2026-11-17
+-->
+
 # Known issues and current scope
 
-Updated 14 November 2026. The supported SMEFT path is
-[`SMEFTCalculator`](USER_GUIDE.md). It uses fixed SM content and a finite
-SMEFT prescription. Removed interfaces and changes needed by older client
-programs are listed in [MIGRATION.md](MIGRATION.md).
+The supported SMEFT path is [`SMEFTCalculator`](USER_GUIDE.md), with fixed
+SM content and a finite prescription. The retained nonlinear terms are
+deliberate. See [migration](MIGRATION.md) for retired interfaces and input changes.
 
-The full amplitude square and finite Gmu mass solution are deliberate
-choices. Removing the nonlinear terms they generate is not a pending correction.
+## 1. Corrected mixed background and remaining pole restriction
 
-## 1. Unresolved near-pole scattering background
+**The previously observed v1.1 mixed-background residual is resolved in the
+imported implementation.** The updated `aasoffz.grid` is present, together
+with the associated analytic changes. It should not be listed as an open
+`mat_SMaas` defect. The changes are:
 
-**This collaborator integration branch is not validated for precision
-Z-lineshape predictions.** It retains the existing `mat_SMaas` calculation
-without a subtraction repair, energy switch, clipping or fallback. The
-runtime guard still rejects only exactly $s=M_Z^2$ (pole mass). A finite
-returned value at a nearby point must not be interpreted as validation.
-No universal safe exclusion window has been established.
+- v1.1.1 updates `aasoffz.grid`, removes the linear imaginary parts of the
+  massless `zah0`/`zvh0` functions, and prescribes
+  `zzhataas(s) = zzhataas(MZ²+10.01) * ((s-MZ²)/10.01)²`
+  for `|s-MZ²| < 10 GeV²`.
+- v1.2 linearly interpolates the complete one-loop pole-subtracted s-channel
+  remainders between `s=MZ²(1±10⁻⁵)` for `|1-s/MZ²| < 10⁻⁵`, including
+  the bosonic box terms in that subtraction.
 
-The full zero-SMEFT $e^+e^-\to\mu^+\mu^-$ AA background was checked, not
-only its massless-quark component. Since the photon axial couplings vanish,
-its exact implemented structure is
+The recorded residual diagnostic gives Im Q(0.01) about $-5.45\times10^{-14}$,
+and the corrected `mat_SMaas` cross section is stable at the sampled
+near-pole points. See the [dated audit](history/REGRESSION_REPORT_2026-11-16.md).
 
-$$
-B_{\mathrm{full}}^{AA}(s)=B_{\mathrm{SMNNLO}}^{AA}(s)
--\frac{R_0 H(s)}{\Delta^2},\qquad
-\Delta=s-M_Z^2,\quad H(s)=\texttt{zzhataas}(s),
-$$
+Exactly $s=M_Z^2$ still requires an explicit analytic limit: `resoffZaas()`
+contains real-pole divisions, and `SMEFTCalculator` rejects that point.
+Precision accuracy and smooth derivatives at interpolation boundaries have
+not been established by the regression scans. These are remaining domain
+and validation restrictions, not evidence that the old grid defect persists.
+Pole pseudo-observables remain available.
 
-where $R_0$ is the tree-level axial-coupling product. The full $H$ includes
-the finite-bottom and top grids and running strong coupling. At the input
-point in the [bundled diagnostic](../tests/diagnostics/near_pole_background.cc),
-the numerical local expansion $H=H_0+H_1\Delta+\cdots$ gives
-
-$$
-H_0=(-6.1882973-i\,7.8201115)\times10^{-5}\ \mathrm{GeV}^2,
-\qquad
-H_1=7.7395724\times10^{-7}+i\,6.7379973\times10^{-4}.
-$$
-
-Two distinct effects therefore need review:
-
-1. A nonzero constant numerator residual is amplified as $1/\Delta^2$.
-   The numerical interpolation/subtraction cancellation needs stabilization.
-2. A single-pole term also survives after the entire background is combined.
-   Its analytic massless contribution shares the leading mixed absorptive
-   coefficient used in the pole residue. This motivates a matching/subtraction
-   review; it does not imply that all mixed corrections in the form factors
-   have been counted twice. The intended matching and usage domain remain
-   questions for author review.
-
-To separate the constant residual from the single-pole coefficient, evaluate
-the unmodified complete background at symmetric values of **s**, not energy:
-
-$$
-Q(h)=-\frac{h}{2R_0}
-\left[B(M_Z^2+h)-B(M_Z^2-h)\right].
-$$
-
-The even constant-over-$\Delta^2$ contribution cancels in this diagnostic;
-a regular background would give $Q(h)\to0$. For $\cos\theta=0.5$:
-
-| $h$ [GeV$^2$] | Im $Q$, inherited SM background | Im $Q$, full background |
-|---:|---:|---:|
-| 0.030 | $-4.91\times10^{-13}$ | $6.73799731\times10^{-4}$ |
-| 0.010 | $-5.46\times10^{-14}$ | $6.73799731\times10^{-4}$ |
-| 0.003 | $-4.95\times10^{-15}$ | $6.73799727\times10^{-4}$ |
-
-The nonzero limit also survives addition of the finite-width pole term.
-The same behaviour was reproduced in the original v1.1 snapshot. This is
-evidence about the current implemented functions, not a proof of the exact
-continuum interpolation derivative or a quantified FCC-ee fit bias. Very
-small finite-difference steps can themselves lose numerical accuracy.
-Neither excluding one exact point nor ordinary beam-energy averaging
-repairs a surviving real-pole singularity.
-
-Reproduce the combined-background check from this repository alone:
+To inspect the corrected background and the separate new-class diagnostic:
 
 ```bash
 cmake -S . -B build/release -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=ON
-cmake --build build/release --target near_pole_background -j 4
+cmake --build build/release --target near_pole_background near_pole_nnlo2 -j 4
 ./build/release/tests/near_pole_background
+./build/release/tests/near_pole_nnlo2
 ```
-
-This optional diagnostic is not a CTest assertion requiring the defect to
-persist. It only evaluates existing functions; no repair is applied to the
-calculation. The standard fixtures at 50, 90, 95 and 120 GeV test assembly
-and compatibility, not the problematic near-pole region.
-
-The inherited `mat_SMNNLO` remainder separately has exact-point subtraction
-and box-log evaluation limitations. Its existing non-pole contributions must
-not be supplemented with an extra Laurent $S$ term as an ad hoc repair.
-Pole pseudo-observables remain available; the scattering-background issue
-does not itself invalidate their separate evaluation.
 
 ## 2. Finite SMEFT scope and conventions
 
-The implemented vertices and contact interactions are real tree-level
-dimension-six corrections. Explicit FA/SW shifts are linear in coefficients
-at a fixed resolved mass: in particular, the FA input adds $2a_0\,\delta a$
-without an explicit $(\delta a)^2$. The calculation retains the higher powers
-generated by the finite mass equation, pole construction and full amplitude
-square. Thus "unlinearized" describes the evaluation of this prescription,
-not the inclusion of every possible dimension-six product or of dimension-eight
-operators. The exact construction is in the
-[user guide](USER_GUIDE.md#exact-prescription).
+Vertices and contacts are real tree-level dimension-six corrections. The
+explicit FA/SW shifts are linear at fixed resolved mass; the finite mass
+solution, pole construction and full square retain their generated higher
+powers. This is not a complete higher-order SMEFT expansion or a dimension-eight
+calculation. See the [exact prescription](USER_GUIDE.md#exact-prescription).
 
-Not implemented:
+Not implemented: complex/CP-odd coefficients, coefficient running or scale
+matching, WCxf import/export, further tensor/Hermiticity constraints, a full
+set of Higgs/dipole/charged-current observables, or uncertainty/covariance output.
 
-- Complex/CP-odd coefficients, coefficient running and scale matching.
-- Tensor-symmetry constraints beyond the documented Cll/Cee aliases and
-  existing Ceq/Cqe mapping; WCxf import/export.
-- A complete set of Higgs, dipole and charged-current observables.
-- Theory-uncertainty/covariance output.
-
-Cll identifies current exchange `prst`/`stpr`; Cee identifies
-`prst`, `stpr`, `ptsr`, `srpt` for all generations. This resolves the formerly
-unrecognized `Cee2211` alias of `Cee1122`. It does not impose arbitrary
-permutations or additional Hermiticity relations. The two Cll groups
-`1122`/`2211` and `1221`/`2112` remain independent.
-
-Migration requires care: one canonical value is the total unique-operator
-strength, and setters overwrite rather than accumulate. Sum previously
-independent raw contributions before assigning once; setting aliases
-sequentially loses all but the last value. Gmu matching uses half the
-canonical `Cll1221` strength once, not half the sum of its two alias getters.
-Do not initialize by setting all 81 raw labels, including zeros: a later
-zero alias can erase a nonzero value. Use `clearWilsonCoefficients()` and
-then assign each unique operator once, aggregating raw contributions first.
-Existing canonical inputs and explicit Jackson fixture sums retain their
-normalization. See [SMEFT_IMPLEMENTATION.md](SMEFT_IMPLEMENTATION.md#contact-aliases-and-canonical-strengths).
+Coefficient aliases identify unique operators; setters overwrite rather than
+accumulate. Importers must aggregate independent raw contributions before
+assigning a canonical strength. Follow the authoritative
+[alias and normalization rules](SMEFT_IMPLEMENTATION.md#contact-aliases-and-canonical-strengths).
 
 ## 3. Process and observable coverage
 
 The finite calculator supports massless electron annihilation to muons,
-taus and $u,d,s,c,b$, with vector/axial channels only. It rejects:
+taus and $u,d,s,c,b$, with vector/axial channels. It rejects Bhabha scattering,
+neutrino final states, non-electron initial states and collinear endpoints.
+SM Bhabha support and local neutrino contacts do not supply the missing
+crossed diagrams or complete SMEFT processes. SW for neutral fermions and a
+finite DeltaR observable are also unavailable.
 
-- Bhabha scattering: needs crossed s/t contributions and additional current
-  structures. Legacy SM Bhabha support does not supply SMEFT Bhabha support.
-- All neutrino final states: electron-neutrino production additionally needs
-  t-channel W exchange and its model corrections. Local neutrino contacts
-  alone are not a complete process.
-- Non-electron initial states and collinear endpoint angles.
-- SW for neutral fermions and a finite DeltaR observable.
-
-The cross section is a massless partonic two-body quantity. There is no
-beam-polarization interface, real-radiation integration, ISR convolution,
-jet/fragmentation model or detector-cut treatment. The color multiplicity
-three is not an inclusive QCD correction. The caller must supply the intended
-unit conversion.
+The cross section is a partonic two-body quantity without beam polarization,
+real-radiation integration, ISR convolution, fragmentation or detector cuts.
+Color multiplicity three is not an inclusive QCD correction. The caller
+supplies the desired unit conversion.
 
 ## 4. SM accuracy is fixed in the SMEFT calculator
 
-The calculator uses `FA_SMNNLO`, `SW_SMNNLO`, `mat_SMaas` and
-`dr_SMNNLO`. The FA/SW classes contain NNLO contributions plus selected
-three- and four-loop terms, hence the label **NNLO+**. The additional
-fermionic mixed electroweak–QCD terms in `mat_SMaas` enter both the pole
-residue and the off-resonance background, for both the full prediction and
-zero-coefficient reference at their respective resolved masses. The FA/SW
-form factors already contain their own mixed electroweak–QCD corrections.
-There is no SM-order selector.
+The calculator uses `FA_SMNNLO`, `SW_SMNNLO`, `mat_SMaas` and `dr_SMNNLO`,
+with no SM-order selector. FA/SW contain NNLO plus selected three-/four-loop
+terms (**NNLO+**) and their own mixed electroweak–QCD corrections.
+`mat_SMaas` adds selected fermionic mixed terms in both residue and background,
+for the full and zero-Wilson results at their separately resolved masses.
+This is not complete off-resonance NNLO, nor a set of additional SMEFT loops.
 
-This is not a complete off-resonance NNLO calculation. The SM kernels are
-evaluated at the finite SMEFT-resolved mass, but no separate SMEFT loop
-amplitudes have been added. The unchanged historical fixtures check
-the earlier amplitude assembly; the extended public calculation is checked
-against a separately assembled amplitude using the same SM kernels and
-resolved mass inputs, not against a newly supplied Jackson benchmark.
+Historical Jackson fixtures check the older amplitude assembly. Current
+assembly tests share the production SM kernels. The additional
+[upstream v1.1.1 regression](../tests/upstream_regression/README.md) uses
+independently compiled scattering kernels at matched resolved inputs;
+it does not independently validate the Gmu mass solver. Near-pole differences
+are reported separately. Direct SM classes remain available under `sm/`.
 
-There is no generic engine or `Accuracy`/order-selection interface in this
-version. Existing SM classes remain available directly under
-`include/griffin/sm/`. A zero-Wilson calculator gives its fixed-prescription SM limit,
-not a configurable SM-order scan. Header paths and removed APIs are listed
-in [MIGRATION.md](MIGRATION.md).
+### Upstream v1.2 SM class
 
-## 5. Ownership and legacy error handling
+`mat_SMNNLO2` is available from `<griffin/sm/xscnnlo2.h>`. Its `result()`
+adds `resoffZ2f()`, `resoffZfb()` and `resvpol()` to the inherited construction.
+The imported snapshot has these material limits:
 
-`SMEFTCalculator` owns copied SM/coefficient snapshots and uses stack-owned
-pole inputs. It does not use the allocating legacy FV/matrix constructors.
+- `resoffZfb()` returns `compboxfb(s)`; `compoffZfb(s)` is disabled.
+- `resvpol()` returns `resaaz`; its computed `resaaa` term is disabled.
+- The new fermion–boson box sector reports identical initial/final flavors,
+  bottom quarks and neutrinos as unimplemented, then returns zero for that
+  sector. A finite total can therefore have incomplete correction coverage.
+- `resvpol()` takes logarithms of every charged-fermion mass from electron
+  through top, requiring strictly positive masses. Interpolation routines can
+  extrapolate outside their tabulated axes without an accuracy guarantee.
 
-The older SM classes still have separate ownership limitations:
-`FV_SMLO` allocates FA/SW objects without releasing them, and derived FV
-constructors replace those pointers with further allocations. The value-based
-`matel` constructor allocates `psobsfix` objects without an ownership-aware
-destructor. A repair needs explicit owned-versus-borrowed storage and safe
-copy/move semantics, not unconditional deletion of all pointers.
+The new `resoffZfb()` contribution has observed near-pole growth. In this
+snapshot it consists of the active `compboxfb(s)` box contribution; the
+separate `compoffZfb(s)` term is disabled. For $e^+e^-\to\mu^+\mu^-$ at
+$\cos\theta=0.5$, the recorded **differential cross section**
+$d\sigma/d\cos\theta$ is:
 
-`ElectroweakSetup` borrows its SM input; keep that input alive while using
-the setup. `SMEFTCalculator` copies the input when constructed and thereafter
-does not depend on the caller's setup or input lifetimes.
+| $s-M_Z^2$ (GeV$^2$, pole mass) | Corrected `mat_SMaas` (nb) | `mat_SMNNLO2` (nb) |
+|---|---:|---:|
+| $-0.1$ | 0.95498 | 0.96130 |
+| $-0.01$ | 0.95497 | 1.21544 |
 
-Legacy `SMval.h` redefines the short mass macros `MW`, `MZ`, `GamW` and
-`GamZ`. Consequently, arbitrary ordering of low-level SM headers can change
-the mass slots captured by inline formulas. The convenience header
-`<griffin/SMEFT.h>` loads the relevant SM definitions before the input-header
-macro changes; include it first when mixing it with advanced SM headers.
-Use typed `InputPar` keys in new caller code. Those keys prevent ambiguous
-caller accesses, but do not fix arbitrary legacy include ordering. A general
-removal of the legacy macro dependency is a separate task.
+The second point differs by about **27%**. The
+[component diagnostic](history/validation/results_2026-11-16_v12.json)
+localizes the growing contribution to `resoffZfb()`, but does not establish
+its underlying cause or a validity/exclusion window for all channels.
+These are differential values at one angle, not integrated cross sections.
 
-Use `SMvalGmu`/`invalGmu` for the existing SM input solution and
-`SMEFTCalculator` for the finite SMEFT solution. `dr_SMNNLO` evaluates the
-SM Delta r correction; it is not itself a mass solver.
+**This unresolved near-pole behavior is an important reason for keeping
+`mat_SMNNLO2` separate from `SMEFTCalculator`.** The disabled terms and missing
+bottom-quark box contribution are additional concerns: the calculator
+supports bottom final states. It retains its existing `mat_SMaas`
+prescription. Using `mat_SMNNLO2` with SMEFT would require resolving or
+establishing the validity range of the added terms and validating their
+combination with the finite SMEFT pole inputs and supported flavors.
+The class name alone does not establish complete off-resonance NNLO coverage.
 
-Legacy `inval::get/set` may terminate the process on invalid/unset input.
-The finite calculator validates its required inputs before evaluating the
-legacy SM code, but that does not replace error handling throughout the
-library. Nor do physical-domain checks certify the validity of SM
-interpolation grids far from their intended parameter region.
+## 5. Fixed memory leaks and remaining low-level input errors
 
-## 6. Release readiness
+**The FV and `matel` memory leaks were fixed in `smeft_v1.1.2`.**
 
-This is a collaborator integration/review branch, not a production release.
-Tests and Jackson fixtures bundled in the local test directory record the
-historical baseline and the extended-amplitude checks. They require no
-external comparison directory for ordinary build/test use.
-See [REGRESSION_TEST_REPORT.md](REGRESSION_TEST_REPORT.md) for actual runs and
-tolerances, and [MIGRATION.md](MIGRATION.md) for the transition from older
-inputs, names and paths. The `mat_SMaas` extension intentionally changes
-scattering predictions relative to the older `mat_SMNNLO` benchmarks;
-those fixtures are preserved as historical evidence. The zero-$\alpha_s$
-limit is handled explicitly by the running-coupling helper.
+`SMEFTCalculator` has no identified ownership leak. It owns copies of its
+SM/coefficient inputs and uses temporary pole form factors whose lifetimes
+cover their evaluation. It checks required inputs, kinematics and nonfinite
+results, reporting detected errors with exceptions that external users can catch.
+These validation errors are separate from memory leaks.
 
-Before a production release, prioritize the near-pole matching and numerical
-background issues above, the exact-point limit,
-legacy ownership/error handling, automated cross-platform validation and
-independent review of public coefficient conventions. Process extensions
-should be separately validated. Historical comparison notes are retained
-as evidence and must not be used as current API instructions.
+`ElectroweakSetup` borrows its input until the calculator copies it at
+construction. Keep that input alive while using the setup; references
+returned by the calculator require the calculator itself to remain alive.
+These are lifetime requirements, not unresolved allocation leaks.
+
+The remaining issues below concern the **low-level SM input classes**:
+
+| Location | Remaining behavior | Proposed repair |
+|---|---|---|
+| `inval::get()` / `set()` | Invalid accesses can call `exit(1)`, terminating the program. | Throw `std::out_of_range` for invalid keys and `std::domain_error` for invalid reads. |
+| `inval` destructor | Deleting a derived input through an `inval*` does not have safe polymorphic destruction. | Add a virtual destructor; rebuild external programs. |
+| Custom-capacity `SMval` / `SMvalGmu` / `invalGmu` inputs | Their `compute()` routines access storage directly; undersized containers can access memory out of bounds before calculator validation. | Require sufficient storage in these constructors, including construction from another `inval`, or remove custom-capacity construction for these fixed-layout inputs. |
+
+Use the default-size input constructors. The calculator's checked input
+copies and derived-W storage check protect its evaluation path; they cannot
+repair an input object that was already constructed or used incorrectly.
+
+Some older numerical routines also print an error and return zero for
+unsupported cases, for example `C0` and `D0`. Such a finite value cannot be
+detected by a nonfinite-output check. Their error paths need explicit failure
+reporting as a separate change from memory ownership.
+
+`SMval.h` no longer redefines mass macros. All input accesses now use explicit
+`InputPar` keys, so the former pole/running-width header-order issue is fixed.
+The distinct slots and external-user changes are listed in
+[the migration guide](MIGRATION.md#typed-labels).

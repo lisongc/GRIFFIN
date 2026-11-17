@@ -14,17 +14,17 @@ extern const double Qf[20];
 extern const double I3f[20];
 
 // tree-level axial-vector Z vertex factors
-double az0(int type, const inval& input);
+double az0(Fermion type, const inval& input);
 // tree-level vector Z vertex factors
-double vz0(int type, const inval& input);
-// tree-level Z vertex factors of form 'formt' (VEC/AXV)
-double z0(int type, int formt, const inval& input);
+double vz0(Fermion type, const inval& input);
+// tree-level Z vertex factors of form 'formt' (Current::vector/Current::axial)
+double z0(Fermion type, Current formt, const inval& input);
 
 // tree-level vector photon vertex factors
-inline double vg0(int type, const inval& input) 
-{ return -sqrt(4*Pi * input.get(al))*Qf[type]; }
-// tree-level photon vertex factors of form 'formt' (VEC/AXV)
-double g0(int type, int formt, const inval& input);
+inline double vg0(Fermion type, const inval& input)
+{ return -sqrt(4*Pi * input.get(InputPar::alpha))*Qf[index(type)]; }
+// tree-level photon vertex factors of form 'formt' (Current::vector/Current::axial)
+double g0(Fermion type, Current formt, const inval& input);
 
 // returns real part of x if x is a regular number or zero otherwise
 double realreg(Cplx x);

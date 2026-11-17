@@ -1,3 +1,10 @@
+<!--
+File: README.md
+Purpose: Describe archived regression inputs, comparison assemblies and rerun commands.
+Authors (merged-version documentation): Jackson Wallace and Lisong Chen
+Last updated: 2026-11-17
+-->
+
 # Finite-result regression: historical baseline and extended amplitude
 
 The current `mat_SMaas` calculation includes selected fermionic mixed
@@ -6,8 +13,10 @@ for both full and zero-coefficient predictions. The fixtures preserve the
 earlier `mat_SMNNLO` results and their existing canonical-strength mapping;
 they are bundled in this local directory. The runner's
 default mode uses `SMEFTCalculator` directly; no generic engine or
-perturbative-series projection is involved. Current test-run results are recorded in
-[REGRESSION_TEST_REPORT.md](../../docs/REGRESSION_TEST_REPORT.md).
+perturbative-series projection is involved. The
+[16 November regression audit](../../docs/history/REGRESSION_REPORT_2026-11-16.md)
+records the upstream import checks; current summaries are written into the
+build directory.
 
 These fixtures preserve **Jackson's full, finite predictions**, not their
 linearization, a fitted derivative, or an independently reconstructed amplitude.
@@ -20,11 +29,11 @@ The extended regression separates three checks:
 
 1. A test-only assembly using `mat_SMNNLO` is checked against all original
    archived assertions, retaining the historical Jackson comparison.
-2. Public full/reference amplitudes, cross sections and finite shifts are
+2. Public full/SM amplitudes, cross sections and finite shifts are
    checked against a separately assembled `mat_SMaas` calculation.
 3. Quantities unaffected by the scattering-class change—masses, widths,
    FA/SW/FV and contact amplitudes—are checked for consistency between the
-   public and reference evaluations. The historical standalone Jackson FV
+   public calculation and comparison assemblies. The historical standalone Jackson FV
    remains excluded; FV comparisons here use the merged FA/SW construction.
 
 The test-only assemblies construct the pole inputs and scattering amplitude
@@ -33,6 +42,13 @@ mass inputs and underlying SM kernels. Thus these tests validate assembly,
 matching and the intended extension. They are not a new independent Jackson
 benchmark or an independent derivation of the SM corrections. No test-only
 mode is exposed by the library's public calculator.
+
+The v1.2 import also adds a separate
+[independent upstream v1.1.1 regression](../upstream_regression/README.md)
+for zero-Wilson recovery and a
+[frozen upstream v1.2 reference](../upstream_v12_reference/README.md) for the
+new direct SM class. Those references supplement this historical archive;
+they do not replace or regenerate its fixtures.
 
 ## Historical archive coverage
 
@@ -145,7 +161,7 @@ FA_e, FA_mu, SW_e, SW_mu, amplitudes, contact_amplitudes
 Each amplitude array contains four `[real,imaginary]` pairs ordered
 **VV, AV, VA, AA** (initial current changes first). Extra output fields such as
 FV are not compared to the deliberately excluded old Jackson FV; they can
-be checked between the extended public/reference evaluations. Only fields
+be checked between the extended public calculation and comparison assembly. Only fields
 actually archived for each case are required by the historical comparison.
 Missing cases, missing observables, duplicates, unexpected ids, nonfinite
 numbers and malformed arrays fail the test.
@@ -161,6 +177,10 @@ ctest --test-dir build/release --output-on-failure -R regression
 `--reference-smnnlo` and `--reference-aas` runner modes. Optional
 `--save-actual path.jsonl`, `--save-reference-smnnlo path.jsonl` and
 `--save-reference-aas path.jsonl` retain those three outputs separately.
+Here "reference" means the test-only comparison assembly, which evaluates
+both nonzero and zero Wilson coefficients; it is not the public zero-coefficient
+SM result. The latter is read through `smResult()`, `smInputValues()` and
+`smAmplitudes(point)`.
 The summary separates the original archived assertions, the extended
 public-versus-low-level assembly comparison, and unchanged-output checks.
 The mass/width/FA/SW/contact subset is also checked directly against the

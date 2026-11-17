@@ -1,5 +1,11 @@
 .DS_Store
 
+# Local editor configuration.
+/.vscode/
+
+# Local upstream reference checkouts, not part of the merged library.
+/upstream/
+
 # CMake build trees and generated files
 /build*/
 /CMakeCache.txt
@@ -23,9 +29,23 @@
 /examples/testdeltar_smeft
 /examples/testEWPOZ_smeft
 /examples/testmatel
+/examples/testmatel2
 /examples/smeft_example
 /examples/testtools
 /examples/__test*
+/examples/test_scattering_equivalence
+/tests/test_scattering_equivalence
+
+# Optional legacy example builds.
+/examples/legacy/CMakeCache.txt
+/examples/legacy/CMakeFiles/
+/examples/legacy/Makefile
+/examples/legacy/cmake_install.cmake
+/examples/legacy/testmatel
+/examples/legacy/testaas
+/examples/legacy/testbhabha
+/examples/legacy/testdeltar
+/examples/legacy/testtools
 
 # Python regression-harness caches
 __pycache__/

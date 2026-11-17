@@ -1,3 +1,11 @@
+/*
+  File: reference_scattering.h
+  Purpose: Supply test-only scattering assemblies from existing SM kernels;
+           this is not an installed API or an independent SM-kernel derivation.
+  Authors: Jackson Wallace and Lisong Chen
+  Last updated: 2026-11-16
+*/
+
 #ifndef GRIFFIN_TEST_REFERENCE_SCATTERING_H
 #define GRIFFIN_TEST_REFERENCE_SCATTERING_H
 
@@ -5,7 +13,7 @@
 // alternate installed API or an independent validation of the SM kernels.
 // The input masses come from the public finite solver and are separately
 // checked against the unchanged Jackson archive by compare_aas.py.
-#include "griffin/SMEFTCalculator.h"
+#include "griffin/smeft/SMEFTCalculator.h"
 #include "griffin/sm/EWPOZ2.h"
 #include "griffin/sm/ff.h"
 #include "griffin/sm/ff0.h"
@@ -26,7 +34,7 @@ struct PoleValues { Cplx fa, sw; };
 
 inline PoleValues pole(Fermion f, const inval& input, const smeft::Input& coefficients)
 {
-  const double a = az0(index(f),input), v = vz0(index(f),input);
+  const double a = az0(f,input), v = vz0(f,input);
   const double da = smeft::directZAxialShift(f,input,coefficients);
   const double dv = smeft::directZVectorShift(f,input,coefficients);
   PoleValues result;
@@ -44,11 +52,11 @@ inline Cplx observable(PseudoObservable which, Fermion f, const inval& input,
   if(which==PseudoObservable::SW) return p.sw;
   if(which!=PseudoObservable::FV)
     throw std::invalid_argument("reference only implements FA/SW/FV");
-  const int flavor=index(f);
+  const Fermion flavor=f;
   const double a=az0(flavor,input),v=vz0(flavor,input);
-  const double imaginaryRatio=(a*(iz1f(flavor,VEC,input)+iz1b(flavor,VEC,input))
-      -v*(iz1f(flavor,AXV,input)+iz1b(flavor,AXV,input)))/(a*a);
-  const double realRatio=1.0-4.0*std::fabs(Qf[flavor])*real(p.sw);
+  const double imaginaryRatio=(a*(iz1f(flavor,Current::vector,input)+iz1b(flavor,Current::vector,input))
+      -v*(iz1f(flavor,Current::axial,input)+iz1b(flavor,Current::axial,input)))/(a*a);
+  const double realRatio=1.0-4.0*std::fabs(Qf[index(flavor)])*real(p.sw);
   return p.fa*(realRatio*realRatio+imaginaryRatio*imaginaryRatio);
 }
 
@@ -66,7 +74,7 @@ inline SMEFTCalculator::Amplitudes contacts(const ScatteringPoint& point,
   const Current cf[]={Current::vector,Current::vector,Current::axial,Current::axial};
   SMEFTCalculator::Amplitudes result;
   for(unsigned k=0;k<4;++k)
-    result[k]=smeft::coeffS4fD6Tree(point.initial,point.final,ci[k],cf[k],coefficients);
+    result[k]=smeft::fourFermionContactAmplitude(point.initial,point.final,ci[k],cf[k],coefficients);
   return result;
 }
 

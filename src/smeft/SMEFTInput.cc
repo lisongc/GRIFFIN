@@ -1,6 +1,15 @@
+/*
+  File: SMEFTInput.cc
+  Purpose: Implement coefficient storage, validation, equivalent-label handling
+           and the private particle-to-generation lookup.
+  Authors: Jackson Wallace and Lisong Chen
+  Last updated: 2026-11-16
+*/
+
 /* SMEFTInput.cc: scheme-independent SMEFT input parameters */
 
 #include "griffin/smeft/SMEFTInput.h"
+#include "griffin/core/classes.h"
 
 #include <algorithm>
 #include <cmath>
@@ -8,6 +17,26 @@
 
 namespace griffin {
 namespace smeft {
+
+Input::FermionInfo Input::lookupFermion(Fermion type)
+{
+  switch(type)
+  {
+    case Fermion::nuElectron: return {Generation::first,FermionCategory::neutrino};
+    case Fermion::nuMuon: return {Generation::second,FermionCategory::neutrino};
+    case Fermion::nuTau: return {Generation::third,FermionCategory::neutrino};
+    case Fermion::electron: return {Generation::first,FermionCategory::chargedLepton};
+    case Fermion::muon: return {Generation::second,FermionCategory::chargedLepton};
+    case Fermion::tau: return {Generation::third,FermionCategory::chargedLepton};
+    case Fermion::u: return {Generation::first,FermionCategory::upQuark};
+    case Fermion::c: return {Generation::second,FermionCategory::upQuark};
+    case Fermion::d: return {Generation::first,FermionCategory::downQuark};
+    case Fermion::s: return {Generation::second,FermionCategory::downQuark};
+    case Fermion::b: return {Generation::third,FermionCategory::downQuark};
+    default:
+      throw std::invalid_argument("unsupported fermion type in SMEFT calculation");
+  }
+}
 
 // Wilson coefficients start at the SM point. Lambda remains deliberately unset.
 Input::Input()

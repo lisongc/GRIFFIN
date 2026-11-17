@@ -1,4 +1,12 @@
 /*
+  File: SMEFTInput.h
+  Purpose: Declare typed Wilson-coefficient inputs, scale conventions and their
+           private storage and particle-to-generation lookup.
+  Authors: Jackson Wallace and Lisong Chen
+  Last updated: 2026-11-16
+*/
+
+/*
   SMEFTInput.h: scheme-independent SMEFT input parameters
 
   This module stores only the parameters of
@@ -18,6 +26,8 @@
 #ifndef GRIFFIN_SMEFT_INPUT_H
 #define GRIFFIN_SMEFT_INPUT_H
 
+#include "griffin/core/classes.h"
+
 #include <array>
 #include <cstddef>
 
@@ -30,6 +40,12 @@ enum class Generation {
   second = 2,
   third = 3
 };
+
+// Defined only in the vertex/contact implementation files, not user interfaces.
+namespace detail {
+struct ChiralWilsonCoefficients;
+struct ChiralContact;
+}
 
 /*
   Scheme-independent SMEFT input container.
@@ -160,6 +176,26 @@ public:
   void clearWilsonCoefficients();
 
 private:
+  // Internal particle lookup used to select coefficient generation indices.
+  // It neither changes coefficients nor calculates observables. Only the
+  // vertex/contact matching helpers may use it; it is not a public Input API.
+  friend struct detail::ChiralWilsonCoefficients;
+  friend struct detail::ChiralContact;
+
+  enum class FermionCategory {
+    neutrino,
+    chargedLepton,
+    upQuark,
+    downQuark
+  };
+  struct FermionInfo {
+    Generation generation;
+    FermionCategory category;
+  };
+  // Maps the existing GRIFFIN particle identifiers; rejects unsupported ones.
+  // The shared mapping is implemented in SMEFTInput.cc.
+  static FermionInfo lookupFermion(Fermion type);
+
   /*
     Fixed-size flat storage keeps the object allocation-free and compact:
       Matrix3: 3^2 entries for C[i,j]

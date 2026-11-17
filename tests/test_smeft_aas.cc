@@ -1,3 +1,11 @@
+/*
+  File: test_smeft_aas.cc
+  Purpose: Check the finite calculator's mixed electroweak/QCD amplitude,
+           full and SM results, and cross sections against a separate assembly.
+  Authors: Jackson Wallace and Lisong Chen
+  Last updated: 2026-11-16
+*/
+
 // Integration of the existing mixed electroweak/QCD SM amplitude into the
 // finite SMEFT calculator. These checks independently assemble the public
 // low-level ingredients; they are not an independent theory calculation.
@@ -118,16 +126,16 @@ public:
 Cplx explicitFA(Fermion f, const inval& input, const smeft::Input& eft)
 {
   return FA_SMNNLO(f,input).result()
-      +2.0*az0(index(f),input)*smeft::directZAxialShift(f,input,eft);
+      +2.0*az0(f,input)*smeft::directZAxialShift(f,input,eft);
 }
 
 Cplx explicitSW(Fermion f, const inval& input, const smeft::Input& eft)
 {
-  const int type=index(f);
+  const Fermion type=f;
   const double a=az0(type,input), v=vz0(type,input);
   const double da=smeft::directZAxialShift(f,input,eft);
   const double dv=smeft::directZVectorShift(f,input,eft);
-  return SW_SMNNLO(f,input).result()-(dv/a-v*da/(a*a))/(4.0*std::fabs(Qf[type]));
+  return SW_SMNNLO(f,input).result()-(dv/a-v*da/(a*a))/(4.0*std::fabs(Qf[index(type)]));
 }
 
 struct Assembly {
@@ -154,7 +162,7 @@ Assembly assemble(const inval& input, const smeft::Input& eft,
         fai,faf,swi,swf,point.s,point.cosTheta,input);
     const mat_SMaas extendedMatrix(point.initial,point.final,ci[k],cf[k],
         fai,faf,swi,swf,point.s,point.cosTheta,input);
-    result.contacts[k]=smeft::coeffS4fD6Tree(point.initial,point.final,ci[k],cf[k],eft);
+    result.contacts[k]=smeft::fourFermionContactAmplitude(point.initial,point.final,ci[k],cf[k],eft);
     result.previous[k]=oldMatrix.result()+result.contacts[k];
     result.poleAddition[k]=(extendedMatrix.coeffR()-oldMatrix.coeffR())/denominator;
     result.backgroundAddition[k]=extendedMatrix.resoffZaas();
@@ -194,24 +202,24 @@ unsigned testScan(const ElectroweakSetup& setup)
           {
             const ScatteringPoint point(Fermion::electron,final,energy*energy,cosine,pbPerGeV2);
             const Assembly full=assemble(calculation.resolvedInput(),eft,point);
-            const Assembly reference=assemble(calculation.referenceInput(),zero,point);
+            const Assembly sm=assemble(calculation.smInputValues(),zero,point);
             const auto actual=calculation.amplitudes(point);
-            const auto actualReference=calculation.referenceAmplitudes(point);
+            const auto actualSM=calculation.smAmplitudes(point);
             const auto actualContact=calculation.contactAmplitudes(point);
             for(unsigned k=0;k<4;++k)
             {
               close(actual[k],full.total[k],"public full amplitude does not use complete mat_SMaas");
-              close(actualReference[k],reference.total[k],"public reference does not use complete mat_SMaas");
+              close(actualSM[k],sm.total[k],"public SM result does not use complete mat_SMaas");
               close(actualContact[k],full.contacts[k],"contact contribution changed in extended amplitude");
               maxPoleAddition=std::max(maxPoleAddition,std::abs(full.poleAddition[k]));
               maxBackgroundAddition=std::max(maxBackgroundAddition,std::abs(full.backgroundAddition[k]));
             }
             const auto sigma=calculation.differentialCrossSection(point);
-            const double fullSquare=square(full.total,point), referenceSquare=square(reference.total,point);
+            const double fullSquare=square(full.total,point), smSquare=square(sm.total,point);
             close(sigma.total(),fullSquare,"extended full angular square");
-            close(sigma.reference(),referenceSquare,"extended reference angular square");
-            close(sigma.modelCorrection(),fullSquare-referenceSquare,
-                  "extended finite total-minus-reference",3e-11,2e-12);
+            close(sigma.smResult(),smSquare,"extended SM angular square");
+            close(sigma.modelCorrection(),fullSquare-smSquare,
+                  "extended finite total-minus-SM result",3e-11,2e-12);
             maxCrossSectionChange=std::max(maxCrossSectionChange,
                 std::fabs(fullSquare-square(full.previous,point)));
             ++points;

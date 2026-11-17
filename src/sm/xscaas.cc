@@ -3,9 +3,8 @@ xscaas.cc
 Ayres Freitas (afreitas@pitt.edu)
 last revision: 26 Aug 2024
 -------------------------------------------------------------------------------
-Matrix element extending mat_SMNNLO with selected fermionic mixed
-electroweak-QCD O(Nf al als) residue and off-resonance contributions.
-This extension does not provide complete NNLO off-resonance corrections.
+matrix element class needed for description of cross-section at O(Nf al als)
+precision away from Z pole
 -----------------------------------------------------------------------------*/
 
 #include "griffin/sm/xscaas.h"
@@ -22,12 +21,12 @@ namespace griffin {
 // (which stem from photon-Z mixing as the only s-dependent contribution)
 Cplx zhataas(double s, const inval* ival)
 {
-  double MZs = sqr(ival->get(MZ)),
-         MWs = sqr(ival->get(MW)),
-         MTs = sqr(ival->get(MT)),
-         MBs = sqr(ival->get(MB)),
-         ALpi = ival->get(al)/Pi,
-         ALS = ival->get(als);
+  double MZs = sqr(ival->get(InputPar::ZMassComplex)),
+         MWs = sqr(ival->get(InputPar::WMassComplex)),
+         MTs = sqr(ival->get(InputPar::topMass)),
+         MBs = sqr(ival->get(InputPar::bottomMass)),
+         ALpi = ival->get(InputPar::alpha)/Pi,
+         ALS = ival->get(InputPar::alphaS);
   double cs = s/MTs;
   double rb = linex2d(axis1zhb, sizeof(axis1zhb)/sizeof(double),
                       axis2zhb, sizeof(axis2zhb)/sizeof(double),
@@ -58,11 +57,11 @@ Cplx zhataas(double s, const inval* ival)
 // O(aas) corrections to the renormalized photon self-energy
 Cplx aahataas(double s, const inval* ival)
 {
-  double MZs = sqr(ival->get(MZ)),
-         MTs = sqr(ival->get(MT)),
-         MBs = sqr(ival->get(MB)),
-         ALpi = ival->get(al)/Pi,
-         ALS = ival->get(als);
+  double MZs = sqr(ival->get(InputPar::ZMassComplex)),
+         MTs = sqr(ival->get(InputPar::topMass)),
+         MBs = sqr(ival->get(InputPar::bottomMass)),
+         ALpi = ival->get(InputPar::alpha)/Pi,
+         ALS = ival->get(InputPar::alphaS);
   double cs = s/MTs;
   double rb = linex2d(axis1aahb, sizeof(axis1aahb)/sizeof(double),
                       axis2aahb, sizeof(axis2aahb)/sizeof(double),
@@ -90,12 +89,18 @@ Cplx aahataas(double s, const inval* ival)
 // O(aas) corrections to the renormalized Z-boson self-energy
 Cplx zzhataas(double s, const inval* ival)
 {
-  double MZs = sqr(ival->get(MZ)),
-         MWs = sqr(ival->get(MW)),
-         MTs = sqr(ival->get(MT)),
-         MBs = sqr(ival->get(MB)),
-         ALpi = ival->get(al)/Pi,
-         ALS = ival->get(als);
+  double MZs = sqr(ival->get(InputPar::ZMassComplex)),
+         MWs = sqr(ival->get(InputPar::WMassComplex)),
+         MTs = sqr(ival->get(InputPar::topMass)),
+         MBs = sqr(ival->get(InputPar::bottomMass)),
+         ALpi = ival->get(InputPar::alpha)/Pi,
+         ALS = ival->get(InputPar::alphaS);
+  if(abs(s-MZs) < 10)
+  {
+    Cplx z10 = zzhataas(MZs+10.01, ival);
+    double ds = (s-MZs)/10.01;
+    return(z10*ds*ds);
+  }
   double cs = s/MTs;
   double rab= linex2d(axis1zahb, sizeof(axis1zahb)/sizeof(double),
                       axis2zahb, sizeof(axis2zahb)/sizeof(double),
@@ -147,51 +152,55 @@ Cplx zzhataas(double s, const inval* ival)
 
 Cplx mat_SMaas::coeffR(void) const
 {
-  if(iff > AXV || off > AXV)  // SCA and PSC contributions can only occur for 
+  if(iff > Current::axial || off > Current::axial)  // Current::scalar and Current::pseudoscalar contributions can only occur for
     return 0;                 // Bhabha-like t-channel contributions, which does
                               // not have a s-channel resonance 
 
-  double mz = ival->get(MZ),
-	 gz = ival->get(GamZ);
+  double mz = ival->get(InputPar::ZMassComplex),
+	 gz = ival->get(InputPar::ZWidthComplex);
   double QWe, QWf, IVe, IVf, rIAA, xI, IVe2, IVf2, rIAA2,
          zie0 = z0(it,iff,*ival), zjf0 = z0(ot,off,*ival),
 	 iszp1 = isz1fp(*ival)+isz1bp(*ival), 
 	 iszpp1 = isz1fpp(*ival)+isz1bpp(*ival);
   double MZs = mz*mz,
-         MWs = sqr(ival->get(MW)),
-	 ALpi = (ival->get(al))/Pi,
-         ALS = ival->get(als);
+         MWs = sqr(ival->get(InputPar::WMassComplex)),
+	 ALpi = (ival->get(InputPar::alpha))/Pi,
+         ALS = ival->get(InputPar::alphaS);
 #include "expressions/imaas.in"
   
   switch(iff)
   {
-    case VEC: QWe = 1.-4*fabs(Qf[it])*realreg(SWi->result());
-              IVe = (az0(it,*ival)*(iz1f(it,VEC,*ival)+iz1b(it,VEC,*ival)) 
-	             - vz0(it,*ival)*(iz1f(it,AXV,*ival)+iz1b(it,AXV,*ival)))
+    case Current::scalar:
+    case Current::pseudoscalar: return 0;
+    case Current::vector: QWe = 1.-4*fabs(Qf[index(it)])*realreg(SWi->result());
+              IVe = (az0(it,*ival)*(iz1f(it,Current::vector,*ival)+iz1b(it,Current::vector,*ival))
+	             - vz0(it,*ival)*(iz1f(it,Current::axial,*ival)+iz1b(it,Current::axial,*ival)))
 		    /sqr(az0(it,*ival));
               IVe2 = (vg0(it,*ival)*izvaas)/az0(it,*ival);
 	      break;
-    case AXV: QWe = 1;  IVe = 0;  IVe2 = 0;
+    case Current::axial: QWe = 1;  IVe = 0;  IVe2 = 0;
               break;
   }
   switch(off)
   {
-    case VEC: QWf = 1.-4*fabs(Qf[ot])*realreg(SWo->result());
-              IVf = (az0(ot,*ival)*(iz1f(ot,VEC,*ival)+iz1b(ot,VEC,*ival)) 
-	             - vz0(ot,*ival)*(iz1f(ot,AXV,*ival)+iz1b(ot,AXV,*ival)))
+    case Current::scalar:
+    case Current::pseudoscalar: return 0;
+    case Current::vector: QWf = 1.-4*fabs(Qf[index(ot)])*realreg(SWo->result());
+              IVf = (az0(ot,*ival)*(iz1f(ot,Current::vector,*ival)+iz1b(ot,Current::vector,*ival))
+	             - vz0(ot,*ival)*(iz1f(ot,Current::axial,*ival)+iz1b(ot,Current::axial,*ival)))
 		    /sqr(az0(ot,*ival));
               IVf2 = (vg0(ot,*ival)*izvaas)/az0(ot,*ival);
               break;
-    case AXV: QWf = 1;  IVf = 0;  IVf2 = 0;
+    case Current::axial: QWf = 1;  IVf = 0;  IVf2 = 0;
               break;
   }
-  rIAA = (iz1f(it,AXV,*ival)+iz1b(it,AXV,*ival))/az0(it,*ival) 
-  	 + (iz1f(ot,AXV,*ival)+iz1b(ot,AXV,*ival))/az0(ot,*ival) 
+  rIAA = (iz1f(it,Current::axial,*ival)+iz1b(it,Current::axial,*ival))/az0(it,*ival)
+         + (iz1f(ot,Current::axial,*ival)+iz1b(ot,Current::axial,*ival))/az0(ot,*ival)
 	 - iszp1;
   rIAA2 = -iszpaas;
   xI = (iz1fp(it,iff,*ival)+iz1bp(it,iff,*ival))/zie0 
        + (iz1fp(ot,off,*ival)+iz1bp(ot,off,*ival))/zjf0 - iszpp1/2;
-  return(4*I3f[it]*I3f[ot]*sqrt(FAi->result()*FAo->result()) *
+  return(4*I3f[index(it)]*I3f[index(ot)]*sqrt(FAi->result()*FAo->result()) *
          (QWe*QWf*(Cplx(1 - rIAA*rIAA/2, rIAA + rIAA2) - iszp1*iszp1/2 
 	           + bRaz1(it,ot,cost,*ival))
           + (QWe*IVf + QWf*IVe)*Cplx(-rIAA,1) - IVe*IVf
@@ -201,7 +210,7 @@ Cplx mat_SMaas::coeffR(void) const
 
 Cplx mat_SMaas::resoffZaas(void) const
 {
-  double mz = ival->get(MZ);
+  double mz = ival->get(InputPar::ZMassComplex);
   double gie0 = g0(it,iff,*ival), gjf0 = g0(ot,off,*ival),
          zie0 = z0(it,iff,*ival), zjf0 = z0(ot,off,*ival);
   Cplx zhat1 = zhataas(s,ival),
@@ -216,8 +225,8 @@ Cplx mat_SMaas::resoffZaas(void) const
 
 Cplx mat_SMaas::result(void) const
 {
-  double mz = ival->get(MZ),
-         gz = ival->get(GamZ);
+  double mz = ival->get(InputPar::ZMassComplex),
+         gz = ival->get(InputPar::ZWidthComplex);
   Cplx sminuss0(s - mz*mz, mz*gz);
   return(coeffR()/sminuss0 + resoffZ());
 }

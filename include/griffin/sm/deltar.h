@@ -28,17 +28,17 @@ class dr_SMNNLO : public dr_SMNLO {
 public:
   using dr_SMNLO::dr_SMNLO;
   double drho2a2(void) const   // yt^4 corrections to \Delta\rho
-  { return(1/(1-sqr(ival->get(MZ)/ival->get(MW))) * delrho2a2(ival)); }
+  { return(1/(1-sqr(ival->get(InputPar::ZMassComplex)/ival->get(InputPar::WMassComplex))) * delrho2a2(ival)); }
   double drho2aas(void) const  // yt^2*as corrections to \Delta\rho
-  { return(1/(1-sqr(ival->get(MZ)/ival->get(MW))) * delrho2aas(ival)); }
+  { return(1/(1-sqr(ival->get(InputPar::ZMassComplex)/ival->get(InputPar::WMassComplex))) * delrho2aas(ival)); }
   double drho3a3(void) const   // yt^6 corrections to \Delta\rho
-  { return(1/(1-sqr(ival->get(MZ)/ival->get(MW))) * delrho3a3(ival)); }
+  { return(1/(1-sqr(ival->get(InputPar::ZMassComplex)/ival->get(InputPar::WMassComplex))) * delrho3a3(ival)); }
   double drho3a2as(void) const // yt^4*as corrections to \Delta\rho
-  { return(1/(1-sqr(ival->get(MZ)/ival->get(MW))) * delrho3a2as(ival)); }
+  { return(1/(1-sqr(ival->get(InputPar::ZMassComplex)/ival->get(InputPar::WMassComplex))) * delrho3a2as(ival)); }
   double drho3aas2(void) const // yt^2*as^2 corrections to \Delta\rho
-  { return(1/(1-sqr(ival->get(MZ)/ival->get(MW))) * delrho3aas2(ival)); }
+  { return(1/(1-sqr(ival->get(InputPar::ZMassComplex)/ival->get(InputPar::WMassComplex))) * delrho3aas2(ival)); }
   double drho4aas3(void) const // yt^2*as^3 corrections to \Delta\rho
-  { return(1/(1-sqr(ival->get(MZ)/ival->get(MW))) * delrho4aas3(ival)); }
+  { return(1/(1-sqr(ival->get(InputPar::ZMassComplex)/ival->get(InputPar::WMassComplex))) * delrho4aas3(ival)); }
   double res2ff(void) const;  // 2-loop ew. corr. with two closed fermion loops  
   double res2fb(void) const;  // 2-loop ew. corr. with one closed fermion loop  
   double res2bb(void) const;  // 2-loop ew. corr. without closed fermion loops   

@@ -1,0 +1,1072 @@
+{
+  "date": "2026-11-16",
+  "imported_repository": "https://github.com/lisongc/GRIFFIN",
+  "imported_branch": "v1.2",
+  "imported_commit": "ca2d5234d7712063b192e079bd8e3a4346fe9a7e",
+  "package_version": "1.2",
+  "calculator_amplitude": "mat_SMaas",
+  "new_direct_sm_class": "mat_SMNNLO2",
+  "ctest": {
+    "passed": true,
+    "tests": 15,
+    "failed": 0,
+    "elapsed_seconds": 20.92,
+    "log": "Test project /Users/lisongchen/Documents/griffin_jakcson/merged_griffin_v1.2/build/upstream-v12\n      Start  1: test_public_api\n 1/15 Test  #1: test_public_api ....................   Passed    0.18 sec\n      Start  2: test_smeft_input\n 2/15 Test  #2: test_smeft_input ...................   Passed    0.13 sec\n      Start  3: test_smeft_input_schemes\n 3/15 Test  #3: test_smeft_input_schemes ...........   Passed    0.13 sec\n      Start  4: test_smeft_matrix_elements\n 4/15 Test  #4: test_smeft_matrix_elements .........   Passed    0.13 sec\n      Start  5: test_native_smeft\n 5/15 Test  #5: test_native_smeft ..................   Passed    0.59 sec\n      Start  6: test_smeft_aas\n 6/15 Test  #6: test_smeft_aas .....................   Passed    2.03 sec\n      Start  7: test_sm_nnlo2\n 7/15 Test  #7: test_sm_nnlo2 ......................   Passed    0.26 sec\n      Start  8: test_clean_smeft_api\n 8/15 Test  #8: test_clean_smeft_api ...............   Passed    0.05 sec\n      Start  9: test_native_regression\n 9/15 Test  #9: test_native_regression .............   Passed    2.52 sec\n      Start 10: test_native_regression_harness\n10/15 Test #10: test_native_regression_harness .....   Passed    0.06 sec\n      Start 11: test_aas_regression_harness\n11/15 Test #11: test_aas_regression_harness ........   Passed    0.06 sec\n      Start 12: test_upstream_v111_regression\n12/15 Test #12: test_upstream_v111_regression ......   Passed    0.95 sec\n      Start 13: test_upstream_regression_harness\n13/15 Test #13: test_upstream_regression_harness ...   Passed    0.06 sec\n      Start 14: test_installed_api\n14/15 Test #14: test_installed_api .................   Passed   12.56 sec\n      Start 15: test_scattering_equivalence\n15/15 Test #15: test_scattering_equivalence ........   Passed    1.20 sec\n\n100% tests passed, 0 tests failed out of 15\n\nTotal Test time (real) =  20.92 sec\n"
+  },
+  "public_header_count": 25,
+  "historical_and_assembly_regression": {
+    "passed": true,
+    "cases": 943,
+    "historical_numeric_comparisons": 22475,
+    "extended_numeric_comparisons": 28290,
+    "cases_with_resolved_extension_signal": 943,
+    "stages": {
+      "historical_smnnlo_vs_jackson_archive": {
+        "passed": true,
+        "expected_cases": 943,
+        "actual_cases": 943,
+        "numeric_comparisons": 22475,
+        "groups": {
+          "individual": 520,
+          "contact_mapping": 80,
+          "native_tables67": 120,
+          "earlier_tables67": 168,
+          "native_table4": 40,
+          "earlier_table4": 15
+        },
+        "tolerances": {
+          "sigma_pb": {
+            "absolute": 1e-09,
+            "relative": 2e-11
+          },
+          "sm_baseline_pb": {
+            "absolute": 1e-09,
+            "relative": 2e-11
+          },
+          "delta_sigma_pb": {
+            "absolute": 1e-09,
+            "relative": 2e-11
+          },
+          "amplitudes": {
+            "absolute": 2e-15,
+            "relative": 2e-11
+          },
+          "contact_amplitudes": {
+            "absolute": 2e-20,
+            "relative": 2e-12
+          },
+          "MW_pole_GeV": {
+            "absolute": 5e-10,
+            "relative": 2e-12
+          },
+          "MW_running_GeV": {
+            "absolute": 5e-10,
+            "relative": 2e-12
+          },
+          "MZ_pole_GeV": {
+            "absolute": 5e-12,
+            "relative": 2e-12
+          },
+          "GW_pole_GeV": {
+            "absolute": 5e-11,
+            "relative": 2e-11
+          },
+          "GW_running_GeV": {
+            "absolute": 5e-11,
+            "relative": 2e-11
+          },
+          "FA_e": {
+            "absolute": 1e-12,
+            "relative": 2e-11
+          },
+          "FA_mu": {
+            "absolute": 1e-12,
+            "relative": 2e-11
+          },
+          "SW_e": {
+            "absolute": 1e-12,
+            "relative": 2e-11
+          },
+          "SW_mu": {
+            "absolute": 1e-12,
+            "relative": 2e-11
+          }
+        },
+        "field_statistics": {
+          "sigma_pb": {
+            "count": 888,
+            "max_absolute_error": 2.2737367544323206e-13,
+            "max_relative_error_nonzero": 6.420185425760239e-16,
+            "max_tolerance_fraction": 2.332096499374516e-05,
+            "worst_absolute_id": "individual_0037",
+            "worst_relative_id": "earlier_tables67_0058",
+            "worst_tolerance_id": "earlier_tables67_0058"
+          },
+          "sm_baseline_pb": {
+            "count": 888,
+            "max_absolute_error": 5.684341886080802e-14,
+            "max_relative_error_nonzero": 3.7778856531850755e-16,
+            "max_tolerance_fraction": 7.767906479807092e-06,
+            "worst_absolute_id": "earlier_tables67_0125",
+            "worst_relative_id": "earlier_tables67_0104",
+            "worst_tolerance_id": "earlier_tables67_0062"
+          },
+          "delta_sigma_pb": {
+            "count": 888,
+            "max_absolute_error": 2.113864638886298e-13,
+            "max_relative_error_nonzero": 2.499145755834634e-09,
+            "max_tolerance_fraction": 0.00020128239624054117,
+            "worst_absolute_id": "individual_0037",
+            "worst_tolerance_id": "individual_0037",
+            "worst_relative_id": "earlier_tables67_0090"
+          },
+          "MW_pole_GeV": {
+            "count": 933,
+            "max_absolute_error": 0.0,
+            "max_relative_error_nonzero": 0.0,
+            "max_tolerance_fraction": 0.0,
+            "worst_absolute_id": "earlier_table4_0012",
+            "worst_relative_id": "earlier_table4_0012",
+            "worst_tolerance_id": "earlier_table4_0012"
+          },
+          "MW_running_GeV": {
+            "count": 720,
+            "max_absolute_error": 0.0,
+            "max_relative_error_nonzero": 0.0,
+            "max_tolerance_fraction": 0.0,
+            "worst_absolute_id": "native_tables67_0119",
+            "worst_relative_id": "native_tables67_0119",
+            "worst_tolerance_id": "native_tables67_0119"
+          },
+          "GW_pole_GeV": {
+            "count": 720,
+            "max_absolute_error": 0.0,
+            "max_relative_error_nonzero": 0.0,
+            "max_tolerance_fraction": 0.0,
+            "worst_absolute_id": "native_tables67_0119",
+            "worst_relative_id": "native_tables67_0119",
+            "worst_tolerance_id": "native_tables67_0119"
+          },
+          "GW_running_GeV": {
+            "count": 720,
+            "max_absolute_error": 0.0,
+            "max_relative_error_nonzero": 0.0,
+            "max_tolerance_fraction": 0.0,
+            "worst_absolute_id": "native_tables67_0119",
+            "worst_relative_id": "native_tables67_0119",
+            "worst_tolerance_id": "native_tables67_0119"
+          },
+          "MZ_pole_GeV": {
+            "count": 720,
+            "max_absolute_error": 0.0,
+            "max_relative_error_nonzero": 0.0,
+            "max_tolerance_fraction": 0.0,
+            "worst_absolute_id": "native_tables67_0119",
+            "worst_relative_id": "native_tables67_0119",
+            "worst_tolerance_id": "native_tables67_0119"
+          },
+          "FA_e": {
+            "count": 775,
+            "max_absolute_error": 0.0,
+            "max_relative_error_nonzero": 0.0,
+            "max_tolerance_fraction": 0.0,
+            "worst_absolute_id": "earlier_table4_0014",
+            "worst_relative_id": "earlier_table4_0014",
+            "worst_tolerance_id": "earlier_table4_0014"
+          },
+          "FA_mu": {
+            "count": 720,
+            "max_absolute_error": 0.0,
+            "max_relative_error_nonzero": 0.0,
+            "max_tolerance_fraction": 0.0,
+            "worst_absolute_id": "native_tables67_0119",
+            "worst_relative_id": "native_tables67_0119",
+            "worst_tolerance_id": "native_tables67_0119"
+          },
+          "amplitudes": {
+            "count": 7104,
+            "max_absolute_error": 1.3552527156068805e-20,
+            "max_relative_error_nonzero": 1.1810997183384604e-15,
+            "max_tolerance_fraction": 3.8102143441182648e-06,
+            "worst_absolute_id": "earlier_tables67_0120",
+            "worst_relative_id": "earlier_tables67_0139",
+            "worst_tolerance_id": "individual_0037"
+          },
+          "contact_amplitudes": {
+            "count": 7104,
+            "max_absolute_error": 2.481541837659083e-24,
+            "max_relative_error_nonzero": 4.0111128841472247e-16,
+            "max_tolerance_fraction": 7.175542663110602e-05,
+            "worst_absolute_id": "native_tables67_0119",
+            "worst_tolerance_id": "native_tables67_0119",
+            "worst_relative_id": "earlier_tables67_0167"
+          },
+          "SW_e": {
+            "count": 175,
+            "max_absolute_error": 0.0,
+            "max_relative_error_nonzero": 0.0,
+            "max_tolerance_fraction": 0.0,
+            "worst_absolute_id": "earlier_table4_0014",
+            "worst_relative_id": "earlier_table4_0014",
+            "worst_tolerance_id": "earlier_table4_0014"
+          },
+          "SW_mu": {
+            "count": 120,
+            "max_absolute_error": 0.0,
+            "max_relative_error_nonzero": 0.0,
+            "max_tolerance_fraction": 0.0,
+            "worst_absolute_id": "native_tables67_0119",
+            "worst_relative_id": "native_tables67_0119",
+            "worst_tolerance_id": "native_tables67_0119"
+          }
+        },
+        "failure_count": 0,
+        "failures": []
+      },
+      "public_aas_vs_low_level_assembly": {
+        "passed": true,
+        "expected_cases": 943,
+        "actual_cases": 943,
+        "numeric_comparisons": 28290,
+        "groups": {
+          "individual": 520,
+          "contact_mapping": 80,
+          "native_tables67": 120,
+          "earlier_tables67": 168,
+          "native_table4": 40,
+          "earlier_table4": 15
+        },
+        "tolerances": {
+          "sigma_pb": {
+            "absolute": 1e-09,
+            "relative": 2e-11
+          },
+          "sm_baseline_pb": {
+            "absolute": 1e-09,
+            "relative": 2e-11
+          },
+          "delta_sigma_pb": {
+            "absolute": 1e-09,
+            "relative": 2e-11
+          },
+          "amplitudes": {
+            "absolute": 2e-15,
+            "relative": 2e-11
+          },
+          "contact_amplitudes": {
+            "absolute": 2e-20,
+            "relative": 2e-12
+          },
+          "MW_pole_GeV": {
+            "absolute": 5e-10,
+            "relative": 2e-12
+          },
+          "MW_running_GeV": {
+            "absolute": 5e-10,
+            "relative": 2e-12
+          },
+          "MZ_pole_GeV": {
+            "absolute": 5e-12,
+            "relative": 2e-12
+          },
+          "GW_pole_GeV": {
+            "absolute": 5e-11,
+            "relative": 2e-11
+          },
+          "GW_running_GeV": {
+            "absolute": 5e-11,
+            "relative": 2e-11
+          },
+          "FA_e": {
+            "absolute": 1e-12,
+            "relative": 2e-11
+          },
+          "FA_mu": {
+            "absolute": 1e-12,
+            "relative": 2e-11
+          },
+          "SW_e": {
+            "absolute": 1e-12,
+            "relative": 2e-11
+          },
+          "SW_mu": {
+            "absolute": 1e-12,
+            "relative": 2e-11
+          },
+          "FV_e": {
+            "absolute": 1e-12,
+            "relative": 2e-11
+          },
+          "FV_mu": {
+            "absolute": 1e-12,
+            "relative": 2e-11
+          }
+        },
+        "field_statistics": {
+          "sigma_pb": {
+            "count": 943,
+            "max_absolute_error": 1.1368683772161603e-13,
+            "max_relative_error_nonzero": 4.2877443926840157e-16,
+            "max_tolerance_fraction": 1.5567410900826096e-05,
+            "worst_absolute_id": "native_table4_0022",
+            "worst_relative_id": "earlier_tables67_0135",
+            "worst_tolerance_id": "earlier_tables67_0135"
+          },
+          "sm_baseline_pb": {
+            "count": 943,
+            "max_absolute_error": 5.684341886080802e-14,
+            "max_relative_error_nonzero": 2.1377795099043365e-16,
+            "max_tolerance_fraction": 7.767630413912843e-06,
+            "worst_absolute_id": "earlier_tables67_0041",
+            "worst_relative_id": "earlier_tables67_0062",
+            "worst_tolerance_id": "earlier_tables67_0062"
+          },
+          "delta_sigma_pb": {
+            "count": 943,
+            "max_absolute_error": 1.7053025658242404e-13,
+            "max_relative_error_nonzero": 3.387378000871396e-09,
+            "max_tolerance_fraction": 0.00017016615381945305,
+            "worst_absolute_id": "native_tables67_0018",
+            "worst_tolerance_id": "individual_0009",
+            "worst_relative_id": "earlier_tables67_0090"
+          },
+          "MW_pole_GeV": {
+            "count": 943,
+            "max_absolute_error": 0.0,
+            "max_relative_error_nonzero": 0.0,
+            "max_tolerance_fraction": 0.0,
+            "worst_absolute_id": "earlier_table4_0014",
+            "worst_relative_id": "earlier_table4_0014",
+            "worst_tolerance_id": "earlier_table4_0014"
+          },
+          "MZ_pole_GeV": {
+            "count": 943,
+            "max_absolute_error": 0.0,
+            "max_relative_error_nonzero": 0.0,
+            "max_tolerance_fraction": 0.0,
+            "worst_absolute_id": "earlier_table4_0014",
+            "worst_relative_id": "earlier_table4_0014",
+            "worst_tolerance_id": "earlier_table4_0014"
+          },
+          "MW_running_GeV": {
+            "count": 943,
+            "max_absolute_error": 0.0,
+            "max_relative_error_nonzero": 0.0,
+            "max_tolerance_fraction": 0.0,
+            "worst_absolute_id": "earlier_table4_0014",
+            "worst_relative_id": "earlier_table4_0014",
+            "worst_tolerance_id": "earlier_table4_0014"
+          },
+          "GW_pole_GeV": {
+            "count": 943,
+            "max_absolute_error": 0.0,
+            "max_relative_error_nonzero": 0.0,
+            "max_tolerance_fraction": 0.0,
+            "worst_absolute_id": "earlier_table4_0014",
+            "worst_relative_id": "earlier_table4_0014",
+            "worst_tolerance_id": "earlier_table4_0014"
+          },
+          "GW_running_GeV": {
+            "count": 943,
+            "max_absolute_error": 0.0,
+            "max_relative_error_nonzero": 0.0,
+            "max_tolerance_fraction": 0.0,
+            "worst_absolute_id": "earlier_table4_0014",
+            "worst_relative_id": "earlier_table4_0014",
+            "worst_tolerance_id": "earlier_table4_0014"
+          },
+          "FA_e": {
+            "count": 943,
+            "max_absolute_error": 0.0,
+            "max_relative_error_nonzero": 0.0,
+            "max_tolerance_fraction": 0.0,
+            "worst_absolute_id": "earlier_table4_0014",
+            "worst_relative_id": "earlier_table4_0014",
+            "worst_tolerance_id": "earlier_table4_0014"
+          },
+          "FA_mu": {
+            "count": 943,
+            "max_absolute_error": 0.0,
+            "max_relative_error_nonzero": 0.0,
+            "max_tolerance_fraction": 0.0,
+            "worst_absolute_id": "earlier_table4_0014",
+            "worst_relative_id": "earlier_table4_0014",
+            "worst_tolerance_id": "earlier_table4_0014"
+          },
+          "SW_e": {
+            "count": 943,
+            "max_absolute_error": 0.0,
+            "max_relative_error_nonzero": 0.0,
+            "max_tolerance_fraction": 0.0,
+            "worst_absolute_id": "earlier_table4_0014",
+            "worst_relative_id": "earlier_table4_0014",
+            "worst_tolerance_id": "earlier_table4_0014"
+          },
+          "SW_mu": {
+            "count": 943,
+            "max_absolute_error": 0.0,
+            "max_relative_error_nonzero": 0.0,
+            "max_tolerance_fraction": 0.0,
+            "worst_absolute_id": "earlier_table4_0014",
+            "worst_relative_id": "earlier_table4_0014",
+            "worst_tolerance_id": "earlier_table4_0014"
+          },
+          "FV_e": {
+            "count": 943,
+            "max_absolute_error": 0.0,
+            "max_relative_error_nonzero": 0.0,
+            "max_tolerance_fraction": 0.0,
+            "worst_absolute_id": "earlier_table4_0014",
+            "worst_relative_id": "earlier_table4_0014",
+            "worst_tolerance_id": "earlier_table4_0014"
+          },
+          "FV_mu": {
+            "count": 943,
+            "max_absolute_error": 0.0,
+            "max_relative_error_nonzero": 0.0,
+            "max_tolerance_fraction": 0.0,
+            "worst_absolute_id": "earlier_table4_0014",
+            "worst_relative_id": "earlier_table4_0014",
+            "worst_tolerance_id": "earlier_table4_0014"
+          },
+          "amplitudes": {
+            "count": 7544,
+            "max_absolute_error": 0.0,
+            "max_relative_error_nonzero": 0.0,
+            "max_tolerance_fraction": 0.0,
+            "worst_absolute_id": "earlier_table4_0014",
+            "worst_relative_id": "earlier_table4_0014",
+            "worst_tolerance_id": "earlier_table4_0014"
+          },
+          "contact_amplitudes": {
+            "count": 7544,
+            "max_absolute_error": 0,
+            "max_relative_error_nonzero": 0.0,
+            "max_tolerance_fraction": 0.0,
+            "worst_absolute_id": "earlier_table4_0014",
+            "worst_tolerance_id": "earlier_table4_0014",
+            "worst_relative_id": "native_table4_0039"
+          }
+        },
+        "failure_count": 0,
+        "failures": []
+      },
+      "unchanged_mass_ewpo_contact_outputs": {
+        "passed": true,
+        "expected_cases": 943,
+        "actual_cases": 943,
+        "numeric_comparisons": 17917,
+        "groups": {
+          "individual": 520,
+          "contact_mapping": 80,
+          "native_tables67": 120,
+          "earlier_tables67": 168,
+          "native_table4": 40,
+          "earlier_table4": 15
+        },
+        "tolerances": {
+          "sigma_pb": {
+            "absolute": 1e-09,
+            "relative": 2e-11
+          },
+          "sm_baseline_pb": {
+            "absolute": 1e-09,
+            "relative": 2e-11
+          },
+          "delta_sigma_pb": {
+            "absolute": 1e-09,
+            "relative": 2e-11
+          },
+          "amplitudes": {
+            "absolute": 2e-15,
+            "relative": 2e-11
+          },
+          "contact_amplitudes": {
+            "absolute": 2e-20,
+            "relative": 2e-12
+          },
+          "MW_pole_GeV": {
+            "absolute": 5e-10,
+            "relative": 2e-12
+          },
+          "MW_running_GeV": {
+            "absolute": 5e-10,
+            "relative": 2e-12
+          },
+          "MZ_pole_GeV": {
+            "absolute": 5e-12,
+            "relative": 2e-12
+          },
+          "GW_pole_GeV": {
+            "absolute": 5e-11,
+            "relative": 2e-11
+          },
+          "GW_running_GeV": {
+            "absolute": 5e-11,
+            "relative": 2e-11
+          },
+          "FA_e": {
+            "absolute": 1e-12,
+            "relative": 2e-11
+          },
+          "FA_mu": {
+            "absolute": 1e-12,
+            "relative": 2e-11
+          },
+          "SW_e": {
+            "absolute": 1e-12,
+            "relative": 2e-11
+          },
+          "SW_mu": {
+            "absolute": 1e-12,
+            "relative": 2e-11
+          },
+          "FV_e": {
+            "absolute": 1e-12,
+            "relative": 2e-11
+          },
+          "FV_mu": {
+            "absolute": 1e-12,
+            "relative": 2e-11
+          }
+        },
+        "field_statistics": {
+          "MW_pole_GeV": {
+            "count": 943,
+            "max_absolute_error": 0.0,
+            "max_relative_error_nonzero": 0.0,
+            "max_tolerance_fraction": 0.0,
+            "worst_absolute_id": "earlier_table4_0014",
+            "worst_relative_id": "earlier_table4_0014",
+            "worst_tolerance_id": "earlier_table4_0014"
+          },
+          "MZ_pole_GeV": {
+            "count": 943,
+            "max_absolute_error": 0.0,
+            "max_relative_error_nonzero": 0.0,
+            "max_tolerance_fraction": 0.0,
+            "worst_absolute_id": "earlier_table4_0014",
+            "worst_relative_id": "earlier_table4_0014",
+            "worst_tolerance_id": "earlier_table4_0014"
+          },
+          "MW_running_GeV": {
+            "count": 943,
+            "max_absolute_error": 0.0,
+            "max_relative_error_nonzero": 0.0,
+            "max_tolerance_fraction": 0.0,
+            "worst_absolute_id": "earlier_table4_0014",
+            "worst_relative_id": "earlier_table4_0014",
+            "worst_tolerance_id": "earlier_table4_0014"
+          },
+          "GW_pole_GeV": {
+            "count": 943,
+            "max_absolute_error": 0.0,
+            "max_relative_error_nonzero": 0.0,
+            "max_tolerance_fraction": 0.0,
+            "worst_absolute_id": "earlier_table4_0014",
+            "worst_relative_id": "earlier_table4_0014",
+            "worst_tolerance_id": "earlier_table4_0014"
+          },
+          "GW_running_GeV": {
+            "count": 943,
+            "max_absolute_error": 0.0,
+            "max_relative_error_nonzero": 0.0,
+            "max_tolerance_fraction": 0.0,
+            "worst_absolute_id": "earlier_table4_0014",
+            "worst_relative_id": "earlier_table4_0014",
+            "worst_tolerance_id": "earlier_table4_0014"
+          },
+          "FA_e": {
+            "count": 943,
+            "max_absolute_error": 0.0,
+            "max_relative_error_nonzero": 0.0,
+            "max_tolerance_fraction": 0.0,
+            "worst_absolute_id": "earlier_table4_0014",
+            "worst_relative_id": "earlier_table4_0014",
+            "worst_tolerance_id": "earlier_table4_0014"
+          },
+          "FA_mu": {
+            "count": 943,
+            "max_absolute_error": 0.0,
+            "max_relative_error_nonzero": 0.0,
+            "max_tolerance_fraction": 0.0,
+            "worst_absolute_id": "earlier_table4_0014",
+            "worst_relative_id": "earlier_table4_0014",
+            "worst_tolerance_id": "earlier_table4_0014"
+          },
+          "SW_e": {
+            "count": 943,
+            "max_absolute_error": 0.0,
+            "max_relative_error_nonzero": 0.0,
+            "max_tolerance_fraction": 0.0,
+            "worst_absolute_id": "earlier_table4_0014",
+            "worst_relative_id": "earlier_table4_0014",
+            "worst_tolerance_id": "earlier_table4_0014"
+          },
+          "SW_mu": {
+            "count": 943,
+            "max_absolute_error": 0.0,
+            "max_relative_error_nonzero": 0.0,
+            "max_tolerance_fraction": 0.0,
+            "worst_absolute_id": "earlier_table4_0014",
+            "worst_relative_id": "earlier_table4_0014",
+            "worst_tolerance_id": "earlier_table4_0014"
+          },
+          "FV_e": {
+            "count": 943,
+            "max_absolute_error": 0.0,
+            "max_relative_error_nonzero": 0.0,
+            "max_tolerance_fraction": 0.0,
+            "worst_absolute_id": "earlier_table4_0014",
+            "worst_relative_id": "earlier_table4_0014",
+            "worst_tolerance_id": "earlier_table4_0014"
+          },
+          "FV_mu": {
+            "count": 943,
+            "max_absolute_error": 0.0,
+            "max_relative_error_nonzero": 0.0,
+            "max_tolerance_fraction": 0.0,
+            "worst_absolute_id": "earlier_table4_0014",
+            "worst_relative_id": "earlier_table4_0014",
+            "worst_tolerance_id": "earlier_table4_0014"
+          },
+          "contact_amplitudes": {
+            "count": 7544,
+            "max_absolute_error": 0,
+            "max_relative_error_nonzero": 0.0,
+            "max_tolerance_fraction": 0.0,
+            "worst_absolute_id": "earlier_table4_0014",
+            "worst_tolerance_id": "earlier_table4_0014",
+            "worst_relative_id": "native_table4_0039"
+          }
+        },
+        "failure_count": 0,
+        "failures": []
+      },
+      "unchanged_fields_vs_jackson_archive": {
+        "passed": true,
+        "expected_cases": 943,
+        "actual_cases": 943,
+        "numeric_comparisons": 12707,
+        "groups": {
+          "individual": 520,
+          "contact_mapping": 80,
+          "native_tables67": 120,
+          "earlier_tables67": 168,
+          "native_table4": 40,
+          "earlier_table4": 15
+        },
+        "tolerances": {
+          "sigma_pb": {
+            "absolute": 1e-09,
+            "relative": 2e-11
+          },
+          "sm_baseline_pb": {
+            "absolute": 1e-09,
+            "relative": 2e-11
+          },
+          "delta_sigma_pb": {
+            "absolute": 1e-09,
+            "relative": 2e-11
+          },
+          "amplitudes": {
+            "absolute": 2e-15,
+            "relative": 2e-11
+          },
+          "contact_amplitudes": {
+            "absolute": 2e-20,
+            "relative": 2e-12
+          },
+          "MW_pole_GeV": {
+            "absolute": 5e-10,
+            "relative": 2e-12
+          },
+          "MW_running_GeV": {
+            "absolute": 5e-10,
+            "relative": 2e-12
+          },
+          "MZ_pole_GeV": {
+            "absolute": 5e-12,
+            "relative": 2e-12
+          },
+          "GW_pole_GeV": {
+            "absolute": 5e-11,
+            "relative": 2e-11
+          },
+          "GW_running_GeV": {
+            "absolute": 5e-11,
+            "relative": 2e-11
+          },
+          "FA_e": {
+            "absolute": 1e-12,
+            "relative": 2e-11
+          },
+          "FA_mu": {
+            "absolute": 1e-12,
+            "relative": 2e-11
+          },
+          "SW_e": {
+            "absolute": 1e-12,
+            "relative": 2e-11
+          },
+          "SW_mu": {
+            "absolute": 1e-12,
+            "relative": 2e-11
+          }
+        },
+        "field_statistics": {
+          "MW_pole_GeV": {
+            "count": 933,
+            "max_absolute_error": 0.0,
+            "max_relative_error_nonzero": 0.0,
+            "max_tolerance_fraction": 0.0,
+            "worst_absolute_id": "earlier_table4_0012",
+            "worst_relative_id": "earlier_table4_0012",
+            "worst_tolerance_id": "earlier_table4_0012"
+          },
+          "MW_running_GeV": {
+            "count": 720,
+            "max_absolute_error": 0.0,
+            "max_relative_error_nonzero": 0.0,
+            "max_tolerance_fraction": 0.0,
+            "worst_absolute_id": "native_tables67_0119",
+            "worst_relative_id": "native_tables67_0119",
+            "worst_tolerance_id": "native_tables67_0119"
+          },
+          "GW_pole_GeV": {
+            "count": 720,
+            "max_absolute_error": 0.0,
+            "max_relative_error_nonzero": 0.0,
+            "max_tolerance_fraction": 0.0,
+            "worst_absolute_id": "native_tables67_0119",
+            "worst_relative_id": "native_tables67_0119",
+            "worst_tolerance_id": "native_tables67_0119"
+          },
+          "GW_running_GeV": {
+            "count": 720,
+            "max_absolute_error": 0.0,
+            "max_relative_error_nonzero": 0.0,
+            "max_tolerance_fraction": 0.0,
+            "worst_absolute_id": "native_tables67_0119",
+            "worst_relative_id": "native_tables67_0119",
+            "worst_tolerance_id": "native_tables67_0119"
+          },
+          "MZ_pole_GeV": {
+            "count": 720,
+            "max_absolute_error": 0.0,
+            "max_relative_error_nonzero": 0.0,
+            "max_tolerance_fraction": 0.0,
+            "worst_absolute_id": "native_tables67_0119",
+            "worst_relative_id": "native_tables67_0119",
+            "worst_tolerance_id": "native_tables67_0119"
+          },
+          "FA_e": {
+            "count": 775,
+            "max_absolute_error": 0.0,
+            "max_relative_error_nonzero": 0.0,
+            "max_tolerance_fraction": 0.0,
+            "worst_absolute_id": "earlier_table4_0014",
+            "worst_relative_id": "earlier_table4_0014",
+            "worst_tolerance_id": "earlier_table4_0014"
+          },
+          "FA_mu": {
+            "count": 720,
+            "max_absolute_error": 0.0,
+            "max_relative_error_nonzero": 0.0,
+            "max_tolerance_fraction": 0.0,
+            "worst_absolute_id": "native_tables67_0119",
+            "worst_relative_id": "native_tables67_0119",
+            "worst_tolerance_id": "native_tables67_0119"
+          },
+          "contact_amplitudes": {
+            "count": 7104,
+            "max_absolute_error": 2.481541837659083e-24,
+            "max_relative_error_nonzero": 4.0111128841472247e-16,
+            "max_tolerance_fraction": 7.175542663110602e-05,
+            "worst_absolute_id": "native_tables67_0119",
+            "worst_tolerance_id": "native_tables67_0119",
+            "worst_relative_id": "earlier_tables67_0167"
+          },
+          "SW_e": {
+            "count": 175,
+            "max_absolute_error": 0.0,
+            "max_relative_error_nonzero": 0.0,
+            "max_tolerance_fraction": 0.0,
+            "worst_absolute_id": "earlier_table4_0014",
+            "worst_relative_id": "earlier_table4_0014",
+            "worst_tolerance_id": "earlier_table4_0014"
+          },
+          "SW_mu": {
+            "count": 120,
+            "max_absolute_error": 0.0,
+            "max_relative_error_nonzero": 0.0,
+            "max_tolerance_fraction": 0.0,
+            "worst_absolute_id": "native_tables67_0119",
+            "worst_relative_id": "native_tables67_0119",
+            "worst_tolerance_id": "native_tables67_0119"
+          }
+        },
+        "failure_count": 0,
+        "failures": []
+      }
+    },
+    "reference_scope": "Independent amplitude assembly using the existing SM kernels and the public finite mass solution; not new Jackson extended golden data.",
+    "fixture_sha256": "956234c20636f83187518926da5aa0e8b097297d7a269f012eb520f3bad919f1"
+  },
+  "independent_upstream_v111_regression": {
+    "passed": true,
+    "strict_cases": 560,
+    "diagnostic_cases": 56,
+    "strict_reference_comparisons": 10080,
+    "failure_count": 0,
+    "failures": [],
+    "field_statistics": {
+      "s_GeV2": {
+        "comparisons": 616,
+        "max_absolute_error": 0.0,
+        "max_tolerance_fraction": 0.0
+      },
+      "resolved_input_0": {
+        "comparisons": 1232,
+        "max_absolute_error": 0.0,
+        "max_tolerance_fraction": 0.0
+      },
+      "resolved_input_1": {
+        "comparisons": 1232,
+        "max_absolute_error": 0.0,
+        "max_tolerance_fraction": 0.0
+      },
+      "resolved_input_2": {
+        "comparisons": 1232,
+        "max_absolute_error": 0.0,
+        "max_tolerance_fraction": 0.0
+      },
+      "resolved_input_3": {
+        "comparisons": 1232,
+        "max_absolute_error": 0.0,
+        "max_tolerance_fraction": 0.0
+      },
+      "resolved_input_4": {
+        "comparisons": 1232,
+        "max_absolute_error": 0.0,
+        "max_tolerance_fraction": 0.0
+      },
+      "resolved_input_5": {
+        "comparisons": 1232,
+        "max_absolute_error": 0.0,
+        "max_tolerance_fraction": 0.0
+      },
+      "resolved_input_6": {
+        "comparisons": 1232,
+        "max_absolute_error": 0.0,
+        "max_tolerance_fraction": 0.0
+      },
+      "resolved_input_7": {
+        "comparisons": 1232,
+        "max_absolute_error": 0.0,
+        "max_tolerance_fraction": 0.0
+      },
+      "resolved_input_8": {
+        "comparisons": 1232,
+        "max_absolute_error": 0.0,
+        "max_tolerance_fraction": 0.0
+      },
+      "resolved_input_9": {
+        "comparisons": 1232,
+        "max_absolute_error": 0.0,
+        "max_tolerance_fraction": 0.0
+      },
+      "resolved_input_10": {
+        "comparisons": 1232,
+        "max_absolute_error": 0.0,
+        "max_tolerance_fraction": 0.0
+      },
+      "resolved_input_11": {
+        "comparisons": 1232,
+        "max_absolute_error": 0.0,
+        "max_tolerance_fraction": 0.0
+      },
+      "resolved_input_12": {
+        "comparisons": 1232,
+        "max_absolute_error": 0.0,
+        "max_tolerance_fraction": 0.0
+      },
+      "resolved_input_13": {
+        "comparisons": 1232,
+        "max_absolute_error": 0.0,
+        "max_tolerance_fraction": 0.0
+      },
+      "resolved_input_14": {
+        "comparisons": 1232,
+        "max_absolute_error": 0.0,
+        "max_tolerance_fraction": 0.0
+      },
+      "resolved_input_16": {
+        "comparisons": 1232,
+        "max_absolute_error": 0.0,
+        "max_tolerance_fraction": 0.0
+      },
+      "resolved_input_17": {
+        "comparisons": 1232,
+        "max_absolute_error": 0.0,
+        "max_tolerance_fraction": 0.0
+      },
+      "resolved_input_18": {
+        "comparisons": 1232,
+        "max_absolute_error": 0.0,
+        "max_tolerance_fraction": 0.0
+      },
+      "resolved_input_20": {
+        "comparisons": 1232,
+        "max_absolute_error": 0.0,
+        "max_tolerance_fraction": 0.0
+      },
+      "resolved_input_21": {
+        "comparisons": 1232,
+        "max_absolute_error": 0.0,
+        "max_tolerance_fraction": 0.0
+      },
+      "resolved_input_22": {
+        "comparisons": 1232,
+        "max_absolute_error": 0.0,
+        "max_tolerance_fraction": 0.0
+      },
+      "resolved_input_23": {
+        "comparisons": 1232,
+        "max_absolute_error": 0.0,
+        "max_tolerance_fraction": 0.0
+      },
+      "strict_total_amplitudes": {
+        "comparisons": 4480,
+        "max_absolute_error": 4.0657581468206416e-20,
+        "max_tolerance_fraction": 1.178616080656173e-05,
+        "worst_absolute_id": "gmu_mu_E30_A4"
+      },
+      "strict_sm_amplitudes": {
+        "comparisons": 4480,
+        "max_absolute_error": 4.0657581468206416e-20,
+        "max_tolerance_fraction": 1.178616080656173e-05,
+        "worst_absolute_id": "gmu_mu_E30_A4"
+      },
+      "strict_total_sigma_pb": {
+        "comparisons": 560,
+        "max_absolute_error": 4.547473508864641e-13,
+        "max_tolerance_fraction": 4.316837900642049e-05,
+        "worst_absolute_id": "alpha_d_E90_A4"
+      },
+      "strict_sm_sigma_pb": {
+        "comparisons": 560,
+        "max_absolute_error": 4.547473508864641e-13,
+        "max_tolerance_fraction": 4.316837900642049e-05,
+        "worst_absolute_id": "alpha_d_E90_A4"
+      },
+      "zero_wilson_model_correction_pb": {
+        "comparisons": 616,
+        "max_absolute_error": 0.0,
+        "max_tolerance_fraction": 0.0
+      },
+      "zero_wilson_total_vs_sm_sigma_pb": {
+        "comparisons": 616,
+        "max_absolute_error": 0.0,
+        "max_tolerance_fraction": 0.0
+      },
+      "zero_wilson_total_vs_sm_amplitudes": {
+        "comparisons": 4928,
+        "max_absolute_error": 0.0,
+        "max_tolerance_fraction": 0.0
+      },
+      "near_pole_diagnostic_total_amplitudes": {
+        "comparisons": 448,
+        "max_absolute_error": 2.6703267438175424e-08,
+        "max_tolerance_fraction": 12812135.594790865,
+        "worst_absolute_id": "alpha_mu_pole_D3"
+      },
+      "near_pole_diagnostic_sm_amplitudes": {
+        "comparisons": 448,
+        "max_absolute_error": 2.6703267438175424e-08,
+        "max_tolerance_fraction": 12812135.594790865,
+        "worst_absolute_id": "alpha_mu_pole_D3"
+      },
+      "near_pole_diagnostic_total_sigma_pb": {
+        "comparisons": 56,
+        "max_absolute_error": 0.04657719557417295,
+        "max_tolerance_fraction": 501189.97649001144,
+        "worst_absolute_id": "alpha_d_pole_D0"
+      },
+      "near_pole_diagnostic_sm_sigma_pb": {
+        "comparisons": 56,
+        "max_absolute_error": 0.04657719557417295,
+        "max_tolerance_fraction": 501189.97649001144,
+        "worst_absolute_id": "alpha_d_pole_D0"
+      }
+    },
+    "near_pole_policy": "Offsets +/-0.01 and +/-0.03 GeV^2 lie inside v1.2's changed one-loop interpolation. Their external-reference differences are diagnostic, not equality assertions or physics validation. Strict tolerances are unchanged for the 560 off-resonance cases.",
+    "independence": "Amplitudes and angular squares come only from a separately linked frozen upstream library. Resolved zero-Wilson inputs, including the Gmu W mass, are supplied by the public calculator and frozen; its mass solver is not independently validated here.",
+    "upstream_commit": "a18f53830283a78155750a23a3594ada8de4c074",
+    "fixtures_sha256": "90ba327d3804f725be1402c7343211046c747848a0e33b6eddb0482ba86464e9"
+  },
+  "upstream_v12_reference": {
+    "passed": true,
+    "channel_configurations": 36,
+    "complex_outputs_per_configuration": 5,
+    "provenance": "tests/upstream_v12_reference/README.md",
+    "points_sha256": "906d5e1e70f903ce45289b58139faaa898d96a0ba42a74a14a016c65ef61db5a"
+  },
+  "example_smoke_checks": [
+    {
+      "name": "testmatel",
+      "exit_code": 0,
+      "nonfinite_tokens": [],
+      "stderr": ""
+    },
+    {
+      "name": "testmatel2",
+      "exit_code": 0,
+      "nonfinite_tokens": [],
+      "stderr": ""
+    },
+    {
+      "name": "testbhabha",
+      "exit_code": 0,
+      "nonfinite_tokens": [],
+      "stderr": ""
+    },
+    {
+      "name": "testaas",
+      "exit_code": 0,
+      "nonfinite_tokens": [],
+      "stderr": ""
+    },
+    {
+      "name": "test_scattering_equivalence",
+      "exit_code": 0,
+      "nonfinite_tokens": [],
+      "stderr": ""
+    },
+    {
+      "name": "testdeltar",
+      "exit_code": 0,
+      "nonfinite_tokens": [],
+      "stderr": ""
+    },
+    {
+      "name": "testtools",
+      "exit_code": 0,
+      "nonfinite_tokens": [],
+      "stderr": ""
+    },
+    {
+      "name": "smeft_example",
+      "exit_code": 0,
+      "nonfinite_tokens": [],
+      "stderr": ""
+    }
+  ],
+  "diagnostics": "tests/diagnostics/results_2026-11-16_v12.json",
+  "limitations": [
+    "The calculator remains on corrected mat_SMaas; mat_SMNNLO2 is separate.",
+    "The v1.1.1 reference uses independently compiled scattering kernels at frozen calculator-resolved inputs; it does not independently test the Gmu mass solver.",
+    "56 near-pole cases report cross-version differences without equality assertions; no precision lineshape validation is claimed.",
+    "Sanitizers were not rerun for this import."
+  ]
+}

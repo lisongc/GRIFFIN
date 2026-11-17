@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Ensure the AAS bridge rejects dropped corrections and malformed references."""
+"""Purpose: test rejection of missing mixed corrections and malformed comparison data.
+
+Merged-version authors: Jackson Wallace and Lisong Chen.
+Last updated: 2026-11-16.
+"""
 from copy import deepcopy
 import unittest
 
@@ -33,7 +37,7 @@ class ExtendedComparisonTests(unittest.TestCase):
         self.public = deepcopy(self.old)
         self.assertFalse(self.report()["passed"])
 
-    def test_unchanged_sm_reference_fails(self):
+    def test_unchanged_sm_result_fails(self):
         self.public[0]["sm_baseline_pb"] = self.old[0]["sm_baseline_pb"]
         self.assertFalse(self.report()["passed"])
 
